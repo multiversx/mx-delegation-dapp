@@ -1,28 +1,68 @@
 import * as React from 'react';
-import Actions from './Actions';
-import TopInfo from './TopInfo';
-import Transactions from './Transactions';
 
-const Dashboard = () => {
+import Meta from './Meta';
+import Card from './Card';
+import Staking from './Staking';
+import Withdrawals from './Withdrawals';
+
+import useContractStake from './hooks/useContractStake';
+import useUserNumber from './hooks/useUserNumber';
+import useNodeNumber from './hooks/useNodeNumber';
+import useServiceFee from './hooks/useServiceFee';
+import useDelegationCap from './hooks/useDelegationCap';
+import { withDashboard } from './provider';
+
+interface CardsType {
+  label: string;
+  data: {
+    value: string;
+    percentage?: string;
+  };
+}
+
+const Dashboard: React.FC = () => {
+  const cards: Array<CardsType> = [
+    {
+      data: useContractStake(),
+      label: 'Contract Stake'
+    },
+    {
+      data: useUserNumber(),
+      label: 'Number of Users'
+    },
+    {
+      data: useNodeNumber(),
+      label: 'Number of Nodes'
+    },
+    {
+      data: useServiceFee(),
+      label: 'Service Fee'
+    },
+    {
+      data: useDelegationCap(),
+      label: 'Delegation Cap'
+    }
+  ];
+
   return (
-    <div className='container py-4'>
-      <div className='row'>
-        <div className='col-12 col-md-10 mx-auto'>
-          <div className='card shadow-sm rounded border-0'>
-            <div className='card-body p-1'>
-              <div className='card rounded border-0 bg-primary'>
-                <div className='card-body text-center p-4'>
-                  <TopInfo />
-                  <Actions />
-                </div>
-              </div>
-              <Transactions />
-            </div>
-          </div>
-        </div>
+    <div className='container p-0'>
+      <Meta />
+
+      <div className='d-flex m-0 pb-4 pt-4 pr-4 py4 shadow-sm justify-content-between'>
+        {cards.map((card) => (
+          <Card key={card.label} {...card} />
+        ))}
+      </div>
+
+      <div className='mt-4'>
+        <Staking />
+      </div>
+
+      <div className='mt-4'>
+        <Withdrawals />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default withDashboard(Dashboard);
