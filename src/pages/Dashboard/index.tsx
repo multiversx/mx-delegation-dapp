@@ -1,27 +1,23 @@
 import * as React from 'react';
+import Card, { CardType } from './Card';
+
+import useAutomaticActivation from './hooks/useAutomaticActivation';
+import useContractStake from './hooks/useContractStake';
+import useDelegationCap from './hooks/useDelegationCap';
+import useNodeNumber from './hooks/useNodeNumber';
+import useRedelegationCap from './hooks/useRedelegationCap';
+import useServiceFee from './hooks/useServiceFee';
+import useUserNumber from './hooks/useUserNumber';
 
 import Meta from './Meta';
-import Card from './Card';
+
+import { withDashboard } from './provider';
+
 import Staking from './Staking';
 import Withdrawals from './Withdrawals';
 
-import useContractStake from './hooks/useContractStake';
-import useUserNumber from './hooks/useUserNumber';
-import useNodeNumber from './hooks/useNodeNumber';
-import useServiceFee from './hooks/useServiceFee';
-import useDelegationCap from './hooks/useDelegationCap';
-import { withDashboard } from './provider';
-
-interface CardsType {
-  label: string;
-  data: {
-    value: string;
-    percentage?: string;
-  };
-}
-
 const Dashboard: React.FC = () => {
-  const cards: Array<CardsType> = [
+  const cards: Array<CardType> = [
     {
       data: useContractStake(),
       label: 'Contract Stake'
@@ -41,6 +37,14 @@ const Dashboard: React.FC = () => {
     {
       data: useDelegationCap(),
       label: 'Delegation Cap'
+    },
+    {
+      data: useAutomaticActivation(),
+      label: 'Automatic Activation'
+    },
+    {
+      data: useRedelegationCap(),
+      label: 'ReDelegateCap'
     }
   ];
 
@@ -48,7 +52,7 @@ const Dashboard: React.FC = () => {
     <div className='container p-0'>
       <Meta />
 
-      <div className='d-flex m-0 pb-4 pt-4 pr-4 py4 shadow-sm justify-content-between'>
+      <div className='d-flex m-0 flex-wrap justify-content-between'>
         {cards.map((card) => (
           <Card key={card.label} {...card} />
         ))}

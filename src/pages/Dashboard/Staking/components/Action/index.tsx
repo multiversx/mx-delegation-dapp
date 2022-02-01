@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { MouseEvent, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { useStaking } from '../../provider';
 
 import { object, string } from 'yup';
 import { Formik } from 'formik';
@@ -21,8 +20,14 @@ import {
 import { nominateValToHex } from 'pages/Dashboard/helpers/nominate';
 import { useDashboard } from 'pages/Dashboard/provider';
 
+import { useStaking } from '../../provider';
+
 interface ActionType {
   mode: string;
+}
+
+interface ActionDataType {
+  amount: string;
 }
 
 interface DataType {
@@ -54,8 +59,6 @@ const Action: React.FC<ActionType> = ({ mode }) => {
   const { userStake, unstakeable } = useStaking();
   const { account } = useGetAccountInfo();
 
-  import('@elrondnetwork/dapp-core').then(console.log);
-
   const egldLabel = getEgldLabel();
   const data: DataType = {
     undelegate: {
@@ -78,7 +81,7 @@ const Action: React.FC<ActionType> = ({ mode }) => {
     }
   };
 
-  const onSubmit = async ({ amount }: { amount: string }): Promise<void> => {
+  const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
     try {
       const config = await getNetworkProxy().getNetworkConfig();
       const { value, type, args } = data[mode].parameters(amount);

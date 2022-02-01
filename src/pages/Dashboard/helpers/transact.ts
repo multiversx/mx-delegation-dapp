@@ -10,8 +10,11 @@ import {
   Address,
   SmartContract
 } from '@elrondnetwork/erdjs';
-import { delegationContractData } from 'config';
-import { network, DelegationContractType } from 'config';
+import {
+  network,
+  DelegationContractType,
+  delegationContractData
+} from 'config';
 
 interface TransactType {
   Arguments: {

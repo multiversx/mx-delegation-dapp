@@ -28,6 +28,14 @@ export default function nominate(input: string, paramDenomination?: number) {
   return transformed;
 }
 
+export const nominateVal = (value: string) => {
+  let perc = (parseFloat(value) * 100).toString(16);
+  if (perc.length % 2 !== 0) {
+    perc = '0' + perc;
+  }
+  return perc;
+};
+
 export const nominateValToHex = (value: string) => {
   let val =
     value && value.length > 0

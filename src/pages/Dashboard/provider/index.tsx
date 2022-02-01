@@ -14,15 +14,7 @@ import * as React from 'react';
  * @see https://reactjs.org/docs/context.html#reactcreatecontext
  */
 
-const DashboardContext = createContext({
-  denominated: (input: string, parameters?: any): string =>
-    denominate({
-      input,
-      denomination,
-      decimals,
-      ...parameters
-    })
-});
+const DashboardContext = createContext<any>({});
 
 /**
  * Create context the provider.

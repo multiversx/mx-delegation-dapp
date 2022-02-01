@@ -10,7 +10,7 @@ Override Bootstrap variables only above.
 -------------------------------------------------- */
 
 // Bootstrap
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 
 /* Base
 -------------------------------------------------- */
@@ -88,7 +88,6 @@ html {
   }
 
   &.table {
-
     .transaction-hash .trim {
       @include media-breakpoint-down(xl) {
         max-width: none;
@@ -104,7 +103,8 @@ html {
       }
     }
 
-    td, tr {
+    td,
+    tr {
       padding: 0.65rem;
     }
 

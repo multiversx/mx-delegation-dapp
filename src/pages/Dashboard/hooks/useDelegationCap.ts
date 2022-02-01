@@ -4,14 +4,23 @@ import {
   ProxyProvider,
   Address,
   decodeBigNumber,
-  Query
+  Query,
+  ChainID
 } from '@elrondnetwork/erdjs';
-import { getEgldLabel } from '@elrondnetwork/dapp-core';
+import BigNumber from 'bignumber.js';
+import transact from '../helpers/transact';
+
+import { object, string } from 'yup';
+import { getEgldLabel, getAccountProvider } from '@elrondnetwork/dapp-core';
 import { network } from 'config';
+import { nominateValToHex } from '../helpers/nominate';
 
 import getPercentage from '../helpers/getPercentage';
 
 import { useDashboard } from '../provider';
+interface ActionDataType {
+  amount: string;
+}
 
 const useDelegationCap = () => {
   const egldLabel = getEgldLabel();
@@ -19,6 +28,7 @@ const useDelegationCap = () => {
   const { denominated } = useDashboard();
   const [value, setValue] = useState<string>('');
   const [percentage, setPercentage] = useState<string>('');
+  const [total, setTotal] = useState<string>('');
 
   const getDelegationCap = () => {
     const fetchData = async (): Promise<void> => {
@@ -47,6 +57,7 @@ const useDelegationCap = () => {
           )
         };
 
+        setTotal(formatted.stake);
         setValue(`${formatted.value} ${egldLabel}`);
         setPercentage(
           `${getPercentage(formatted.stake, formatted.value)}% filled`
@@ -61,11 +72,53 @@ const useDelegationCap = () => {
     return () => setValue('');
   };
 
+  const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
+    try {
+      const parameters = {
+        signer: getAccountProvider(),
+        account: {}
+      };
+      const payload = {
+        args: nominateValToHex(amount),
+        chainId: new ChainID('T'),
+        type: 'modifyTotalDelegationCap',
+        value: '0'
+      };
+      await transact(parameters, payload);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const validation = object().shape({
+    amount: string()
+      .required('Required')
+      .test(
+        'minimum',
+        `Minimum ${total} ${egldLabel} or 0 ${egldLabel}`,
+        (value) =>
+          value === '0' ||
+          new BigNumber(value || '').isLessThan(parseFloat(total))
+      )
+  });
+
   useEffect(getDelegationCap, [denominated, egldLabel]);
 
   return {
     value,
-    percentage
+    percentage,
+    modal: {
+      title: 'Delegation cap',
+      button: 'Continue',
+      description:
+        'The delegation cap is the maximum amount of xEGLD your agency can stake from delegators.',
+      onSubmit,
+      input: {
+        defaultValue: total.replace(',', ''),
+        label: 'Update Delegation Cap',
+        validation
+      }
+    }
   };
 };
 

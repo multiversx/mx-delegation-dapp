@@ -12,8 +12,9 @@ interface MetaType {
 const Meta: React.FC = () => {
   const egldLabel = getEgldLabel();
 
-  const { denominated } = useDashboard();
   const { address, account } = useGetAccountInfo();
+  const { denominated, isOwner, setAdminEnabled, adminEnabled } =
+    useDashboard();
 
   const meta: Array<MetaType> = [
     {
@@ -31,13 +32,27 @@ const Meta: React.FC = () => {
   ];
 
   return (
-    <div className='m-0 pt-4 mt-4 pl-4 pr-4 mb-4 py4 card shadow-sm'>
-      {meta.map((item) => (
-        <div key={item.label} className='mb-4'>
-          <strong>{item.label}: </strong> <br />
-          {item.data}
-        </div>
-      ))}
+    <div className='m-0 pt-4 mt-4 justify-content-between pl-4 pr-4 mb-4 py4 card shadow-sm d-flex flex-row align-items-start'>
+      <div>
+        {meta.map((item) => (
+          <div key={item.label} className='mb-4'>
+            <strong>{item.label}: </strong> <br />
+            {item.data}
+          </div>
+        ))}
+      </div>
+
+      {isOwner && (
+        <button
+          type='button'
+          onClick={() =>
+            setAdminEnabled((adminEnabled: boolean) => !adminEnabled)
+          }
+          className='btn btn-primary mb-3'
+        >
+          {adminEnabled ? 'Dashboard' : 'Admin'}
+        </button>
+      )}
     </div>
   );
 };
