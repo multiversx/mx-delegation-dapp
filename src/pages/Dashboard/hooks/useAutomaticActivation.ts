@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+
+import { getAccountProvider } from '@elrondnetwork/dapp-core';
 import {
   Query,
   ContractFunction,
@@ -8,7 +10,6 @@ import {
   ChainID
 } from '@elrondnetwork/erdjs';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
 import { network } from 'config';
 
 import transact from '../helpers/transact';

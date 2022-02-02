@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import {
   Address,
   AddressValue,
@@ -8,7 +10,6 @@ import {
   decodeString,
   decodeBigNumber
 } from '@elrondnetwork/erdjs';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BigNumber from 'bignumber.js';
 
 import { network } from 'config';
@@ -24,7 +25,7 @@ const useClient = () => {
   const { account, address } = useGetAccountInfo();
   const { denominated } = useDashboard();
 
-  const [userStake, setUserStake] = useState<string>('0');
+  const [activeStake, setActiveStake] = useState<string>('0');
   const [rewards, setRewards] = useState<string>('0');
   const [loading, setLoading] = useState<boolean>(true);
   const [unstakeable, setUnstakeable] = useState<UnstakeableType>({
@@ -59,7 +60,7 @@ const useClient = () => {
         );
 
         const [totalStake] = total.outputUntyped();
-        const [userStake] = stake.outputUntyped();
+        const [currentStake] = stake.outputUntyped();
         const [claimableRewards] = claimable.outputUntyped();
 
         const indexes = {
@@ -80,7 +81,7 @@ const useClient = () => {
         const formatted = {
           total: denominated(decoded.total.replace(/,/g, '')),
           cap: denominated(decoded.cap.replace(/,/g, '')),
-          stake: denominated(decodeBigNumber(userStake).toFixed()),
+          stake: denominated(decodeBigNumber(currentStake).toFixed()),
           claimable: denominated(decodeBigNumber(claimableRewards).toFixed(), {
             decimals: 4
           })
@@ -91,7 +92,7 @@ const useClient = () => {
         );
 
         setRewards(formatted.claimable);
-        setUserStake(formatted.stake);
+        setActiveStake(formatted.stake);
         setUnstakeable({
           available: available.toFixed(),
           exceeds:
@@ -113,7 +114,7 @@ const useClient = () => {
     return () => {
       setLoading(true);
       setRewards('0');
-      setUserStake('0');
+      setActiveStake('0');
       setUnstakeable({
         active: false,
         exceeds: false,
@@ -127,7 +128,7 @@ const useClient = () => {
   return {
     loading,
     rewards,
-    userStake,
+    userStake: activeStake,
     unstakeable
   };
 };

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import * as React from 'react';
+
+import { Formik } from 'formik';
 import { Modal } from 'react-bootstrap';
 import { useDashboard } from '../provider';
-import { Formik } from 'formik';
 
 export interface CardType {
   label: string;

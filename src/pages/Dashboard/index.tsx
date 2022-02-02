@@ -11,6 +11,7 @@ import useUserNumber from './hooks/useUserNumber';
 
 import Meta from './Meta';
 
+import Nodes from './Nodes';
 import { withDashboard } from './provider';
 
 import Staking from './Staking';
@@ -64,6 +65,10 @@ const Dashboard: React.FC = () => {
 
       <div className='mt-4'>
         <Withdrawals />
+      </div>
+
+      <div className='mt-4'>
+        <Nodes />
       </div>
     </div>
   );

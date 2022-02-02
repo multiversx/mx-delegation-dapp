@@ -1,14 +1,5 @@
 import * as React from 'react';
-
 import { MouseEvent, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-
-import { object, string } from 'yup';
-import { Formik } from 'formik';
-import { ChainID } from '@elrondnetwork/erdjs';
-
-import transact from 'pages/Dashboard/helpers/transact';
-import BigNumber from 'bignumber.js';
 
 import {
   useGetAccountInfo,
@@ -16,8 +7,13 @@ import {
   getNetworkProxy,
   getAccountProvider
 } from '@elrondnetwork/dapp-core';
-
+import { ChainID } from '@elrondnetwork/erdjs';
+import BigNumber from 'bignumber.js';
+import { Formik } from 'formik';
+import { Modal } from 'react-bootstrap';
+import { object, string } from 'yup';
 import { nominateValToHex } from 'pages/Dashboard/helpers/nominate';
+import transact from 'pages/Dashboard/helpers/transact';
 import { useDashboard } from 'pages/Dashboard/provider';
 
 import { useStaking } from '../../provider';

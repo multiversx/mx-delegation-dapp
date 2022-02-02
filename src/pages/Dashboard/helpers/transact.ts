@@ -4,9 +4,9 @@ import {
   TransactionPayload,
   Balance,
   GasLimit,
-  WalletProvider,
-  WalletConnectProvider,
-  HWProvider,
+  // WalletProvider,
+  // WalletConnectProvider,
+  // HWProvider,
   Address,
   SmartContract
 } from '@elrondnetwork/erdjs';
@@ -33,15 +33,15 @@ const transact = async (
   { signer, account }: TransactType['Arguments'],
   { args, value, chainId, type }: TransactType['Parameters']
 ) => {
-  const providers = [WalletProvider, HWProvider, WalletConnectProvider];
+  // const providers = [WalletProvider, HWProvider, WalletConnectProvider];
   const address = new Address(network.delegationContract);
   const contract = new SmartContract({ address });
   const delegable = delegationContractData.find(
-    (contract: DelegationContractType) => contract.name === type
+    (item: DelegationContractType) => item.name === type
   );
 
   if (!delegable) {
-    throw new Error('The contract for this action in not defined');
+    throw new Error('The contract for this action is not defined');
   } else {
     const getFunctionName = (): string =>
       args === '' ? delegable.data : `${delegable.data}${args}`;

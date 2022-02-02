@@ -73,12 +73,12 @@ const useServiceFee = () => {
       .test(
         'minimum',
         'Minimum fee percentage is 0.01',
-        (value) => parseFloat(value || '') > 0
+        (amount) => parseFloat(amount || '') > 0
       )
       .test(
         'minimum',
         'Maximum fee percentage is 100',
-        (value) => parseFloat(value || '') <= 100
+        (amount) => parseFloat(amount || '') <= 100
       )
   });
 

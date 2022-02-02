@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { network } from 'config';
 import * as React from 'react';
 
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   Address,
@@ -12,11 +12,10 @@ import {
   ProxyProvider,
   Query
 } from '@elrondnetwork/erdjs';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
-
-import Withdrawal from './components/Withdrawal';
+import { network } from 'config';
 
 import { useDashboard } from '../provider';
+import Withdrawal from './components/Withdrawal';
 
 interface WithdrawalsType {
   value: string;
@@ -74,7 +73,8 @@ const Withdrawals: React.FC = () => {
               };
 
               const exists = total.find(
-                (item: WithdrawalsType) => item.timeLeft === current.timeLeft
+                (withdrawal: WithdrawalsType) =>
+                  withdrawal.timeLeft === withdrawal.timeLeft
               );
 
               const value = exists

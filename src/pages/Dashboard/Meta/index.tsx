@@ -4,6 +4,8 @@ import { useGetAccountInfo, getEgldLabel } from '@elrondnetwork/dapp-core';
 import { network } from 'config';
 import { useDashboard } from '../provider';
 
+import Identity from './components/Identity';
+
 interface MetaType {
   label: string;
   data: string;
@@ -13,8 +15,12 @@ const Meta: React.FC = () => {
   const egldLabel = getEgldLabel();
 
   const { address, account } = useGetAccountInfo();
-  const { denominated, isOwner, setAdminEnabled, adminEnabled } =
-    useDashboard();
+  const {
+    denominated,
+    isOwner,
+    setAdminEnabled,
+    adminEnabled: isAdmin
+  } = useDashboard();
 
   const meta: Array<MetaType> = [
     {
@@ -43,15 +49,19 @@ const Meta: React.FC = () => {
       </div>
 
       {isOwner && (
-        <button
-          type='button'
-          onClick={() =>
-            setAdminEnabled((adminEnabled: boolean) => !adminEnabled)
-          }
-          className='btn btn-primary mb-3'
-        >
-          {adminEnabled ? 'Dashboard' : 'Admin'}
-        </button>
+        <div className='d-flex'>
+          {isAdmin && <Identity />}
+
+          <button
+            type='button'
+            onClick={() =>
+              setAdminEnabled((adminEnabled: boolean) => !adminEnabled)
+            }
+            className='btn btn-primary mb-3'
+          >
+            {isAdmin ? 'Dashboard' : 'Admin'}
+          </button>
+        </div>
       )}
     </div>
   );

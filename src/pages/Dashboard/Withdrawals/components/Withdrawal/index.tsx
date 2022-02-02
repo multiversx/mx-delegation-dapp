@@ -1,12 +1,10 @@
+import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { getAccountProvider, getEgldLabel } from '@elrondnetwork/dapp-core';
 
 import { ChainID } from '@elrondnetwork/erdjs';
-
-import transact from 'pages/Dashboard/helpers/transact';
 import moment from 'moment';
-
-import * as React from 'react';
+import transact from 'pages/Dashboard/helpers/transact';
 
 interface WithdrawalType {
   value: string;
@@ -46,10 +44,15 @@ const Withdrawal: React.FC<WithdrawalType> = ({ value, timeLeft }) => {
 
   useEffect(() => {
     if (counter > 0) {
-      setTimeout(() => setCounter((counter) => counter - 1), 1000);
+      setTimeout(() => setCounter(counter - 1), 1000);
     } else {
       setDisabled(false);
     }
+
+    return () => {
+      setCounter(timeLeft);
+      setDisabled(timeLeft !== 0);
+    };
   }, [counter, timeLeft]);
 
   return (

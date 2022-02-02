@@ -1,9 +1,9 @@
+import * as React from 'react';
+
+import { getAccountProvider } from '@elrondnetwork/dapp-core';
 import { ChainID } from '@elrondnetwork/erdjs';
 
 import transact from 'pages/Dashboard/helpers/transact';
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-
-import * as React from 'react';
 
 const Rewards: React.FC = () => {
   const onClaim = async (): Promise<void> => {

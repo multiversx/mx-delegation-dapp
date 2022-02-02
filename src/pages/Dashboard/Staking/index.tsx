@@ -1,11 +1,11 @@
-import { getEgldLabel } from '@elrondnetwork/dapp-core';
-
-import { withStaking, useStaking } from './provider';
-
 import * as React from 'react';
+
+import { getEgldLabel } from '@elrondnetwork/dapp-core';
 
 import Action from './components/Action';
 import Rewards from './components/Rewards';
+
+import { withStaking, useStaking } from './provider';
 
 const Staking: React.FC = () => {
   const egldLabel = getEgldLabel();

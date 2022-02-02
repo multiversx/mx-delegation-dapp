@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+
+import { getEgldLabel, getAccountProvider } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   ProxyProvider,
@@ -8,14 +10,13 @@ import {
   ChainID
 } from '@elrondnetwork/erdjs';
 import BigNumber from 'bignumber.js';
-import transact from '../helpers/transact';
 
 import { object, string } from 'yup';
-import { getEgldLabel, getAccountProvider } from '@elrondnetwork/dapp-core';
 import { network } from 'config';
-import { nominateValToHex } from '../helpers/nominate';
 
 import getPercentage from '../helpers/getPercentage';
+import { nominateValToHex } from '../helpers/nominate';
+import transact from '../helpers/transact';
 
 import { useDashboard } from '../provider';
 interface ActionDataType {
@@ -57,7 +58,12 @@ const useDelegationCap = () => {
           )
         };
 
-        setTotal(formatted.stake);
+        setTotal(
+          denominated(decodeBigNumber(totalStake).toFixed(), {
+            addCommas: false
+          })
+        );
+
         setValue(`${formatted.value} ${egldLabel}`);
         setPercentage(
           `${getPercentage(formatted.stake, formatted.value)}% filled`
@@ -79,7 +85,7 @@ const useDelegationCap = () => {
         account: {}
       };
       const payload = {
-        args: nominateValToHex(amount),
+        args: nominateValToHex(amount.toString()),
         chainId: new ChainID('T'),
         type: 'modifyTotalDelegationCap',
         value: '0'
@@ -96,9 +102,9 @@ const useDelegationCap = () => {
       .test(
         'minimum',
         `Minimum ${total} ${egldLabel} or 0 ${egldLabel}`,
-        (value) =>
-          value === '0' ||
-          new BigNumber(value || '').isLessThan(parseFloat(total))
+        (amount) =>
+          new BigNumber(amount || '').isGreaterThanOrEqualTo(total) ||
+          amount === '0'
       )
   });
 
@@ -114,7 +120,7 @@ const useDelegationCap = () => {
         'The delegation cap is the maximum amount of xEGLD your agency can stake from delegators.',
       onSubmit,
       input: {
-        defaultValue: total.replace(',', ''),
+        defaultValue: total,
         label: 'Update Delegation Cap',
         validation
       }

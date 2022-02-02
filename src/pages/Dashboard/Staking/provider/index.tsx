@@ -1,14 +1,11 @@
-import { useContext, createContext } from 'react';
+import { useContext, createContext, ReactChild } from 'react';
+import * as React from 'react';
 
 import useClient from './client';
 
-import * as React from 'react';
-
-/**
- * Create the context object.
- *
- * @see https://reactjs.org/docs/context.html#reactcreatecontext
- */
+interface StakingProviderType {
+  children: ReactChild | Array<ReactChild>;
+}
 
 const StakingContext = createContext({
   loading: true,
@@ -21,36 +18,18 @@ const StakingContext = createContext({
   }
 });
 
-/**
- * Create context the provider.
- *
- * @see https://reactjs.org/docs/context.html#contextprovider
- */
-
-const StakingProvider = ({ children }: { children: any }) => (
+const StakingProvider = ({ children }: StakingProviderType) => (
   <StakingContext.Provider value={useClient()}>
     {children}
   </StakingContext.Provider>
 );
 
-/**
- * Create the higher order provider wrapper.
- *
- * @see https://reactjs.org/docs/higher-order-components.html
- */
-
-const withStaking = (Component: any) => () =>
+const withStaking = (Component: React.FC) => () =>
   (
     <StakingProvider>
       <Component />
     </StakingProvider>
   );
-
-/**
- * Create the custom provider hook.
- *
- * @see https://reactjs.org/docs/hooks-custom.html#using-a-custom-hook
- */
 
 const useStaking = () => {
   const context = useContext(StakingContext);
@@ -63,9 +42,5 @@ const useStaking = () => {
 
   return context;
 };
-
-/**
- * Export the components.
- */
 
 export { StakingProvider, withStaking, useStaking };

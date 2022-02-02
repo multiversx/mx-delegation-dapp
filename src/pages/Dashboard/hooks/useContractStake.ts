@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+
+import { getEgldLabel } from '@elrondnetwork/dapp-core';
 import {
   decodeBigNumber,
   ContractFunction,
@@ -7,7 +9,6 @@ import {
   Query,
   ApiProvider
 } from '@elrondnetwork/erdjs';
-import { getEgldLabel } from '@elrondnetwork/dapp-core';
 import { network } from 'config';
 
 import getPercentage from '../helpers/getPercentage';
