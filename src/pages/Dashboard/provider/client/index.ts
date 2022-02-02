@@ -1,5 +1,5 @@
-import denominate from 'pages/Dashboard/helpers/denominate';
-
+import { useState, useEffect } from 'react';
+import { getAddress } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   ProxyProvider,
@@ -7,10 +7,9 @@ import {
   Query
 } from '@elrondnetwork/erdjs';
 
-import { getAddress } from '@elrondnetwork/dapp-core';
 import { decimals, denomination } from 'config';
-import { useState, useEffect } from 'react';
 import { network } from 'config';
+import denominate from 'pages/Dashboard/helpers/denominate';
 
 const useClient = () => {
   const [isOwner, setIsOwner] = useState<boolean>(false);
@@ -48,11 +47,12 @@ const useClient = () => {
   };
 
   useEffect(getPermissions, []);
-
   return {
     isOwner,
     adminEnabled,
     setAdminEnabled,
+
+    // TODO: typed parameters
     denominated: (input: string, parameters?: any): string =>
       denominate({
         input,

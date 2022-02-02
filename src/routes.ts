@@ -13,7 +13,7 @@ export const routeNames = {
   walletconnect: '/walletconnect'
 };
 
-const routes: Array<any> = [
+const routes = [
   {
     path: routeNames.home,
     title: 'Home',
@@ -26,7 +26,7 @@ const routes: Array<any> = [
     authenticatedRoute: true
   },
   {
-    path: routeNames.transaction,
+    path: routeNames.transaction, // TODO: maybe remove?
     title: 'Transaction',
     component: Transaction
   }

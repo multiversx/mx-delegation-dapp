@@ -1,13 +1,13 @@
 import { useContext, createContext } from 'react';
 
-import denominate from 'pages/Dashboard/helpers/denominate';
-
+import * as React from 'react';
 import { decimals, denomination } from 'config';
+import denominate from 'pages/Dashboard/helpers/denominate';
 
 import useClient from './client';
 
-import * as React from 'react';
-
+// TODO: remvoe comments
+// TODO: global context
 /**
  * Create the context object.
  *

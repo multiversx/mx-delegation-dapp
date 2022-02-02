@@ -46,7 +46,8 @@ const Meta: React.FC = () => {
         <button
           type='button'
           onClick={() =>
-            setAdminEnabled((adminEnabled: boolean) => !adminEnabled)
+            // use dispatch for changing context values
+            setAdminEnabled((isAdminEnabled: boolean) => !isAdminEnabled)
           }
           className='btn btn-primary mb-3'
         >

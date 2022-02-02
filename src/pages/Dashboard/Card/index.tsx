@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import * as React from 'react';
+import { Formik } from 'formik';
 import { Modal } from 'react-bootstrap';
 import { useDashboard } from '../provider';
-import { Formik } from 'formik';
 
 export interface CardType {
   label: string;
@@ -24,6 +24,8 @@ export interface CardType {
     };
   };
 }
+
+// TODO: use modal only as container with "dumb" data and include Formik as child
 
 const Card: React.FC<CardType> = ({ label, data }) => {
   const [show, setShow] = useState<boolean>(false);

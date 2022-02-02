@@ -10,7 +10,7 @@ import '@elrondnetwork/dapp-core/build/index.css';
 
 const {
   TransactionsToastList,
-  DappCorePages: { UnlockPage }
+  DappCorePages: { UnlockPage } // TODO: Custom Unlock page like dapp-maiar-id with loginToken
 } = DappUI;
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
               path={routeNames.unlock}
               element={<UnlockPage loginRoute={routeNames.dashboard} />}
             />
-            {routes.map((route: any, index: number) => (
+            {routes.map((route, index) => (
               <Route
                 path={route.path}
                 key={'route-key-' + index}
