@@ -17,6 +17,8 @@ import { network } from 'config';
 
 import transact from 'pages/Dashboard/helpers/transact';
 
+import Add from './components/Add';
+
 interface StatusType {
   label: string;
   color: string;
@@ -160,7 +162,7 @@ const Nodes: React.FC = () => {
 
         return payload.reduce((items: any, item) => {
           const current: string = decodeString(item);
-          const status = statuses[statuses.length - 1];
+          const status: string = statuses[statuses.length - 1];
 
           if (variants[current]) {
             statuses.push(current);
@@ -224,7 +226,9 @@ const Nodes: React.FC = () => {
       <div className='card-body p-spacer'>
         <div className='d-flex flex-wrap align-items-center justify-content-between mb-spacer'>
           <p className='h6 mb-3'>My Nodes</p>
-          <div className='d-flex'>{/* <AddNodeAction /> */}</div>
+          <div className='d-flex'>
+            <Add />
+          </div>
         </div>
         {data.length > 0 ? (
           <div className='table-responsive' style={{ overflow: 'visible' }}>

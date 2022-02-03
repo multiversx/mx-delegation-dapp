@@ -1,4 +1,6 @@
 import * as React from 'react';
+
+import { withApp } from '../provider';
 import Card, { CardType } from './Card';
 
 import useAutomaticActivation from './hooks/useAutomaticActivation';
@@ -74,4 +76,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default withDashboard(Dashboard);
+export default withApp(withDashboard(Dashboard));
