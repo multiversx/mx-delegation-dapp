@@ -1,77 +1,45 @@
 import * as React from 'react';
 
-import { withApp } from '../provider';
-import Card, { CardType } from './Card';
+import { withApp } from '../../provider';
 
-import useAutomaticActivation from './hooks/useAutomaticActivation';
-import useContractStake from './hooks/useContractStake';
-import useDelegationCap from './hooks/useDelegationCap';
-import useNodeNumber from './hooks/useNodeNumber';
-import useRedelegationCap from './hooks/useRedelegationCap';
-import useServiceFee from './hooks/useServiceFee';
-import useUserNumber from './hooks/useUserNumber';
+import Cards from './components/Cards';
+import Heading from './components/Heading';
+import Nodes from './components/Nodes';
+import Staking from './components/Staking';
+import Withdrawals from './components/Withdrawals';
 
-import Meta from './Meta';
-
-import Nodes from './Nodes';
-import { withDashboard } from './provider';
-
-import Staking from './Staking';
-import Withdrawals from './Withdrawals';
+import { useDashboard, withDashboard } from './provider';
 
 const Dashboard: React.FC = () => {
-  const cards: Array<CardType> = [
-    {
-      data: useContractStake(),
-      label: 'Contract Stake'
-    },
-    {
-      data: useUserNumber(),
-      label: 'Number of Users'
-    },
-    {
-      data: useNodeNumber(),
-      label: 'Number of Nodes'
-    },
-    {
-      data: useServiceFee(),
-      label: 'Service Fee'
-    },
-    {
-      data: useDelegationCap(),
-      label: 'Delegation Cap'
-    },
-    {
-      data: useAutomaticActivation(),
-      label: 'Automatic Activation'
-    },
-    {
-      data: useRedelegationCap(),
-      label: 'ReDelegateCap'
-    }
-  ];
+  const { adminEnabled } = useDashboard();
 
   return (
     <div className='container p-0'>
-      <Meta />
-
-      <div className='d-flex m-0 flex-wrap justify-content-between'>
-        {cards.map((card) => (
-          <Card key={card.label} {...card} />
-        ))}
+      <div className='mb-4'>
+        <Heading />
       </div>
 
-      <div className='mt-4'>
-        <Staking />
+      <div className='mb-4'>
+        <Cards />
       </div>
 
-      <div className='mt-4'>
-        <Withdrawals />
-      </div>
+      {!adminEnabled && (
+        <div className='mb-4'>
+          <Staking />
+        </div>
+      )}
 
-      <div className='mt-4'>
-        <Nodes />
-      </div>
+      {!adminEnabled && (
+        <div className='mb-4'>
+          <Withdrawals />
+        </div>
+      )}
+
+      {adminEnabled && (
+        <div className='mb-4'>
+          <Nodes />
+        </div>
+      )}
     </div>
   );
 };

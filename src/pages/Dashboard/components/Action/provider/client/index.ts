@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
 const useClient = () => {
-  const [adminEnabled, setAdminEnabled] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
 
   return {
-    adminEnabled,
-    setAdminEnabled
+    show,
+    setShow
   };
 };
 

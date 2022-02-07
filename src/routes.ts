@@ -4,6 +4,13 @@ import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Transaction from './pages/Transaction';
 
+export interface RouteType {
+  path: string;
+  title: string;
+  authenticatedRoute?: boolean;
+  component: any;
+}
+
 export const routeNames = {
   home: '/',
   dashboard: '/dashboard',
@@ -13,7 +20,7 @@ export const routeNames = {
   walletconnect: '/walletconnect'
 };
 
-const routes: Array<any> = [
+const routes: Array<RouteType> = [
   {
     path: routeNames.home,
     title: 'Home',
