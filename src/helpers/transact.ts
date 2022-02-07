@@ -26,6 +26,7 @@ interface TransactType {
   };
 }
 
+// TODO: change name to sendTransaction
 const transact = async (
   { signer, account }: TransactType['Arguments'],
   { args, value, chainId, type }: TransactType['Parameters']

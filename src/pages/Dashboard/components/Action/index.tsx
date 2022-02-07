@@ -4,11 +4,19 @@ import { Modal } from 'react-bootstrap';
 
 import { withAction, useAction } from './provider';
 
+// TODO: add types
+interface ActionType {
+  children: React.ReactNode;
+  title: React.ReactNode;
+  description: React.ReactNode;
+  trigger: React.ReactNode;
+}
+
 const Action: React.FC = ({ render, title, description, trigger }: any) => {
   const { show, setShow } = useAction();
 
   return (
-    <Fragment>
+    <>
       <button className='btn btn-primary mb-3' onClick={() => setShow(true)}>
         {trigger}
       </button>
@@ -28,7 +36,7 @@ const Action: React.FC = ({ render, title, description, trigger }: any) => {
           {render}
         </div>
       </Modal>
-    </Fragment>
+    </>
   );
 };
 

@@ -8,6 +8,8 @@ interface ActionProviderType {
   children: ReactChild | Array<ReactChild>;
 }
 
+// TODO: move to context
+
 const ActionContext = createContext<any>({});
 const ActionProvider = ({ children }: ActionProviderType) => (
   <ActionContext.Provider value={useClient()}>

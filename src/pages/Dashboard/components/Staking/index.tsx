@@ -14,6 +14,7 @@ const Staking: React.FC = () => {
   const egldLabel = getEgldLabel();
   const { userClaimableRewards, userActiveStake } = useApp();
 
+  // TODO: maybe create a generic loader component
   return (
     <div className='card mt-spacer'>
       <div className='card-body p-spacer'>

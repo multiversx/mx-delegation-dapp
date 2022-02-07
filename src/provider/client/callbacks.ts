@@ -32,6 +32,8 @@ export interface UndelegateStakeListType {
   timeLeft: number;
 }
 
+// move to services folder useSharedData
+
 const useCallbacks = () => {
   const { account, address } = useGetAccountInfo();
   const provider = new ProxyProvider(network.gatewayAddress);

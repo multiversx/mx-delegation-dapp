@@ -14,6 +14,7 @@ const ChangeAutomaticActivation: React.FC = () => {
   const onSubmit = async (): Promise<void> => {
     try {
       const status = automaticActivation === 'ON' ? 'false' : 'true';
+      // TODO: maybe get this data directly in new sendTransaction
       const parameters = {
         signer: getAccountProvider(),
         account: {}
@@ -21,7 +22,7 @@ const ChangeAutomaticActivation: React.FC = () => {
 
       const payload = {
         args: Buffer.from(status).toString('hex'),
-        chainId: new ChainID('T'),
+        chainId: new ChainID('T'), // TODO: Check with @constantintovisi for dynamic ChainID
         type: 'setAutomaticActivation',
         value: '0'
       };

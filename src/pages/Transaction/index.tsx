@@ -6,6 +6,7 @@ import { network } from 'config';
 import { routeNames } from 'routes';
 
 const Transaction = () => {
+  // TODO: remove
   const { search } = useLocation();
 
   const query = new URLSearchParams(search);

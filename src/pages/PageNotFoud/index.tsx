@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
 const PageNotFound = () => {
+  // TODO: remove
   const { pathname } = useLocation();
   return (
     <div className='d-flex flex-fill align-items-center container'>

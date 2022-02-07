@@ -27,6 +27,7 @@ const ChangeDelegationCap: React.FC = () => {
     addCommas: false
   });
 
+  // TODO: rename to validationSchema
   const validation = object().shape({
     amount: string()
       .required('Required')

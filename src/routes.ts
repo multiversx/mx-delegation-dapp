@@ -33,7 +33,7 @@ const routes: Array<RouteType> = [
     authenticatedRoute: true
   },
   {
-    path: routeNames.transaction,
+    path: routeNames.transaction, // TODO: remove
     title: 'Transaction',
     component: Transaction
   }

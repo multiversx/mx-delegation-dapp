@@ -21,7 +21,7 @@ const ChangeRedelegationCap: React.FC = () => {
 
       const payload = {
         args: Buffer.from(status).toString('hex'),
-        chainId: new ChainID('T'),
+        chainId: new ChainID('T'), // TODO
         type: 'setReDelegateCapActivation',
         value: '0'
       };

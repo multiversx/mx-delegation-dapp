@@ -14,7 +14,7 @@ import transact from 'helpers/transact';
 import { useAction } from 'pages/Dashboard/components/Action/provider';
 import { useApp } from 'provider';
 
-import { handleValidation } from '../../helpers/handleValidation';
+import { handleValidation } from '../../helpers/handleValidation'; // TODO: use absolute imports
 import { useStaking } from '../../provider';
 
 interface ActionDataType {

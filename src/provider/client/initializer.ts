@@ -15,7 +15,7 @@ interface InitializerType {
   userClaimableRewards: string;
   egldLabel: string;
   undelegatedStakeList: Array<UndelegateStakeListType>;
-  networkConfig: any;
+  networkConfig: any; // TODO: optional add minimal type
   totalNetworkStake: any;
   agencyMetaData: {
     name: string;
@@ -24,6 +24,8 @@ interface InitializerType {
   };
 }
 
+// TODO: initalizer moves to initialState in context/state
+
 const initializer: InitializerType = {
   nodesNumber: [],
   nodesData: [],
@@ -31,7 +33,7 @@ const initializer: InitializerType = {
   automaticActivation: '',
   delegationCap: '',
   serviceFee: '',
-  usersNumber: '',
+  usersNumber: '', // restore from sessionStorage
   contractOwnerStatus: false,
   contractDelegationCap: '',
   totalActiveStake: '',

@@ -18,15 +18,16 @@ import ChangeServiceFee from './components/ChangeServiceFee';
 interface CardType {
   label: string;
   data: {
-    value?: string | undefined;
+    value?: string;
     percentage?: string | undefined;
   };
   title?: string;
   description?: string;
-  modal?: any;
+  modal?: any; // TODO: React.ReactNode
 }
 
 const Cards: React.FC = () => {
+  // TODO: all strongly typed
   const {
     totalActiveStake,
     totalNetworkStake,
@@ -91,7 +92,7 @@ const Cards: React.FC = () => {
     };
   }, [totalActiveStake, delegationCap]);
 
-  const egldLabel = getEgldLabel();
+  const egldLabel = getEgldLabel(); // TODO: get from network config
   const cards: Array<CardType> = [
     {
       label: 'Contract Stake',

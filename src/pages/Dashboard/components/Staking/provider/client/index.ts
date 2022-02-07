@@ -22,7 +22,7 @@ const useClient = () => {
     exceeds: false,
     available: ''
   });
-
+  // TODO: move to helpers
   const getClientData = () => {
     const balance = new BigNumber(
       denominated(account.balance, {

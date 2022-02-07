@@ -7,6 +7,11 @@ import useCallbacks from './callbacks';
 import initializer from './initializer';
 import reducer from './reducer';
 
+// TODO
+// services/hooks
+// helpers/hooks
+// handle loading and error states
+
 const useClient = () => {
   const [state, dispatch] = useReducer(reducer, initializer);
 
@@ -24,6 +29,8 @@ const useClient = () => {
     getTotalNetworkStake,
     getAgencyMetaData
   } = useCallbacks();
+
+  // TODO: some hooks move at component level (maybe useEffect)
 
   const getData = () => {
     const fetchData = async () => {
@@ -56,6 +63,7 @@ const useClient = () => {
       ]);
 
       dispatch({
+        // TODO: remove
         type: 'getEgldLabel',
         egldLabel
       });

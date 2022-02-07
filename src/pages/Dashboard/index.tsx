@@ -10,6 +10,14 @@ import Withdrawals from './components/Withdrawals';
 
 import { useDashboard, withDashboard } from './provider';
 
+// TODO: use PageState component from DappUI for handling loading and error state (empty state)
+// App level loader
+// Component level loader
+// Component level error state
+// Use ... for numneric unknown stuff
+
+// TODO: useGolbalDate() --> fetch critical data
+
 const Dashboard: React.FC = () => {
   const { adminEnabled } = useDashboard();
 

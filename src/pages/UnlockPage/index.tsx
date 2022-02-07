@@ -2,6 +2,7 @@ import React from 'react';
 import { DappUI, getIsLoggedIn } from '@elrondnetwork/dapp-core';
 import { routeNames } from 'routes';
 
+// TODO: remove
 export const UnlockRoute: () => JSX.Element = () => {
   const {
     ExtensionLoginButton,

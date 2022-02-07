@@ -22,11 +22,11 @@ const ChangeServiceFee: React.FC = () => {
       .required('Required')
       .test(
         'minimum',
-        'Minimum fee percentage is 0.01',
+        'Minimum fee percentage is 0.01', // TODO: check condition
         (amount) => parseFloat(amount || '') > 0
       )
       .test(
-        'minimum',
+        'minimum', // TODO: optionally use validation.stringIsFloat from dapp-utils
         'Maximum fee percentage is 100',
         (amount) => parseFloat(amount || '') <= 100
       )

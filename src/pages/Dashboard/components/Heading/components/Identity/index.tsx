@@ -43,6 +43,14 @@ const Identity: React.FC = () => {
     }
   ];
 
+  // TODO
+  // try {
+  //   const validUrl = new URL(url);
+  //   return !url.includes('#') && Boolean(validUrl);
+  // } catch (e) {
+  //   return false;
+  // }
+
   const validation = object().shape({
     website: string()
       .required('Required')
