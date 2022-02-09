@@ -1,20 +1,22 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
 import { Formik } from 'formik';
 import { Modal } from 'react-bootstrap';
 import { object, array, mixed } from 'yup';
 
-import transact from 'helpers/transact';
+import useTransaction from 'helpers/useTransaction';
 
-import Dropzone, { DropzonePayloadType, DropzoneFormType } from '../Dropzone';
+import Dropzone, {
+  DropzonePayloadType,
+  DropzoneFormType
+} from 'pages/Dashboard/components/Nodes/components/Dropzone';
 
 const Add: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
+  const { sendTransaction } = useTransaction();
 
-  const validation = object().shape({
+  const validationSchema = object().shape({
     files: array()
       .of(mixed())
       .test('validKeyLength', 'Invalid PEM file', (value: any) =>
@@ -35,22 +37,16 @@ const Add: React.FC = () => {
   const onSubmit = async ({ files }: DropzoneFormType): Promise<void> => {
     try {
       const value = files.reduce(
-        (total: Array<DropzonePayloadType>, current: DropzonePayloadType) =>
+        (total: string, current: DropzonePayloadType) =>
           `${total}@${current.pubKey}@${current.signature}`,
         ''
       );
 
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-      const payload = {
+      await sendTransaction({
         args: value,
-        chainId: new ChainID('T'),
         type: 'addNodes',
         value: '0'
-      };
-      await transact(parameters, payload);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -82,7 +78,7 @@ const Add: React.FC = () => {
               <Formik
                 initialValues={{ files: [] }}
                 onSubmit={onSubmit}
-                validationSchema={validation}
+                validationSchema={validationSchema}
               >
                 {({ handleSubmit, errors }) => (
                   <form onSubmit={handleSubmit}>

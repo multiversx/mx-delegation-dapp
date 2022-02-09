@@ -1,40 +1,39 @@
 import * as React from 'react';
 import { Fragment } from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
-import transact from 'helpers/transact';
+import { useGlobalContext } from 'context';
+import useTransaction from 'helpers/useTransaction';
 import { useAction } from 'pages/Dashboard/components/Action/provider';
-import { useApp } from 'provider';
 
 const ChangeAutomaticActivation: React.FC = () => {
-  const { automaticActivation } = useApp();
+  const { sendTransaction } = useTransaction();
+  const { contractDetails } = useGlobalContext();
   const { setShow } = useAction();
 
   const onSubmit = async (): Promise<void> => {
-    try {
-      const status = automaticActivation === 'ON' ? 'false' : 'true';
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
+    if (contractDetails.data) {
+      try {
+        const status =
+          contractDetails.data.automaticActivation === 'ON' ? 'false' : 'true';
 
-      const payload = {
-        args: Buffer.from(status).toString('hex'),
-        chainId: new ChainID('T'),
-        type: 'setAutomaticActivation',
-        value: '0'
-      };
-
-      await transact(parameters, payload);
-    } catch (error) {
-      console.error(error);
+        await sendTransaction({
+          args: Buffer.from(status).toString('hex'),
+          type: 'setAutomaticActivation',
+          value: '0'
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   return (
     <Fragment>
-      <p className='lead mb-spacer'>{automaticActivation}</p>
+      <p className='lead mb-spacer'>
+        {contractDetails.data
+          ? contractDetails.data.automaticActivation
+          : '...'}
+      </p>
 
       <div className='d-flex justify-content-center align-items-center flex-wrap'>
         <button
@@ -42,7 +41,11 @@ const ChangeAutomaticActivation: React.FC = () => {
           onClick={onSubmit}
           className='btn btn-primary mx-2'
         >
-          Turn {automaticActivation === 'ON' ? 'OFF' : 'ON'}
+          {contractDetails.data
+            ? `Turn ${
+                contractDetails.data.automaticActivation === 'ON' ? 'OFF' : 'ON'
+              }`
+            : '...'}
         </button>
 
         <button

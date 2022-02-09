@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { withApp } from '../../provider';
+import { useGlobalContext } from 'context';
 
 import Cards from './components/Cards';
 import Heading from './components/Heading';
@@ -8,10 +8,12 @@ import Nodes from './components/Nodes';
 import Staking from './components/Staking';
 import Withdrawals from './components/Withdrawals';
 
-import { useDashboard, withDashboard } from './provider';
+import useGlobalData from './hooks/useGlobalData';
 
 const Dashboard: React.FC = () => {
-  const { adminEnabled } = useDashboard();
+  const { adminView } = useGlobalContext();
+
+  useGlobalData();
 
   return (
     <div className='container p-0'>
@@ -23,19 +25,19 @@ const Dashboard: React.FC = () => {
         <Cards />
       </div>
 
-      {!adminEnabled && (
+      {!adminView && (
         <div className='mb-4'>
           <Staking />
         </div>
       )}
 
-      {!adminEnabled && (
+      {!adminView && (
         <div className='mb-4'>
           <Withdrawals />
         </div>
       )}
 
-      {adminEnabled && (
+      {adminView && (
         <div className='mb-4'>
           <Nodes />
         </div>
@@ -44,4 +46,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default withApp(withDashboard(Dashboard));
+export default Dashboard;

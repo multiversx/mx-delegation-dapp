@@ -1,40 +1,37 @@
 import * as React from 'react';
 import { Fragment } from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
-import transact from 'helpers/transact';
+import { useGlobalContext } from 'context';
+import useTransaction from 'helpers/useTransaction';
 import { useAction } from 'pages/Dashboard/components/Action/provider';
-import { useApp } from 'provider';
 
 const ChangeRedelegationCap: React.FC = () => {
-  const { redelegationCap } = useApp();
+  const { sendTransaction } = useTransaction();
+  const { contractDetails } = useGlobalContext();
   const { setShow } = useAction();
 
   const onSubmit = async (): Promise<void> => {
-    try {
-      const status = redelegationCap === 'ON' ? 'false' : 'true';
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
+    if (contractDetails.data) {
+      try {
+        const status =
+          contractDetails.data.redelegationCap === 'ON' ? 'false' : 'true';
 
-      const payload = {
-        args: Buffer.from(status).toString('hex'),
-        chainId: new ChainID('T'),
-        type: 'setReDelegateCapActivation',
-        value: '0'
-      };
-
-      await transact(parameters, payload);
-    } catch (error) {
-      console.error(error);
+        await sendTransaction({
+          args: Buffer.from(status).toString('hex'),
+          type: 'setReDelegateCapActivation',
+          value: '0'
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   return (
     <Fragment>
-      <p className='lead mb-spacer'>{redelegationCap}</p>
+      <p className='lead mb-spacer'>
+        {contractDetails.data ? contractDetails.data.redelegationCap : '...'}
+      </p>
 
       <div className='d-flex justify-content-center align-items-center flex-wrap'>
         <button
@@ -42,7 +39,11 @@ const ChangeRedelegationCap: React.FC = () => {
           onClick={onSubmit}
           className='btn btn-primary mx-2'
         >
-          Turn {redelegationCap === 'ON' ? 'OFF' : 'ON'}
+          {contractDetails.data
+            ? `Turn ${
+                contractDetails.data.redelegationCap === 'ON' ? 'OFF' : 'ON'
+              }`
+            : '...'}
         </button>
 
         <button

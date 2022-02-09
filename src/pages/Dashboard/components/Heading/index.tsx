@@ -1,29 +1,27 @@
 import * as React from 'react';
 
-import { useDashboard } from 'pages/Dashboard/provider';
-import { useApp } from 'provider';
+import { useGlobalContext } from 'context';
 
 import Identity from './components/Identity';
 import Meta from './components/Meta';
 
 const Heading: React.FC = () => {
-  const { contractOwnerStatus } = useApp();
-  const { setAdminEnabled, adminEnabled } = useDashboard();
+  const { contractDetails, adminView, setAdminView } = useGlobalContext();
 
   return (
     <div className='m-0 pt-4 mt-4 justify-content-between pl-4 pr-4 py4 card shadow-sm d-flex flex-row align-items-start'>
       <Meta />
 
-      {contractOwnerStatus && (
+      {contractDetails.data && contractDetails.data.owner && (
         <div className='d-flex'>
-          {adminEnabled && <Identity />}
+          {adminView && <Identity />}
 
           <button
             type='button'
-            onClick={() => setAdminEnabled(!adminEnabled)}
+            onClick={() => setAdminView(!adminView)}
             className='btn btn-primary mb-3'
           >
-            {adminEnabled ? 'Dashboard' : 'Admin'}
+            {adminView ? 'Dashboard' : 'Admin'}
           </button>
         </div>
       )}

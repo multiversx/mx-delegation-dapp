@@ -1,34 +1,29 @@
 import * as React from 'react';
 import { MouseEvent } from 'react';
 
-import {
-  useGetAccountInfo,
-  getEgldLabel,
-  getAccountProvider
-} from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BigNumber from 'bignumber.js';
 import { Formik } from 'formik';
 import { object } from 'yup';
+import { network } from 'config';
 import { denominated } from 'helpers/denominate';
-import transact from 'helpers/transact';
+import useTransaction from 'helpers/useTransaction';
 import { useAction } from 'pages/Dashboard/components/Action/provider';
-import { useApp } from 'provider';
 
-import { handleValidation } from '../../helpers/handleValidation';
-import { useStaking } from '../../provider';
+import { handleValidation } from 'pages/Dashboard/components/Staking/helpers/handleValidation';
+import { useStaking } from 'pages/Dashboard/components/Staking/provider';
 
 interface ActionDataType {
   amount: string;
 }
 
 const Delegate: React.FC = () => {
+  const { sendTransaction } = useTransaction();
   const { account } = useGetAccountInfo();
-  const { networkConfig } = useApp();
   const { unstakeable } = useStaking();
   const { setShow } = useAction();
 
-  const egldLabel = getEgldLabel();
-  const validation = object().shape({
+  const validationSchema = object().shape({
     amount: handleValidation(denominated(account.balance)).test(
       'uncapable',
       'Max delegation cap reached. That is the maximum amount you can delegate.',
@@ -49,19 +44,11 @@ const Delegate: React.FC = () => {
 
   const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-
-      const payload = {
+      await sendTransaction({
         value: amount,
         type: 'delegate',
-        chainId: networkConfig.ChainID,
         args: ''
-      };
-
-      await transact(parameters, payload);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +56,7 @@ const Delegate: React.FC = () => {
 
   return (
     <Formik
-      validationSchema={validation}
+      validationSchema={validationSchema}
       onSubmit={onSubmit}
       initialValues={{
         amount: '0'
@@ -92,7 +79,7 @@ const Delegate: React.FC = () => {
         return (
           <form onSubmit={handleSubmit} className='text-left'>
             <div className='form-group mb-spacer'>
-              <label htmlFor='amount'>Amount {egldLabel}</label>
+              <label htmlFor='amount'>Amount {network.egldLabel}</label>
               <div className='input-group'>
                 <input
                   type='number'
@@ -119,7 +106,7 @@ const Delegate: React.FC = () => {
                 </span>
               </div>
               <span>
-                Available: {denominated(account.balance)} {egldLabel}
+                Available: {denominated(account.balance)} {network.egldLabel}
               </span>
 
               {errors.amount && touched.amount && (

@@ -1,38 +1,36 @@
 import * as React from 'react';
 
-import { getAccountProvider, getEgldLabel } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
 import BigNumber from 'bignumber.js';
 
 import { Formik } from 'formik';
 import { string, object } from 'yup';
 
+import { network } from 'config';
+import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import { nominateValToHex } from 'helpers/nominate';
-import transact from 'helpers/transact';
+import useTransaction from 'helpers/useTransaction';
 import { useAction } from 'pages/Dashboard/components/Action/provider';
-
-import { useApp } from 'provider';
 
 interface ActionDataType {
   amount: string;
 }
 
 const ChangeDelegationCap: React.FC = () => {
-  const { totalActiveStake } = useApp();
+  const { sendTransaction } = useTransaction();
+  const { totalActiveStake } = useGlobalContext();
   const { setShow } = useAction();
 
-  const egldLabel = getEgldLabel();
-  const total = denominated(totalActiveStake, {
+  const total = denominated(totalActiveStake.data || '', {
     addCommas: false
   });
 
-  const validation = object().shape({
+  const validationSchema = object().shape({
     amount: string()
       .required('Required')
       .test(
         'minimum',
-        `Minimum ${total} ${egldLabel} or 0 ${egldLabel}`,
+        `Minimum ${total} ${network.egldLabel} or 0 ${network.egldLabel}`,
         (amount) =>
           new BigNumber(amount || '').isGreaterThanOrEqualTo(total) ||
           amount === '0'
@@ -41,17 +39,11 @@ const ChangeDelegationCap: React.FC = () => {
 
   const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-      const payload = {
+      await sendTransaction({
         args: nominateValToHex(amount.toString()),
-        chainId: new ChainID('T'),
         type: 'modifyTotalDelegationCap',
         value: '0'
-      };
-      await transact(parameters, payload);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -59,7 +51,7 @@ const ChangeDelegationCap: React.FC = () => {
 
   return (
     <Formik
-      validationSchema={validation}
+      validationSchema={validationSchema}
       onSubmit={onSubmit}
       initialValues={{
         amount: total

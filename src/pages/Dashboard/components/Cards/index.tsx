@@ -1,14 +1,21 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, ReactNode } from 'react';
 
-import { getEgldLabel } from '@elrondnetwork/dapp-core';
-import { decodeString } from '@elrondnetwork/erdjs';
+import {
+  decodeUnsignedNumber,
+  ContractFunction,
+  ProxyProvider,
+  Address,
+  Query,
+  decodeString,
+  ApiProvider
+} from '@elrondnetwork/erdjs';
+import { network } from 'config';
+import { useGlobalContext, useDispatch } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
 
-import { useDashboard } from 'pages/Dashboard/provider';
-import { useApp } from 'provider';
-import Action from '../Action';
+import Action from 'pages/Dashboard/components/Action';
 
 import ChangeAutomaticActivation from './components/ChangeAutomaticActivation';
 import ChangeDelegationCap from './components/ChangeDelegationCap';
@@ -18,12 +25,12 @@ import ChangeServiceFee from './components/ChangeServiceFee';
 interface CardType {
   label: string;
   data: {
-    value?: string | undefined;
+    value?: string | null;
     percentage?: string | undefined;
   };
   title?: string;
   description?: string;
-  modal?: any;
+  modal?: ReactNode;
 }
 
 const Cards: React.FC = () => {
@@ -32,41 +39,130 @@ const Cards: React.FC = () => {
     totalNetworkStake,
     usersNumber,
     nodesNumber,
-    serviceFee,
-    delegationCap,
-    automaticActivation,
-    redelegationCap
-  } = useApp();
-  const { adminEnabled } = useDashboard();
+    contractDetails,
+    adminView
+  } = useGlobalContext();
+  const dispatch = useDispatch();
+
+  const getUsersNumber = async (): Promise<void> => {
+    dispatch({
+      type: 'getUsersNumber',
+      usersNumber: {
+        status: 'loading',
+        data: null,
+        error: null
+      }
+    });
+
+    try {
+      const provider = new ProxyProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getNumUsers')
+      });
+
+      const data = await provider.queryContract(query);
+      const [userNumber] = data.outputUntyped();
+
+      dispatch({
+        type: 'getUsersNumber',
+        usersNumber: {
+          status: 'loaded',
+          data: decodeUnsignedNumber(userNumber).toString(),
+          error: null
+        }
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getUsersNumber',
+        usersNumber: {
+          status: 'error',
+          data: null,
+          error
+        }
+      });
+    }
+  };
+
+  const getTotalNetworkStake = async (): Promise<void> => {
+    dispatch({
+      type: 'getTotalNetworkStake',
+      totalNetworkStake: {
+        data: null,
+        error: null,
+        status: 'loading'
+      }
+    });
+
+    try {
+      const query = new ApiProvider(network.apiAddress, {
+        timeout: 4000
+      });
+
+      const data = await query.getNetworkStake();
+
+      dispatch({
+        type: 'getTotalNetworkStake',
+        totalNetworkStake: {
+          status: 'loaded',
+          error: null,
+          data
+        }
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getTotalNetworkStake',
+        totalNetworkStake: {
+          status: 'error',
+          data: null,
+          error
+        }
+      });
+    }
+  };
 
   const getContractStakeData = useCallback(() => {
-    if (!totalNetworkStake.TotalStaked) {
-      return {};
+    if (!totalNetworkStake.data || !totalActiveStake.data) {
+      const loading =
+        totalNetworkStake.status === 'loading' ||
+        totalActiveStake.status === 'loading';
+
+      return {
+        value: loading ? `... ${network.egldLabel}` : 'Contract Stake Unknown',
+        percentage: loading ? '...%' : 'Data Unavailable'
+      };
     }
 
     const formatted = {
-      stake: denominated(totalNetworkStake.TotalStaked.toFixed()),
-      nodes: denominated(totalActiveStake)
+      stake: denominated(totalNetworkStake.data.TotalStaked.toFixed()),
+      nodes: denominated(totalActiveStake.data)
     };
 
     return {
-      value: `${formatted.nodes} ${egldLabel}`,
+      value: `${formatted.nodes} ${network.egldLabel}`,
       percentage: `${getPercentage(
         formatted.nodes,
         formatted.stake
       )}% of total stake`
     };
-  }, [totalNetworkStake, totalActiveStake]);
+  }, [totalNetworkStake, totalActiveStake.data]);
 
   const getNodesNumber = useCallback(() => {
-    if (!totalNetworkStake.TotalStaked) {
-      return {};
+    if (!totalNetworkStake.data || !nodesNumber.data) {
+      const loading =
+        totalNetworkStake.status === 'loading' ||
+        nodesNumber.status === 'loading';
+
+      return {
+        value: loading ? '...' : 'Nodes Count Unknown',
+        percentage: loading ? '...% of total nodes' : 'Data Unavailable'
+      };
     }
 
     const formatted = {
-      stake: totalNetworkStake.TotalValidators.toString(),
-      nodes: nodesNumber
-        .filter((key: Buffer) => decodeString(key) === 'staked')
+      stake: totalNetworkStake.data.TotalValidators.toString(),
+      nodes: nodesNumber.data
+        .filter((key: any) => decodeString(key) === 'staked')
         .length.toString()
     };
 
@@ -80,18 +176,28 @@ const Cards: React.FC = () => {
   }, [totalNetworkStake, nodesNumber]);
 
   const getDelegationCap = useCallback(() => {
+    if (!contractDetails.data || !totalActiveStake.data) {
+      const loading =
+        totalActiveStake.status === 'loading' ||
+        contractDetails.status === 'loading';
+
+      return {
+        value: loading ? `... ${network.egldLabel}` : 'Delegation Cap Unknown',
+        percentage: loading ? '...%' : 'Data Unavailable'
+      };
+    }
+
     const formatted = {
-      stake: denominated(totalActiveStake),
-      value: denominated(delegationCap)
+      stake: denominated(totalActiveStake.data),
+      value: denominated(contractDetails.data.delegationCap)
     };
 
     return {
-      value: `${formatted.value} ${egldLabel}`,
+      value: `${formatted.value} ${network.egldLabel}`,
       percentage: `${getPercentage(formatted.stake, formatted.value)}% filled`
     };
-  }, [totalActiveStake, delegationCap]);
+  }, [totalActiveStake.data, contractDetails.data]);
 
-  const egldLabel = getEgldLabel();
   const cards: Array<CardType> = [
     {
       label: 'Contract Stake',
@@ -100,7 +206,12 @@ const Cards: React.FC = () => {
     {
       label: 'Number of Users',
       data: {
-        value: usersNumber
+        value:
+          usersNumber.status !== 'loaded'
+            ? usersNumber.error
+              ? 'Data Unavailable'
+              : '...'
+            : usersNumber.data
       }
     },
     {
@@ -114,7 +225,11 @@ const Cards: React.FC = () => {
       description:
         'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       data: {
-        value: serviceFee
+        value: contractDetails.data
+          ? contractDetails.data.serviceFee
+          : contractDetails.error
+          ? 'Service Fee Unknown'
+          : '...%'
       }
     },
     {
@@ -131,7 +246,11 @@ const Cards: React.FC = () => {
       description: 'Set automatic activation',
       modal: <ChangeAutomaticActivation />,
       data: {
-        value: automaticActivation
+        value: contractDetails.data
+          ? contractDetails.data.serviceFee
+          : contractDetails.error
+          ? 'Activation Status Unknown'
+          : '...%'
       }
     },
     {
@@ -141,10 +260,26 @@ const Cards: React.FC = () => {
       description:
         'Set the check for ReDelegation Cap in order to block or accept the redelegate rewards.',
       data: {
-        value: redelegationCap
+        value: contractDetails.data
+          ? contractDetails.data.redelegationCap
+          : contractDetails.error
+          ? 'Redelegation Status Unknown'
+          : '...%'
       }
     }
   ];
+
+  useEffect(() => {
+    if (!usersNumber.data) {
+      getUsersNumber();
+    }
+  }, [usersNumber.data]);
+
+  useEffect(() => {
+    if (!totalNetworkStake.data) {
+      getTotalNetworkStake();
+    }
+  }, [totalNetworkStake.data]);
 
   return (
     <div className='d-flex m-0 flex-wrap justify-content-between'>
@@ -162,7 +297,7 @@ const Cards: React.FC = () => {
             <span className='mt-3'>{card.data.percentage}</span>
           )}
 
-          {card.modal && adminEnabled && (
+          {card.modal && adminView && (
             <div className='position-absolute mr-4' style={{ right: '0' }}>
               <Action
                 title={card.title}

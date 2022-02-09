@@ -1,15 +1,20 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
+import {
+  ContractFunction,
+  ProxyProvider,
+  Address,
+  Query,
+  decodeString
+} from '@elrondnetwork/erdjs';
 import { Formik, FormikProps } from 'formik';
 import { Modal } from 'react-bootstrap';
 import { object, string } from 'yup';
+import { network } from 'config';
 
-import transact from 'helpers/transact';
-
-import { useApp } from 'provider';
+import { useDispatch, useGlobalContext } from 'context';
+import useTransaction from 'helpers/useTransaction';
 
 interface FieldType {
   [key: string]: any;
@@ -26,8 +31,10 @@ interface PayloadType {
 
 const Identity: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
-  const { agencyMetaData } = useApp();
+  const { agencyMetaData } = useGlobalContext();
+  const { sendTransaction } = useTransaction();
 
+  const dispatch = useDispatch();
   const fields: Array<FieldType> = [
     {
       name: 'name',
@@ -43,18 +50,16 @@ const Identity: React.FC = () => {
     }
   ];
 
-  const validation = object().shape({
+  const validationSchema = object().shape({
     website: string()
       .required('Required')
-      .test('URL', 'URL is not valid!', (value) =>
-        value?.match(
-          new RegExp(
-            /^((?:http(?:s)?:\/\/)?[a-zA-Z0-9_-]+(?:.[a-zA-Z0-9_-]+)*.[a-zA-Z]{2,4}(?:\/[a-zA-Z0-9_]+)*(?:\/[a-zA-Z0-9_]+.[a-zA-Z]{2,4}(?:\?[a-zA-Z0-9_]+=[a-zA-Z0-9_]+)?)?(?:&[a-zA-Z0-9_]+=[a-zA-Z0-9_]+)*)$/
-          )
-        )
-          ? true
-          : false
-      )
+      .test('URL', 'URL is not valid!', (value: any) => {
+        try {
+          return value && !value.includes('#') && Boolean(new URL(value || ''));
+        } catch (error) {
+          return false;
+        }
+      })
   });
 
   const onSubmit = async (payload: PayloadType): Promise<void> => {
@@ -67,23 +72,65 @@ const Identity: React.FC = () => {
     );
 
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-
-      const data = {
+      await sendTransaction({
         args: `${name}@${website}@${keybase}`,
-        chainId: new ChainID('T'),
         type: 'setMetaData',
         value: '0'
-      };
-
-      await transact(parameters, data);
+      });
     } catch (error) {
       console.error(error);
     }
   };
+
+  const getAgencyMetaData = async (): Promise<void> => {
+    dispatch({
+      type: 'getAgencyMetaData',
+      agencyMetaData: {
+        status: 'loading',
+        data: null,
+        error: null
+      }
+    });
+
+    try {
+      const provider = new ProxyProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getMetaData')
+      });
+
+      const data = await provider.queryContract(query);
+      const [name, website, keybase] = data.outputUntyped().map(decodeString);
+
+      dispatch({
+        type: 'getAgencyMetaData',
+        agencyMetaData: {
+          status: 'loaded',
+          error: null,
+          data: {
+            name,
+            website,
+            keybase
+          }
+        }
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getAgencyMetaData',
+        agencyMetaData: {
+          status: 'error',
+          data: null,
+          error
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!agencyMetaData.data) {
+      getAgencyMetaData();
+    }
+  }, [agencyMetaData.data]);
 
   return (
     <div className='mr-3'>
@@ -111,9 +158,11 @@ const Identity: React.FC = () => {
           </p>
 
           <Formik
-            validationSchema={validation}
+            validationSchema={validationSchema}
             onSubmit={onSubmit}
-            initialValues={agencyMetaData}
+            initialValues={
+              agencyMetaData.data || { name: '', website: '', keybase: '' }
+            }
           >
             {({
               errors,

@@ -1,6 +1,6 @@
-import { getEgldLabel } from '@elrondnetwork/dapp-core';
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
+import { network } from 'config';
 
 const handleValidation = (input: string) =>
   string()
@@ -10,7 +10,7 @@ const handleValidation = (input: string) =>
     )
     .test(
       'maximum',
-      `You need to set a value under ${input} ${getEgldLabel()}.`,
+      `You need to set a value under ${input} ${network.egldLabel}.`,
       (value) =>
         new BigNumber(value || '').isLessThanOrEqualTo(parseFloat(input))
     );

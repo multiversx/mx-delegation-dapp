@@ -4,7 +4,6 @@ import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { network } from 'config';
 
 import { denominated } from 'helpers/denominate';
-import { useApp } from 'provider';
 
 interface MetaType {
   label: string;
@@ -12,7 +11,6 @@ interface MetaType {
 }
 
 const Meta: React.FC = () => {
-  const { egldLabel } = useApp();
   const { address, account } = useGetAccountInfo();
 
   const meta: Array<MetaType> = [
@@ -26,7 +24,7 @@ const Meta: React.FC = () => {
     },
     {
       label: 'Balance',
-      data: `${denominated(account.balance)} ${egldLabel}`
+      data: `${denominated(account.balance)} ${network.egldLabel}`
     }
   ];
 

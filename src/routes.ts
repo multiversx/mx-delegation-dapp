@@ -1,14 +1,14 @@
+import { ComponentType } from 'react';
 import { dAppName } from 'config';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
-import Transaction from './pages/Transaction';
 
 export interface RouteType {
   path: string;
   title: string;
   authenticatedRoute?: boolean;
-  component: any;
+  component: ComponentType;
 }
 
 export const routeNames = {
@@ -31,11 +31,6 @@ const routes: Array<RouteType> = [
     title: 'Dashboard',
     component: Dashboard,
     authenticatedRoute: true
-  },
-  {
-    path: routeNames.transaction,
-    title: 'Transaction',
-    component: Transaction
   }
 ];
 

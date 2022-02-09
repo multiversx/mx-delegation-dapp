@@ -1,44 +1,36 @@
 import * as React from 'react';
 import { MouseEvent } from 'react';
 
-import { getEgldLabel, getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
 import { Formik } from 'formik';
 import { object } from 'yup';
+
+import { network } from 'config';
+import { useGlobalContext } from 'context';
 import { nominateValToHex } from 'helpers/nominate';
-import transact from 'helpers/transact';
+import useTransaction from 'helpers/useTransaction';
 import { useAction } from 'pages/Dashboard/components/Action/provider';
-import { useApp } from 'provider';
-import { handleValidation } from '../../helpers/handleValidation';
+import { handleValidation } from 'pages/Dashboard/components/Staking/helpers/handleValidation';
 
 interface ActionDataType {
   amount: string;
 }
 
 const Undelegate: React.FC = () => {
-  const { userActiveStake } = useApp();
+  const { sendTransaction } = useTransaction();
+  const { userActiveStake } = useGlobalContext();
   const { setShow } = useAction();
 
-  const egldLabel = getEgldLabel();
-  const validation = object().shape({
-    amount: handleValidation(userActiveStake)
+  const validationSchema = object().shape({
+    amount: handleValidation(userActiveStake.data || '')
   });
 
   const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-
-      const payload = {
+      await sendTransaction({
         value: '0',
         type: 'unDelegate',
-        chainId: new ChainID('T'),
         args: nominateValToHex(amount.toString())
-      };
-
-      await transact(parameters, payload);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -46,7 +38,7 @@ const Undelegate: React.FC = () => {
 
   return (
     <Formik
-      validationSchema={validation}
+      validationSchema={validationSchema}
       onSubmit={onSubmit}
       initialValues={{
         amount: '0'
@@ -63,13 +55,13 @@ const Undelegate: React.FC = () => {
       }) => {
         const onMax = (event: MouseEvent): void => {
           event.preventDefault();
-          setFieldValue('amount', userActiveStake);
+          setFieldValue('amount', userActiveStake.data);
         };
 
         return (
           <form onSubmit={handleSubmit} className='text-left'>
             <div className='form-group mb-spacer'>
-              <label htmlFor='amount'>Amount {egldLabel}</label>
+              <label htmlFor='amount'>Amount {network.egldLabel}</label>
               <div className='input-group'>
                 <input
                   type='number'
@@ -96,7 +88,7 @@ const Undelegate: React.FC = () => {
                 </span>
               </div>
               <span>
-                Available: {userActiveStake} {egldLabel}
+                Available: {userActiveStake.data} {network.egldLabel}
               </span>
 
               {errors.amount && touched.amount && (

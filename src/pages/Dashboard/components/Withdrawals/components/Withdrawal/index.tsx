@@ -1,18 +1,15 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { getAccountProvider, getEgldLabel } from '@elrondnetwork/dapp-core';
 
-import { ChainID } from '@elrondnetwork/erdjs';
 import moment from 'moment';
-import transact from 'helpers/transact';
-
-import { UndelegateStakeListType } from 'provider/client/callbacks';
+import { network } from 'config';
+import { UndelegateStakeListType } from 'context/state';
+import useTransaction from 'helpers/useTransaction';
 
 const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
-  const egldLabel = getEgldLabel();
-
   const [disabled, setDisabled] = useState<boolean>(timeLeft !== 0);
   const [counter, setCounter] = useState<number>(timeLeft);
+  const { sendTransaction } = useTransaction();
 
   const getTimeLeft = (): string =>
     moment
@@ -21,19 +18,11 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
 
   const onWithdraw = async (): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-
-      const payload = {
+      await sendTransaction({
         args: '',
-        chainId: new ChainID('T'),
         type: 'withdraw',
         value: '0'
-      };
-
-      await transact(parameters, payload);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +45,7 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
     <tr>
       <td>
         <div className='d-flex align-items-center text-nowrap trim'>
-          {value} {egldLabel}
+          {value} {network.egldLabel}
         </div>
       </td>
       <td>

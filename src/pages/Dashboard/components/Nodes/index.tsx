@@ -1,18 +1,20 @@
 import * as React from 'react';
 import { useEffect, useState, MouseEvent } from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { decodeString, ChainID } from '@elrondnetwork/erdjs';
+import {
+  decodeString,
+  ProxyProvider,
+  Query,
+  Address,
+  ContractFunction
+} from '@elrondnetwork/erdjs';
 import { Dropdown } from 'react-bootstrap';
-
 import { network } from 'config';
-
-import transact from 'helpers/transact';
-
-import { useApp } from 'provider';
+import { useDispatch, useGlobalContext } from 'context';
+import useTransaction from 'helpers/useTransaction';
 
 import Add from './components/Add';
-import { DropzonePayloadType } from './components/Dropzone';
+// import { DropzonePayloadType } from './components/Dropzone';
 
 interface StatusType {
   label: string;
@@ -42,8 +44,11 @@ interface ActionsType {
 }
 
 const Nodes: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [data, setData] = useState<Array<NodeType>>([]);
-  const { nodesNumber, nodesData } = useApp();
+  const { nodesNumber, nodesData } = useGlobalContext();
+  const { sendTransaction } = useTransaction();
 
   const variants: VariantsType = {
     staked: {
@@ -132,35 +137,27 @@ const Nodes: React.FC = () => {
 
   const onAct = async ({ value, type, args }: ArgumentsType): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-
-      const payload = {
+      await sendTransaction({
         args,
         type,
-        value,
-        chainId: new ChainID('T')
-      };
-
-      await transact(parameters, payload);
+        value
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   const getNodes = () => {
-    if (nodesData.length > 0 && nodesNumber.length > 0) {
-      const sort = (alpha: Array<Uint8Array>, beta: Array<Uint8Array>) =>
-        alpha.length - beta.length;
-      const output = [nodesData, nodesNumber.sort(sort)];
+    if (nodesData.data && nodesNumber.data) {
+      if (nodesData.data.length > 0 && nodesNumber.data.length > 0) {
+        const sort = (alpha: Uint8Array, beta: Uint8Array) =>
+          alpha.length - beta.length;
+        const output = [nodesData.data, nodesNumber.data.sort(sort)];
 
-      const [nodes, keys] = output.map((payload) => {
-        const statuses: Array<string> = [];
+        const [nodes, keys] = output.map((payload) => {
+          const statuses: Array<string> = [];
 
-        return payload.reduce(
-          (items: Array<DropzonePayloadType>, item: Buffer) => {
+          return payload.reduce((items: any, item: any) => {
             const current: string = decodeString(item);
             const status: string = statuses[statuses.length - 1];
 
@@ -176,30 +173,74 @@ const Nodes: React.FC = () => {
                 }
               ];
             }
-          },
-          []
+          }, []);
+        });
+
+        setData(
+          nodes.map((node: NodeType) => {
+            const index = keys.findIndex(
+              (key: NodeType) => key.code === node.code
+            );
+            const key = index >= 0 ? keys[index].status : node.status;
+
+            return {
+              ...node,
+              status: variants[key]
+            };
+          })
         );
-      });
-
-      setData(
-        nodes.map((node: NodeType) => {
-          const index = keys.findIndex(
-            (key: NodeType) => key.code === node.code
-          );
-          const key = index >= 0 ? keys[index].status : node.status;
-
-          return {
-            ...node,
-            status: variants[key]
-          };
-        })
-      );
+      }
     }
 
     return () => setData([]);
   };
 
-  useEffect(getNodes, [nodesNumber, nodesData]);
+  const getNodesData = async (): Promise<void> => {
+    dispatch({
+      type: 'getNodesData',
+      nodesData: {
+        status: 'loading',
+        data: null,
+        error: null
+      }
+    });
+
+    try {
+      const provider = new ProxyProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.delegationContract),
+        func: new ContractFunction('getAllNodeStates')
+      });
+
+      const response = await provider.queryContract(query);
+
+      dispatch({
+        type: 'getNodesData',
+        nodesData: {
+          status: 'loaded',
+          data: response.outputUntyped(),
+          error: null
+        }
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getNodesData',
+        nodesData: {
+          status: 'error',
+          data: null,
+          error
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!nodesData.data) {
+      getNodesData();
+    }
+  }, [nodesData.data]);
+
+  useEffect(getNodes, [nodesNumber.data, nodesData.data]);
 
   return (
     <div className='card mt-spacer'>
@@ -210,7 +251,12 @@ const Nodes: React.FC = () => {
             <Add />
           </div>
         </div>
-        {data.length > 0 ? (
+
+        {nodesData.status === 'loading' || nodesNumber.status === 'loading' ? (
+          <span>Retrieving keys...</span>
+        ) : nodesData.error || nodesNumber.error ? (
+          <span>An error occurred attempting to retrieve keys.</span>
+        ) : data.length > 0 ? (
           <div className='table-responsive' style={{ overflow: 'visible' }}>
             <table
               className='table table-borderless mb-0'

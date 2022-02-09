@@ -1,26 +1,17 @@
 import * as React from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
-
-import transact from 'helpers/transact';
+import useTransaction from 'helpers/useTransaction';
 
 const Rewards: React.FC = () => {
+  const { sendTransaction } = useTransaction();
+
   const onClaim = async (): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-
-      const payload = {
+      await sendTransaction({
         value: '0',
         type: 'claimRewards',
-        args: '',
-        chainId: new ChainID('T')
-      };
-
-      await transact(parameters, payload);
+        args: ''
+      });
     } catch (error) {
       console.error(error);
     }

@@ -4,8 +4,8 @@ import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 
 import BigNumber from 'bignumber.js';
 
+import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
-import { useApp } from 'provider';
 
 interface UnstakeableType {
   exceeds: boolean;
@@ -15,7 +15,7 @@ interface UnstakeableType {
 
 const useClient = () => {
   const { account, address } = useGetAccountInfo();
-  const { totalActiveStake, delegationCap, automaticActivation } = useApp();
+  const { totalActiveStake, contractDetails } = useGlobalContext();
 
   const [unstakeable, setUnstakeable] = useState<UnstakeableType>({
     active: false,
@@ -24,46 +24,49 @@ const useClient = () => {
   });
 
   const getClientData = () => {
-    const balance = new BigNumber(
-      denominated(account.balance, {
-        showLastNonZeroDecimal: true,
-        addCommas: false
-      })
-    );
+    if (contractDetails.data && totalActiveStake.data) {
+      const automaticActivation = contractDetails.data.automaticActivation;
+      const delegationCap = contractDetails.data.delegationCap;
+      const balance = new BigNumber(
+        denominated(account.balance, {
+          showLastNonZeroDecimal: true,
+          addCommas: false
+        })
+      );
 
-    const formatted = {
-      total: denominated(totalActiveStake.replace(/,/g, '')),
-      cap: denominated(delegationCap.replace(/,/g, ''))
-    };
+      const formatted = {
+        total: denominated(totalActiveStake.data.replace(/,/g, '')),
+        cap: denominated(delegationCap.replace(/,/g, ''))
+      };
 
-    const available = new BigNumber(formatted.cap).minus(
-      new BigNumber(formatted.total)
-    );
+      const available = new BigNumber(formatted.cap).minus(
+        new BigNumber(formatted.total)
+      );
 
-    setUnstakeable({
-      available: available.toFixed(),
-      exceeds:
-        balance.comparedTo(available) >= 0 && automaticActivation === 'ON',
-      active:
-        new BigNumber(totalActiveStake).isGreaterThanOrEqualTo(
-          new BigNumber(delegationCap)
-        ) && delegationCap !== '0'
-    });
-
-    return () => {
       setUnstakeable({
-        active: false,
-        exceeds: false,
-        available: ''
+        available: available.toFixed(),
+        exceeds:
+          balance.comparedTo(available) >= 0 && automaticActivation === 'ON',
+        active:
+          new BigNumber(totalActiveStake.data).isGreaterThanOrEqualTo(
+            new BigNumber(delegationCap)
+          ) && delegationCap !== '0'
       });
-    };
+
+      return () => {
+        setUnstakeable({
+          active: false,
+          exceeds: false,
+          available: ''
+        });
+      };
+    }
   };
 
   useEffect(getClientData, [
-    delegationCap,
     address,
-    totalActiveStake,
-    automaticActivation,
+    totalActiveStake.data,
+    contractDetails.data,
     account.balance
   ]);
 

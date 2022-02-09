@@ -1,12 +1,10 @@
 import * as React from 'react';
 
-import { getAccountProvider } from '@elrondnetwork/dapp-core';
-import { ChainID } from '@elrondnetwork/erdjs';
 import { Formik } from 'formik';
 import { string, object } from 'yup';
 
 import { nominateVal } from 'helpers/nominate';
-import transact from 'helpers/transact';
+import useTransaction from 'helpers/useTransaction';
 
 import { useAction } from 'pages/Dashboard/components/Action/provider';
 
@@ -16,8 +14,9 @@ interface ActionDataType {
 
 const ChangeServiceFee: React.FC = () => {
   const { setShow } = useAction();
+  const { sendTransaction } = useTransaction();
 
-  const validation = object().shape({
+  const validationSchema = object().shape({
     amount: string()
       .required('Required')
       .test(
@@ -34,17 +33,11 @@ const ChangeServiceFee: React.FC = () => {
 
   const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
     try {
-      const parameters = {
-        signer: getAccountProvider(),
-        account: {}
-      };
-      const payload = {
+      await sendTransaction({
         args: nominateVal(amount),
-        chainId: new ChainID('T'),
         type: 'changeServiceFee',
         value: '0'
-      };
-      await transact(parameters, payload);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +45,7 @@ const ChangeServiceFee: React.FC = () => {
 
   return (
     <Formik
-      validationSchema={validation}
+      validationSchema={validationSchema}
       onSubmit={onSubmit}
       initialValues={{
         amount: '0'
