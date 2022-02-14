@@ -10,7 +10,7 @@ import {
 } from '@elrondnetwork/erdjs';
 import BigNumber from 'bignumber.js';
 
-import { network } from 'config';
+import { network, gatewayAddress } from 'config';
 import { useDispatch, useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import { nominateValToHex } from 'helpers/nominate';
@@ -120,7 +120,7 @@ const useStakeData = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyProvider(gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getClaimableRewards'),

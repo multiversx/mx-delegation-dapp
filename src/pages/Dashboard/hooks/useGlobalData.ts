@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 
-import { useGetAccountInfo, getNetworkProxy } from '@elrondnetwork/dapp-core';
+import {
+  useGetAccountInfo,
+  getNetworkProxy,
+  transactionServices
+} from '@elrondnetwork/dapp-core';
 import {
   Query,
   ProxyProvider,
@@ -12,7 +16,7 @@ import {
   AddressValue
 } from '@elrondnetwork/erdjs';
 
-import { network, decimals, denomination } from 'config';
+import { network, decimals, denomination, gatewayAddress } from 'config';
 import { useDispatch } from 'context';
 import denominate from 'helpers/denominate';
 
@@ -50,9 +54,11 @@ interface globalFetchesType {
 
 const useGlobalData = () => {
   const { address } = useGetAccountInfo();
+  const { successfulTransactionsArray } =
+    transactionServices.useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
-  const provider = new ProxyProvider(network.gatewayAddress);
+  const provider = new ProxyProvider(gatewayAddress);
   const criticalFetches: globalFetchesType = {
     getContractDetails: {
       key: 'contractDetails',
@@ -200,7 +206,7 @@ const useGlobalData = () => {
     fetchData();
   };
 
-  useEffect(fetchCriticalData, []);
+  useEffect(fetchCriticalData, [successfulTransactionsArray.length]);
 };
 
 export default useGlobalData;

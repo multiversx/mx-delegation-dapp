@@ -1,6 +1,6 @@
 import {
   getChainID,
-  sendTransactions,
+  transactionServices,
   useGetAccountInfo
 } from '@elrondnetwork/dapp-core';
 import {
@@ -30,7 +30,7 @@ const useTransaction = () => {
   const { account } = useGetAccountInfo();
   const chainID = getChainID();
 
-  const sendTransaction = ({
+  const sendTransaction = async ({
     args,
     value,
     type
@@ -42,7 +42,7 @@ const useTransaction = () => {
     );
 
     if (!delegable) {
-      throw new Error('The contract for this action is not defined');
+      throw new Error('The contract for this action is not defined.');
     } else {
       const getFunctionName = (): string =>
         args === '' ? delegable.data : `${delegable.data}${args}`;
@@ -68,7 +68,9 @@ const useTransaction = () => {
         nonce: new Nonce(account?.nonce)
       });
 
-      return sendTransactions({ transactions: transaction });
+      return await transactionServices.sendTransactions({
+        transactions: transaction
+      });
     }
   };
 

@@ -15,7 +15,8 @@ import {
   faServer,
   faLeaf,
   faReceipt,
-  faArrowUp
+  faArrowUp,
+  faCog
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -25,7 +26,7 @@ import { useGlobalContext, useDispatch } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
 import modifiable from 'helpers/modifiable';
-
+import Action from 'pages/Dashboard/components/Action';
 import ChangeDelegationCap from './components/ChangeDelegationCap';
 import ChangeServiceFee from './components/ChangeServiceFee';
 
@@ -66,7 +67,7 @@ const Cards: React.FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyProvider(network.apiAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getNumUsers')
@@ -248,6 +249,9 @@ const Cards: React.FC = () => {
       label: 'Service Fee',
       modal: <ChangeServiceFee />,
       icon: <FontAwesomeIcon icon={faReceipt} />,
+      title: 'Change service fee',
+      description:
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       colors: ['#F3BF89', '#B68350'],
       data: {
         value: contractDetails.data
@@ -260,6 +264,9 @@ const Cards: React.FC = () => {
     {
       label: 'Delegation Cap',
       modal: <ChangeDelegationCap />,
+      description:
+        'The delegation cap is the maximum amount of xEGLD your agency can stake from delegators.',
+      title: 'Delegation Cap',
       icon: <FontAwesomeIcon icon={faArrowUp} />,
       colors: ['#E48570', '#C25C45'],
       data: getDelegationCap()
@@ -293,7 +300,16 @@ const Cards: React.FC = () => {
                 style={{ fill: interactive ? beta : 'white' }}
                 className={modifiable('icon', [interactive && 'fill'], styles)}
               >
-                {interactive ? card.modal : card.icon}
+                {interactive ? (
+                  <Action
+                    render={card.modal}
+                    title={card.title}
+                    description={card.description}
+                    trigger={<FontAwesomeIcon icon={faCog} size='lg' />}
+                  />
+                ) : (
+                  card.icon
+                )}
               </div>
             </div>
 

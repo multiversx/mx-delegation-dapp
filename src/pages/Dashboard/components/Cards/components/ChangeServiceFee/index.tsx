@@ -6,6 +6,7 @@ import { useGlobalContext } from 'context';
 import modifiable from 'helpers/modifiable';
 import { nominateVal } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
+import { Submit } from 'pages/Dashboard/components/Action';
 
 import styles from './styles.module.scss';
 
@@ -17,10 +18,10 @@ const ChangeServiceFee: React.FC = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails } = useGlobalContext();
 
-  const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
+  const onSubmit = async (data: ActionDataType): Promise<void> => {
     try {
       await sendTransaction({
-        args: nominateVal(amount),
+        args: nominateVal(data.amount),
         type: 'changeServiceFee',
         value: '0'
       });
@@ -81,6 +82,8 @@ const ChangeServiceFee: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            <Submit close='Cancel' submit='Save' />
           </form>
         );
       }}

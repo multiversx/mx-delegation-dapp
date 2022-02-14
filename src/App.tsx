@@ -1,5 +1,9 @@
 import React from 'react';
-import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
+import {
+  DappProvider,
+  DappUI,
+  DappCoreUIWrapper
+} from '@elrondnetwork/dapp-core';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Layout from 'components/Layout';
 import { network, walletConnectBridge, walletConnectDeepLink } from 'config';
@@ -14,23 +18,26 @@ const App = () => (
   <Router>
     <DappProvider
       networkConfig={{ network, walletConnectBridge, walletConnectDeepLink }}
-      modalClassName='custom-class-for-modals'
     >
       <ContextProvider>
         <Layout>
-          <DappUI.TransactionsToastList />
-          <Routes>
-            <Route path={routeNames.unlock} element={<Unlock />} />
+          <DappCoreUIWrapper>
+            <DappUI.TransactionsToastList />
+            <DappUI.SignTransactionsModals />
+            <DappUI.NotificationModal />
+            <Routes>
+              <Route path={routeNames.unlock} element={<Unlock />} />
 
-            {routes.map((route: any, index: number) => (
-              <Route
-                path={route.path}
-                key={'route-key-' + index}
-                element={<route.component />}
-              />
-            ))}
-            <Route element={PageNotFound} />
-          </Routes>
+              {routes.map((route: any, index: number) => (
+                <Route
+                  path={route.path}
+                  key={'route-key-' + index}
+                  element={<route.component />}
+                />
+              ))}
+              <Route element={PageNotFound} />
+            </Routes>
+          </DappCoreUIWrapper>
         </Layout>
       </ContextProvider>
     </DappProvider>

@@ -8,7 +8,7 @@ import { network } from 'config';
 import { denominated } from 'helpers/denominate';
 import modifiable from 'helpers/modifiable';
 
-import Action from 'pages/Dashboard/components/Action';
+import Action, { Submit } from 'pages/Dashboard/components/Action';
 import { delegateValidator } from 'pages/Dashboard/components/Stake//helpers/delegationValidators';
 import useStakeData from 'pages/Dashboard/components/Stake/hooks';
 
@@ -86,6 +86,8 @@ const Delegate: React.FC = () => {
                         <span className={styles.error}>{errors.amount}</span>
                       )}
                     </div>
+
+                    <Submit save='Continue' />
                   </form>
                 );
               }}

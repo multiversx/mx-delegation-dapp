@@ -13,7 +13,7 @@ import {
   decodeBigNumber
 } from '@elrondnetwork/erdjs';
 
-import { network, decimals, denomination } from 'config';
+import { network, decimals, denomination, gatewayAddress } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { UndelegateStakeListType } from 'context/state';
 import denominate from 'helpers/denominate';
@@ -39,7 +39,7 @@ const Withdrawals: React.FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyProvider(gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getUserUnDelegatedList'),

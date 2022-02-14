@@ -7,7 +7,7 @@ import { useGlobalContext } from 'context';
 
 import modifiable from 'helpers/modifiable';
 
-import Action from 'pages/Dashboard/components/Action';
+import Action, { Submit } from 'pages/Dashboard/components/Action';
 
 import { undelegateValidator } from 'pages/Dashboard/components/Stake//helpers/delegationValidators';
 import useStakeData from 'pages/Dashboard/components/Stake/hooks';
@@ -83,6 +83,8 @@ const Undelegate: React.FC = () => {
                         <span className={styles.error}>{errors.amount}</span>
                       )}
                     </div>
+
+                    <Submit save='Continue' />
                   </form>
                 );
               }}

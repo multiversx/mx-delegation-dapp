@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 
 import moment from 'moment';
 import Logo from 'assets/Logo';
@@ -23,6 +24,7 @@ interface FormattersType {
 
 const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
   const [counter, setCounter] = useState<number>(timeLeft);
+  const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();
 
   const getTimeLeft = (): string => {
@@ -51,6 +53,19 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
       .format(format);
   };
 
+  const fetchFiat = () => {
+    const fetchData = async () => {
+      const pairs = await axios.get('https://api.elrond.com/mex-pairs');
+      const token = pairs.data.find(
+        (item: any) => item.baseId === 'WEGLD-bd4d79'
+      );
+
+      setFiat((parseFloat(value) * token.basePrice).toFixed(2));
+    };
+
+    fetchData();
+  };
+
   const onWithdraw = async (): Promise<void> => {
     try {
       await sendTransaction({
@@ -70,6 +85,7 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
   }, [counter]);
 
   useEffect(() => setCounter(timeLeft), []);
+  useEffect(fetchFiat, []);
 
   return (
     <div className={styles.withdrawal}>
@@ -83,7 +99,7 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
             {value} {network.egldLabel}
           </span>
 
-          <span className={styles.amount}>$400.24</span>
+          <span className={styles.amount}>${fiat}</span>
         </div>
       </div>
       <div className={styles.right}>

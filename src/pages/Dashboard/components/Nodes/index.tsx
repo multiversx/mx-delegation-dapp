@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
-import { network } from 'config';
+import { network, gatewayAddress } from 'config';
 import { useDispatch, useGlobalContext } from 'context';
 import modifiable from 'helpers/modifiable';
 
@@ -223,7 +223,7 @@ const Nodes: React.FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyProvider(gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getAllNodeStates')

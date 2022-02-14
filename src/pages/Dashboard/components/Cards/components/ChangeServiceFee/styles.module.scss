@@ -84,24 +84,4 @@
       }
     }
   }
-
-  .buttons {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-  }
-
-  .button {
-    width: 100%;
-    background: #303234;
-    border-radius: 7px;
-    color: white;
-    padding: 10px;
-    border: none;
-
-    &--blue {
-      background: #2044f5;
-      margin-left: 10px;
-    }
-  }
 }

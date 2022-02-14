@@ -3,8 +3,9 @@ import * as React from 'react';
 import { Formik } from 'formik';
 import { object, array, mixed } from 'yup';
 
-import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
+
+import { Submit } from 'pages/Dashboard/components/Action';
 
 import Dropzone, {
   DropzonePayloadType,
@@ -63,6 +64,8 @@ const Add: React.FC = () => {
           <Dropzone />
 
           {errors.files && <div className={styles.error}>{errors.files}</div>}
+
+          <Submit close='Cancel' submit='Save' />
         </form>
       )}
     </Formik>

@@ -11,11 +11,12 @@ import {
 
 import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
-import { network } from 'config';
+import { network, gatewayAddress } from 'config';
 
 import { useDispatch, useGlobalContext } from 'context';
 import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
+import { Submit } from 'pages/Dashboard/components/Action';
 
 import styles from './styles.module.scss';
 
@@ -97,7 +98,7 @@ const Identity: React.FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyProvider(gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getMetaData')
@@ -177,6 +178,8 @@ const Identity: React.FC = () => {
               </div>
             </div>
           ))}
+
+          <Submit close='Cancel' submit='Save' />
         </form>
       )}
     </Formik>

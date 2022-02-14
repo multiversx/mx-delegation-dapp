@@ -1,4 +1,6 @@
 import React from 'react';
+import { ReactNode } from 'react';
+
 import {
   AuthenticatedRoutesWrapper,
   useGetAccountInfo
@@ -7,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 import routes, { routeNames } from 'routes';
 import Navbar from './Navbar';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: ReactNode }) => {
   const { search } = useLocation();
   const { address } = useGetAccountInfo();
 
