@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
+import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormikContext, FormikProps } from 'formik';
 import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
 import { network } from 'config';
+import modifiable from 'helpers/modifiable';
 import decodeFile from './helpers';
 
+import styles from './styles.module.scss';
 export interface DropzoneFormType {
   files: Array<any>;
 }
@@ -68,7 +72,11 @@ const Dropzone: React.FC = () => {
   const properties = {
     input: dropzone.getInputProps(),
     root: dropzone.getRootProps({
-      className: 'dropzone border border-muted rounded rounded-lg',
+      className: modifiable(
+        'dropzone',
+        [values.files.length > 0 && 'filled'],
+        styles
+      ),
       style: {
         cursor: 'pointer'
       }
@@ -111,41 +119,38 @@ const Dropzone: React.FC = () => {
     <div {...properties.root}>
       <input {...properties.input} />
 
-      <div className='dropzone-area text-center p-3'>
-        {values.files.length > 0 ? (
-          <div className='dropzone-area text-center has-file'>
-            {values.files.map((file: DropzonePayloadType) => (
-              <div
-                key={file.key}
-                className={`file border rounded m-1 ${
-                  file.errors && file.errors.length > 0 ? 'border-danger' : ''
-                } `}
-              >
-                <div className='d-flex justify-content-between align-items-center'>
-                  <p className='ml-2 mb-0'>{file.name}</p>
-                  <span
-                    className='pr-2'
-                    onClick={(event) => {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      onRemove(file.key);
-                    }}
-                    style={{
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      verticalAlign: '-0.1rem'
-                    }}
-                  >
-                    <span aria-hidden='true'>×</span>
-                  </span>
-                </div>
-              </div>
-            ))}
+      {values.files.length > 0 ? (
+        values.files.map((file: DropzonePayloadType) => (
+          <div
+            key={file.key}
+            className={modifiable(
+              'file',
+              [file.errors && file.errors.length > 0 && 'error'],
+              styles
+            )}
+          >
+            <div className={styles.meta}>
+              <FontAwesomeIcon icon={faKey} />
+
+              <span className={styles.name}>{file.name}</span>
+            </div>
+
+            <span
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onRemove(file.key);
+              }}
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
           </div>
-        ) : (
-          'Drag and drop your PEM Files here, or Select Files'
-        )}
-      </div>
+        ))
+      ) : (
+        <span className={styles.message}>
+          Drag and drop your PEM Files here, or Select Files
+        </span>
+      )}
     </div>
   );
 };

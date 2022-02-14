@@ -12,12 +12,15 @@ import {
   decodeString,
   decodeBigNumber
 } from '@elrondnetwork/erdjs';
+
 import { network, decimals, denomination } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { UndelegateStakeListType } from 'context/state';
 import denominate from 'helpers/denominate';
 
 import Withdrawal from './components/Withdrawal';
+
+import styles from './styles.module.scss';
 
 const Withdrawals: React.FC = () => {
   const dispatch = useDispatch();
@@ -90,7 +93,7 @@ const Withdrawals: React.FC = () => {
               ? (parseInt(exists.value) + parseInt(current.value)).toFixed()
               : 0;
 
-            if (exists) {
+            if (exists && current.timeLeft === exists.timeLeft) {
               return [
                 ...(total.length > 1 ? total : []),
                 {
@@ -138,29 +141,17 @@ const Withdrawals: React.FC = () => {
   }
 
   return (
-    <div className='card mt-spacer'>
-      <div className='card-body p-spacer'>
-        <div className='d-flex flex-wrap align-items-center justify-content-between mb-spacer'>
-          <p className='h6 mb-0'>Pending Withdrawals</p>
-        </div>
-        <div className='table-responsive'>
-          <table className='table table-borderless mb-0'>
-            <thead className='text-uppercase font-weight-normal'>
-              <tr>
-                <th>Undelegated Amount</th>
-                <th>Wait Time</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {undelegatedStakeList.data.map(
-                (withdrawal: UndelegateStakeListType) => (
-                  <Withdrawal key={withdrawal.timeLeft} {...withdrawal} />
-                )
-              )}
-            </tbody>
-          </table>
-        </div>
+    <div className={styles.withdrawals}>
+      <div className={styles.heading}>
+        <span className={styles.title}>Pending Withdrawals</span>
+      </div>
+
+      <div className={styles.body}>
+        {undelegatedStakeList.data.map(
+          (withdrawal: UndelegateStakeListType) => (
+            <Withdrawal key={withdrawal.timeLeft} {...withdrawal} />
+          )
+        )}
       </div>
     </div>
   );

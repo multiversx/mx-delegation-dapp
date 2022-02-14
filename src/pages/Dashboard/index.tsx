@@ -1,14 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 
 import { useGlobalContext } from 'context';
 
 import Cards from './components/Cards';
 import Heading from './components/Heading';
 import Nodes from './components/Nodes';
-import Staking from './components/Staking';
+import Stake from './components/Stake';
+import Toggles from './components/Toggles';
 import Withdrawals from './components/Withdrawals';
 
 import useGlobalData from './hooks/useGlobalData';
+
+import styles from './styles.module.scss';
 
 const Dashboard: React.FC = () => {
   const { adminView } = useGlobalContext();
@@ -16,7 +19,7 @@ const Dashboard: React.FC = () => {
   useGlobalData();
 
   return (
-    <div className='container p-0'>
+    <div className={styles.dashboard}>
       <div className='mb-4'>
         <Heading />
       </div>
@@ -25,9 +28,15 @@ const Dashboard: React.FC = () => {
         <Cards />
       </div>
 
+      {adminView && (
+        <div className='mb-4'>
+          <Toggles />
+        </div>
+      )}
+
       {!adminView && (
         <div className='mb-4'>
-          <Staking />
+          <Stake />
         </div>
       )}
 

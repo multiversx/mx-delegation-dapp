@@ -1,20 +1,55 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import moment from 'moment';
+import Logo from 'assets/Logo';
 import { network } from 'config';
 import { UndelegateStakeListType } from 'context/state';
+import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
 
+import styles from './styles.module.scss';
+
+interface FormattersType {
+  [key: string]: any;
+  d: Array<string | number>;
+  h: Array<string | number>;
+  m: Array<string | number>;
+  s: Array<string | number>;
+}
+
 const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
-  const [disabled, setDisabled] = useState<boolean>(timeLeft !== 0);
   const [counter, setCounter] = useState<number>(timeLeft);
   const { sendTransaction } = useTransaction();
 
-  const getTimeLeft = (): string =>
-    moment
+  const getTimeLeft = (): string => {
+    const duration = moment.duration(counter, 'seconds');
+    const formatters: FormattersType = {
+      d: [duration.asDays(), Math.floor(duration.asDays())],
+      h: [duration.asHours(), 'H'],
+      m: [duration.asMinutes(), 'm'],
+      s: [duration.asSeconds(), 's']
+    };
+
+    const format = Object.keys(formatters).reduce((total, key) => {
+      const [time, label] = formatters[key];
+
+      if (Math.floor(time) > 0) {
+        return total === ''
+          ? `${label}[${key}]`
+          : `${total} : ${label}[${key}]`;
+      }
+
+      return total;
+    }, '');
+
+    return moment
       .utc(moment.duration(counter, 'seconds').asMilliseconds())
-      .format('HH:mm:ss');
+      .format(format);
+  };
 
   const onWithdraw = async (): Promise<void> => {
     try {
@@ -31,46 +66,46 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
   useEffect(() => {
     if (counter > 0) {
       setTimeout(() => setCounter(counter - 1), 1000);
-    } else {
-      setDisabled(false);
     }
+  }, [counter]);
 
-    return () => {
-      setCounter(timeLeft);
-      setDisabled(timeLeft !== 0);
-    };
-  }, [counter, timeLeft]);
+  useEffect(() => setCounter(timeLeft), []);
 
   return (
-    <tr>
-      <td>
-        <div className='d-flex align-items-center text-nowrap trim'>
-          {value} {network.egldLabel}
+    <div className={styles.withdrawal}>
+      <div className={styles.left}>
+        <span className={styles.icon}>
+          <Logo />
+        </span>
+
+        <div className={styles.data}>
+          <span className={styles.value}>
+            {value} {network.egldLabel}
+          </span>
+
+          <span className={styles.amount}>$400.24</span>
         </div>
-      </td>
-      <td>
-        <div className='d-flex align-items-center text-nowrap trim'>
-          {timeLeft > 0 ? (
-            <span className='badge badge-sm badge-light-orange text-orange'>
-              {getTimeLeft()} left
-            </span>
-          ) : (
-            <span className='badge badge-sm badge-light-green text-green'>
-              Completed
-            </span>
-          )}
-        </div>
-      </td>
-      <td>
+      </div>
+      <div className={styles.right}>
+        {counter > 0 && (
+          <div className={styles.time}>
+            <span className={styles.date}>{getTimeLeft()}</span>
+            <span className={styles.label}>Wait Time Left</span>
+          </div>
+        )}
+
         <button
-          disabled={disabled}
           onClick={onWithdraw}
-          className='btn btn-primary btn-sm  ml-auto'
+          className={modifiable(
+            'withdraw',
+            [counter > 0 && 'disabled'],
+            styles
+          )}
         >
-          Withdraw
+          <FontAwesomeIcon icon={faMinus} /> Withdraw
         </button>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 

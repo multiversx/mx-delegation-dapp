@@ -19,6 +19,16 @@ html {
   font-size: 14px;
 }
 
+body {
+  background: url('../img/bodyBackground.png') no-repeat center / cover, black;
+  font-family: 'Helvetica', sans-serif;
+  box-sizing: border-box;
+
+  &.modal-open #root {
+    filter: blur(8px);
+  }
+}
+
 .wrapper {
   min-height: 100vh;
 }
@@ -42,6 +52,16 @@ html {
     width: 80px;
     height: 80px;
   }
+}
+
+.modal-dialog {
+  @media (min-width: 576px) {
+    max-width: 480px;
+  }
+}
+
+.modal-content {
+  background: transparent !important;
 }
 
 /* Navbar

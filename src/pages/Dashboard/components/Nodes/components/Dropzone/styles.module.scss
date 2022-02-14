@@ -1,0 +1,37 @@
+.dropzone {
+  background: #202020;
+  border-radius: 12px;
+  padding: 15px;
+
+  &--filled {
+    padding: 8px;
+  }
+
+  .message {
+    color: white;
+  }
+
+  .file {
+    border: 1px solid #49494d;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #9ba5b4;
+
+    .name {
+      font-size: 14px;
+      margin-left: 10px;
+      color: white;
+    }
+
+    &--error {
+      border-color: #f53855;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+}

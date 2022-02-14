@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import {
   ContractFunction,
@@ -8,13 +8,16 @@ import {
   Query,
   decodeString
 } from '@elrondnetwork/erdjs';
+
 import { Formik, FormikProps } from 'formik';
-import { Modal } from 'react-bootstrap';
 import { object, string } from 'yup';
 import { network } from 'config';
 
 import { useDispatch, useGlobalContext } from 'context';
+import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
+
+import styles from './styles.module.scss';
 
 interface FieldType {
   [key: string]: any;
@@ -30,7 +33,6 @@ interface PayloadType {
 }
 
 const Identity: React.FC = () => {
-  const [show, setShow] = useState<boolean>(false);
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
 
@@ -51,8 +53,10 @@ const Identity: React.FC = () => {
   ];
 
   const validationSchema = object().shape({
+    name: string().required('Name required.'),
+    keybase: string().required('Keybase required.'),
     website: string()
-      .required('Required')
+      .required('Website required.')
       .test('URL', 'URL is not valid!', (value: any) => {
         try {
           return value && !value.includes('#') && Boolean(new URL(value || ''));
@@ -133,97 +137,49 @@ const Identity: React.FC = () => {
   }, [agencyMetaData.data]);
 
   return (
-    <div className='mr-3'>
-      <button
-        type='button'
-        className='btn btn-primary mb-3'
-        onClick={() => setShow(true)}
-      >
-        Identity
-      </button>
+    <Formik
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      initialValues={
+        agencyMetaData.data || { name: '', website: '', keybase: '' }
+      }
+    >
+      {({
+        errors,
+        values,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit
+      }: FormikProps<PayloadType>) => (
+        <form onSubmit={handleSubmit} className={styles.identity}>
+          {fields.map((field: FieldType) => (
+            <div key={field.name} className={styles.field}>
+              <label htmlFor={field.name}>{field.label}</label>
+              <div className='input-group'>
+                <input
+                  type='text'
+                  className={modifiable(
+                    'input',
+                    [errors[field.name] && touched[field.name] && 'invalid'],
+                    styles
+                  )}
+                  name={field.name}
+                  value={values[field.name]}
+                  autoComplete='off'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
 
-      <Modal
-        show={show}
-        animation={false}
-        centered={true}
-        className='modal-container'
-        onHide={() => setShow(false)}
-      >
-        <div className='p-4 text-center'>
-          <h6 className='mb-spacer'>Agency Details</h6>
-
-          <p className='mb-spacer'>
-            Update or set your agency details in order to validate your
-            identity.
-          </p>
-
-          <Formik
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-            initialValues={
-              agencyMetaData.data || { name: '', website: '', keybase: '' }
-            }
-          >
-            {({
-              errors,
-              values,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit
-            }: FormikProps<PayloadType>) => (
-              <form onSubmit={handleSubmit} className='text-left'>
-                <div className='form-group mb-spacer'>
-                  {fields.map((field: FieldType) => (
-                    <div key={field.name} className='mb-3'>
-                      <label htmlFor={field.name}>{field.label}</label>
-                      <div className='input-group'>
-                        <input
-                          type='text'
-                          className={`form-control ${
-                            errors[field.name] &&
-                            touched[field.name] &&
-                            'is-invalid'
-                          }`}
-                          id={field.name}
-                          name={field.name}
-                          data-testid={field.name}
-                          required={true}
-                          value={values[field.name]}
-                          autoComplete='off'
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-
-                        {errors[field.name] && touched[field.name] && (
-                          <span className='d-block text-danger'>
-                            {errors[field.name]}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className='d-flex justify-content-center align-items-center flex-wrap'>
-                  <button type='submit' className='btn btn-primary mx-2'>
-                    Continue
-                  </button>
-
-                  <button
-                    type='button'
-                    onClick={() => setShow(false)}
-                    className='btn btn-link mx-2'
-                  >
-                    Close
-                  </button>
-                </div>
-              </form>
-            )}
-          </Formik>
-        </div>
-      </Modal>
-    </div>
+                {errors[field.name] && touched[field.name] && (
+                  <span className={styles.error}>{errors[field.name]}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </form>
+      )}
+    </Formik>
   );
 };
 

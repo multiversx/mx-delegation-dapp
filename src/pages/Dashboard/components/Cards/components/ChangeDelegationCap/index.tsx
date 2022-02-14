@@ -10,7 +10,6 @@ import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
-import { useAction } from 'pages/Dashboard/components/Action/provider';
 
 interface ActionDataType {
   amount: string;
@@ -19,7 +18,6 @@ interface ActionDataType {
 const ChangeDelegationCap: React.FC = () => {
   const { sendTransaction } = useTransaction();
   const { totalActiveStake } = useGlobalContext();
-  const { setShow } = useAction();
 
   const total = denominated(totalActiveStake.data || '', {
     addCommas: false
@@ -89,20 +87,6 @@ const ChangeDelegationCap: React.FC = () => {
             {errors.amount && touched.amount && (
               <span className='d-block text-danger'>{errors.amount}</span>
             )}
-          </div>
-
-          <div className='d-flex justify-content-center align-items-center flex-wrap'>
-            <button type='submit' className='btn btn-primary mx-2'>
-              Continue
-            </button>
-
-            <button
-              type='button'
-              onClick={() => setShow(false)}
-              className='btn btn-link mx-2'
-            >
-              Close
-            </button>
           </div>
         </form>
       )}

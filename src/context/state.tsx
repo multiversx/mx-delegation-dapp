@@ -23,6 +23,7 @@ export interface StateType {
     status: StatusType;
     error: ErrorType;
     data: null | {
+      [key: string]: any;
       owner: boolean;
       redelegationCap: string;
       automaticActivation: string;
@@ -76,7 +77,7 @@ export interface StateType {
   };
 }
 
-const initializer: StateType = {
+export const initializer: StateType = {
   adminView: false,
   setAdminView: () => false,
   nodesNumber: {
@@ -135,5 +136,3 @@ const initializer: StateType = {
     error: null
   }
 };
-
-export { initializer };

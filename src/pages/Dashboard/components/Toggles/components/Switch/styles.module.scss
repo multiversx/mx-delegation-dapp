@@ -1,0 +1,66 @@
+.switch {
+  padding: 5px;
+  background: #191a1b;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+
+  &--disabled {
+    pointer-events: none;
+  }
+
+  .input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    position: relative;
+
+    &:before {
+      z-index: 1;
+      content: '';
+      position: absolute;
+      background: #303234;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      left: 0%;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      transition: all 200ms ease;
+    }
+
+    &--right:before {
+      left: 50%;
+      background: #2044f5;
+    }
+
+    .label {
+      width: 50%;
+      text-transform: uppercase;
+      padding: 15px 0;
+      line-height: 1;
+      font-size: 14px;
+      border-radius: 12px;
+      color: #808ea3;
+      z-index: 2;
+      text-align: center;
+      transition: color 200ms ease;
+
+      &--active {
+        color: white;
+      }
+    }
+  }
+}

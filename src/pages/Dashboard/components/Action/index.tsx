@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { Fragment } from 'react';
+import { useState } from 'react';
+
 import { Modal } from 'react-bootstrap';
 
-import { withAction, useAction } from './provider';
+import modifiable from 'helpers/modifiable';
 
-const Action: React.FC = ({ render, title, description, trigger }: any) => {
-  const { show, setShow } = useAction();
+import styles from './styles.module.scss';
+
+const Action = ({ render, title, description, trigger, buttons = {} }: any) => {
+  const [show, setShow] = useState<boolean>(false);
 
   return (
-    <Fragment>
-      <button className='btn btn-primary mb-3' onClick={() => setShow(true)}>
+    <div className={styles.action}>
+      <button className={styles.trigger} onClick={() => setShow(true)}>
         {trigger}
       </button>
 
@@ -20,16 +23,37 @@ const Action: React.FC = ({ render, title, description, trigger }: any) => {
         className='modal-container'
         onHide={() => setShow(false)}
       >
-        <div className='p-4 text-center'>
-          {title && <h6 className='mb-spacer'>{title}</h6>}
+        <div className={styles.modal}>
+          {title && <div className={styles.title}>{title}</div>}
 
-          {description && <p className='mb-spacer'>{description}</p>}
+          {description && <p className={styles.description}>{description}</p>}
 
-          {render}
+          {render && (
+            <div className={styles.render}>
+              {render}
+
+              <div className={styles.buttons}>
+                <button
+                  type='button'
+                  className={styles.button}
+                  onClick={() => setShow(false)}
+                >
+                  {buttons.clse || 'Close'}
+                </button>
+
+                <button
+                  type='submit'
+                  className={modifiable('button', ['blue'], styles)}
+                >
+                  {buttons.submit || 'Submit'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </Modal>
-    </Fragment>
+    </div>
   );
 };
 
-export default withAction(Action);
+export default Action;

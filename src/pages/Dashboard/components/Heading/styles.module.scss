@@ -1,0 +1,49 @@
+.heading {
+  margin-bottom: 45px;
+  display: flex;
+  justify-content: space-between;
+
+  .meta .icon {
+    svg path {
+      fill: #808ea3;
+    }
+  }
+
+  .label {
+    line-height: 1;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    color: #9ba5b4;
+  }
+
+  .contract {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1;
+    color: white;
+    margin-right: 15px;
+  }
+
+  .button {
+    width: 130px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(white, 0.1);
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: white;
+    border: none;
+
+    .icon {
+      margin-right: 8px;
+    }
+
+    svg path {
+      fill: white;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, Fragment } from 'react';
 
 import {
   decodeString,
@@ -8,13 +8,27 @@ import {
   Address,
   ContractFunction
 } from '@elrondnetwork/erdjs';
+import {
+  faPlus,
+  faServer,
+  faTimes,
+  faCheck,
+  faExternalLinkAlt,
+  faAngleDown
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 import { network } from 'config';
 import { useDispatch, useGlobalContext } from 'context';
+import modifiable from 'helpers/modifiable';
+
 import useTransaction from 'helpers/useTransaction';
+import Action from 'pages/Dashboard/components/Action';
 
 import Add from './components/Add';
 // import { DropzonePayloadType } from './components/Dropzone';
+
+import styles from './styles.module.scss';
 
 interface StatusType {
   label: string;
@@ -44,11 +58,14 @@ interface ActionsType {
 }
 
 const Nodes: React.FC = () => {
-  const dispatch = useDispatch();
-
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
+
+  const dispatch = useDispatch();
+  const isError = nodesData.error || nodesNumber.error;
+  const isLoading =
+    nodesData.status === 'loading' || nodesNumber.status === 'loading';
 
   const variants: VariantsType = {
     staked: {
@@ -243,108 +260,117 @@ const Nodes: React.FC = () => {
   useEffect(getNodes, [nodesNumber.data, nodesData.data]);
 
   return (
-    <div className='card mt-spacer'>
-      <div className='card-body p-spacer'>
-        <div className='d-flex flex-wrap align-items-center justify-content-between mb-spacer'>
-          <p className='h6 mb-3'>My Nodes</p>
-          <div className='d-flex'>
-            <Add />
-          </div>
-        </div>
+    <div className={styles.nodes}>
+      <div className={styles.heading}>
+        <span className={styles.title}>My Nodes</span>
 
-        {nodesData.status === 'loading' || nodesNumber.status === 'loading' ? (
-          <span>Retrieving keys...</span>
-        ) : nodesData.error || nodesNumber.error ? (
-          <span>An error occurred attempting to retrieve keys.</span>
-        ) : data.length > 0 ? (
-          <div className='table-responsive' style={{ overflow: 'visible' }}>
-            <table
-              className='table table-borderless mb-0'
-              style={{ tableLayout: 'fixed' }}
-            >
-              <thead className='text-uppercase font-weight-normal'>
-                <tr>
-                  <th style={{ width: '50%' }}>Public key</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((node: NodeType) => (
-                  <tr key={node.code}>
-                    <td
-                      style={{
-                        maxWidth: '50%',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        wordWrap: 'break-word'
-                      }}
-                    >
-                      <div className='d-flex align-items-center text-nowrap '>
-                        <a
-                          href={`${network.explorerAddress}nodes/${node.code}`}
-                          target='_blank'
-                          className='ml-2'
-                          rel='noreferrer'
-                        >
-                          <span className='text-truncate'>{node.code}</span>
-                        </a>
-                      </div>
-                    </td>
-                    <td>
-                      {node.status && (
-                        <span
-                          className={`badge badge-sm badge-light-${node.status.color} text-${node.status.color}`}
-                        >
-                          {node.status.label}
-                        </span>
-                      )}
-                    </td>
+        <Action
+          title='Add Nodes'
+          trigger={
+            <div className={styles.button}>
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faPlus} />
+              </span>
+              Add Nodes
+            </div>
+          }
+          render={<Add />}
+        />
+      </div>
 
-                    <td>
-                      <Dropdown className='ml-auto'>
-                        <Dropdown.Toggle
-                          variant=''
-                          className='btn btn-sm btn-primary action-dropdown'
-                        ></Dropdown.Toggle>
+      <div className={styles.body}>
+        {isLoading || isError || data.length === 0 ? (
+          <Fragment>
+            <div className={styles.server}>
+              <FontAwesomeIcon icon={faServer} size='2x' />
+            </div>
 
-                        <Dropdown.Menu>
-                          {actions.map((action) => {
-                            const isDisabled = !node.status.actions.includes(
-                              action.key
-                            );
-
-                            return (
-                              <Dropdown.Item
-                                key={action.key}
-                                className={`dropdown-item ${
-                                  isDisabled && 'disabled'
-                                }`}
-                                onClick={(event: MouseEvent) => {
-                                  event.preventDefault();
-                                  onAct(action.callback(node.code));
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    color: isDisabled ? 'lightgrey' : 'black'
-                                  }}
-                                >
-                                  {action.label}
-                                </span>
-                              </Dropdown.Item>
-                            );
-                          })}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+            <div className={styles.message}>
+              {isLoading
+                ? 'Retrieving keys...'
+                : isError
+                ? 'An error occurred attempting to retrieve keys.'
+                : 'No keys found for this contract.'}
+            </div>
+          </Fragment>
         ) : (
-          <span>No keys found for this contract.</span>
+          data.map((node: NodeType) => (
+            <div key={node.code} className={styles.node}>
+              <div className={styles.left}>
+                <span className={styles.icon}>
+                  <FontAwesomeIcon icon={faServer} />
+                </span>
+
+                <a
+                  href={`${network.explorerAddress}nodes/${node.code}`}
+                  target='_blank'
+                  rel='noreferrer'
+                  className={styles.link}
+                >
+                  <span className={styles.code}>{node.code}</span>
+
+                  <FontAwesomeIcon icon={faExternalLinkAlt} />
+                </a>
+              </div>
+
+              <div className={styles.right}>
+                {node.status && (
+                  <span
+                    className={modifiable(
+                      'status',
+                      [node.status.color],
+                      styles
+                    )}
+                  >
+                    <span className={styles.icon}>
+                      <FontAwesomeIcon
+                        icon={
+                          node.status.color === 'success' ? faCheck : faTimes
+                        }
+                        size='sm'
+                      />
+                    </span>
+
+                    {node.status.label}
+                  </span>
+                )}
+
+                <Dropdown>
+                  <Dropdown.Toggle className={styles.toggle}>
+                    Action
+                    <span className={styles.angle}>
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    </span>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className={styles.menu}>
+                    {actions.map((action) => {
+                      const disabled = !node.status.actions.includes(
+                        action.key
+                      );
+
+                      return (
+                        <Dropdown.Item
+                          key={action.key}
+                          className={modifiable(
+                            'action',
+                            [disabled && 'disabled'],
+                            styles
+                          )}
+                          onClick={(event: MouseEvent) => {
+                            event.preventDefault();
+                            onAct(action.callback(node.code));
+                          }}
+                        >
+                          {action.label}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            </div>
+          ))
         )}
       </div>
     </div>

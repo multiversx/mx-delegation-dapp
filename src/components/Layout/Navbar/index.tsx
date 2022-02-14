@@ -1,42 +1,68 @@
-import React from 'react';
+import * as React from 'react';
+import { ReactNode } from 'react';
+
 import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
+import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import { dAppName } from 'config';
-import { routeNames } from 'routes';
-import { ReactComponent as ElrondLogo } from './../../../assets/img/elrond.svg';
+import Logo from 'assets/Logo';
+import { network } from 'config';
+import { denominated } from 'helpers/denominate';
 
-const Navbar = () => {
-  const { address } = useGetAccountInfo();
+import modifiable from 'helpers/modifiable';
+import styles from './styles.module.scss';
 
-  const handleLogout = () => {
-    logout(`${window.location.origin}/unlock`);
-  };
+interface ButtonsType {
+  icon: ReactNode;
+  label: string;
+  onClick?: () => void;
+}
 
-  const isLoggedIn = Boolean(address);
+const Navbar: React.FC = () => {
+  const { address, account } = useGetAccountInfo();
+  const buttons: Array<ButtonsType> = [
+    {
+      icon: <Logo />,
+      label: `${denominated(account.balance)} ${network.egldLabel}`
+    },
+    {
+      icon: <FontAwesomeIcon icon={faWallet} size='lg' />,
+      label: address
+    },
+    {
+      icon: <FontAwesomeIcon icon={faPowerOff} />,
+      label: 'Disconnect',
+      onClick: () => logout(`${window.location.origin}/unlock`)
+    }
+  ];
 
   return (
-    <BsNavbar className='bg-white border-bottom px-4 py-3'>
-      <div className='container-fluid'>
-        <Link
-          className='d-flex align-items-center navbar-brand mr-0'
-          to={isLoggedIn ? routeNames.dashboard : routeNames.home}
-        >
-          <ElrondLogo className='elrond-logo' />
-          <span className='dapp-name text-muted'>{dAppName}</span>
-        </Link>
+    <nav className={styles.nav}>
+      <Link to='/unlock' className={styles.heading}>
+        <span className={styles.logo}>
+          <Logo />
+        </span>
 
-        <Nav className='ml-auto'>
-          {isLoggedIn && (
-            <NavItem>
-              <a href={routeNames.home} onClick={handleLogout}>
-                Close
-              </a>
-            </NavItem>
-          )}
-        </Nav>
+        <span className={styles.title}>Delegation Manager</span>
+      </Link>
+
+      <div className={styles.buttons}>
+        {buttons.map((button) => (
+          <div
+            key={button.label}
+            className={modifiable(
+              'button',
+              [button.onClick && 'clickable'],
+              styles
+            )}
+            onClick={button.onClick}
+          >
+            <span className={styles.icon}>{button.icon}</span>
+            {button.label}
+          </div>
+        ))}
       </div>
-    </BsNavbar>
+    </nav>
   );
 };
 

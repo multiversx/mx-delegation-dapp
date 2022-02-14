@@ -1,0 +1,42 @@
+.toggles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .toggle {
+    width: calc(50% - 10px);
+    background: rgba(36, 37, 38, 0.5);
+    border: 1px solid #49494d;
+    box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg path {
+          fill: white;
+        }
+      }
+
+      .label {
+        line-height: 1;
+        color: white;
+        margin-left: 15px;
+        font-size: 18px;
+      }
+    }
+  }
+}

@@ -10,20 +10,30 @@ import {
   decodeString,
   ApiProvider
 } from '@elrondnetwork/erdjs';
+import {
+  faUsers,
+  faServer,
+  faLeaf,
+  faReceipt,
+  faArrowUp
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Logo from 'assets/Logo';
 import { network } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
+import modifiable from 'helpers/modifiable';
 
-import Action from 'pages/Dashboard/components/Action';
-
-import ChangeAutomaticActivation from './components/ChangeAutomaticActivation';
 import ChangeDelegationCap from './components/ChangeDelegationCap';
-import ChangeRedelegationCap from './components/ChangeRedelegationCap';
 import ChangeServiceFee from './components/ChangeServiceFee';
+
+import styles from './styles.module.scss';
 
 interface CardType {
   label: string;
+  colors: Array<string>;
   data: {
     value?: string | null;
     percentage?: string | undefined;
@@ -31,6 +41,7 @@ interface CardType {
   title?: string;
   description?: string;
   modal?: ReactNode;
+  icon: ReactNode;
 }
 
 const Cards: React.FC = () => {
@@ -201,10 +212,14 @@ const Cards: React.FC = () => {
   const cards: Array<CardType> = [
     {
       label: 'Contract Stake',
-      data: getContractStakeData()
+      data: getContractStakeData(),
+      colors: ['#2044F5', '#1B37C0'],
+      icon: <Logo />
     },
     {
       label: 'Number of Users',
+      colors: ['#6CADEF', '#5B96D2'],
+      icon: <FontAwesomeIcon icon={faUsers} />,
       data: {
         value:
           usersNumber.status !== 'loaded'
@@ -216,14 +231,24 @@ const Cards: React.FC = () => {
     },
     {
       label: 'Number of Nodes',
+      icon: <FontAwesomeIcon icon={faServer} />,
+      colors: ['#36CA8C', '#2BA572'],
       data: getNodesNumber()
+    },
+    {
+      label: 'Computed APR',
+      colors: ['#FBC34C', '#D49712'],
+      icon: <FontAwesomeIcon icon={faLeaf} />,
+      data: {
+        value: '37.45%',
+        percentage: 'Including Service Fee'
+      }
     },
     {
       label: 'Service Fee',
       modal: <ChangeServiceFee />,
-      title: 'Change service fee',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      icon: <FontAwesomeIcon icon={faReceipt} />,
+      colors: ['#F3BF89', '#B68350'],
       data: {
         value: contractDetails.data
           ? contractDetails.data.serviceFee
@@ -234,38 +259,10 @@ const Cards: React.FC = () => {
     },
     {
       label: 'Delegation Cap',
-      title: 'Delegation Cap',
       modal: <ChangeDelegationCap />,
-      description:
-        'The delegation cap is the maximum amount of xEGLD your agency can stake from delegators.',
+      icon: <FontAwesomeIcon icon={faArrowUp} />,
+      colors: ['#E48570', '#C25C45'],
       data: getDelegationCap()
-    },
-    {
-      label: 'Automatic Activation',
-      title: 'Automatic Activation',
-      description: 'Set automatic activation',
-      modal: <ChangeAutomaticActivation />,
-      data: {
-        value: contractDetails.data
-          ? contractDetails.data.serviceFee
-          : contractDetails.error
-          ? 'Activation Status Unknown'
-          : '...%'
-      }
-    },
-    {
-      label: 'ReDelegateCap',
-      title: 'Check for ReDelegate Rewards Max Cap',
-      modal: <ChangeRedelegationCap />,
-      description:
-        'Set the check for ReDelegation Cap in order to block or accept the redelegate rewards.',
-      data: {
-        value: contractDetails.data
-          ? contractDetails.data.redelegationCap
-          : contractDetails.error
-          ? 'Redelegation Status Unknown'
-          : '...%'
-      }
     }
   ];
 
@@ -282,33 +279,30 @@ const Cards: React.FC = () => {
   }, [totalNetworkStake.data]);
 
   return (
-    <div className='d-flex m-0 flex-wrap justify-content-between'>
-      {cards.map((card) => (
-        <div
-          key={card.label}
-          style={{ flexGrow: 1, width: '20%' }}
-          className='card p-4 m-0 grow'
-        >
-          <span>{card.label}</span>
+    <div className={styles.cards}>
+      {cards.map((card) => {
+        const [alpha, beta] = card.colors;
+        const background = `linear-gradient(180deg, ${alpha} 0%, ${beta} 100%)`;
+        const interactive = card.modal && adminView;
 
-          <span className='mt-3'>{card.data.value}</span>
-
-          {card.data.percentage && (
-            <span className='mt-3'>{card.data.percentage}</span>
-          )}
-
-          {card.modal && adminView && (
-            <div className='position-absolute mr-4' style={{ right: '0' }}>
-              <Action
-                title={card.title}
-                description={card.description}
-                trigger='Change'
-                render={card.modal}
-              />
+        return (
+          <div key={card.label} className={styles.card} style={{ background }}>
+            <div className={styles.heading}>
+              <span>{card.label}</span>
+              <div
+                style={{ fill: interactive ? beta : 'white' }}
+                className={modifiable('icon', [interactive && 'fill'], styles)}
+              >
+                {interactive ? card.modal : card.icon}
+              </div>
             </div>
-          )}
-        </div>
-      ))}
+
+            <div className={styles.value}>{card.data.value}</div>
+
+            {card.data.percentage && <span>{card.data.percentage}</span>}
+          </div>
+        );
+      })}
     </div>
   );
 };
