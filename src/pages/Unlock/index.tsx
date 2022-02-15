@@ -1,10 +1,11 @@
 import React from 'react';
-import { ReactNode, MouseEvent, useState } from 'react';
+import { ReactNode, MouseEvent, useState, useEffect } from 'react';
 
-import { loginServices } from '@elrondnetwork/dapp-core';
+import { loginServices, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 import Extension from 'assets/Extension';
 import Ledger from 'assets/Ledger';
@@ -25,6 +26,9 @@ interface UnlockableType {
 }
 
 const Unlock: React.FC = () => {
+  const navigate = useNavigate();
+
+  const { address } = useGetAccountInfo();
   const [show, setShow] = useState<boolean>(false);
 
   const settings = {
@@ -64,6 +68,12 @@ const Unlock: React.FC = () => {
       payload: loginServices.useExtensionLogin(settings)
     }
   ];
+
+  useEffect(() => {
+    if (Boolean(address)) {
+      navigate('/dashboard');
+    }
+  }, [address]);
 
   return (
     <div className={styles.unlock}>

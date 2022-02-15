@@ -8,8 +8,12 @@ import { string, object } from 'yup';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
+import modifiable from 'helpers/modifiable';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
+import { Submit } from 'pages/Dashboard/components/Action';
+
+import styles from './styles.module.scss';
 
 interface ActionDataType {
   amount: string;
@@ -35,10 +39,10 @@ const ChangeDelegationCap: React.FC = () => {
       )
   });
 
-  const onSubmit = async ({ amount }: ActionDataType): Promise<void> => {
+  const onSubmit = async (data: ActionDataType): Promise<void> => {
     try {
       await sendTransaction({
-        args: nominateValToHex(amount.toString()),
+        args: nominateValToHex(data.amount.toString()),
         type: 'modifyTotalDelegationCap',
         value: '0'
       });
@@ -48,49 +52,55 @@ const ChangeDelegationCap: React.FC = () => {
   };
 
   return (
-    <Formik
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-      initialValues={{
-        amount: total
-      }}
-    >
-      {({
-        errors,
-        values,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit
-      }) => (
-        <form onSubmit={handleSubmit} className='text-left'>
-          <div className='form-group mb-spacer'>
-            <label htmlFor='amount'>Update Delegation Cap</label>
+    <div className={styles.cap}>
+      <Formik
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        initialValues={{
+          amount: total
+        }}
+      >
+        {({
+          errors,
+          values,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <div className={styles.field}>
+              <label htmlFor='amount'>Update Delegation Cap</label>
 
-            <div className='input-group'>
-              <input
-                type='number'
-                name='amount'
-                step='any'
-                required={true}
-                autoComplete='off'
-                min={0}
-                className={`form-control ${
-                  errors.amount && touched.amount && 'is-invalid'
-                }`}
-                value={values.amount}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
+              <div className={styles.group}>
+                <input
+                  type='number'
+                  name='amount'
+                  step='any'
+                  required={true}
+                  autoComplete='off'
+                  min={0}
+                  className={modifiable(
+                    'input',
+                    [errors.amount && touched.amount && 'invalid'],
+                    styles
+                  )}
+                  value={values.amount}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {errors.amount && touched.amount && (
+                <span className={styles.error}>{errors.amount}</span>
+              )}
             </div>
 
-            {errors.amount && touched.amount && (
-              <span className='d-block text-danger'>{errors.amount}</span>
-            )}
-          </div>
-        </form>
-      )}
-    </Formik>
+            <Submit close='Cancel' submit='Continue' />
+          </form>
+        )}
+      </Formik>
+    </div>
   );
 };
 

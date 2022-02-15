@@ -1,0 +1,44 @@
+.cap {
+  display: block;
+
+  .field {
+    label {
+      text-align: left;
+      display: block;
+      line-height: 1;
+      color: #808ea3;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .group {
+      position: relative;
+
+      .input {
+        -moz-appearance: textfield;
+        width: 100%;
+        padding: 15px;
+        font-size: 12px;
+        line-height: 1;
+        color: white;
+        background: #202020;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          appearance: none;
+        }
+      }
+    }
+  }
+
+  .error {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #f53855;
+    line-height: 1;
+  }
+}

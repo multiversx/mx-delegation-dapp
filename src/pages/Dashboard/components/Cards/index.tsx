@@ -305,7 +305,11 @@ const Cards: React.FC = () => {
                     render={card.modal}
                     title={card.title}
                     description={card.description}
-                    trigger={<FontAwesomeIcon icon={faCog} size='lg' />}
+                    trigger={
+                      <span className={styles.trigger}>
+                        <FontAwesomeIcon icon={faCog} size='lg' />
+                      </span>
+                    }
                   />
                 ) : (
                   card.icon

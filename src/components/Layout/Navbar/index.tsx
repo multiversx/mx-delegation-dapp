@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={styles.nav}>
-      <Link to='/unlock' className={styles.heading}>
+      <Link to='/dashboard' className={styles.heading}>
         <span className={styles.logo}>
           <Logo />
         </span>

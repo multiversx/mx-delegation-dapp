@@ -141,6 +141,7 @@ const Identity: React.FC = () => {
     <Formik
       validationSchema={validationSchema}
       onSubmit={onSubmit}
+      enableReinitialize={true}
       initialValues={
         agencyMetaData.data || { name: '', website: '', keybase: '' }
       }
