@@ -20,6 +20,7 @@ const Add: React.FC = () => {
   const validationSchema = object().shape({
     files: array()
       .of(mixed())
+      .required('PEM file is required.')
       .test('validKeyLength', 'Invalid PEM file.', (value: any) =>
         value.every(
           (file: DropzonePayloadType) =>
@@ -32,7 +33,6 @@ const Add: React.FC = () => {
             file.errors && !file.errors.includes('unique')
         )
       )
-      .required('PEM file is required.')
   });
 
   const onSubmit = async ({ files }: DropzoneFormType): Promise<void> => {

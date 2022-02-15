@@ -30,42 +30,44 @@ const Dropzone: React.FC = () => {
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 
+  const readFile = (file: any) =>
+    new Promise((resolve) => {
+      const fileReader: any = new FileReader();
+      const defaults = {
+        name: file.name,
+        key: `${file.name}-${moment().unix()}`
+      };
+
+      fileReader.onload = async () => {
+        try {
+          const result = fileReader.result;
+          const contract = network.delegationContract;
+          const decoded = await decodeFile(result, contract);
+
+          resolve({
+            ...decoded,
+            ...defaults
+          });
+        } catch (error) {
+          resolve(defaults);
+        }
+      };
+
+      fileReader.onError = () => {
+        resolve(defaults);
+      };
+
+      fileReader.readAsText(file);
+    });
+
   const dropzone = useDropzone({
     multiple: true,
     accept: '.pem',
     onDrop: async (files: any) => {
-      const onload = (FileReader: any, name: string) => async () => {
-        try {
-          const decoded = await decodeFile(
-            FileReader.result,
-            network.delegationContract
-          );
+      const readers = files.map(readFile);
+      const items = await Promise.all(readers);
 
-          const item = {
-            ...decoded,
-            name,
-            key: `${name}-${moment().unix()}`
-          };
-
-          setData((items: any) => [...items, item]);
-        } catch (error) {
-          const item = {
-            name,
-            key: `${name}-${moment().unix()}`
-          };
-
-          console.error('Error decoding .pem:', error);
-          setData((items: any) => [...items, item]);
-          return;
-        }
-      };
-
-      files.forEach((file: any) => {
-        const fileReader = new FileReader();
-
-        fileReader.onload = onload(fileReader, file.name);
-        fileReader.readAsText(file);
-      });
+      setData((previous: any) => [...previous, ...items]);
     }
   });
 
@@ -90,7 +92,7 @@ const Dropzone: React.FC = () => {
     setFieldValue('files', values.files.filter(filter));
   };
 
-  useEffect(() => {
+  const setValue = () => {
     const value = data.map((file: DropzonePayloadType, fileIndex: number) => {
       const errors: Array<string> = [];
       const duplicate = (item: DropzonePayloadType, itemIndex: number) =>
@@ -113,7 +115,9 @@ const Dropzone: React.FC = () => {
     setFieldValue('files', value);
 
     return () => setFieldValue('files', []);
-  }, [data]);
+  };
+
+  useEffect(setValue, [data]);
 
   return (
     <div {...properties.root}>

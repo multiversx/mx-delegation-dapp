@@ -23,7 +23,7 @@ interface FormattersType {
 }
 
 const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
-  const [counter, setCounter] = useState<number>(timeLeft);
+  const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
   const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();
 
@@ -53,19 +53,6 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
       .format(format);
   };
 
-  const fetchFiat = () => {
-    const fetchData = async () => {
-      const pairs = await axios.get('https://api.elrond.com/mex-pairs');
-      const token = pairs.data.find(
-        (item: any) => item.baseId === 'WEGLD-bd4d79'
-      );
-
-      setFiat((parseFloat(value) * token.basePrice).toFixed(2));
-    };
-
-    fetchData();
-  };
-
   const onWithdraw = async (): Promise<void> => {
     try {
       await sendTransaction({
@@ -78,13 +65,45 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
     }
   };
 
-  useEffect(() => {
-    if (counter > 0) {
-      setTimeout(() => setCounter(counter - 1), 1000);
-    }
-  }, [counter]);
+  const fetchFiat = () => {
+    const source = axios.CancelToken.source();
 
-  useEffect(() => setCounter(timeLeft), []);
+    const fetchData = async () => {
+      try {
+        const pairs = await axios.get('https://api.elrond.com/mex-pairs', {
+          cancelToken: source.token
+        });
+
+        const token = pairs.data.find(
+          (item: any) => item.baseId === 'WEGLD-bd4d79'
+        );
+
+        setFiat((parseFloat(value) * token.basePrice).toFixed(2));
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          return;
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      setFiat('');
+      source.cancel();
+    };
+  };
+
+  const handleCounter = () => {
+    const interval = setInterval(() => setCounter((timer) => timer - 1), 1000);
+
+    return () => {
+      clearInterval(interval);
+      setCounter(timeLeft - moment().unix());
+    };
+  };
+
+  useEffect(handleCounter, []);
   useEffect(fetchFiat, []);
 
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useGlobalContext } from 'context';
 import modifiable from 'helpers/modifiable';
@@ -39,6 +39,14 @@ const Switch = ({ transaction, name }: ToggleType) => {
       console.error(error);
     }
   };
+
+  const trackContractDetails = () => {
+    if (contractDetails.data) {
+      setChecked(contractDetails.data[name] === 'ON');
+    }
+  };
+
+  useEffect(trackContractDetails, [contractDetails.data]);
 
   return (
     <label className={modifiable('switch', [disabled && 'disabled'], styles)}>

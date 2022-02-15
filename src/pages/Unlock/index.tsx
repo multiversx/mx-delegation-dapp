@@ -1,9 +1,10 @@
 import React from 'react';
-import { ReactNode, MouseEvent, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 
 import { loginServices, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import QRCode from 'qrcode';
 import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +18,7 @@ import modifiable from 'helpers/modifiable';
 
 import styles from './styles.module.scss';
 
-interface UnlockableType {
+interface ConnectionType {
   title: string;
   name: string;
   background: string;
@@ -30,12 +31,13 @@ const Unlock: React.FC = () => {
 
   const { address } = useGetAccountInfo();
   const [show, setShow] = useState<boolean>(false);
+  const [qrCode, setQrCode] = useState<string>('');
 
   const settings = {
     callbackRoute: '/dashboard'
   };
 
-  const unlockables: Array<UnlockableType> = [
+  const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
       name: 'Elrond Web Wallet',
@@ -69,11 +71,34 @@ const Unlock: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
+  const redirectConditionally = () => {
     if (Boolean(address)) {
       navigate('/dashboard');
     }
-  }, [address]);
+  };
+
+  const getQrCodde = () => {
+    const fetchCode = async () => {
+      const find = (connect: ConnectionType) => connect.name === 'Maiar App';
+      const maiar = connects.find(find);
+      const [meta] = maiar ? maiar.payload.reverse() : [];
+
+      if (meta && meta.walletConnectUri) {
+        setQrCode(
+          await QRCode.toString(meta.walletConnectUri, {
+            type: 'svg'
+          })
+        );
+      }
+    };
+
+    if (!Boolean(qrCode)) {
+      fetchCode();
+    }
+  };
+
+  useEffect(redirectConditionally, [address]);
+  useEffect(getQrCodde, [connects, qrCode]);
 
   return (
     <div className={styles.unlock}>
@@ -88,42 +113,41 @@ const Unlock: React.FC = () => {
           {`Delegate Elrond (${network.egldLabel}) and earn up to 25% APY!`}
         </div>
 
-        <div className={styles.unlockables}>
-          {unlockables.map((unlockable) => {
-            const [trigger, status, meta] = unlockable.payload;
-            const onClick = (event: MouseEvent) => {
+        <div className={styles.connects}>
+          {connects.map((connect) => {
+            const [trigger, status] = connect.payload;
+            const onClick = () => {
               trigger();
 
-              if (unlockable.name === 'Maiar App' && !show) {
+              if (connect.name === 'Maiar App' && !show) {
                 setTimeout(() => {
                   setShow(true);
-                  event.preventDefault();
                 }, 50);
               }
             };
 
             return (
               <div
-                key={unlockable.name}
+                key={connect.name}
                 onClick={onClick}
                 className={modifiable(
-                  'unlockable',
+                  'connect',
                   [status.error !== '' && 'error'],
                   styles
                 )}
               >
-                <span className={styles.title}>{unlockable.title}</span>
+                <span className={styles.title}>{connect.title}</span>
 
                 <div
                   className={styles.icon}
-                  style={{ background: unlockable.background }}
+                  style={{ background: connect.background }}
                 >
-                  {unlockable.icon}
+                  {connect.icon}
                 </div>
 
-                <span className={styles.name}>{unlockable.name}</span>
+                <span className={styles.name}>{connect.name}</span>
 
-                {meta && meta.qrCodeSvg && (
+                {show && Boolean(qrCode) && (
                   <Modal
                     show={show}
                     onHide={() => setShow(false)}
@@ -139,7 +163,7 @@ const Unlock: React.FC = () => {
                       </div>
 
                       <div
-                        dangerouslySetInnerHTML={{ __html: meta.qrCodeSvg }}
+                        dangerouslySetInnerHTML={{ __html: qrCode }}
                         className={styles.code}
                       />
 

@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const { address } = useGetAccountInfo();
   const navigate = useNavigate();
-
-  useEffect(() => {
+  const handleRedirect = () => {
     navigate(Boolean(address) ? '/dashboard' : '/unlock');
-  }, [address]);
+  };
+
+  useEffect(handleRedirect, [address]);
 
   return null;
 };

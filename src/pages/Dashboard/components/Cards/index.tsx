@@ -140,7 +140,7 @@ const Cards: React.FC = () => {
         totalActiveStake.status === 'loading';
 
       return {
-        value: loading ? `... ${network.egldLabel}` : 'Contract Stake Unknown',
+        value: loading ? `... ${network.egldLabel}` : 'Stake Unknown',
         percentage: loading ? '...%' : 'Data Unavailable'
       };
     }
@@ -166,7 +166,7 @@ const Cards: React.FC = () => {
         nodesNumber.status === 'loading';
 
       return {
-        value: loading ? '...' : 'Nodes Count Unknown',
+        value: loading ? '...' : 'Nodes Unknown',
         percentage: loading ? '...% of total nodes' : 'Data Unavailable'
       };
     }
@@ -194,7 +194,7 @@ const Cards: React.FC = () => {
         contractDetails.status === 'loading';
 
       return {
-        value: loading ? `... ${network.egldLabel}` : 'Delegation Cap Unknown',
+        value: loading ? `... ${network.egldLabel}` : 'Cap Unknown',
         percentage: loading ? '...%' : 'Data Unavailable'
       };
     }
@@ -264,8 +264,7 @@ const Cards: React.FC = () => {
     {
       label: 'Delegation Cap',
       modal: <ChangeDelegationCap />,
-      description:
-        'The delegation cap is the maximum amount of xEGLD your agency can stake from delegators.',
+      description: `The delegation cap is the maximum amount of ${network.egldLabel} your agency can stake from delegators.`,
       title: 'Delegation Cap',
       icon: <FontAwesomeIcon icon={faArrowUp} />,
       colors: ['#E48570', '#C25C45'],
@@ -273,17 +272,20 @@ const Cards: React.FC = () => {
     }
   ];
 
-  useEffect(() => {
+  const fetchUsersNumber = () => {
     if (!usersNumber.data) {
       getUsersNumber();
     }
-  }, [usersNumber.data]);
+  };
 
-  useEffect(() => {
+  const fetchTotalNetworkStake = () => {
     if (!totalNetworkStake.data) {
       getTotalNetworkStake();
     }
-  }, [totalNetworkStake.data]);
+  };
+
+  useEffect(fetchUsersNumber, [usersNumber.data]);
+  useEffect(fetchTotalNetworkStake, [totalNetworkStake.data]);
 
   return (
     <div className={styles.cards}>

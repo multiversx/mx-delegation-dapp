@@ -112,8 +112,20 @@ const Stake: React.FC = () => {
       ) : (
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
-            <div className={modifiable('icon', [index && 'inversed'], styles)}>
+            <div
+              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
+            >
               <Logo />
+
+              {index > 0 &&
+                Array.from({ length: 4 }).map((item, iteratee) => (
+                  <strong
+                    key={`plus-${iteratee}`}
+                    className={modifiable('plus', [iteratee + 1], styles)}
+                  >
+                    +
+                  </strong>
+                ))}
 
               <div
                 style={{ background: panel.color }}

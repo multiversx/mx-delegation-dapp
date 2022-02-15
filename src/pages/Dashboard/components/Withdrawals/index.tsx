@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import {
+  useGetAccountInfo,
+  transactionServices
+} from '@elrondnetwork/dapp-core';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -12,21 +15,22 @@ import {
   decodeString,
   decodeBigNumber
 } from '@elrondnetwork/erdjs';
-
+import moment from 'moment';
 import { network, decimals, denomination, gatewayAddress } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { UndelegateStakeListType } from 'context/state';
 import denominate from 'helpers/denominate';
 
 import Withdrawal from './components/Withdrawal';
-
 import styles from './styles.module.scss';
 
 const Withdrawals: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { undelegatedStakeList } = useGlobalContext();
   const { account } = useGetAccountInfo();
+  const { undelegatedStakeList } = useGlobalContext();
+  const { successful, hasActiveTransactions } =
+    transactionServices.useGetActiveTransactionsStatus();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
     dispatch({
@@ -69,9 +73,10 @@ const Withdrawals: React.FC = () => {
                   : 0;
 
               return (
+                moment().unix() +
                 ((roundsRemainingInEpoch + roundEpochComplete) *
                   config.RoundDuration) /
-                1000
+                  1000
               );
             };
 
@@ -130,11 +135,20 @@ const Withdrawals: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  const fetchUndelegatedStakeList = () => {
     if (!undelegatedStakeList.data) {
       getUndelegatedStakeList();
     }
-  }, [undelegatedStakeList.data]);
+  };
+
+  const refetchUndelegatedStakeList = () => {
+    if (hasActiveTransactions && successful && undelegatedStakeList.data) {
+      getUndelegatedStakeList();
+    }
+  };
+
+  useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
+  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, successful]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;

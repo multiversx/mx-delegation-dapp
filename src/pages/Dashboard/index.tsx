@@ -20,37 +20,17 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className={styles.dashboard}>
-      <div className='mb-4'>
-        <Heading />
-      </div>
+      <Heading />
 
-      <div className='mb-4'>
-        <Cards />
-      </div>
+      <Cards />
 
-      {adminView && (
-        <div className='mb-4'>
-          <Toggles />
-        </div>
-      )}
+      {adminView && <Toggles />}
 
-      {!adminView && (
-        <div className='mb-4'>
-          <Stake />
-        </div>
-      )}
+      {!adminView && <Stake />}
 
-      {!adminView && (
-        <div className='mb-4'>
-          <Withdrawals />
-        </div>
-      )}
+      {!adminView && <Withdrawals />}
 
-      {adminView && (
-        <div className='mb-4'>
-          <Nodes />
-        </div>
-      )}
+      {adminView && <Nodes />}
     </div>
   );
 };

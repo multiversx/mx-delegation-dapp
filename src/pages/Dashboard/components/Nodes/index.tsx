@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState, MouseEvent, Fragment } from 'react';
 
+import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
   decodeString,
   ProxyProvider,
@@ -26,7 +27,6 @@ import useTransaction from 'helpers/useTransaction';
 import Action from 'pages/Dashboard/components/Action';
 
 import Add from './components/Add';
-// import { DropzonePayloadType } from './components/Dropzone';
 
 import styles from './styles.module.scss';
 
@@ -61,6 +61,8 @@ const Nodes: React.FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
+  const { successful, hasActiveTransactions } =
+    transactionServices.useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
   const isError = nodesData.error || nodesNumber.error;
@@ -251,13 +253,21 @@ const Nodes: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  const fetchNodes = () => {
     if (!nodesData.data) {
       getNodesData();
     }
-  }, [nodesData.data]);
+  };
 
+  const refetchNodes = () => {
+    if (successful && hasActiveTransactions && nodesData.data) {
+      getNodesData();
+    }
+  };
+
+  useEffect(fetchNodes, [nodesData.data]);
   useEffect(getNodes, [nodesNumber.data, nodesData.data]);
+  useEffect(refetchNodes, [hasActiveTransactions, successful]);
 
   return (
     <div className={styles.nodes}>
