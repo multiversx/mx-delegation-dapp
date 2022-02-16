@@ -113,6 +113,8 @@ const Cards: React.FC = () => {
 
       const data = await query.getNetworkStake();
 
+      console.log(data);
+
       dispatch({
         type: 'getTotalNetworkStake',
         totalNetworkStake: {

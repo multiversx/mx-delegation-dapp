@@ -53,9 +53,20 @@ interface globalFetchesType {
 }
 
 const useGlobalData = () => {
-  const { address } = useGetAccountInfo();
+  const { address, account } = useGetAccountInfo();
   const { successfulTransactionsArray } =
     transactionServices.useGetSuccessfulTransactions();
+
+  console.log(
+    parseInt(
+      denominate({
+        input: account.balance,
+        denomination: 18,
+        decimals: 2,
+        showLastNonZeroDecimal: true
+      }).replace(/,/g, '')
+    )
+  );
 
   const dispatch = useDispatch();
   const provider = new ProxyProvider(gatewayAddress);
@@ -112,6 +123,8 @@ const useGlobalData = () => {
           const data = await provider.queryContract(query);
           const response = data.outputUntyped();
 
+          console.log(response);
+
           return response;
         } catch (error) {
           return Promise.reject(error);
@@ -129,6 +142,8 @@ const useGlobalData = () => {
 
           const data = await provider.queryContract(query);
           const [totalNodes] = data.outputUntyped();
+
+          console.log(decodeBigNumber(totalNodes).toFixed());
 
           return decodeBigNumber(totalNodes).toFixed();
         } catch (error) {
@@ -164,6 +179,8 @@ const useGlobalData = () => {
       key: 'networkConfig',
       handler: async (): Promise<any> => {
         try {
+          console.log(await getNetworkProxy().getNetworkConfig());
+
           return await getNetworkProxy().getNetworkConfig();
         } catch (error) {
           return Promise.reject(error);
