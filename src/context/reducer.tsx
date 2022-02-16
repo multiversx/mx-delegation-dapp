@@ -47,6 +47,10 @@ export type ActionType =
       networkConfig: StateType['networkConfig'];
     }
   | {
+      type: 'getNetworkStatus';
+      networkStatus: StateType['networkStatus'];
+    }
+  | {
       type: 'getTotalNetworkStake';
       totalNetworkStake: StateType['totalNetworkStake'];
     }
@@ -109,6 +113,12 @@ const reducer = (state: StateType, action: any) => {
       return {
         ...state,
         networkConfig: action.networkConfig
+      };
+    }
+    case 'getNetworkStatus': {
+      return {
+        ...state,
+        networkStatus: action.networkStatus
       };
     }
     case 'getTotalNetworkStake': {

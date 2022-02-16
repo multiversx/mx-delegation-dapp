@@ -55,9 +55,6 @@ const Withdrawals: React.FC = () => {
         provider.getNetworkConfig(),
         provider.getNetworkStatus()
       ]);
-
-      console.log(status);
-
       const payload = data
         .outputUntyped()
         .reduce((total: any, item, index, array) => {

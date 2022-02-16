@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useCallback, useEffect, ReactNode } from 'react';
 
+import { getNetworkProxy, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -30,6 +31,8 @@ import Action from 'pages/Dashboard/components/Action';
 import ChangeDelegationCap from './components/ChangeDelegationCap';
 import ChangeServiceFee from './components/ChangeServiceFee';
 
+import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
+
 import styles from './styles.module.scss';
 
 interface CardType {
@@ -46,15 +49,51 @@ interface CardType {
 }
 
 const Cards: React.FC = () => {
+  const { account } = useGetAccountInfo();
   const {
     totalActiveStake,
     totalNetworkStake,
     usersNumber,
     nodesNumber,
+    networkStatus,
     contractDetails,
+    networkConfig,
     adminView
   } = useGlobalContext();
   const dispatch = useDispatch();
+
+  const getNetworkStatus = async (): Promise<void> => {
+    dispatch({
+      type: 'getNetworkStatus',
+      networkStatus: {
+        status: 'loading',
+        data: null,
+        error: null
+      }
+    });
+
+    try {
+      const data = await getNetworkProxy().getNetworkStatus();
+
+      dispatch({
+        type: 'getNetworkStatus',
+        networkStatus: {
+          status: 'loaded',
+          error: null,
+          data
+        }
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getNetworkStatus',
+        networkStatus: {
+          status: 'error',
+          data: null,
+          error
+        }
+      });
+    }
+  };
 
   const getUsersNumber = async (): Promise<void> => {
     dispatch({
@@ -112,8 +151,6 @@ const Cards: React.FC = () => {
       });
 
       const data = await query.getNetworkStake();
-
-      console.log(data);
 
       dispatch({
         type: 'getTotalNetworkStake',
@@ -212,6 +249,40 @@ const Cards: React.FC = () => {
     };
   }, [totalActiveStake.data, contractDetails.data]);
 
+  const getAnnualPercentage = () => {
+    const dependencies = [
+      totalActiveStake.data,
+      nodesNumber.data,
+      networkStatus.data,
+      totalNetworkStake.data,
+      networkConfig.data,
+      contractDetails.data,
+      account.balance
+    ];
+
+    if (dependencies.every((dependency) => dependency)) {
+      const percentage = calculateAnnualPercentage({
+        activeStake: totalActiveStake.data,
+        blsKeys: nodesNumber.data,
+        networkStatus: networkStatus.data,
+        networkStake: totalNetworkStake.data,
+        networkConfig: networkConfig.data,
+        stakedBalance: account.balance,
+        serviceFee: parseFloat(
+          contractDetails.data
+            ? contractDetails.data.serviceFee.replace('%', '')
+            : '0'
+        )
+      });
+
+      console.log;
+
+      return `${percentage}%`;
+    } else {
+      return 'Unknown APR';
+    }
+  };
+
   const cards: Array<CardType> = [
     {
       label: 'Contract Stake',
@@ -243,7 +314,7 @@ const Cards: React.FC = () => {
       colors: ['#FBC34C', '#D49712'],
       icon: <FontAwesomeIcon icon={faLeaf} />,
       data: {
-        value: '37.45%',
+        value: getAnnualPercentage(),
         percentage: 'Including Service Fee'
       }
     },
@@ -274,6 +345,12 @@ const Cards: React.FC = () => {
     }
   ];
 
+  const fetchNetworkStatus = () => {
+    if (!networkStatus.data) {
+      getNetworkStatus();
+    }
+  };
+
   const fetchUsersNumber = () => {
     if (!usersNumber.data) {
       getUsersNumber();
@@ -287,6 +364,7 @@ const Cards: React.FC = () => {
   };
 
   useEffect(fetchUsersNumber, [usersNumber.data]);
+  useEffect(fetchNetworkStatus, [networkStatus.data]);
   useEffect(fetchTotalNetworkStake, [totalNetworkStake.data]);
 
   return (

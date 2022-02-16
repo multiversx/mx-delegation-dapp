@@ -66,6 +66,11 @@ export interface StateType {
     error: ErrorType;
     data: any;
   };
+  networkStatus: {
+    status: StatusType;
+    error: ErrorType;
+    data: any;
+  };
   agencyMetaData: {
     status: StatusType;
     error: ErrorType;
@@ -131,6 +136,11 @@ export const initializer: StateType = {
     error: null
   },
   networkConfig: {
+    status: 'idle',
+    data: null,
+    error: null
+  },
+  networkStatus: {
     status: 'idle',
     data: null,
     error: null
