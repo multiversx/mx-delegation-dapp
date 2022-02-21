@@ -7,8 +7,6 @@ export interface UndelegateStakeListType {
 }
 
 export interface StateType {
-  adminView: boolean;
-  setAdminView: (value: boolean) => void;
   nodesNumber: {
     status: StatusType;
     error: ErrorType;
@@ -83,8 +81,6 @@ export interface StateType {
 }
 
 export const initializer: StateType = {
-  adminView: false,
-  setAdminView: () => false,
   nodesNumber: {
     status: 'idle',
     data: null,

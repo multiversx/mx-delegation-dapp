@@ -1,11 +1,5 @@
-import * as React from 'react';
-import {
-  ReactNode,
-  createContext,
-  useReducer,
-  useState,
-  useContext
-} from 'react';
+import React from 'react';
+import { ReactNode, createContext, useReducer, useContext } from 'react';
 
 import { DispatchType, reducer } from './reducer';
 import { StateType, initializer } from './state';
@@ -19,10 +13,9 @@ const Dispatch = createContext<DispatchType | undefined>(undefined);
 
 const ContextProvider = ({ children }: ContextType) => {
   const [state, dispatch] = useReducer(reducer, initializer);
-  const [adminView, setAdminView] = useState<boolean>(false);
 
   return (
-    <Context.Provider value={{ ...state, adminView, setAdminView }}>
+    <Context.Provider value={state}>
       <Dispatch.Provider value={dispatch}>{children}</Dispatch.Provider>
     </Context.Provider>
   );

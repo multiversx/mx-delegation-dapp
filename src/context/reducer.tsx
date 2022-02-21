@@ -3,14 +3,6 @@ import { StateType } from './state';
 export type DispatchType = (action: any) => void;
 export type ActionType =
   | {
-      type: 'adminView';
-      adminView: StateType['adminView'];
-    }
-  | {
-      type: 'setAdminView';
-      setAdminView: StateType['setAdminView'];
-    }
-  | {
       type: 'getUsersNumber';
       usersNumber: StateType['usersNumber'];
     }

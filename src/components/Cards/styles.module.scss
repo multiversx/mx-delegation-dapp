@@ -1,0 +1,55 @@
+.cards {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+  .card {
+    box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: rgba(white, 0.85);
+    line-height: 1;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+  }
+
+  .heading {
+    margin-bottom: 45px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
+
+  .icon {
+    background: rgba(white, 0.15);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .trigger {
+      padding: 10px;
+    }
+
+    &--fill {
+      background-color: white;
+      padding: 0;
+
+      svg path {
+        fill: inherit;
+      }
+    }
+  }
+
+  .value {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+}

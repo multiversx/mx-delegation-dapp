@@ -2,27 +2,27 @@ import React from 'react';
 
 import Cards from 'components/Cards';
 import Heading from 'components/Heading';
-import Stake from 'components/Stake';
-import Withdrawals from 'components/Withdrawals';
+import Nodes from 'components/Nodes';
+import Toggles from 'components/Toggles';
 
 import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Dashboard: React.FC = () => {
+const Admin: React.FC = () => {
   useGlobalData();
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.admin}>
       <Heading />
 
       <Cards />
 
-      <Stake />
+      <Toggles />
 
-      <Withdrawals />
+      <Nodes />
     </div>
   );
 };
 
-export default Dashboard;
+export default Admin;
