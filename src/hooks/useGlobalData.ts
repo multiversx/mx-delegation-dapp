@@ -26,6 +26,7 @@ interface ContractDetailsType {
   serviceFee: string;
   delegationCap: string;
   owner: boolean;
+  withDelegationCap: string;
 }
 
 interface globalFetchesType {
@@ -76,15 +77,18 @@ const useGlobalData = () => {
           const serviceFeeIndex = 1;
           const delegationCapIndex = 2;
           const automaticActivationIndex = 4;
+          const withDelegationCapIndex = 5;
           const redelegationCapIndex = 7;
 
           const ownerAddress = response[ownerAddressIndex];
           const serviceFee = response[serviceFeeIndex];
           const delegationCap = response[delegationCapIndex];
           const activationStatus = response[automaticActivationIndex];
+          const withDelegationCap = response[withDelegationCapIndex];
           const redelegationCap = response[redelegationCapIndex];
 
           return {
+            withDelegationCap: String(withDelegationCap),
             owner: new Address(address).hex() === ownerAddress.toString('hex'),
             delegationCap: decodeBigNumber(delegationCap).toFixed(),
             redelegationCap:

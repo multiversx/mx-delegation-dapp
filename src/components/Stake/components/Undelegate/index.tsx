@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Formik } from 'formik';
-
+import { object } from 'yup';
 import Action, { Submit } from 'components/Action';
 import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData from 'components/Stake/hooks';
@@ -25,7 +25,9 @@ const Undelegate: React.FC = () => {
         render={
           <div className={styles.undelegate}>
             <Formik
-              validationSchema={undelegateValidator(userActiveStake.data || '')}
+              validationSchema={object().shape({
+                amount: undelegateValidator(userActiveStake.data || '')
+              })}
               onSubmit={onUndelegate}
               initialValues={{
                 amount: '0'

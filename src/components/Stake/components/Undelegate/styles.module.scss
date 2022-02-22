@@ -72,9 +72,10 @@
   }
 
   .error {
-    margin-top: 8px;
-    font-size: 12px;
+    margin-top: 1rem;
+    font-size: 0.75rem;
     color: #f53855;
+    display: block;
     line-height: 1;
   }
 }

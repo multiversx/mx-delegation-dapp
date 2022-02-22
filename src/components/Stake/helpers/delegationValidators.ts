@@ -5,32 +5,22 @@ import { network } from 'config';
 const undelegateValidator = (input: string) =>
   string()
     .required('Required')
-    .test('minimum', 'Value must be greater than or equal to 1.', (value) =>
-      new BigNumber(value || '').isGreaterThanOrEqualTo(1)
+    .test(
+      'minimum',
+      'Value must be greater than or equal to 1.',
+      (value = '0') => new BigNumber(value).isGreaterThanOrEqualTo(1)
     )
     .test(
       'maximum',
       `You need to set a value under ${input} ${network.egldLabel}.`,
-      (value) =>
-        new BigNumber(value || '').isLessThanOrEqualTo(parseFloat(input))
+      (value = '0') => parseFloat(value) <= parseFloat(input)
     );
 
-const delegateValidator = (input: string, limit: any) =>
+const delegateValidator = (input: string, limit: string) =>
   undelegateValidator(input).test(
     'uncapable',
-    'Max delegation cap reached. That is the maximum amount you can delegate.',
-    (value) => {
-      if (Number.isNaN(parseFloat(limit.available))) {
-        return true;
-      }
-
-      return (
-        limit.exceeds &&
-        new BigNumber(value || '').isLessThanOrEqualTo(
-          parseFloat(limit.available)
-        )
-      );
-    }
+    `Max delegation cap reached. That is the maximum amount you can delegate: ${limit} ${network.egldLabel}`,
+    (value = '0') => parseFloat(value) <= parseFloat(limit)
   );
 
 export { delegateValidator, undelegateValidator };

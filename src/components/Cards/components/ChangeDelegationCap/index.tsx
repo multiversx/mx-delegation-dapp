@@ -23,7 +23,10 @@ const ChangeDelegationCap: React.FC = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, totalActiveStake } = useGlobalContext();
 
-  const minimum = denominated(totalActiveStake.data || '');
+  const minimum = denominated(totalActiveStake.data || '', {
+    addCommas: false
+  });
+
   const total = denominated(
     contractDetails.data ? contractDetails.data.delegationCap : '',
     {
@@ -37,9 +40,8 @@ const ChangeDelegationCap: React.FC = () => {
       .test(
         'minimum',
         `Minimum ${minimum} ${network.egldLabel} or 0 ${network.egldLabel}`,
-        (amount) =>
-          new BigNumber(amount || '').isGreaterThanOrEqualTo(total) ||
-          amount === '0'
+        (value = '') =>
+          new BigNumber(value).isGreaterThanOrEqualTo(minimum) || value === '0'
       )
   });
 

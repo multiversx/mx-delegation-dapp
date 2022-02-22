@@ -14,7 +14,7 @@ import {
 } from '@elrondnetwork/erdjs';
 import BigNumber from 'bignumber.js';
 
-import { network } from 'config';
+import { network, minDust } from 'config';
 import { useDispatch, useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 import { nominateValToHex } from 'helpers/nominate';
@@ -84,36 +84,50 @@ const useStakeData = () => {
 
   const getStakingLimits = () => {
     if (contractDetails.data && totalActiveStake.data) {
-      const automaticActivation = contractDetails.data.automaticActivation;
-      const delegationCap = contractDetails.data.delegationCap;
-      const balance = new BigNumber(
-        denominated(account.balance, {
-          showLastNonZeroDecimal: true,
-          addCommas: false
-        })
+      const balance = new BigNumber(account.balance);
+      const gasPrice = new BigNumber('12000000');
+      const gasLimit = new BigNumber('12000000');
+      const adjusted = balance.minus(gasPrice.times(gasLimit));
+      const dust = new BigNumber(minDust);
+
+      const [available, dustful] = [adjusted, adjusted.minus(dust)].map(
+        (value) =>
+          denominated(value.toString(10), {
+            showLastNonZeroDecimal: true,
+            addCommas: false
+          })
       );
 
-      const formatted = {
-        total: denominated(totalActiveStake.data.replace(/,/g, '')),
-        cap: denominated(delegationCap.replace(/,/g, ''))
-      };
+      if (contractDetails.data.withDelegationCap === 'true') {
+        const [stake, cap] = [
+          denominated(totalActiveStake.data).replace(/,/g, ''),
+          denominated(contractDetails.data.delegationCap).replace(/,/g, '')
+        ];
 
-      const available = new BigNumber(formatted.cap).minus(
-        new BigNumber(formatted.total)
-      );
+        const remainder = new BigNumber(cap).minus(new BigNumber(stake));
 
-      console.log(formatted);
-
-      return {
-        available: available.toFixed(),
-        exceeds:
-          balance.comparedTo(available) >= 0 && automaticActivation === 'ON'
-      };
+        if (remainder.isGreaterThan(available)) {
+          return {
+            balance: available,
+            limit: dustful
+          };
+        } else {
+          return {
+            balance: available,
+            limit: remainder
+          };
+        }
+      } else {
+        return {
+          balance: available,
+          limit: dustful
+        };
+      }
     }
 
     return {
-      exceeds: false,
-      available: ''
+      balance: '',
+      limit: ''
     };
   };
 

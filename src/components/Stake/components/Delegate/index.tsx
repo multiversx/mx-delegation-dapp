@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Formik } from 'formik';
+import { object } from 'yup';
 
 import Action, { Submit } from 'components/Action';
 import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
@@ -16,6 +17,7 @@ import styles from './styles.module.scss';
 const Delegate: React.FC = () => {
   const { account } = useGetAccountInfo();
   const { onDelegate, getStakingLimits } = useStakeData();
+  const { limit, balance } = getStakingLimits();
 
   return (
     <div className={styles.wrapper}>
@@ -26,10 +28,9 @@ const Delegate: React.FC = () => {
         render={
           <div className={styles.delegate}>
             <Formik
-              validationSchema={delegateValidator(
-                denominated(account.balance),
-                getStakingLimits()
-              )}
+              validationSchema={object().shape({
+                amount: delegateValidator(balance, String(limit))
+              })}
               onSubmit={onDelegate}
               initialValues={{
                 amount: '0'
@@ -46,7 +47,7 @@ const Delegate: React.FC = () => {
               }) => {
                 const onMax = (event: any): void => {
                   event.preventDefault();
-                  setFieldValue('amount', denominated(account.balance));
+                  setFieldValue('amount', limit);
                 };
 
                 return (
