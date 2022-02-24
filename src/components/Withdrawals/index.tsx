@@ -29,7 +29,7 @@ const Withdrawals: React.FC = () => {
 
   const { account } = useGetAccountInfo();
   const { undelegatedStakeList } = useGlobalContext();
-  const { successful, hasActiveTransactions } =
+  const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
@@ -142,13 +142,13 @@ const Withdrawals: React.FC = () => {
   };
 
   const refetchUndelegatedStakeList = () => {
-    if (hasActiveTransactions && successful && undelegatedStakeList.data) {
+    if (hasActiveTransactions && success && undelegatedStakeList.data) {
       getUndelegatedStakeList();
     }
   };
 
   useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
-  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, successful]);
+  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, success]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;

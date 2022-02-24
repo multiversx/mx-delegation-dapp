@@ -55,7 +55,7 @@ const Nodes: React.FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { successful, hasActiveTransactions } =
+  const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
@@ -264,7 +264,7 @@ const Nodes: React.FC = () => {
   };
 
   const refetchNodes = () => {
-    if (successful && hasActiveTransactions && nodesData.data) {
+    if (success && hasActiveTransactions && nodesData.data) {
       getNodes();
       getNodesData();
     }
@@ -272,7 +272,7 @@ const Nodes: React.FC = () => {
 
   useEffect(fetchNodes, [nodesData.data]);
   useEffect(getNodes, [nodesNumber.data, nodesData.data]);
-  useEffect(refetchNodes, [hasActiveTransactions, successful]);
+  useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
     <div className={styles.nodes}>

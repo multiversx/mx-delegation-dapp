@@ -31,7 +31,7 @@ const useStakeData = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { successful, hasActiveTransactions } =
+  const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
@@ -181,13 +181,13 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (successful && hasActiveTransactions && userClaimableRewards.data) {
+    if (success && hasActiveTransactions && userClaimableRewards.data) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [successful, hasActiveTransactions]);
+  useEffect(reFetchClaimableRewards, [success, hasActiveTransactions]);
 
   return {
     onDelegate,

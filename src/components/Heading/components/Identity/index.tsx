@@ -38,7 +38,7 @@ interface PayloadType {
 const Identity: React.FC = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { successful, hasActiveTransactions } =
+  const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
@@ -142,13 +142,13 @@ const Identity: React.FC = () => {
   };
 
   const refetchAgencyMetaData = () => {
-    if (hasActiveTransactions && successful && agencyMetaData.data) {
+    if (hasActiveTransactions && success && agencyMetaData.data) {
       getAgencyMetaData();
     }
   };
 
   useEffect(fetchAgencyMetaData, [agencyMetaData.data]);
-  useEffect(refetchAgencyMetaData, [hasActiveTransactions, successful]);
+  useEffect(refetchAgencyMetaData, [hasActiveTransactions, success]);
 
   return (
     <Formik

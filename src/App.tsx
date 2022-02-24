@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  DappProvider,
-  DappUI,
-  DappCoreUIWrapper
-} from '@elrondnetwork/dapp-core';
+import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Layout from 'components/Layout';
 import { network, walletConnectBridge, walletConnectDeepLink } from 'config';
@@ -17,27 +13,31 @@ import '@elrondnetwork/dapp-core/build/index.css';
 const App = () => (
   <Router>
     <DappProvider
-      networkConfig={{ network, walletConnectBridge, walletConnectDeepLink }}
+      environment='devnet'
+      customNetworkConfig={{
+        network,
+        walletConnectBridge,
+        walletConnectDeepLink
+      }}
+      completedTransactionsDelay={500}
     >
       <ContextProvider>
         <Layout>
-          <DappCoreUIWrapper>
-            <DappUI.TransactionsToastList />
-            <DappUI.SignTransactionsModals />
-            <DappUI.NotificationModal />
-            <Routes>
-              <Route path={routeNames.unlock} element={<Unlock />} />
+          <DappUI.TransactionsToastList />
+          <DappUI.SignTransactionsModals />
+          <DappUI.NotificationModal />
+          <Routes>
+            <Route path={routeNames.unlock} element={<Unlock />} />
 
-              {routes.map((route: any, index: number) => (
-                <Route
-                  path={route.path}
-                  key={'route-key-' + index}
-                  element={<route.component />}
-                />
-              ))}
-              <Route element={PageNotFound} />
-            </Routes>
-          </DappCoreUIWrapper>
+            {routes.map((route: any, index: number) => (
+              <Route
+                path={route.path}
+                key={'route-key-' + index}
+                element={<route.component />}
+              />
+            ))}
+            <Route element={PageNotFound} />
+          </Routes>
         </Layout>
       </ContextProvider>
     </DappProvider>
