@@ -95,6 +95,8 @@ const Unlock: React.FC = () => {
     if (!Boolean(qrCode)) {
       fetchCode();
     }
+
+    return () => setQrCode('');
   };
 
   useEffect(redirectConditionally, [address]);

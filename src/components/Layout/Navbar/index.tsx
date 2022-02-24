@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
     {
       icon: <FontAwesomeIcon icon={faPowerOff} />,
       label: 'Disconnect',
-      onClick: () => logout(`${window.location.origin}/unlock`)
+      onClick: () => logout()
     }
   ];
 

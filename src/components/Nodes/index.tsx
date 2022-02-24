@@ -265,6 +265,7 @@ const Nodes: React.FC = () => {
 
   const refetchNodes = () => {
     if (successful && hasActiveTransactions && nodesData.data) {
+      getNodes();
       getNodesData();
     }
   };
