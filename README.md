@@ -1,6 +1,6 @@
 <div style="text-align:center">
   <img
-  src="https://raw.githubusercontent.com/ElrondNetwork/starter-dapp/master/react-delegationdashboard/preview.png"
+  src="https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/blob/master/preview.png "
   alt="Elrond Network">
 </div>
 <br>
@@ -18,9 +18,9 @@ The react implementation for Dashboard Delegation
     <br />
     <br />
     ·
-    <a href="https://github.com/ElrondNetwork/starter-dapp/issues">Report Bug</a>
+    <a href="https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/issues">Report Bug</a>
     ·
-    <a href="https://github.com/ElrondNetwork/starter-dapp/issues">Request Feature</a>
+    <a href="https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/issues">Request Feature</a>
   </p>
 </p>
 
@@ -60,7 +60,7 @@ Follow the next step to start using this dapp or follow the next tutorial on [Yo
 
 For _development_ you will need to have the following:
 
-- node version 12.13.0
+- node version 14.17.6
 - npm
 
 ### Instalation and running
@@ -102,7 +102,7 @@ To run the project locally run `npm run start` from the project folder. This wil
 
 ## Roadmap
 
-See the [open issues](https://github.com/ElrondNetwork/starter-dapp/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
