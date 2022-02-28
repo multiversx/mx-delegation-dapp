@@ -259,14 +259,19 @@ const Cards: React.FC = () => {
 
   const getAnnualPercentage = () => {
     const dependencies = [
-      totalActiveStake.data,
-      nodesNumber.data,
-      networkStatus.data,
-      totalNetworkStake.data,
-      networkConfig.data
+      totalActiveStake,
+      nodesNumber,
+      networkStatus,
+      totalNetworkStake,
+      networkConfig,
+      contractDetails
     ];
 
-    if (dependencies.every((dependency) => dependency)) {
+    if (dependencies.some((dependency) => dependency.status === 'loading')) {
+      return '...%';
+    }
+
+    if (dependencies.every((dependency) => dependency.data)) {
       const percentage = calculateAnnualPercentage({
         activeStake: totalActiveStake.data,
         blsKeys: nodesNumber.data,
@@ -281,9 +286,9 @@ const Cards: React.FC = () => {
       });
 
       return `${percentage}%`;
-    } else {
-      return 'Unknown APR';
     }
+
+    return 'Unknown APR';
   };
 
   const cards: Array<CardType> = [

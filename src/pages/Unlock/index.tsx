@@ -92,15 +92,11 @@ const Unlock: React.FC = () => {
       }
     };
 
-    if (!Boolean(qrCode)) {
-      fetchCode();
-    }
-
-    return () => setQrCode('');
+    fetchCode();
   };
 
   useEffect(redirectConditionally, [address]);
-  useEffect(getQrCodde, [connects, qrCode]);
+  useEffect(getQrCodde, [connects]);
 
   return (
     <div className={styles.unlock}>

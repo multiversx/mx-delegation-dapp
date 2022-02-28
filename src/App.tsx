@@ -13,7 +13,7 @@ import '@elrondnetwork/dapp-core/build/index.css';
 const App = () => (
   <Router>
     <DappProvider
-      environment='devnet'
+      environment={network.id}
       customNetworkConfig={{
         network,
         walletConnectBridge,

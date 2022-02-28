@@ -1,59 +1,110 @@
-# @elrondnetwork/dapp-template
+<div style="text-align:center">
+  <img
+  src="https://raw.githubusercontent.com/ElrondNetwork/starter-dapp/master/react-delegationdashboard/preview.png"
+  alt="Elrond Network">
+</div>
+<br>
 
-The **Elrond dApp Template**, built using [React.js](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/).
-It's a basic implementation of [@elrondnetwork/dapp-core](https://www.npmjs.com/package/@elrondnetwork/dapp-core), providing the basics for Elrond authentication and TX signing.
+[![](https://img.shields.io/badge/made%20by-Elrond%20Network-blue.svg)](http://elrond.com/)
+<br />
 
-See [Dapp template](https://dapp-template.elrond.com/) for live demo.
+<p align="center">
 
-## Requirements
+ <h3 align="center">Dapp boilerplate for Delegation </h3>
 
-- Node.js version 12.16.2+
-- Npm version 6.14.4+
+  <p align="center">
+The react implementation for Dashboard Delegation
+    <br />
+    <br />
+    <br />
+    ·
+    <a href="https://github.com/ElrondNetwork/starter-dapp/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/ElrondNetwork/starter-dapp/issues">Request Feature</a>
+  </p>
+</p>
+
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#built-with">Built With</a>    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+  </ol>
+</details>
+
+### Built With
+
+- [React](https://reactjs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Bootstrap](https://getbootstrap.com)
+
+<!-- GETTING STARTED -->
 
 ## Getting Started
 
-The dapp is a client side only poject and is built using the [Create React App](https://create-react-app.dev) scripts.
+The dapp is a client side only poject and is built using the Create React App scripts.
+
+Follow the next step to start using this dapp or follow the next tutorial on [Youtube](https://www.youtube.com/watch?v=BkjUmBsmQYM&feature=youtu.be&ab_channel=ElrondNetwork)
+
+### Prerequisites
+
+For _development_ you will need to have the following:
+
+- node version 12.13.0
+- npm
 
 ### Instalation and running
 
 ### Step 1. Install modules
 
-From a terminal, navigate to the project folder and run:
-
-```bash
-npm install
-```
+From a terminal, navigate to the project folder and run `npm install`
 
 ### Step 2. Update Configs
 
-Edit a new file `src/config.tsx` and copy the content of `src/config.devnet.tsx`. If you want to develop against `testnet`, change all instances of `devnet` to `testnet`.
+In the application's src folder there are 3 config files (config.devnet.ts, config.testnet.ts, config.mainnet.ts).
 
-### Step 3. Running in development mode
+Based on the environment used the configs will need to be updated:
 
-In the project folder run:
+- delegationContract : should contain the address of the Delegation Smart Contract received after the creation of Delegation Smart Contract
+- also check the walletAddress, apiAddress and explorerAddress
 
-```bash
-npm run start
-```
+### Step 3. Create .env file
 
-This will start the React app in development mode, using the configs found in the `config.tsx` file.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- copy `.env.example` to `.env`
+- leave as it is to deploy on a root domain e.g. `staking.yourcompany.com` or add path e.g. `PUBLIC_URL=/staking/` if you wish to deploy the app in a subfolder.
 
 ### Step 4. Build for testing and production use
 
 A build of the app is necessary to deploy for testing purposes or for production use.
-To build the project run:
+The dapp is configured with build scripts targeting either the public devnet, the public testnet or the public mainnet.
 
-```bash
-npm run build
-```
+For testing on the devnet run => `npm run build-devnet`
+
+For testing on the testnet run => `npm run build-testnet`
+
+For production use on the mainnet run => `npm run build-mainnet`
+
+### Step 5. Run the dashboard
+
+To run the project locally run `npm run start` from the project folder. This will start the React app in development mode, using the configs found in the config.ts file.
+
+<!-- ROADMAP -->
 
 ## Roadmap
 
-See the [open issues](https://github.com/ElrondNetwork/dapp-template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/ElrondNetwork/starter-dapp/issues) for a list of proposed features (and known issues).
+
+<!-- CONTRIBUTING -->
 
 ## Contributing
 
