@@ -1,9 +1,10 @@
 .wrapper {
-  margin-left: 10px;
+  @media (min-width: 576px) {
+    margin-left: 10px;
+  }
 
   .trigger {
     background: #2044f5;
-    width: 150px;
     justify-content: center;
     display: flex;
     align-items: center;
@@ -12,6 +13,17 @@
     color: white;
     border: none;
     font-size: 14px;
+    width: 100%;
+
+    @media (min-width: 576px) {
+      width: 150px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    button {
+      width: 100%;
+    }
   }
 }
 

@@ -5,6 +5,7 @@
   background: #242526;
   border: 1px solid #49494d;
   border-radius: 8px;
+  flex-wrap: wrap;
   padding: 15px;
 
   &:not(:last-child) {
@@ -26,6 +27,7 @@
       border: 1px solid #49494d;
       border-radius: 50%;
       background: #303234;
+      display: none;
 
       svg {
         max-width: 20px;
@@ -33,7 +35,6 @@
     }
 
     .data {
-      margin-left: 15px;
       line-height: 1;
       font-size: 14px;
 
@@ -55,43 +56,72 @@
     align-items: center;
     justify-content: flex-end;
     text-align: right;
+  }
 
-    .time {
-      margin-right: 15px;
-      line-height: 1;
-      font-size: 14px;
+  .withdraw {
+    background: #2044f5;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
 
-      .date {
-        margin-bottom: 5px;
-        font-weight: bold;
-        display: block;
-      }
-
-      .label {
-        color: #808ea3;
-      }
-    }
-
-    .withdraw {
-      background: #2044f5;
-      border: none;
+    @media (min-width: 576px) {
       padding: 15px 25px;
-      border-radius: 6px;
-      color: white;
-      font-size: 14px;
-      line-height: 1;
-      display: flex;
-      align-items: center;
 
       svg {
         margin-right: 8px;
       }
+    }
 
-      &--disabled {
-        pointer-events: none;
-        background: #303234;
-        color: rgba(white, 0.5);
+    &--disabled {
+      pointer-events: none;
+      background: #303234;
+      color: rgba(white, 0.5);
+    }
+
+    @media (max-width: 575px) {
+      span {
+        display: none;
       }
+    }
+  }
+
+  .time {
+    line-height: 1;
+    font-size: 14px;
+    display: none;
+    margin-top: 15px;
+    text-align: right;
+    white-space: nowrap;
+
+    @media (min-width: 576px) {
+      display: block;
+      margin-right: 15px;
+      margin-top: 0;
+    }
+
+    &--mobile {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      @media (min-width: 576px) {
+        display: none;
+      }
+    }
+
+    .date {
+      margin-bottom: 5px;
+      font-weight: bold;
+      display: block;
+    }
+
+    .label {
+      color: #808ea3;
     }
   }
 }

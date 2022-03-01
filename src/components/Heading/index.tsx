@@ -57,21 +57,19 @@ const Heading: React.FC = () => {
           </button>
 
           {isAdmin && (
-            <div className='ml-3'>
-              <Action
-                title='Agency Details'
-                description='Update or set your agency details in order to validate your identity.'
-                trigger={
-                  <div className={styles.button}>
-                    <span className={styles.icon}>
-                      <FontAwesomeIcon icon={faEdit} />
-                    </span>
-                    Identity
-                  </div>
-                }
-                render={<Identity />}
-              />
-            </div>
+            <Action
+              title='Agency Details'
+              description='Update or set your agency details in order to validate your identity.'
+              trigger={
+                <div className={styles.button}>
+                  <span className={styles.icon}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </span>
+                  Identity
+                </div>
+              }
+              render={<Identity />}
+            />
           )}
         </div>
       )}

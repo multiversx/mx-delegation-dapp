@@ -139,9 +139,16 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
             styles
           )}
         >
-          <FontAwesomeIcon icon={faMinus} /> Withdraw
+          <FontAwesomeIcon icon={faMinus} /> <span>Withdraw</span>
         </button>
       </div>
+
+      {counter > 0 && (
+        <div className={modifiable('time', ['mobile'], styles)}>
+          <span className={styles.date}>{getTimeLeft()}</span>
+          <span className={styles.label}>Wait Time Left</span>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,18 +1,27 @@
 .unlock {
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 992px) {
+    height: 100vh;
+  }
 
   .wrapper {
     background: rgba(0, 6, 13, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-sizing: border-box;
     border-radius: 12px;
-    padding: 0 60px 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 100px 30px 30px;
+    padding: 30px;
+    text-align: center;
+
+    @media (min-width: 992px) {
+      padding: 0 60px 60px;
+    }
 
     .logo {
       background: #303234;
@@ -44,6 +53,14 @@
     .connects {
       display: flex;
       margin-top: 45px;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      button {
+        border: none;
+        background: none;
+        padding: 0;
+      }
 
       .connect {
         cursor: pointer;
@@ -56,13 +73,14 @@
         display: flex;
         align-items: center;
         flex-direction: column;
+        margin: 0 0.5rem 1rem;
 
         &:hover {
           background: #303234;
         }
 
         &:not(:last-child) {
-          margin-right: 15px;
+          // margin-right: 15px;
         }
 
         .title {

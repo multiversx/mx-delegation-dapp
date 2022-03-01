@@ -1,7 +1,16 @@
 .cards {
-  display: grid;
   grid-column-gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (min-width: 1200px) {
+    flex-wrap: nowrap;
+  }
+
+  @media (min-width: 1600px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: grid;
+  }
 
   .card {
     box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.1);
@@ -11,6 +20,9 @@
     line-height: 1;
     text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
     font-size: 14px;
+    flex-grow: 1;
+    width: 220px;
+    margin-bottom: 20px;
   }
 
   .heading {

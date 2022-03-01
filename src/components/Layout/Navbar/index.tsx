@@ -16,6 +16,7 @@ interface ButtonsType {
   icon: ReactNode;
   label: string;
   onClick?: () => void;
+  copy?: boolean;
 }
 
 const Navbar: React.FC = () => {
@@ -27,7 +28,8 @@ const Navbar: React.FC = () => {
     },
     {
       icon: <FontAwesomeIcon icon={faWallet} size='lg' />,
-      label: address
+      label: address,
+      onClick: () => navigator.clipboard.writeText(address)
     },
     {
       icon: <FontAwesomeIcon icon={faPowerOff} />,
@@ -57,8 +59,8 @@ const Navbar: React.FC = () => {
             )}
             onClick={button.onClick}
           >
-            <span className={styles.icon}>{button.icon}</span>
-            {button.label}
+            <div className={styles.icon}>{button.icon}</div>
+            <span>{button.label}</span>
           </div>
         ))}
       </div>

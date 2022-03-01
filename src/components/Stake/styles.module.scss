@@ -1,8 +1,11 @@
 .stake {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-top: 60px;
+
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   &--empty {
     margin-top: 60px;
@@ -35,13 +38,22 @@
     border: 1px solid #49494d;
     box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.12);
     border-radius: 12px;
-    width: calc(50% - 10px);
     padding: 0 30px 30px;
     margin-top: 50px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+
+    @media (min-width: 768px) {
+      width: calc(50% - 10px);
+    }
+
+    @media (max-width: 767px) {
+      &:last-child {
+        margin-top: 100px;
+      }
+    }
   }
 
   .icon,
@@ -136,18 +148,28 @@
 
   .value {
     color: white;
-    font-size: 32px;
+    font-size: 24px;
     line-height: 1;
     margin-bottom: 30px;
+
+    @media (min-width: 576px) {
+      font-size: 32px;
+    }
   }
 
   .actions {
-    justify-content: space-between;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    width: 100%;
+    flex-direction: column;
+
+    @media (min-width: 576px) {
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+    }
 
     .action {
-      width: 150px;
       justify-content: center;
       display: flex;
       align-items: center;
@@ -157,6 +179,10 @@
       border: none;
       font-size: 14px;
 
+      @media (min-width: 576px) {
+        width: 150px;
+      }
+
       &--disabled {
         pointer-events: none;
         color: rgba(white, 0.5);
@@ -164,7 +190,12 @@
       }
 
       &:not(:last-child) {
-        margin-right: 10px;
+        margin-bottom: 10px;
+
+        @media (min-width: 576px) {
+          margin-bottom: 0;
+          margin-right: 10px;
+        }
       }
     }
   }

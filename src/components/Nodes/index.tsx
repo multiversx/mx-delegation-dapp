@@ -283,10 +283,10 @@ const Nodes: React.FC = () => {
           title='Add Nodes'
           trigger={
             <div className={styles.button}>
-              <span className={styles.icon}>
+              <div className={styles.icon}>
                 <FontAwesomeIcon icon={faPlus} />
-              </span>
-              Add Nodes
+              </div>
+              <span>Add Nodes</span>
             </div>
           }
           render={<Add />}
@@ -352,10 +352,11 @@ const Nodes: React.FC = () => {
 
                 <Dropdown>
                   <Dropdown.Toggle className={styles.toggle}>
-                    Action
-                    <span className={styles.angle}>
+                    <span>Action</span>
+
+                    <div className={styles.angle}>
                       <FontAwesomeIcon icon={faAngleDown} />
-                    </span>
+                    </div>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu className={styles.menu}>

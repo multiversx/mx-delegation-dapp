@@ -1,11 +1,19 @@
 .heading {
   margin-bottom: 45px;
-  display: flex;
-  justify-content: space-between;
 
-  .meta .icon {
-    svg path {
-      fill: #808ea3;
+  @media (min-width: 992px) {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .meta {
+    margin-bottom: 30px;
+    width: 100%;
+
+    .icon {
+      svg path {
+        fill: #808ea3;
+      }
     }
   }
 
@@ -23,11 +31,19 @@
     font-size: 18px;
     line-height: 1;
     color: white;
-    margin-right: 15px;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (min-width: 768px) {
+      margin-right: 15px;
+    }
   }
 
   .button {
-    width: 130px;
+    width: calc((100vw - 70px) / 2);
+    max-width: 130px;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -37,6 +53,18 @@
     font-size: 14px;
     color: white;
     border: none;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    @media (min-width: 992px) {
+      width: auto;
+    }
+
+    @media (min-width: 1200px) {
+      width: 130px;
+    }
 
     .icon {
       margin-right: 8px;

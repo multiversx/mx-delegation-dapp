@@ -14,7 +14,7 @@ import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Admin: React.FC = () => {
+const Dashboard: React.FC = () => {
   const { address } = useGetAccountInfo();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -55,4 +55,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+export default Dashboard;
