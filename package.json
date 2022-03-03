@@ -1,10 +1,10 @@
 {
-  "name": "@elrondnetwork/dapp-template",
-  "description": "Elrond Dapp Template",
+  "name": "@risasoft/delegation-dashboard",
+  "description": "RisaSoft Staking",
   "version": "0.1.0",
-  "author": "ElrondNetwork",
+  "author": "@risasoftstaking",
   "license": "GPL-3.0-or-later",
-  "repository": "@elrondnetwork/dapp-template",
+  "repository": "@risasoft/delegation-dashboard",
   "dependencies": {
     "@elrondnetwork/dapp-core": "^1.0.8",
     "@elrondnetwork/dapp-utils": "0.0.10",

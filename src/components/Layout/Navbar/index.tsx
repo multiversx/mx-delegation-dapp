@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
           <Logo />
         </span>
 
-        <span className={styles.title}>Delegation Manager</span>
+        <span className={styles.title}>RisaSoft Staking</span>
       </Link>
 
       <div className={styles.buttons}>
