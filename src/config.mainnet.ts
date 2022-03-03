@@ -5,7 +5,7 @@ export interface DelegationContractType {
 }
 
 interface NetworkType {
-  id: string;
+  id: 'devnet' | 'testnet' | 'mainnet';
   name: string;
   egldLabel: string;
   walletAddress: string;

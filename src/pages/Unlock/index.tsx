@@ -82,7 +82,6 @@ const Unlock: React.FC = () => {
           {connects.map((connect: ConnectionType) => (
             <connect.component
               key={connect.name}
-              shouldRenderDefaultCss={false}
               callbackRoute='/dashboard'
               logoutRoute='/unlock'
             >
