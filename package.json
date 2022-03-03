@@ -35,7 +35,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "start-testnet": "npm run copy-testnet-config & npm run start",
     "start-devnet": "npm run copy-devnet-config & npm run start",
     "build": "react-scripts build",

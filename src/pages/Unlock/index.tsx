@@ -53,8 +53,7 @@ const Unlock: React.FC = () => {
       name: 'Maiar DeFi Wallet',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: <Extension />,
-      component: DappUI.ExtensionLoginButton,
-      hide: !window.elrondWallet
+      component: DappUI.ExtensionLoginButton
     }
   ];
 
@@ -80,29 +79,27 @@ const Unlock: React.FC = () => {
         </div>
 
         <div className={styles.connects}>
-          {connects.map((connect: ConnectionType) =>
-            connect.hide ? null : (
-              <connect.component
-                key={connect.name}
-                shouldRenderDefaultCss={false}
-                callbackRoute='/dashboard'
-                logoutRoute='/unlock'
-              >
-                <span className={styles.connect}>
-                  <span className={styles.title}>{connect.title}</span>
+          {connects.map((connect: ConnectionType) => (
+            <connect.component
+              key={connect.name}
+              shouldRenderDefaultCss={false}
+              callbackRoute='/dashboard'
+              logoutRoute='/unlock'
+            >
+              <span className={styles.connect}>
+                <span className={styles.title}>{connect.title}</span>
 
-                  <span
-                    className={styles.icon}
-                    style={{ background: connect.background }}
-                  >
-                    {connect.icon}
-                  </span>
-
-                  <span className={styles.name}>{connect.name}</span>
+                <span
+                  className={styles.icon}
+                  style={{ background: connect.background }}
+                >
+                  {connect.icon}
                 </span>
-              </connect.component>
-            )
-          )}
+
+                <span className={styles.name}>{connect.name}</span>
+              </span>
+            </connect.component>
+          ))}
         </div>
       </div>
     </div>
