@@ -76,7 +76,9 @@ const Unlock: React.FC = () => {
         <strong className={styles.heading}>RisaSoft Staking</strong>
 
         <div className={styles.description}>
-          {`Help secure the Elrond blockchain and earn 12% - 16% APR on your eGLD when you stake us. All delegations are non-custodial so you remain in control of your digital assets. Running on our world class infrastructure ensures minimal downtime and maximum rewards.`}
+          Help secure the Elrond blockchain and earn 12% - 16% APR on your eGLD when you stake us.
+          All delegations are non-custodial so you remain in control of your digital assets.
+          Running on our world class infrastructure ensures minimal downtime and maximum rewards.
         </div>
 
         <div className={styles.connects}>
