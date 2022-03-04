@@ -53,15 +53,13 @@ interface ActionsType {
 
 const Nodes: React.FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
-  const { nodesNumber, nodesData } = useGlobalContext();
+  const { nodesData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
-  const isError = nodesData.error || nodesNumber.error;
-  const isLoading =
-    nodesData.status === 'loading' || nodesNumber.status === 'loading';
+  const isLoading = nodesData.status === 'loading';
 
   const variants: VariantsType = {
     staked: {
@@ -161,58 +159,35 @@ const Nodes: React.FC = () => {
   };
 
   const getNodes = () => {
-    if (nodesData.data && nodesNumber.data) {
-      if (nodesData.data.length > 0 || nodesNumber.data.length > 0) {
-        const calculateNodes = (nodes: Array<any>) => {
-          const statuses: Array<string> = [];
+    if (nodesData.data && nodesData.data.length > 0) {
+      const calculateNodes = (nodes: Array<any>) => {
+        const statuses: Array<string> = [];
 
-          return nodes.reduce((items: any, item: any) => {
-            const current = String(item);
-            const status: string = statuses[statuses.length - 1];
+        return nodes.reduce((items: any, item: any) => {
+          const current = String(item);
+          const status: string = statuses[statuses.length - 1];
 
-            if (variants[current]) {
-              statuses.push(current);
-              return items;
-            } else {
-              return [
-                ...items,
-                {
-                  code: item.toString('hex'),
-                  status
-                }
-              ];
-            }
-          }, []);
-        };
+          if (variants[current]) {
+            statuses.push(current);
+            return items;
+          } else {
+            return [
+              ...items,
+              {
+                code: item.toString('hex'),
+                status
+              }
+            ];
+          }
+        }, []);
+      };
 
-        const calculateKeys = (keys: Array<any>) => {
-          const map = (item: any, index: number) => ({
-            status: String(item),
-            code:
-              index === keys.length - 1 ? '' : keys[index + 1].toString('hex')
-          });
-
-          const filter = (item: any) =>
-            Object.keys(variants).includes(item.status);
-
-          return keys.map(map).filter(filter);
-        };
-
-        const nodes = calculateNodes(nodesData.data);
-        const keys = calculateKeys(nodesNumber.data.reverse());
-
-        setData(
-          nodes.map((node: NodeType) => {
-            const index = keys.findIndex((key: any) => key.code === node.code);
-            const key = index >= 0 ? keys[index].status : node.status;
-
-            return {
-              ...node,
-              status: variants[key]
-            };
-          })
-        );
-      }
+      setData(
+        calculateNodes(nodesData.data).map((node: NodeType) => ({
+          ...node,
+          status: variants[node.status]
+        }))
+      );
     }
 
     return () => setData([]);
@@ -271,7 +246,7 @@ const Nodes: React.FC = () => {
   };
 
   useEffect(fetchNodes, [nodesData.data]);
-  useEffect(getNodes, [nodesNumber.data, nodesData.data, success]);
+  useEffect(getNodes, [nodesData.data, success]);
   useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
@@ -294,7 +269,7 @@ const Nodes: React.FC = () => {
       </div>
 
       <div className={styles.body}>
-        {isLoading || isError || data.length === 0 ? (
+        {isLoading || nodesData.error || data.length === 0 ? (
           <Fragment>
             <div className={styles.server}>
               <FontAwesomeIcon icon={faServer} size='2x' />
@@ -303,7 +278,7 @@ const Nodes: React.FC = () => {
             <div className={styles.message}>
               {isLoading
                 ? 'Retrieving keys...'
-                : isError
+                : nodesData.error
                 ? 'An error occurred attempting to retrieve keys.'
                 : 'No keys found for this contract.'}
             </div>
