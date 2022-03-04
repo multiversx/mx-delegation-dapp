@@ -271,8 +271,8 @@ const Nodes: React.FC = () => {
   };
 
   useEffect(fetchNodes, [nodesData.data]);
-  useEffect(getNodes, [nodesNumber.data, nodesData.data]);
-  useEffect(refetchNodes, [hasActiveTransactions, success, nodesData.data]);
+  useEffect(getNodes, [nodesNumber.data, nodesData.data, success]);
+  useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
     <div className={styles.nodes}>

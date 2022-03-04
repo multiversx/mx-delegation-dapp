@@ -103,7 +103,7 @@ const Stake: React.FC = () => {
             {isLoading
               ? 'Retrieving staking data...'
               : isError
-              ? 'There was an error trying to retrieve staking data'
+              ? 'There was an error trying to retrieve staking data.'
               : `Currently you don't have any ${network.egldLabel} staked.`}
           </div>
 

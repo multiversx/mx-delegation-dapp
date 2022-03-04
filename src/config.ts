@@ -47,15 +47,15 @@ export const walletConnectDeepLink =
   'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet&link=https://maiar.com/';
 
 export const network: NetworkType = {
-  id: 'mainnet',
-  name: 'Mainnet',
-  egldLabel: 'EGLD',
-  walletAddress: 'https://wallet.elrond.com/dapp/init',
-  apiAddress: 'https://api.elrond.com',
-  gatewayAddress: 'https://gateway.elrond.com',
-  explorerAddress: 'https://explorer.elrond.com/',
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.elrond.com/dapp/init',
+  apiAddress: 'https://devnet-api.elrond.com',
+  gatewayAddress: 'https://devnet-gateway.elrond.com',
+  explorerAddress: 'http://devnet-explorer.elrond.com/',
   delegationContract:
-    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqx8llllsxavffq'
+    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqq98lllls54qqg7'
 };
 
 export const delegationContractData: Array<DelegationContractType> = [
