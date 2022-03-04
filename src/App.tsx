@@ -15,7 +15,7 @@ const App = () => (
     <DappProvider
       environment={network.id}
       customNetworkConfig={{
-        network,
+        ...network,
         walletConnectBridge,
         walletConnectDeepLink
       }}

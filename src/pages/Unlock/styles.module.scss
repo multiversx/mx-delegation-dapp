@@ -56,10 +56,16 @@
       flex-wrap: wrap;
       justify-content: center;
 
-      button {
+      button,
+      a {
         border: none;
         background: none;
-        padding: 0;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        &:active:focus {
+          background: none;
+        }
       }
 
       .connect {
