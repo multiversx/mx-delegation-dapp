@@ -159,21 +159,8 @@ const Nodes: React.FC = () => {
   };
 
   const getNodes = () => {
-    if (nodesData.data && nodesData.data.length > 0) {
-      if (nodesNumber.data && nodesNumber.data.length > 0) {
-        const calculateKeys = (keys: Array<any>) => {
-          const map = (item: any, index: number) => ({
-            status: String(item),
-            code:
-              index === keys.length - 1 ? '' : keys[index + 1].toString('hex')
-          });
-
-          const filter = (item: any) =>
-            Object.keys(variants).includes(item.status);
-
-          return keys.map(map).filter(filter);
-        };
-
+    if (nodesData.data && nodesNumber.data) {
+      if (nodesData.data.length > 0 || nodesNumber.data.length > 0) {
         const calculateNodes = (nodes: Array<any>) => {
           const statuses: Array<string> = [];
 
@@ -196,35 +183,45 @@ const Nodes: React.FC = () => {
           }, []);
         };
 
-        const keys = calculateKeys(nodesNumber.data);
-        const sortNodes = (alpha: NodeType, beta: NodeType) =>
-          alpha.status > beta.status ? 1 : beta.status > alpha.status ? -1 : 0;
+        const calculateKeys = (keys: Array<any>) => {
+          const map = (item: any, index: number) => ({
+            status: String(item),
+            code:
+              index === keys.length - 1 ? '' : keys[index + 1].toString('hex')
+          });
 
-        const mergeKeys = (node: NodeType) => {
-          const key = keys.find((item) => item.code === node.code);
+          const filter = (item: any) =>
+            Object.keys(variants).includes(item.status);
 
-          return {
-            ...node,
-            status: key ? key.status : node.status
-          };
+          return keys.map(map).filter(filter);
         };
 
-        const assignStatus = (node: NodeType) => ({
-          ...node,
-          status: variants[node.status]
-        });
+        const nodes = calculateNodes(nodesData.data);
+        const keys = calculateKeys(nodesNumber.data.reverse());
 
         setData(
-          calculateNodes(nodesData.data)
-            .map(mergeKeys)
-            .sort(sortNodes)
-            .map(assignStatus)
+          nodes.map((node: NodeType) => {
+            const index = keys.findIndex((key: any) => key.code === node.code);
+            const key = index >= 0 ? keys[index].status : node.status;
+
+            return {
+              ...node,
+              status: variants[key]
+            };
+          })
         );
       }
     }
 
     return () => setData([]);
   };
+
+  if (nodesData.data && nodesNumber.data) {
+    console.log(
+      nodesData.data.map((e) => String(e)),
+      nodesNumber.data.map((e) => String(e))
+    );
+  }
 
   const getNodesData = async (): Promise<void> => {
     dispatch({

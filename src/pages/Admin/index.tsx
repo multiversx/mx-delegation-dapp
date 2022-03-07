@@ -10,19 +10,28 @@ import Heading from 'components/Heading';
 import Nodes from 'components/Nodes';
 import Toggles from 'components/Toggles';
 
+import { useGlobalContext } from 'context';
 import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
 const Admin: React.FC = () => {
   const { address } = useGetAccountInfo();
+  const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
-  const handleRedirect = () =>
-    Boolean(address) ? setLoading(false) : navigate('/unlock');
+  const handleRedirect = () => {
+    if (!Boolean(address)) {
+      navigate('/unlock');
+    } else if (contractDetails.data && contractDetails.data.owner) {
+      setLoading(false);
+    } else {
+      navigate('/dashboard');
+    }
+  };
 
-  useEffect(handleRedirect, [address]);
+  useEffect(handleRedirect, [address, contractDetails.data]);
   useGlobalData();
 
   if (loading) {
