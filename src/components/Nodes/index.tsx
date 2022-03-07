@@ -156,9 +156,9 @@ const Nodes: React.FC = () => {
       const calculateNodes = (nodes: Array<any>) =>
         nodes.reduce((result: any, value, index, array) => {
           if (index % 2 === 0) {
-            const [key, status]: Array<any> = array.slice(index, index + 2);
+            const [code, status]: Array<any> = array.slice(index, index + 2);
             const item = {
-              code: Buffer.from(key, 'base64').toString('hex'),
+              code: Buffer.from(code, 'base64').toString('hex'),
               status: Buffer.from(status, 'base64').toString()
             };
 
