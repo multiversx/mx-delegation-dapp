@@ -24,10 +24,15 @@ const Admin: React.FC = () => {
   const handleRedirect = () => {
     if (!Boolean(address)) {
       navigate('/unlock');
-    } else if (contractDetails.data && contractDetails.data.owner) {
-      setLoading(false);
-    } else {
-      navigate('/dashboard');
+      return;
+    }
+
+    if (contractDetails.status === 'loaded') {
+      if (contractDetails.data && contractDetails.data.owner) {
+        setLoading(false);
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
