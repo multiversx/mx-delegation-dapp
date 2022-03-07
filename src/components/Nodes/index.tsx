@@ -53,7 +53,7 @@ interface ActionsType {
 
 const Nodes: React.FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
-  const { nodesData } = useGlobalContext();
+  const { nodesData, nodesNumber } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
@@ -160,34 +160,67 @@ const Nodes: React.FC = () => {
 
   const getNodes = () => {
     if (nodesData.data && nodesData.data.length > 0) {
-      const calculateNodes = (nodes: Array<any>) => {
-        const statuses: Array<string> = [];
+      if (nodesNumber.data && nodesNumber.data.length > 0) {
+        const calculateKeys = (keys: Array<any>) => {
+          const map = (item: any, index: number) => ({
+            status: String(item),
+            code:
+              index === keys.length - 1 ? '' : keys[index + 1].toString('hex')
+          });
 
-        return nodes.reduce((items: any, item: any) => {
-          const current = String(item);
-          const status: string = statuses[statuses.length - 1];
+          const filter = (item: any) =>
+            Object.keys(variants).includes(item.status);
 
-          if (variants[current]) {
-            statuses.push(current);
-            return items;
-          } else {
-            return [
-              ...items,
-              {
-                code: item.toString('hex'),
-                status
-              }
-            ];
-          }
-        }, []);
-      };
+          return keys.map(map).filter(filter);
+        };
 
-      setData(
-        calculateNodes(nodesData.data).map((node: NodeType) => ({
+        const calculateNodes = (nodes: Array<any>) => {
+          const statuses: Array<string> = [];
+
+          return nodes.reduce((items: any, item: any) => {
+            const current = String(item);
+            const status: string = statuses[statuses.length - 1];
+
+            if (variants[current]) {
+              statuses.push(current);
+              return items;
+            } else {
+              return [
+                ...items,
+                {
+                  code: item.toString('hex'),
+                  status
+                }
+              ];
+            }
+          }, []);
+        };
+
+        const keys = calculateKeys(nodesNumber.data);
+        const sortNodes = (alpha: NodeType, beta: NodeType) =>
+          alpha.status > beta.status ? 1 : beta.status > alpha.status ? -1 : 0;
+
+        const mergeKeys = (node: NodeType) => {
+          const key = keys.find((item) => item.code === node.code);
+
+          return {
+            ...node,
+            status: key ? key.status : node.status
+          };
+        };
+
+        const assignStatus = (node: NodeType) => ({
           ...node,
           status: variants[node.status]
-        }))
-      );
+        });
+
+        setData(
+          calculateNodes(nodesData.data)
+            .map(mergeKeys)
+            .sort(sortNodes)
+            .map(assignStatus)
+        );
+      }
     }
 
     return () => setData([]);
@@ -246,7 +279,7 @@ const Nodes: React.FC = () => {
   };
 
   useEffect(fetchNodes, [nodesData.data]);
-  useEffect(getNodes, [nodesData.data, success]);
+  useEffect(getNodes, [nodesData.data, nodesNumber.data, success]);
   useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (

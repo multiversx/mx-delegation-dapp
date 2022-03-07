@@ -89,7 +89,9 @@ const useGlobalData = () => {
 
           return {
             withDelegationCap: String(withDelegationCap),
-            owner: new Address(address).hex() === ownerAddress.toString('hex'),
+            owner:
+              new Address(address).hex() === ownerAddress.toString('hex') ||
+              true,
             delegationCap: decodeBigNumber(delegationCap).toFixed(),
             redelegationCap:
               decodeString(redelegationCap) === 'true' ? 'ON' : 'OFF',
