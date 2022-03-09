@@ -53,7 +53,7 @@ export const network: NetworkType = {
   walletAddress: 'https://devnet-wallet.elrond.com/dapp/init',
   apiAddress: 'https://devnet-api.elrond.com',
   gatewayAddress: 'https://devnet-gateway.elrond.com',
-  explorerAddress: 'http://devnet-explorer.elrond.com/',
+  explorerAddress: 'http://devnet-explorer.elrond.com',
   delegationContract:
     'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqx8llllsxavffq'
 };
