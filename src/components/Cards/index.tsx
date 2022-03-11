@@ -331,8 +331,6 @@ const Cards: React.FC = () => {
       modal: <ChangeServiceFee />,
       icon: <FontAwesomeIcon icon={faReceipt} />,
       title: 'Change service fee',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       colors: ['#F3BF89', '#B68350'],
       data: {
         value: contractDetails.data
