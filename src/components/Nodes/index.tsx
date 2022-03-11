@@ -231,7 +231,7 @@ const Nodes: React.FC = () => {
                 </span>
 
                 <a
-                  href={`${network.explorerAddress}nodes/${node.code}`}
+                  href={`${network.explorerAddress}/nodes/${node.code}`}
                   target='_blank'
                   rel='noreferrer'
                   className={styles.link}
