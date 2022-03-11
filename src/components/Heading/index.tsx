@@ -32,7 +32,7 @@ const Heading: React.FC = () => {
         <div className='d-flex align-items-center'>
           <span className={styles.contract}>{network.delegationContract}</span>
           <a
-            href={`https://explorer.elrond.com/accounts/${network.delegationContract}`}
+            href={`${network.explorerAddress}/accounts/${network.delegationContract}`}
             className={styles.icon}
             rel='noreferrer'
             target='_blank'
