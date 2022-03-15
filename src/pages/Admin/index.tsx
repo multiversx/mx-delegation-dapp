@@ -5,14 +5,14 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
-import Cards from 'components/Cards';
-import Heading from 'components/Heading';
-import Nodes from 'components/Nodes';
-import Toggles from 'components/Toggles';
+import Cards from '/src/components/Cards';
+import Heading from '/src/components/Heading';
+import Nodes from '/src/components/Nodes';
+import Toggles from '/src/components/Toggles';
 
 import useGlobalData from '../../hooks/useGlobalData';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 const Admin: React.FC = () => {
   const { address } = useGetAccountInfo();

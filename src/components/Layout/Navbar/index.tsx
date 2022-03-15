@@ -5,12 +5,12 @@ import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import Logo from 'assets/Logo';
-import { network } from 'config';
-import { denominated } from 'helpers/denominate';
+import Logo from '/src/assets/Logo';
+import { network } from '/src/config';
+import { denominated } from '/src/helpers/denominate';
 
-import modifiable from 'helpers/modifiable';
-import styles from './styles.module.scss';
+import modifiable from '/src/helpers/modifiable';
+import './styles.module.scss';
 
 interface ButtonsType {
   icon: ReactNode;

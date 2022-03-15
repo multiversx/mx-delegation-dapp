@@ -13,14 +13,14 @@ import {
 import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
 
-import { Submit } from 'components/Action';
-import { network } from 'config';
+import { Submit } from '/src/components/Action';
+import { network } from '/src/config';
 
-import { useDispatch, useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
-import useTransaction from 'helpers/useTransaction';
+import { useDispatch, useGlobalContext } from '/src/context';
+import modifiable from '/src/helpers/modifiable';
+import useTransaction from '/src/helpers/useTransaction';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface FieldType {
   [key: string]: any;

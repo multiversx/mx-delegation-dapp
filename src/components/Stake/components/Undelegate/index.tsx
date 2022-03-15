@@ -2,15 +2,15 @@ import React from 'react';
 
 import { Formik } from 'formik';
 import { object } from 'yup';
-import Action, { Submit } from 'components/Action';
-import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
-import useStakeData from 'components/Stake/hooks';
-import { network } from 'config';
-import { useGlobalContext } from 'context';
+import Action, { Submit } from '/src/components/Action';
+import { undelegateValidator } from '/src/components/Stake//helpers/delegationValidators';
+import useStakeData from '/src/components/Stake/hooks';
+import { network } from '/src/config';
+import { useGlobalContext } from '/src/context';
 
-import modifiable from 'helpers/modifiable';
+import modifiable from '/src/helpers/modifiable';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 const Undelegate: React.FC = () => {
   const { userActiveStake } = useGlobalContext();

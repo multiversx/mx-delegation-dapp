@@ -23,20 +23,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import Logo from 'assets/Logo';
+import Logo from '/src/assets/Logo';
 
-import Action from 'components/Action';
-import { network, auctionContract } from 'config';
-import { useGlobalContext, useDispatch } from 'context';
-import { denominated } from 'helpers/denominate';
-import getPercentage from 'helpers/getPercentage';
-import modifiable from 'helpers/modifiable';
+import Action from '/src/components/Action';
+import { network, auctionContract } from '/src/config';
+import { useGlobalContext, useDispatch } from '/src/context';
+import { denominated } from '/src/helpers/denominate';
+import getPercentage from '/src/helpers/getPercentage';
+import modifiable from '/src/helpers/modifiable';
 import ChangeDelegationCap from './components/ChangeDelegationCap';
 import ChangeServiceFee from './components/ChangeServiceFee';
 
 import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface CardType {
   label: string;
@@ -338,8 +338,8 @@ const Cards: React.FC = () => {
         value: contractDetails.data
           ? contractDetails.data.serviceFee
           : contractDetails.error
-          ? 'Service Fee Unknown'
-          : '...%'
+            ? 'Service Fee Unknown'
+            : '...%'
       }
     },
     {

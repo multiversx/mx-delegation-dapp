@@ -4,15 +4,15 @@ import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Formik } from 'formik';
 import { object } from 'yup';
 
-import Action, { Submit } from 'components/Action';
-import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
-import useStakeData from 'components/Stake/hooks';
-import { network } from 'config';
+import Action, { Submit } from '/src/components/Action';
+import { delegateValidator } from '/src/components/Stake//helpers/delegationValidators';
+import useStakeData from '/src/components/Stake/hooks';
+import { network } from '/src/config';
 
-import { denominated } from 'helpers/denominate';
-import modifiable from 'helpers/modifiable';
+import { denominated } from '/src/helpers/denominate';
+import modifiable from '/src/helpers/modifiable';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 const Delegate: React.FC = () => {
   const { account } = useGetAccountInfo();

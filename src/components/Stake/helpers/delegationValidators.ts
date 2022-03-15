@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
-import { network } from 'config';
+import { network } from '/src/config';
 
 const undelegateValidator = (input: string) =>
   string()

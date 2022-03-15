@@ -7,8 +7,8 @@ import {
   protocolSustainabilityRewards,
   yearSettings,
   genesisTokenSupply
-} from 'config';
-import denominate from 'helpers/denominate';
+} from '/src/config';
+import denominate from '/src/helpers/denominate';
 
 const denominateValue = (value: string) => {
   const denominatedValueString = denominate({
@@ -68,10 +68,10 @@ const calculateAnnualPercentage = ({
     ((2 * topUpRewardsLimit) / Math.PI) *
     Math.atan(
       networkTopUpStake /
-        (2 *
-          parseInt(
-            denominateValue(networkConfig.TopUpRewardsGradientPoint.toFixed())
-          ))
+      (2 *
+        parseInt(
+          denominateValue(networkConfig.TopUpRewardsGradientPoint.toFixed())
+        ))
     );
 
   const baseReward = rewardsPerEpochWithoutProtocolSustainability - topUpReward;

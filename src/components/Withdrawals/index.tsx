@@ -16,13 +16,13 @@ import {
   decodeBigNumber
 } from '@elrondnetwork/erdjs';
 import moment from 'moment';
-import { network, decimals, denomination } from 'config';
-import { useGlobalContext, useDispatch } from 'context';
-import { UndelegateStakeListType } from 'context/state';
-import denominate from 'helpers/denominate';
+import { network, decimals, denomination } from '/src/config';
+import { useGlobalContext, useDispatch } from '/src/context';
+import { UndelegateStakeListType } from '/src/context/state';
+import denominate from '/src/helpers/denominate';
 
 import Withdrawal from './components/Withdrawal';
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 const Withdrawals: React.FC = () => {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const Withdrawals: React.FC = () => {
                 moment().unix() +
                 ((roundsRemainingInEpoch + roundEpochComplete) *
                   config.RoundDuration) /
-                  1000
+                1000
               );
             };
 

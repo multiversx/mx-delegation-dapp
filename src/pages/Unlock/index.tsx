@@ -4,14 +4,14 @@ import { ReactNode, useEffect } from 'react';
 import { useGetAccountInfo, DappUI } from '@elrondnetwork/dapp-core';
 import { useNavigate } from 'react-router-dom';
 
-import Extension from 'assets/Extension';
-import Ledger from 'assets/Ledger';
-import Logo from 'assets/Logo';
-import Maiar from 'assets/Maiar';
+import Extension from '../../assets/Extension';
+import Ledger from '../../assets/Ledger';
+import Logo from '../../assets/Logo';
+import Maiar from '../../assets/Maiar';
 
-import { network } from 'config';
+import { network } from '/src/config';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface ConnectionType {
   title: string;

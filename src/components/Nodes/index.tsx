@@ -19,16 +19,16 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 
-import Action from 'components/Action';
-import { network } from 'config';
-import { useDispatch, useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
+import Action from '/src/components/Action';
+import { network } from '/src/config';
+import { useDispatch, useGlobalContext } from '/src/context';
+import modifiable from '/src/helpers/modifiable';
 
-import useTransaction from 'helpers/useTransaction';
+import useTransaction from '/src/helpers/useTransaction';
 
 import Add from './components/Add';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface NodeType {
   code: string;
@@ -304,8 +304,8 @@ const Nodes: React.FC = () => {
               {isLoading
                 ? 'Retrieving keys...'
                 : isError
-                ? 'An error occurred attempting to retrieve keys.'
-                : 'No keys found for this contract.'}
+                  ? 'An error occurred attempting to retrieve keys.'
+                  : 'No keys found for this contract.'}
             </div>
           </Fragment>
         ) : (

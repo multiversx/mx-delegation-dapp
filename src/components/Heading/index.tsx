@@ -9,13 +9,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import Action from 'components/Action';
-import { network } from 'config';
-import { useGlobalContext } from 'context';
+import Action from '/src/components/Action';
+import { network } from '/src/config';
+import { useGlobalContext } from '/src/context';
 
 import Identity from './components/Identity';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 const Heading: React.FC = () => {
   const { contractDetails } = useGlobalContext();

@@ -14,11 +14,11 @@ import {
 } from '@elrondnetwork/erdjs';
 import BigNumber from 'bignumber.js';
 
-import { network, minDust } from 'config';
-import { useDispatch, useGlobalContext } from 'context';
-import { denominated } from 'helpers/denominate';
-import { nominateValToHex } from 'helpers/nominate';
-import useTransaction from 'helpers/useTransaction';
+import { network, minDust } from '/src/config';
+import { useDispatch, useGlobalContext } from '/src/context';
+import { denominated } from '/src/helpers/denominate';
+import { nominateValToHex } from '/src/helpers/nominate';
+import useTransaction from '/src/helpers/useTransaction';
 
 interface DelegationPayloadType {
   amount: string;

@@ -16,9 +16,9 @@ import {
   AddressValue
 } from '@elrondnetwork/erdjs';
 
-import { network, decimals, auctionContract, denomination } from 'config';
-import { useDispatch } from 'context';
-import denominate from 'helpers/denominate';
+import { network, decimals, auctionContract, denomination } from '../config';
+import { useDispatch } from '../context';
+import denominate from '/src/helpers/denominate';
 
 interface ContractDetailsType {
   automaticActivation: string;

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { dAppName } from 'config';
+import { dAppName } from './config';
 import withPageTitle from './components/PageTitle';
 
 import Admin from './pages/Admin';

@@ -4,17 +4,17 @@ import { ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Logo from 'assets/Logo';
-import { network } from 'config';
-import { useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
+import Logo from '/src/assets/Logo';
+import { network } from '/src/config';
+import { useGlobalContext } from '/src/context';
+import modifiable from '/src/helpers/modifiable';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
 
 import useStakeData from './hooks';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface ActionType {
   label: string;
@@ -103,8 +103,8 @@ const Stake: React.FC = () => {
             {isLoading
               ? 'Retrieving staking data...'
               : isError
-              ? 'There was an error trying to retrieve staking data'
-              : `Currently you don't have any ${network.egldLabel} staked.`}
+                ? 'There was an error trying to retrieve staking data'
+                : `Currently you don't have any ${network.egldLabel} staked.`}
           </div>
 
           <Delegate />

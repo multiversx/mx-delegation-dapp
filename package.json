@@ -5,11 +5,16 @@
   "author": "@risasoftstaking",
   "license": "GPL-3.0-or-later",
   "repository": "@risasoft/delegation-dashboard",
+  "engines": {
+    "node": "14.17.2"
+  },
+  "type": "module",
   "dependencies": {
-    "@elrondnetwork/dapp-core": "1.0.14",
+    "@elrondnetwork/dapp-core": "1.0.18",
     "@elrondnetwork/dapp-utils": "0.0.10",
     "@elrondnetwork/erdjs": "9.0.3",
     "@fortawesome/free-regular-svg-icons": "^6.0.0",
+    "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "5.11.4",
     "@testing-library/react": "11.1.0",
     "@testing-library/user-event": "12.1.10",
@@ -19,36 +24,58 @@
     "@types/react-dom": "17.0.0",
     "@types/react-router-dom": "5.1.7",
     "axios": "^0.21.4",
+    "bfj": "^7.0.2",
     "bootstrap": "4.6.0",
+    "browserslist": "^4.18.1",
+    "camelcase": "^6.2.1",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "css-loader": "^6.5.1",
+    "css-minimizer-webpack-plugin": "^3.2.0",
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
+    "file-loader": "^6.2.0",
     "formik": "^2.2.9",
+    "fs-extra": "^10.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.3",
+    "mini-css-extract-plugin": "^2.4.5",
     "moment": "2.29.1",
-    "node-sass": "^7.0.1",
+    "postcss": "^8.4.4",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.2.1",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^7.0.1",
+    "prompts": "^2.4.2",
     "qrcode": "^1.5.0",
     "react": "17.0.2",
     "react-bootstrap": "1.6.0",
+    "react-dev-utils": "^12.0.0",
     "react-dom": "^16.14.0",
     "react-dropzone": "^11.5.3",
+    "react-refresh": "^0.11.0",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "5.0.0",
+    "resolve": "^1.20.0",
+    "resolve-url-loader": "^4.0.0",
+    "sass-loader": "^12.3.0",
+    "semver": "^7.3.5",
+    "source-map-loader": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.2",
     "typescript": "4.1.2",
     "web-vitals": "1.0.1",
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "HTTPS=true react-scripts start",
+    "start": "parcel public/index.html",
     "start-testnet": "npm run copy-testnet-config & npm run start",
-    "build": "react-scripts build",
+    "build": "parcel build public/index.html",
     "build-testnet": "npm run copy-testnet-config & npm run build",
-    "test": "react-scripts test",
+    "build-mainnet": "npm run copy-mainnet-config & npm run build",
+    "test": "node scripts/test.js",
     "copy-testnet-config": "cp ./src/config.testnet.ts ./src/config.ts",
-    "eject": "react-scripts eject",
+    "copy-mainnet-config": "cp ./src/config.mainnet.ts ./src/config.ts",
     "lint": "eslint --ext js,ts,tsx src --fix"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -63,21 +90,71 @@
     ]
   },
   "devDependencies": {
+    "@parcel/packager-raw-url": "^2.3.2",
+    "@parcel/transformer-sass": "^2.3.2",
+    "@parcel/transformer-webmanifest": "^2.3.2",
     "@types/qrcode": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "4.22.1",
     "@typescript-eslint/parser": "4.22.1",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-config-react": "1.1.7",
-    "eslint-config-react-app": "7.0.0",
-    "eslint-config-standard": "16.0.3",
-    "eslint-import-resolver-alias": "1.1.2",
-    "eslint-import-resolver-typescript": "2.4.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "3.4.0",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-react": "7.22.0",
-    "eslint-plugin-react-hooks": "4.2.0",
-    "prettier": "2.3.2"
+    "crypto-browserify": "^3.12.0",
+    "parcel": "^2.3.2",
+    "path-browserify": "^1.0.1",
+    "postcss-modules": "^4.3.1",
+    "prettier": "2.3.2",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "modulePaths": [
+      "C:\\Users\\Mark\\delegation-dashboard\\src"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true
   }
 }

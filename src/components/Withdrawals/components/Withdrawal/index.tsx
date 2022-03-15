@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 import moment from 'moment';
-import Logo from 'assets/Logo';
-import { network } from 'config';
-import { UndelegateStakeListType } from 'context/state';
-import modifiable from 'helpers/modifiable';
-import useTransaction from 'helpers/useTransaction';
+import Logo from '/src/assets/Logo';
+import { network } from '/src/config';
+import { UndelegateStakeListType } from '/src/context/state';
+import modifiable from '/src/helpers/modifiable';
+import useTransaction from '/src/helpers/useTransaction';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface FormattersType {
   [key: string]: any;

@@ -5,15 +5,15 @@ import BigNumber from 'bignumber.js';
 import { Formik } from 'formik';
 import { string, object } from 'yup';
 
-import { Submit } from 'components/Action';
-import { network } from 'config';
-import { useGlobalContext } from 'context';
-import { denominated } from 'helpers/denominate';
-import modifiable from 'helpers/modifiable';
-import { nominateValToHex } from 'helpers/nominate';
-import useTransaction from 'helpers/useTransaction';
+import { Submit } from '/src/components/Action';
+import { network } from '/src/config';
+import { useGlobalContext } from '/src/context';
+import { denominated } from '/src/helpers/denominate';
+import modifiable from '/src/helpers/modifiable';
+import { nominateValToHex } from '/src/helpers/nominate';
+import useTransaction from '/src/helpers/useTransaction';
 
-import styles from './styles.module.scss';
+import './styles.module.scss';
 
 interface ActionDataType {
   amount: string;
