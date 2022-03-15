@@ -2416,7 +2416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/core@npm:2.3.2":
+"@parcel/core@npm:2.3.2, @parcel/core@npm:^2.3.2":
   version: 2.3.2
   resolution: "@parcel/core@npm:2.3.2"
   dependencies:
@@ -3203,6 +3203,7 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.0.0
     "@fortawesome/free-solid-svg-icons": ^6.0.0
     "@fortawesome/react-fontawesome": ^0.1.17
+    "@parcel/core": ^2.3.2
     "@parcel/packager-raw-url": ^2.3.2
     "@parcel/transformer-sass": ^2.3.2
     "@parcel/transformer-webmanifest": ^2.3.2

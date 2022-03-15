@@ -40,6 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/free-regular-svg-icons", "npm:6.0.0"],\
             ["@fortawesome/free-solid-svg-icons", "npm:6.0.0"],\
             ["@fortawesome/react-fontawesome", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.1.17"],\
+            ["@parcel/core", "npm:2.3.2"],\
             ["@parcel/packager-raw-url", "npm:2.3.2"],\
             ["@parcel/transformer-sass", "npm:2.3.2"],\
             ["@parcel/transformer-webmanifest", "npm:2.3.2"],\
@@ -5018,6 +5019,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/free-regular-svg-icons", "npm:6.0.0"],\
             ["@fortawesome/free-solid-svg-icons", "npm:6.0.0"],\
             ["@fortawesome/react-fontawesome", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.1.17"],\
+            ["@parcel/core", "npm:2.3.2"],\
             ["@parcel/packager-raw-url", "npm:2.3.2"],\
             ["@parcel/transformer-sass", "npm:2.3.2"],\
             ["@parcel/transformer-webmanifest", "npm:2.3.2"],\
