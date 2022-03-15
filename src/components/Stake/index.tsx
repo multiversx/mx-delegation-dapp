@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from 'assets/Logo';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
+import { denominated } from 'helpers/denominate';
 import modifiable from 'helpers/modifiable';
 
 import Delegate from './components/Delegate';
@@ -45,7 +46,7 @@ const Stake: React.FC = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Delegation',
-      value: userActiveStake.data || '...',
+      value: denominated(userActiveStake.data || '...', { addCommas: false }),
       disabled: false,
       actions: [
         {

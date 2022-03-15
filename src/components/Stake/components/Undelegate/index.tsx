@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import { Formik } from 'formik';
 import { object } from 'yup';
@@ -7,6 +7,8 @@ import { undelegateValidator } from 'components/Stake//helpers/delegationValidat
 import useStakeData from 'components/Stake/hooks';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
+
+import { denominated } from 'helpers/denominate';
 
 import modifiable from 'helpers/modifiable';
 
@@ -42,9 +44,14 @@ const Undelegate: React.FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const onMax = (event: any): void => {
+                const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
-                  setFieldValue('amount', userActiveStake.data);
+                  setFieldValue(
+                    'amount',
+                    denominated(userActiveStake.data || '', {
+                      addCommas: false
+                    })
+                  );
                 };
 
                 return (
@@ -75,7 +82,8 @@ const Undelegate: React.FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span> {userActiveStake.data}{' '}
+                        <span>Balance:</span>{' '}
+                        {denominated(userActiveStake.data || '')}{' '}
                         {network.egldLabel}
                       </span>
 

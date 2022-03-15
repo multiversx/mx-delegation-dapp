@@ -16,9 +16,8 @@ import {
   AddressValue
 } from '@elrondnetwork/erdjs';
 
-import { network, decimals, auctionContract, denomination } from 'config';
+import { network, auctionContract } from 'config';
 import { useDispatch } from 'context';
-import denominate from 'helpers/denominate';
 
 interface ContractDetailsType {
   automaticActivation: string;
@@ -153,12 +152,7 @@ const useGlobalData = () => {
           const data = await provider.queryContract(query);
           const [userStake] = data.outputUntyped();
 
-          return denominate({
-            input: decodeBigNumber(userStake).toFixed(),
-            decimals,
-            denomination,
-            addCommas: false
-          });
+          return decodeBigNumber(userStake).toFixed();
         } catch (error) {
           return Promise.reject(error);
         }

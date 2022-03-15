@@ -17,6 +17,7 @@ import BigNumber from 'bignumber.js';
 import { network, minDust } from 'config';
 import { useDispatch, useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
+import getPercentage from 'helpers/getPercentage';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
 
@@ -87,40 +88,34 @@ const useStakeData = () => {
       const balance = new BigNumber(account.balance);
       const gasPrice = new BigNumber('12000000');
       const gasLimit = new BigNumber('12000000');
-      const adjusted = balance.minus(gasPrice.times(gasLimit));
-      const dust = new BigNumber(minDust);
-
-      const [available, dustful] = [adjusted, adjusted.minus(dust)].map(
-        (value) =>
-          denominated(value.toString(10), {
-            showLastNonZeroDecimal: true,
-            addCommas: false
-          })
-      );
+      const available = balance.minus(gasPrice.times(gasLimit));
+      const dustful = available.minus(new BigNumber(minDust)).toFixed();
 
       if (contractDetails.data.withDelegationCap === 'true') {
-        const [stake, cap] = [
-          denominated(totalActiveStake.data).replace(/,/g, ''),
-          denominated(contractDetails.data.delegationCap).replace(/,/g, '')
-        ];
-
+        const cap = contractDetails.data.delegationCap;
+        const stake = totalActiveStake.data;
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
+        const maxed =
+          parseInt(getPercentage(denominated(stake), denominated(cap))) === 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
-            balance: available,
-            limit: dustful
+            balance: available.toFixed(),
+            limit: dustful,
+            maxed
           };
         } else {
           return {
-            balance: available,
-            limit: remainder
+            balance: available.toFixed(),
+            limit: remainder.toFixed(),
+            maxed
           };
         }
       } else {
         return {
-          balance: available,
-          limit: dustful
+          balance: available.toFixed(),
+          limit: dustful,
+          maxed: false
         };
       }
     }

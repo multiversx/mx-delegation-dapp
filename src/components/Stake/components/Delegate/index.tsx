@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Formik } from 'formik';
@@ -17,7 +17,7 @@ import styles from './styles.module.scss';
 const Delegate: React.FC = () => {
   const { account } = useGetAccountInfo();
   const { onDelegate, getStakingLimits } = useStakeData();
-  const { limit, balance } = getStakingLimits();
+  const { limit, balance, maxed } = getStakingLimits();
 
   return (
     <div className={styles.wrapper}>
@@ -29,7 +29,7 @@ const Delegate: React.FC = () => {
           <div className={styles.delegate}>
             <Formik
               validationSchema={object().shape({
-                amount: delegateValidator(balance, String(limit))
+                amount: delegateValidator(balance, limit)
               })}
               onSubmit={onDelegate}
               initialValues={{
@@ -45,9 +45,12 @@ const Delegate: React.FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const onMax = (event: any): void => {
+                const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
-                  setFieldValue('amount', limit);
+                  setFieldValue(
+                    'amount',
+                    denominated(limit, { addCommas: false })
+                  );
                 };
 
                 return (
@@ -70,9 +73,18 @@ const Delegate: React.FC = () => {
                           value={values.amount}
                           onBlur={handleBlur}
                           onChange={handleChange}
+                          disabled={maxed}
                         />
 
-                        <a href='/#' onClick={onMax} className={styles.max}>
+                        <a
+                          href='/#'
+                          onClick={onMax}
+                          className={modifiable(
+                            'max',
+                            [maxed && 'disabled'],
+                            styles
+                          )}
+                        >
                           Max
                         </a>
                       </div>
@@ -82,8 +94,12 @@ const Delegate: React.FC = () => {
                         {network.egldLabel}
                       </span>
 
-                      {errors.amount && touched.amount && (
-                        <span className={styles.error}>{errors.amount}</span>
+                      {((errors.amount && touched.amount) || maxed) && (
+                        <span className={styles.error}>
+                          {maxed
+                            ? 'Max delegation cap reached, staking unavailable.'
+                            : errors.amount}
+                        </span>
                       )}
                     </div>
 
