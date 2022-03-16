@@ -33,7 +33,7 @@ const Delegate: React.FC = () => {
               })}
               onSubmit={onDelegate}
               initialValues={{
-                amount: '0'
+                amount: '1'
               }}
             >
               {({
@@ -64,7 +64,7 @@ const Delegate: React.FC = () => {
                           step='any'
                           required={true}
                           autoComplete='off'
-                          min={0}
+                          min={1}
                           className={modifiable(
                             'input',
                             [errors.amount && touched.amount && 'invalid'],
