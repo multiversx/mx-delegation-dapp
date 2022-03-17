@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
 
 import { Formik } from 'formik';
 import { object } from 'yup';
@@ -17,6 +17,7 @@ import styles from './styles.module.scss';
 const Undelegate: React.FC = () => {
   const { userActiveStake } = useGlobalContext();
   const { onUndelegate } = useStakeData();
+  const [maxed, setMaxed] = useState<boolean>(false);
 
   return (
     <div className={styles.wrapper}>
@@ -44,14 +45,22 @@ const Undelegate: React.FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
+                const amount = denominated(userActiveStake.data || '', {
+                  addCommas: false,
+                  showLastNonZeroDecimal: true
+                });
+
+                const onChange = (
+                  event: ChangeEvent<HTMLInputElement>
+                ): void => {
+                  handleChange(event);
+                  setMaxed(false);
+                };
+
                 const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
-                  setFieldValue(
-                    'amount',
-                    denominated(userActiveStake.data || '', {
-                      addCommas: false
-                    })
-                  );
+                  setMaxed(true);
+                  setFieldValue('amount', amount);
                 };
 
                 return (
@@ -71,9 +80,9 @@ const Undelegate: React.FC = () => {
                             [errors.amount && touched.amount && 'invalid'],
                             styles
                           )}
-                          value={values.amount}
+                          value={maxed ? amount : values.amount}
                           onBlur={handleBlur}
-                          onChange={handleChange}
+                          onChange={onChange}
                         />
 
                         <a href='/#' onClick={onMax} className={styles.max}>
