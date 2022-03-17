@@ -48,8 +48,6 @@ const useStakeData = () => {
   };
 
   const onUndelegate = async (data: DelegationPayloadType): Promise<void> => {
-    console.log(data.amount);
-
     try {
       await sendTransaction({
         value: '0',
