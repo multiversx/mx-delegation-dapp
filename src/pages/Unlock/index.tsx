@@ -88,7 +88,7 @@ const Unlock: React.FC = () => {
             <li style={{ paddingBottom: '1rem' }}>Metabonding tokens ( $AERO, $EFFORT, $ZPAY, or $ISET)</li>
             <li style={{ paddingBottom: '1rem' }}>Airdropped $RISA (exclusive to our pool)</li>
           </ul>
-          Login:
+          Login below to start staking:
         </div>
         <div className={styles.connects}>
           {connects.map((connect: ConnectionType) => (

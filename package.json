@@ -80,7 +80,7 @@
   "scripts": {
     "start": "parcel public/index.html",
     "start-testnet": "yarn run copy-testnet-config & yarn start",
-    "build": "parcel build public/index.html",
+    "build": "parcel build --no-scope-hoist public/index.html",
     "build-testnet": "yarn run copy-testnet-config & yarn build",
     "build-mainnet": "yarn run copy-mainnet-config & yarn build",
     "test": "node scripts/test.js",

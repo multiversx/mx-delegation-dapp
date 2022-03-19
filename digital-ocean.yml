@@ -4,7 +4,7 @@ alerts:
 name: stake-testnet-risasoft-com
 region: nyc
 static_sites:
-- build_command: npm run build-testnet
+- build_command: yarn run build-testnet
   environment_slug: node-js
   github:
     branch: master

@@ -44,8 +44,8 @@ const routes: Array<RouteType> = [
 
 const mappedRoutes = routes.map((route) => {
   const title = route.title
-    ? `${route.title} • Elrond ${dAppName}`
-    : `Elrond ${dAppName}`;
+    ? `${route.title} • ${dAppName}`
+    : `${dAppName}`;
 
   const requiresAuth = Boolean(route.authenticatedRoute);
   const wrappedComponent = withPageTitle(title, route.component);
