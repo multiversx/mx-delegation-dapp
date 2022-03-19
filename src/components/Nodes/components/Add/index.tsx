@@ -11,7 +11,7 @@ import Dropzone, {
 } from '/src/components/Nodes/components/Dropzone';
 import useTransaction from '/src/helpers/useTransaction';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Add: React.FC = () => {
   const { sendTransaction } = useTransaction();

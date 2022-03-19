@@ -14,7 +14,7 @@ import Undelegate from './components/Undelegate';
 
 import useStakeData from './hooks';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface ActionType {
   label: string;
@@ -44,17 +44,17 @@ const Stake: React.FC = () => {
     {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
-      title: 'Active Delegation',
+      title: 'Active Stake',
       value: userActiveStake.data || '...',
       disabled: false,
       actions: [
         {
           render: <Undelegate />,
-          label: 'Undelegate'
+          label: 'Unstake'
         },
         {
           render: <Delegate />,
-          label: 'Delegate'
+          label: 'Stake'
         }
       ]
     },
@@ -88,7 +88,7 @@ const Stake: React.FC = () => {
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
           <strong className={styles.heading}>
-            Welcome to Delegation Dashboard!
+            Stake and Chill!
           </strong>
 
           <div className={styles.logo}>

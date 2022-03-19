@@ -22,7 +22,7 @@ import { UndelegateStakeListType } from '/src/context/state';
 import denominate from '/src/helpers/denominate';
 
 import Withdrawal from './components/Withdrawal';
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Withdrawals: React.FC = () => {
   const dispatch = useDispatch();

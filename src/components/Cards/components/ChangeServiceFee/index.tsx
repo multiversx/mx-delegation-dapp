@@ -8,7 +8,7 @@ import modifiable from '/src/helpers/modifiable';
 import { nominateVal } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface ActionDataType {
   amount: string;

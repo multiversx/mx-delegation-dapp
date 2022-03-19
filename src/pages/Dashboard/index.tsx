@@ -12,7 +12,7 @@ import Withdrawals from '/src/components/Withdrawals';
 
 import useGlobalData from '../../hooks/useGlobalData';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Dashboard: React.FC = () => {
   const { address } = useGetAccountInfo();

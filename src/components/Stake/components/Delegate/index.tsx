@@ -12,7 +12,7 @@ import { network } from '/src/config';
 import { denominated } from '/src/helpers/denominate';
 import modifiable from '/src/helpers/modifiable';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Delegate: React.FC = () => {
   const { account } = useGetAccountInfo();
@@ -22,9 +22,9 @@ const Delegate: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <Action
-        title='Delegate Now'
-        description={`Select the amount of ${network.egldLabel} you want to delegate.`}
-        trigger={<div className={styles.trigger}>Delegate</div>}
+        title='Stake Now'
+        description={`Select the amount of ${network.egldLabel} you want to stake.`}
+        trigger={<div className={styles.trigger}>Stake Now</div>}
         render={
           <div className={styles.delegate}>
             <Formik

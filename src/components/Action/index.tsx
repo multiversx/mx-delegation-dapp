@@ -4,7 +4,7 @@ import { Modal } from 'react-bootstrap';
 import modifiable from '/src/helpers/modifiable';
 import { useAction, withAction } from './context';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Action = ({ render, title, description, trigger }: any) => {
   const { showModal, setShowModal } = useAction();

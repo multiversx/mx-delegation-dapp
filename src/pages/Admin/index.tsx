@@ -12,7 +12,7 @@ import Toggles from '/src/components/Toggles';
 
 import useGlobalData from '../../hooks/useGlobalData';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Admin: React.FC = () => {
   const { address } = useGetAccountInfo();

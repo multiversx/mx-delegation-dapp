@@ -10,7 +10,7 @@ import { useGlobalContext } from '/src/context';
 
 import modifiable from '/src/helpers/modifiable';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 const Undelegate: React.FC = () => {
   const { userActiveStake } = useGlobalContext();

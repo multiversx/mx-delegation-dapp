@@ -13,7 +13,7 @@ import { network } from '/src/config';
 import modifiable from '/src/helpers/modifiable';
 import decodeFile from './helpers';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 export interface DropzoneFormType {
   files: Array<any>;
 }

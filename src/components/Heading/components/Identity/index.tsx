@@ -20,7 +20,7 @@ import { useDispatch, useGlobalContext } from '/src/context';
 import modifiable from '/src/helpers/modifiable';
 import useTransaction from '/src/helpers/useTransaction';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface FieldType {
   [key: string]: any;

@@ -10,7 +10,7 @@ import { network } from '/src/config';
 import { denominated } from '/src/helpers/denominate';
 
 import modifiable from '/src/helpers/modifiable';
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface ButtonsType {
   icon: ReactNode;

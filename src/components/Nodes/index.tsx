@@ -28,7 +28,7 @@ import useTransaction from '/src/helpers/useTransaction';
 
 import Add from './components/Add';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface NodeType {
   code: string;

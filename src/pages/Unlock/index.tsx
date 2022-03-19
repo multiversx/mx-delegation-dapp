@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 import Extension from '../../assets/Extension';
 import Ledger from '../../assets/Ledger';
+import ElrondLogo from '../../assets/ElrondLogo';
 import Logo from '../../assets/Logo';
 import Maiar from '../../assets/Maiar';
 
 import { network } from '/src/config';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface ConnectionType {
   title: string;
@@ -27,19 +28,13 @@ const Unlock: React.FC = () => {
 
   const navigate = useNavigate();
   const connects: Array<ConnectionType> = [
+
     {
-      title: 'Desktop',
-      name: 'Elrond Web Wallet',
-      background: '#000000',
-      icon: <Logo />,
-      component: DappUI.WebWalletLoginButton
-    },
-    {
-      title: 'Hardware',
-      name: 'Ledger',
-      background: '#000000',
-      icon: <Ledger />,
-      component: DappUI.LedgerLoginButton
+      title: 'Browser',
+      name: 'Maiar DeFi Wallet',
+      background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
+      icon: <Extension />,
+      component: DappUI.ExtensionLoginButton
     },
     {
       title: 'Mobile',
@@ -49,11 +44,18 @@ const Unlock: React.FC = () => {
       component: DappUI.WalletConnectLoginButton
     },
     {
-      title: 'Browser',
-      name: 'Maiar DeFi Wallet',
-      background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      icon: <Extension />,
-      component: DappUI.ExtensionLoginButton
+      title: 'Desktop',
+      name: 'Elrond Web Wallet',
+      background: '#000000',
+      icon: <ElrondLogo />,
+      component: DappUI.WebWalletLoginButton
+    },
+    {
+      title: 'Hardware',
+      name: 'Ledger',
+      background: '#000000',
+      icon: <Ledger />,
+      component: DappUI.LedgerLoginButton
     }
   ];
 
@@ -75,12 +77,19 @@ const Unlock: React.FC = () => {
         <strong className={styles.heading}>RisaSoft Staking</strong>
 
         <div className={styles.description}>
-          Help secure the Elrond blockchain and earn 12% - 16% APR on your eGLD
-          when you stake us. All delegations are non-custodial so you remain in
-          control of your digital assets. Running on our world class
-          infrastructure ensures minimal downtime and maximum rewards.
-        </div>
+          🔥 Metabonding Special 🔥<br /><br />
 
+          Staking $EGLD with us counts for Metabonding!🔥<br /><br />
+
+          <br /><br />
+
+          <ul style={{ textAlign: 'left' }} >
+            <li style={{ paddingBottom: '1rem' }}>11-13% APR on your $EGLD</li>
+            <li style={{ paddingBottom: '1rem' }}>Metabonding tokens ( $AERO, $EFFORT, $ZPAY, or $ISET)</li>
+            <li style={{ paddingBottom: '1rem' }}>Airdropped $RISA (exclusive to our pool)</li>
+          </ul>
+          Login:
+        </div>
         <div className={styles.connects}>
           {connects.map((connect: ConnectionType) => (
             <connect.component
@@ -104,7 +113,7 @@ const Unlock: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

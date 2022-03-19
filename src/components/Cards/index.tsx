@@ -36,7 +36,7 @@ import ChangeServiceFee from './components/ChangeServiceFee';
 
 import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
 
-import './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface CardType {
   label: string;
