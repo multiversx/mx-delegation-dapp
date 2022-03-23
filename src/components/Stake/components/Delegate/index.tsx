@@ -20,7 +20,7 @@ const Delegate: React.FC = () => {
   const { limit, balance, maxed } = getStakingLimits();
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} delegate-wrapper`}>
       <Action
         title='Delegate Now'
         description={`Select the amount of ${network.egldLabel} you want to delegate.`}

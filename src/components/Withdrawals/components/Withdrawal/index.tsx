@@ -109,7 +109,7 @@ const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
   useEffect(fetchFiat, []);
 
   return (
-    <div className={styles.withdrawal}>
+    <div className={`${styles.withdrawal} withdrawal`}>
       <div className={styles.left}>
         <span className={styles.icon}>
           <Logo />

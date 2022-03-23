@@ -374,7 +374,7 @@ const Cards: React.FC = () => {
   useEffect(fetchTotalNetworkStake, [totalNetworkStake.data]);
 
   return (
-    <div className={styles.cards}>
+    <div className={`${styles.cards} cards`}>
       {cards.map((card) => {
         const [alpha, beta] = card.colors;
         const background = `linear-gradient(180deg, ${alpha} 0%, ${beta} 100%)`;

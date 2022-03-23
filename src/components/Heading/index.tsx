@@ -25,7 +25,7 @@ const Heading: React.FC = () => {
   const isAdmin = location.pathname === '/admin';
 
   return (
-    <div className={styles.heading}>
+    <div className={`${styles.heading} heading`}>
       <div className={styles.meta}>
         <div className={styles.label}>Contract Address</div>
 

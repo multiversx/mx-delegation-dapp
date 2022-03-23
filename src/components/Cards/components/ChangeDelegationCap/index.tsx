@@ -58,7 +58,7 @@ const ChangeDelegationCap: React.FC = () => {
   };
 
   return (
-    <div className={styles.cap}>
+    <div className={`${styles.cap} cap`}>
       <Formik
         validationSchema={validationSchema}
         onSubmit={onSubmit}

@@ -82,11 +82,11 @@ const Dropzone: React.FC = () => {
   const properties = {
     input: dropzone.getInputProps(),
     root: dropzone.getRootProps({
-      className: modifiable(
+      className: `${modifiable(
         'dropzone',
         [values.files.length > 0 && 'filled'],
         styles
-      ),
+      )} dropzone`,
       style: {
         cursor: 'pointer'
       }

@@ -167,7 +167,7 @@ const Identity: React.FC = () => {
         handleBlur,
         handleSubmit
       }: FormikProps<PayloadType>) => (
-        <form onSubmit={handleSubmit} className={styles.identity}>
+        <form onSubmit={handleSubmit} className={`${styles.identity} identity`}>
           {fields.map((field: FieldType) => (
             <div key={field.name} className={styles.field}>
               <label htmlFor={field.name}>{field.label}</label>

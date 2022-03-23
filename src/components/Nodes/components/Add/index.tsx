@@ -59,7 +59,7 @@ const Add: React.FC = () => {
       validationSchema={validationSchema}
     >
       {({ handleSubmit, errors }) => (
-        <form onSubmit={handleSubmit} className={styles.add}>
+        <form onSubmit={handleSubmit} className={`${styles.add} add`}>
           <Dropzone />
 
           {errors.files && <div className={styles.error}>{errors.files}</div>}

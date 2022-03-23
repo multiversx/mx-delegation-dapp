@@ -80,11 +80,11 @@ const Stake: React.FC = () => {
 
   return (
     <div
-      className={modifiable(
+      className={`${modifiable(
         'stake',
         [(isLoading || isError || isEmpty) && 'empty'],
         styles
-      )}
+      )} stake`}
     >
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>

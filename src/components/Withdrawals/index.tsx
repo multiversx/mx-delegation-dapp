@@ -155,7 +155,7 @@ const Withdrawals: React.FC = () => {
   }
 
   return (
-    <div className={styles.withdrawals}>
+    <div className={`${styles.withdrawals} withdrawals`}>
       <div className={styles.heading}>
         <span className={styles.title}>Pending Withdrawals</span>
       </div>

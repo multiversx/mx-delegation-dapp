@@ -20,7 +20,7 @@ const Undelegate: React.FC = () => {
   const [maxed, setMaxed] = useState<boolean>(false);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} undelegate-wrapper`}>
       <Action
         title='Undelegate Now'
         description={`Select the amount of ${network.egldLabel} you want to undelegate.`}

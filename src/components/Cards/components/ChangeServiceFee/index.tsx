@@ -43,7 +43,10 @@ const ChangeServiceFee: React.FC = () => {
         const breakpoints = [0, 25, 50, 75, 100];
 
         return (
-          <form onSubmit={handleSubmit} className={styles.serviceFee}>
+          <form
+            onSubmit={handleSubmit}
+            className={`${styles.serviceFee} serviceFee`}
+          >
             <div className={styles.range}>
               <input
                 className={styles.input}

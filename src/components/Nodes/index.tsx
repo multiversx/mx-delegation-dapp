@@ -189,7 +189,7 @@ const Nodes: React.FC = () => {
   useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
-    <div className={styles.nodes}>
+    <div className={`${styles.nodes} nodes`}>
       <div className={styles.heading}>
         <span className={styles.title}>My Nodes</span>
 

@@ -5,7 +5,9 @@ import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import EGLD from 'assets/EGLD';
 import Logo from 'assets/Logo';
+
 import { network } from 'config';
 import { denominated } from 'helpers/denominate';
 
@@ -39,10 +41,10 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} delegation-nav`}>
       <Link to='/dashboard' className={styles.heading}>
         <span className={styles.logo}>
-          <Logo />
+          <EGLD />
         </span>
 
         <span className={styles.title}>Delegation Manager</span>

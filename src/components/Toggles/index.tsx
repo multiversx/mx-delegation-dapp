@@ -31,7 +31,7 @@ const Toggles: React.FC = () => {
   ];
 
   return (
-    <div className={styles.toggles}>
+    <div className={`${styles.toggles} toggles`}>
       {toggles.map((toggle) => (
         <div key={toggle.name} className={styles.toggle}>
           <div className={styles.left}>
