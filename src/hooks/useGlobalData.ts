@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import {
   useGetAccountInfo,
-  getNetworkProxy,
   transactionServices
 } from '@elrondnetwork/dapp-core';
 import {
@@ -162,7 +161,7 @@ const useGlobalData = () => {
       key: 'networkConfig',
       handler: async (): Promise<any> => {
         try {
-          return await getNetworkProxy().getNetworkConfig();
+          return await provider.getNetworkConfig();
         } catch (error) {
           return Promise.reject(error);
         }

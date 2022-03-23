@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useEffect, ReactNode } from 'react';
 
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -76,7 +75,7 @@ const Cards: React.FC = () => {
 
     try {
       const [status, balance] = await Promise.all([
-        getNetworkProxy().getNetworkStatus(),
+        new ProxyProvider(network.gatewayAddress).getNetworkStatus(),
         axios.get(`${network.apiAddress}/accounts/${auctionContract}`)
       ]);
 
