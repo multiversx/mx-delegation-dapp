@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect, useState, MouseEvent, Fragment } from 'react';
+import React, { FC, useEffect, useState, MouseEvent, Fragment } from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
@@ -45,7 +44,7 @@ interface ActionsType {
   callback: (value: string) => ArgumentsType;
 }
 
-const Nodes: React.FC = () => {
+const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber } = useGlobalContext();
   const { sendTransaction } = useTransaction();

@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
@@ -35,7 +34,7 @@ interface PayloadType {
   name?: string;
 }
 
-const Identity: React.FC = () => {
+const Identity: FC = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =

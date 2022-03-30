@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
+import React, { FC, ChangeEvent, MouseEvent, useState } from 'react';
 
 import { Formik } from 'formik';
 import { object } from 'yup';
@@ -11,10 +11,9 @@ import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
 
 import modifiable from 'helpers/modifiable';
-
 import styles from './styles.module.scss';
 
-const Undelegate: React.FC = () => {
+const Undelegate: FC = () => {
   const { userActiveStake } = useGlobalContext();
   const { onUndelegate } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);

@@ -1,4 +1,8 @@
-const modifiable = (base: string, modifiers: Array<any>, styles: any) =>
+const modifiable = (
+  base: string,
+  modifiers: Array<null | false | undefined | string | number>,
+  styles: any
+) =>
   modifiers.reduce((total, current) => {
     const modifier = styles[`${base}--${current}`];
 

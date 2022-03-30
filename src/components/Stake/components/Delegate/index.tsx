@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { FC, MouseEvent } from 'react';
 
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Formik } from 'formik';
@@ -14,7 +14,7 @@ import modifiable from 'helpers/modifiable';
 
 import styles from './styles.module.scss';
 
-const Delegate: React.FC = () => {
+const Delegate: FC = () => {
   const { account } = useGetAccountInfo();
   const { onDelegate, getStakingLimits } = useStakeData();
   const { limit, balance, maxed } = getStakingLimits();

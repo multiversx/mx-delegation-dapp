@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useGetAccountInfo, DappUI } from '@elrondnetwork/dapp-core';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +20,7 @@ interface ConnectionType {
   component: any;
 }
 
-const Unlock: React.FC = () => {
+const Unlock: FC = () => {
   const { address } = useGetAccountInfo();
 
   const navigate = useNavigate();

@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import {
   useGetAccountInfo,
@@ -24,7 +23,7 @@ import denominate from 'helpers/denominate';
 import Withdrawal from './components/Withdrawal';
 import styles from './styles.module.scss';
 
-const Withdrawals: React.FC = () => {
+const Withdrawals: FC = () => {
   const dispatch = useDispatch();
 
   const { account } = useGetAccountInfo();

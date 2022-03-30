@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { ReactNode, MouseEvent } from 'react';
+import React, { FC, ReactNode, MouseEvent } from 'react';
 
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,7 +31,7 @@ interface PanelType {
   actions: Array<ActionType>;
 }
 
-const Stake: React.FC = () => {
+const Stake: FC = () => {
   const { userActiveStake, userClaimableRewards } = useGlobalContext();
   const { onRedelegate, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {

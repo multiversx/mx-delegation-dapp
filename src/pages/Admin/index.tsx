@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -15,7 +15,7 @@ import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Admin: React.FC = () => {
+const Admin: FC = () => {
   const { address } = useGetAccountInfo();
   const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);

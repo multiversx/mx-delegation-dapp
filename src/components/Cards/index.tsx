@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useCallback, useEffect, ReactNode } from 'react';
+import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
 import {
   decodeUnsignedNumber,
@@ -50,7 +49,7 @@ interface CardType {
   icon: ReactNode;
 }
 
-const Cards: React.FC = () => {
+const Cards: FC = () => {
   const {
     totalActiveStake,
     totalNetworkStake,

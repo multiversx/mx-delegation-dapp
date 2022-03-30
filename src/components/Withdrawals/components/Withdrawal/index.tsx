@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +21,7 @@ interface FormattersType {
   s: Array<string | number>;
 }
 
-const Withdrawal: React.FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
+const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
   const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
   const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();

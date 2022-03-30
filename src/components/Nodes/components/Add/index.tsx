@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import { Formik } from 'formik';
 import { object, array, mixed } from 'yup';
@@ -13,7 +13,7 @@ import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
 
-const Add: React.FC = () => {
+const Add: FC = () => {
   const { sendTransaction } = useTransaction();
 
   const validationSchema = object().shape({

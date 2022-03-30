@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { BLS } from '@elrondnetwork/erdjs';
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -27,7 +26,7 @@ export interface DropzonePayloadType {
   errors?: Array<string>;
 }
 
-const Dropzone: React.FC = () => {
+const Dropzone: FC = () => {
   const [data, setData] = useState<Array<DropzonePayloadType>>([]);
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();

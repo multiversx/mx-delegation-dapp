@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import { Formik } from 'formik';
 import { Submit } from 'components/Action';
@@ -14,7 +14,7 @@ interface ActionDataType {
   amount: string;
 }
 
-const ChangeServiceFee: React.FC = () => {
+const ChangeServiceFee: FC = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails } = useGlobalContext();
 

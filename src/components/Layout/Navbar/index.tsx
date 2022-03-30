@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +20,7 @@ interface ButtonsType {
   copy?: boolean;
 }
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
   const { address, account } = useGetAccountInfo();
   const buttons: Array<ButtonsType> = [
     {

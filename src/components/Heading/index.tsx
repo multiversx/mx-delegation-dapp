@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import {
   faExternalLinkAlt,
@@ -17,7 +17,7 @@ import Identity from './components/Identity';
 
 import styles from './styles.module.scss';
 
-const Heading: React.FC = () => {
+const Heading: FC = () => {
   const { contractDetails } = useGlobalContext();
 
   const location = useLocation();
