@@ -42,8 +42,8 @@
     "build-testnet": "npm run copy-testnet-config & npm run build",
     "build-devnet": "npm run copy-devnet-config & npm run build",
     "test": "react-scripts test",
-    "copy-testnet-config": "cp ./src/config.testnet.tsx ./src/config.tsx",
-    "copy-devnet-config": "cp ./src/config.devnet.tsx ./src/config.tsx",
+    "copy-testnet-config": "cp ./src/config.testnet.ts ./src/config.ts",
+    "copy-devnet-config": "cp ./src/config.devnet.ts ./src/config.ts",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx src"
   },
