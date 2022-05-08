@@ -10,7 +10,7 @@ import Heading from '/src/components/Heading';
 import Nodes from '/src/components/Nodes';
 import Toggles from '/src/components/Toggles';
 
-import { useGlobalContext } from 'context';
+import { useGlobalContext } from '../../context';
 import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
