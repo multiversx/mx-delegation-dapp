@@ -2,7 +2,7 @@ import { nominate, denominate } from '@elrondnetwork/dapp-core';
 
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
-import { network, denomination } from 'config';
+import { network, denomination } from '/src/config';
 
 
 

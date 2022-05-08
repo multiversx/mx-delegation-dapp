@@ -3,7 +3,7 @@ import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '/src/assets/Logo';
-import { network } from 'config';
+import { network } from '/src/config';
 import { useGlobalContext } from 'context';
 import modifiable from '/src/helpers/modifiable';
 
