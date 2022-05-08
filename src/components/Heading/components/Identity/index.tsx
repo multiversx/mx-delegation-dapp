@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
@@ -35,7 +34,7 @@ interface PayloadType {
   name?: string;
 }
 
-const Identity: React.FC = () => {
+const Identity: FC = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =
@@ -167,7 +166,7 @@ const Identity: React.FC = () => {
         handleBlur,
         handleSubmit
       }: FormikProps<PayloadType>) => (
-        <form onSubmit={handleSubmit} className={styles.identity}>
+        <form onSubmit={handleSubmit} className={`${styles.identity} identity`}>
           {fields.map((field: FieldType) => (
             <div key={field.name} className={styles.field}>
               <label htmlFor={field.name}>{field.label}</label>

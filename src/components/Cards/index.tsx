@@ -1,7 +1,5 @@
-import * as React from 'react';
-import { useCallback, useEffect, ReactNode } from 'react';
+import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -51,7 +49,7 @@ interface CardType {
   icon: ReactNode;
 }
 
-const Cards: React.FC = () => {
+const Cards: FC = () => {
   const {
     totalActiveStake,
     totalNetworkStake,
@@ -76,7 +74,7 @@ const Cards: React.FC = () => {
 
     try {
       const [status, balance] = await Promise.all([
-        getNetworkProxy().getNetworkStatus(),
+        new ProxyProvider(network.gatewayAddress).getNetworkStatus(),
         axios.get(`${network.apiAddress}/accounts/${auctionContract}`)
       ]);
 
@@ -331,8 +329,6 @@ const Cards: React.FC = () => {
       modal: <ChangeServiceFee />,
       icon: <FontAwesomeIcon icon={faReceipt} />,
       title: 'Change service fee',
-      description:
-        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       colors: ['#F3BF89', '#B68350'],
       data: {
         value: contractDetails.data
@@ -376,7 +372,7 @@ const Cards: React.FC = () => {
   useEffect(fetchTotalNetworkStake, [totalNetworkStake.data]);
 
   return (
-    <div className={styles.cards}>
+    <div className={`${styles.cards} cards`}>
       {cards.map((card) => {
         const [alpha, beta] = card.colors;
         const background = `linear-gradient(180deg, ${alpha} 0%, ${beta} 100%)`;

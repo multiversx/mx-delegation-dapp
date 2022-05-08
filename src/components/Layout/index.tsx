@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { address } = useGetAccountInfo();
 
   return (
-    <div className='d-flex flex-column flex-fill wrapper'>
+    <div className='layout d-flex flex-column flex-fill wrapper'>
       {Boolean(address) && <Navbar />}
 
       <main className='d-flex flex-column flex-grow-1'>

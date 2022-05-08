@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import EGLD from 'assets/EGLD';
 import Logo from 'assets/Logo';
+
 import { network } from 'config';
 import { denominated } from 'helpers/denominate';
 
@@ -19,7 +20,7 @@ interface ButtonsType {
   copy?: boolean;
 }
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
   const { address, account } = useGetAccountInfo();
   const buttons: Array<ButtonsType> = [
     {
@@ -34,15 +35,15 @@ const Navbar: React.FC = () => {
     {
       icon: <FontAwesomeIcon icon={faPowerOff} />,
       label: 'Disconnect',
-      onClick: () => logout()
+      onClick: () => logout(`${location.origin}/unlock`)
     }
   ];
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} delegation-nav`}>
       <Link to='/dashboard' className={styles.heading}>
         <span className={styles.logo}>
-          <Logo />
+          <EGLD />
         </span>
 
         <span className={styles.title}>RisaSoft Staking</span>

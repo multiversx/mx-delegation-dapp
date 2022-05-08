@@ -67,6 +67,11 @@
         bottom: 5px;
         text-decoration: none;
         padding: 10px;
+
+        &--disabled {
+          pointer-events: none;
+          opacity: 0.5;
+        }
       }
     }
 

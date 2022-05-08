@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import {
   faExternalLinkAlt,
@@ -17,7 +17,7 @@ import Identity from './components/Identity';
 
 import styles from './styles.module.scss';
 
-const Heading: React.FC = () => {
+const Heading: FC = () => {
   const { contractDetails } = useGlobalContext();
 
   const location = useLocation();
@@ -25,14 +25,14 @@ const Heading: React.FC = () => {
   const isAdmin = location.pathname === '/admin';
 
   return (
-    <div className={styles.heading}>
+    <div className={`${styles.heading} heading`}>
       <div className={styles.meta}>
         <div className={styles.label}>Contract Address</div>
 
         <div className='d-flex align-items-center'>
           <span className={styles.contract}>{network.delegationContract}</span>
           <a
-            href={`https://explorer.elrond.com/accounts/${network.delegationContract}`}
+            href={`${network.explorerAddress}/accounts/${network.delegationContract}`}
             className={styles.icon}
             rel='noreferrer'
             target='_blank'

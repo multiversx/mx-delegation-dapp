@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ChangeEvent, MouseEvent, useState } from 'react';
 
 import { Formik } from 'formik';
 import { object } from 'yup';
@@ -8,16 +8,18 @@ import useStakeData from 'components/Stake/hooks';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 
-import modifiable from 'helpers/modifiable';
+import { denominated } from 'helpers/denominate';
 
+import modifiable from 'helpers/modifiable';
 import styles from './styles.module.scss';
 
-const Undelegate: React.FC = () => {
+const Undelegate: FC = () => {
   const { userActiveStake } = useGlobalContext();
   const { onUndelegate } = useStakeData();
+  const [maxed, setMaxed] = useState<boolean>(false);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} undelegate-wrapper`}>
       <Action
         title='Undelegate Now'
         description={`Select the amount of ${network.egldLabel} you want to undelegate.`}
@@ -42,9 +44,22 @@ const Undelegate: React.FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const onMax = (event: any): void => {
+                const amount = denominated(userActiveStake.data || '', {
+                  addCommas: false,
+                  showLastNonZeroDecimal: true
+                });
+
+                const onChange = (
+                  event: ChangeEvent<HTMLInputElement>
+                ): void => {
+                  handleChange(event);
+                  setMaxed(false);
+                };
+
+                const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
-                  setFieldValue('amount', userActiveStake.data);
+                  setMaxed(true);
+                  setFieldValue('amount', amount);
                 };
 
                 return (
@@ -64,9 +79,9 @@ const Undelegate: React.FC = () => {
                             [errors.amount && touched.amount && 'invalid'],
                             styles
                           )}
-                          value={values.amount}
+                          value={maxed ? amount : values.amount}
                           onBlur={handleBlur}
-                          onChange={handleChange}
+                          onChange={onChange}
                         />
 
                         <a href='/#' onClick={onMax} className={styles.max}>
@@ -75,7 +90,8 @@ const Undelegate: React.FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span> {userActiveStake.data}{' '}
+                        <span>Balance:</span>{' '}
+                        {denominated(userActiveStake.data || '')}{' '}
                         {network.egldLabel}
                       </span>
 
