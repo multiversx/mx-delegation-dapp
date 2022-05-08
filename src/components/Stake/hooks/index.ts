@@ -19,7 +19,7 @@ import { network, minDust } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
-import getPercentage from 'helpers/getPercentage';
+import getPercentage from '/src/helpers/getPercentage';
 
 interface DelegationPayloadType {
   amount: string;
