@@ -15,10 +15,6 @@ import Action from '/src/components/Action';
 import { network } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
 import modifiable from '/src/helpers/modifiable';
-import Action from 'components/Action';
-import { network } from 'config';
-import { useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
 
 import useTransaction from '/src/helpers/useTransaction';
 

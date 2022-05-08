@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import Logo from '/src/assets/Logo';
 import { network } from '/src/config';
-import EGLD from 'assets/EGLD';
-import Logo from 'assets/Logo';
+import EGLD from '/src/assets/EGLD';
+import Logo from '/src/assets/Logo';
 
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';

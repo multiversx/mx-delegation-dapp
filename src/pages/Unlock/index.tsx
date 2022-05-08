@@ -5,10 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Extension from '../../assets/Extension';
 import Ledger from '../../assets/Ledger';
-import Logo from '../../assets/Logo';
 import Maiar from '../../assets/Maiar';
-
-import { network } from '/src/config';
+import ElrondLogo from '../../assets/ElrondLogo';
 
 import styles from './styles.module.scss';
 
@@ -44,7 +42,7 @@ const Unlock: FC = () => {
       title: 'Desktop',
       name: 'Elrond Web Wallet',
       background: '#000000',
-      icon: Logo,
+      icon: ElrondLogo,
       component: DappUI.WebWalletLoginButton
     },
     {

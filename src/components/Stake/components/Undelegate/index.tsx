@@ -10,7 +10,7 @@ import { useGlobalContext } from '/src/context';
 
 import { denominate } from '@elrondnetwork/dapp-core'
 
-import modifiable from 'helpers/modifiable';
+import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
 
 const Undelegate: FC = () => {

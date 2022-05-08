@@ -2,10 +2,10 @@ import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Logo from 'assets/Logo';
+import Logo from '/src/assets/Logo';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
+import modifiable from '/src/helpers/modifiable';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
