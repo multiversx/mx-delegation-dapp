@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo, denominate } from '@elrondnetwork/dapp-core';
 import { Formik } from 'formik';
 import { object } from 'yup';
 
@@ -9,7 +9,6 @@ import { delegateValidator } from '/src/components/Stake//helpers/delegationVali
 import useStakeData from '/src/components/Stake/hooks';
 import { network } from '/src/config';
 
-import { denominated } from '/src/helpers/denominate';
 import modifiable from '/src/helpers/modifiable';
 
 import styles from './styles.module.scss';
@@ -78,7 +77,7 @@ const Delegate: React.FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span> {denominated(account.balance)}{' '}
+                        <span>Balance:</span> {denominate({input: account.balance})}{' '}
                         {network.egldLabel}
                       </span>
 

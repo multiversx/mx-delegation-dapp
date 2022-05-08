@@ -44,6 +44,7 @@ const Undelegate: React.FC = () => {
               }) => {
                 const onMax = (event: any): void => {
                   event.preventDefault();
+                  debugger
                   setFieldValue('amount', userActiveStake.data);
                 };
 

@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import {
   useGetAccountInfo,
   getNetworkProxy,
-  transactionServices
+  transactionServices,
+  denominate
 } from '@elrondnetwork/dapp-core';
 import {
   Query,
@@ -18,7 +19,6 @@ import {
 
 import { network, decimals, auctionContract, denomination } from '../config';
 import { useDispatch } from '../context';
-import denominate from '/src/helpers/denominate';
 
 interface ContractDetailsType {
   automaticActivation: string;
@@ -157,7 +157,8 @@ const useGlobalData = () => {
             input: decodeBigNumber(userStake).toFixed(),
             decimals,
             denomination,
-            addCommas: false
+            addCommas: false,
+            showLastNonZeroDecimal: true
           });
         } catch (error) {
           return Promise.reject(error);

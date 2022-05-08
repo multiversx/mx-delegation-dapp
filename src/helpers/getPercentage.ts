@@ -6,7 +6,7 @@ const getPercentage = (amountOutOfTotal: string, total: string) => {
   if (percentage < 1) {
     return '<1';
   }
-  return percentage ? percentage.toFixed(2) : '...';
+  return percentage ? percentage.toFixed(2) : '';
 };
 
 export default getPercentage;

@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 
 import {
   useGetAccountInfo,
-  transactionServices
+  transactionServices,
+  denominate
 } from '@elrondnetwork/dapp-core';
 import {
   decodeUnsignedNumber,
@@ -19,7 +20,6 @@ import moment from 'moment';
 import { network, decimals, denomination } from '/src/config';
 import { useGlobalContext, useDispatch } from '/src/context';
 import { UndelegateStakeListType } from '/src/context/state';
-import denominate from '/src/helpers/denominate';
 
 import Withdrawal from './components/Withdrawal';
 import styles from './styles.module.scss';

@@ -4,11 +4,11 @@ import BigNumber from 'bignumber.js';
 
 import { Formik } from 'formik';
 import { string, object } from 'yup';
+import { denominate } from '@elrondnetwork/dapp-core'
 
 import { Submit } from '/src/components/Action';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';
-import { denominated } from '/src/helpers/denominate';
 import modifiable from '/src/helpers/modifiable';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
@@ -23,16 +23,17 @@ const ChangeDelegationCap: React.FC = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, totalActiveStake } = useGlobalContext();
 
-  const minimum = denominated(totalActiveStake.data || '', {
+  const minimum = denominate({
+    input: totalActiveStake.data || 0,
     addCommas: false
-  });
+  })
 
-  const total = denominated(
-    contractDetails.data ? contractDetails.data.delegationCap : '',
-    {
-      addCommas: false
-    }
-  );
+
+  const total = denominate({
+    input: contractDetails.data ? contractDetails.data.delegationCap : '0',
+    addCommas: false
+  })
+
 
   const validationSchema = object().shape({
     amount: string()

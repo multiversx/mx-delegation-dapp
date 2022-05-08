@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 
-import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { logout, useGetAccountInfo, denominate } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import Logo from '/src/assets/Logo';
 import { network } from '/src/config';
-import { denominated } from '/src/helpers/denominate';
 
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
@@ -24,7 +23,9 @@ const Navbar: React.FC = () => {
   const buttons: Array<ButtonsType> = [
     {
       icon: <Logo />,
-      label: `${denominated(account.balance)} ${network.egldLabel}`
+      label: `${denominate({
+        input: account.balance === '...' ? '0' : account.balance || '0'
+      })} ${network.egldLabel}`
     },
     {
       icon: <FontAwesomeIcon icon={faWallet} size='lg' />,

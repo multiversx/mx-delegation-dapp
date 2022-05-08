@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 import {
   useGetAccountInfo,
-  transactionServices
+  transactionServices,
+  denominate
 } from '@elrondnetwork/dapp-core';
 import {
   ProxyProvider,
@@ -16,7 +17,6 @@ import BigNumber from 'bignumber.js';
 
 import { network, minDust } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
-import { denominated } from '/src/helpers/denominate';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
 
@@ -92,7 +92,8 @@ const useStakeData = () => {
 
       const [available, dustful] = [adjusted, adjusted.minus(dust)].map(
         (value) =>
-          denominated(value.toString(10), {
+          denominate({
+            input: value.toString(10),
             showLastNonZeroDecimal: true,
             addCommas: false
           })
@@ -100,8 +101,8 @@ const useStakeData = () => {
 
       if (contractDetails.data.withDelegationCap === 'true') {
         const [stake, cap] = [
-          denominated(totalActiveStake.data).replace(/,/g, ''),
-          denominated(contractDetails.data.delegationCap).replace(/,/g, '')
+          denominate({ input: totalActiveStake.data, withCommas: false }),
+          denominate({ input: contractDetails.data.delegationCap, withCommas: false })
         ];
 
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
@@ -157,7 +158,8 @@ const useStakeData = () => {
         userClaimableRewards: {
           status: 'loaded',
           error: null,
-          data: denominated(decodeBigNumber(claimableRewards).toFixed(), {
+          data: denominate({
+            input: decodeBigNumber(claimableRewards).toFixed(),
             decimals: 4
           })
         }

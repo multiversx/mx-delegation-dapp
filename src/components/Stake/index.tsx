@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ReactNode, MouseEvent } from 'react';
+import { denominate } from '@elrondnetwork/dapp-core'
 
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -45,7 +46,7 @@ const Stake: React.FC = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
-      value: userActiveStake.data || '...',
+      value: userActiveStake.data || '',
       disabled: false,
       actions: [
         {

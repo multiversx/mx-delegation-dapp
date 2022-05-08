@@ -8,7 +8,7 @@ import {
   yearSettings,
   genesisTokenSupply
 } from '/src/config';
-import denominate from '/src/helpers/denominate';
+import { denominate } from '@elrondnetwork/dapp-core'
 
 const denominateValue = (value: string) => {
   const denominatedValueString = denominate({

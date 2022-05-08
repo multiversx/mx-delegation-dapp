@@ -1,14 +1,14 @@
 alerts:
 - rule: DEPLOYMENT_FAILED
 - rule: DOMAIN_FAILED
-name: stake-testnet-risasoft-com
+name: stake-risasoft-com
 region: nyc
 static_sites:
-- build_command: yarn run build-testnet
+- build_command: yarn run build-mainnet
   environment_slug: node-js
   github:
     branch: master
-    deploy_on_push: true
+    deploy_on_push: false
     repo: risasoft/delegation-dashboard
   name: delegation-dashboard
   routes:

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useEffect, ReactNode } from 'react';
 
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
+import { getNetworkProxy, denominate } from '@elrondnetwork/dapp-core';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -28,7 +28,6 @@ import Logo from '/src/assets/Logo';
 import Action from '/src/components/Action';
 import { network, auctionContract } from '/src/config';
 import { useGlobalContext, useDispatch } from '/src/context';
-import { denominated } from '/src/helpers/denominate';
 import getPercentage from '/src/helpers/getPercentage';
 import modifiable from '/src/helpers/modifiable';
 import ChangeDelegationCap from './components/ChangeDelegationCap';
@@ -193,8 +192,8 @@ const Cards: React.FC = () => {
     }
 
     const formatted = {
-      stake: denominated(totalNetworkStake.data.TotalStaked.toFixed()),
-      nodes: denominated(totalActiveStake.data)
+      stake: denominate({ input: totalNetworkStake.data.TotalStaked.toFixed() }),
+      nodes: denominate({ input: totalActiveStake.data })
     };
 
     return {
@@ -213,8 +212,8 @@ const Cards: React.FC = () => {
         nodesNumber.status === 'loading';
 
       return {
-        value: loading ? '...' : 'Nodes Unknown',
-        percentage: loading ? '...% of total nodes' : 'Data Unavailable'
+        value: loading ? '' : 'Nodes Unknown',
+        percentage: loading ? ' % of total nodes' : 'Data Unavailable'
       };
     }
 
@@ -247,8 +246,8 @@ const Cards: React.FC = () => {
     }
 
     const formatted = {
-      stake: denominated(totalActiveStake.data),
-      value: denominated(contractDetails.data.delegationCap)
+      stake: denominate({ input: totalActiveStake.data }),
+      value: denominate({ input: contractDetails.data.delegationCap })
     };
 
     return {
@@ -307,7 +306,7 @@ const Cards: React.FC = () => {
           usersNumber.status !== 'loaded'
             ? usersNumber.error
               ? 'Data Unavailable'
-              : '...'
+              : ''
             : usersNumber.data
       }
     },
