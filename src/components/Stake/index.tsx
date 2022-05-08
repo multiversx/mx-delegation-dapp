@@ -1,14 +1,11 @@
-import * as React from 'react';
-import { ReactNode, MouseEvent } from 'react';
-import { denominate } from '@elrondnetwork/dapp-core'
-
+import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Logo from '/src/assets/Logo';
-import { network } from '/src/config';
-import { useGlobalContext } from '/src/context';
-import modifiable from '/src/helpers/modifiable';
+import Logo from 'assets/Logo';
+import { network } from 'config';
+import { useGlobalContext } from 'context';
+import modifiable from 'helpers/modifiable';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
@@ -32,7 +29,7 @@ interface PanelType {
   actions: Array<ActionType>;
 }
 
-const Stake: React.FC = () => {
+const Stake: FC = () => {
   const { userActiveStake, userClaimableRewards } = useGlobalContext();
   const { onRedelegate, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {
@@ -80,11 +77,11 @@ const Stake: React.FC = () => {
 
   return (
     <div
-      className={modifiable(
+      className={`${modifiable(
         'stake',
         [(isLoading || isError || isEmpty) && 'empty'],
         styles
-      )}
+      )} stake`}
     >
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
@@ -104,7 +101,7 @@ const Stake: React.FC = () => {
             {isLoading
               ? 'Retrieving staking data...'
               : isError
-                ? 'There was an error trying to retrieve staking data'
+                ? 'There was an error trying to retrieve staking data.'
                 : `Currently you don't have any ${network.egldLabel} staked.`}
           </div>
 

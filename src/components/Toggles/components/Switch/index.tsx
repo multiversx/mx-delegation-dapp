@@ -49,7 +49,13 @@ const Switch = ({ transaction, name }: ToggleType) => {
   useEffect(trackContractDetails, [contractDetails.data]);
 
   return (
-    <label className={modifiable('switch', [disabled && 'disabled'], styles)}>
+    <label
+      className={`${modifiable(
+        'switch',
+        [disabled && 'disabled'],
+        styles
+      )} switch`}
+    >
       <input
         onChange={() => onChange(transaction)}
         type='checkbox'

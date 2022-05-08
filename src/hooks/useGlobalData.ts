@@ -16,9 +16,9 @@ import {
   decodeString,
   AddressValue
 } from '@elrondnetwork/erdjs';
-
 import { network, decimals, auctionContract, denomination } from '../config';
 import { useDispatch } from '../context';
+
 
 interface ContractDetailsType {
   automaticActivation: string;
@@ -169,7 +169,7 @@ const useGlobalData = () => {
       key: 'networkConfig',
       handler: async (): Promise<any> => {
         try {
-          return await getNetworkProxy().getNetworkConfig();
+          return await provider.getNetworkConfig();
         } catch (error) {
           return Promise.reject(error);
         }

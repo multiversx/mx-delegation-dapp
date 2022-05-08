@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import { Formik } from 'formik';
 import { Submit } from '/src/components/Action';
@@ -14,7 +14,7 @@ interface ActionDataType {
   amount: string;
 }
 
-const ChangeServiceFee: React.FC = () => {
+const ChangeServiceFee: FC = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails } = useGlobalContext();
 
@@ -43,7 +43,10 @@ const ChangeServiceFee: React.FC = () => {
         const breakpoints = [0, 25, 50, 75, 100];
 
         return (
-          <form onSubmit={handleSubmit} className={styles.serviceFee}>
+          <form
+            onSubmit={handleSubmit}
+            className={`${styles.serviceFee} serviceFee`}
+          >
             <div className={styles.range}>
               <input
                 className={styles.input}

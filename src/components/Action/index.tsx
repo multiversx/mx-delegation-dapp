@@ -10,7 +10,7 @@ const Action = ({ render, title, description, trigger }: any) => {
   const { showModal, setShowModal } = useAction();
 
   return (
-    <div className={styles.action}>
+    <div className={`${styles.action} action`}>
       <button className={styles.trigger} onClick={() => setShowModal(true)}>
         {trigger}
       </button>

@@ -19,6 +19,7 @@ import { network, minDust } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
+import getPercentage from 'helpers/getPercentage';
 
 interface DelegationPayloadType {
   amount: string;
@@ -106,22 +107,27 @@ const useStakeData = () => {
         ];
 
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
+        const maxed =
+          parseInt(getPercentage(denominate({ input: stake }), denominate({ input: cap }))) === 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
-            balance: available,
-            limit: dustful
+            balance: available.toFixed(),
+            limit: dustful,
+            maxed
           };
         } else {
           return {
-            balance: available,
-            limit: remainder
+            balance: available.toFixed(),
+            limit: remainder.toFixed(),
+            maxed
           };
         }
       } else {
         return {
-          balance: available,
-          limit: dustful
+          balance: available.toFixed(),
+          limit: dustful,
+          maxed: false
         };
       }
     }

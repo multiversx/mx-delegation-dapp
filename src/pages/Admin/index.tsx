@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -10,19 +10,33 @@ import Heading from '/src/components/Heading';
 import Nodes from '/src/components/Nodes';
 import Toggles from '/src/components/Toggles';
 
+import { useGlobalContext } from 'context';
 import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Admin: React.FC = () => {
+const Admin: FC = () => {
   const { address } = useGetAccountInfo();
+  const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
-  const handleRedirect = () =>
-    Boolean(address) ? setLoading(false) : navigate('/unlock');
+  const handleRedirect = () => {
+    if (!Boolean(address)) {
+      navigate('/unlock');
+      return;
+    }
 
-  useEffect(handleRedirect, [address]);
+    if (contractDetails.status === 'loaded') {
+      if (contractDetails.data && contractDetails.data.owner) {
+        setLoading(false);
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  };
+
+  useEffect(handleRedirect, [address, contractDetails.data]);
   useGlobalData();
 
   if (loading) {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
 import { faRecycle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,7 +14,7 @@ interface ToggleType {
   color: string;
 }
 
-const Toggles: React.FC = () => {
+const Toggles: FC = () => {
   const toggles: Array<ToggleType> = [
     {
       label: 'Automatic Activation',
@@ -31,7 +31,7 @@ const Toggles: React.FC = () => {
   ];
 
   return (
-    <div className={styles.toggles}>
+    <div className={`${styles.toggles} toggles`}>
       {toggles.map((toggle) => (
         <div key={toggle.name} className={styles.toggle}>
           <div className={styles.left}>

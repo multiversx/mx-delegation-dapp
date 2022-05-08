@@ -1,12 +1,10 @@
-import React from 'react';
-import { ReactNode, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useGetAccountInfo, DappUI } from '@elrondnetwork/dapp-core';
 import { useNavigate } from 'react-router-dom';
 
 import Extension from '../../assets/Extension';
 import Ledger from '../../assets/Ledger';
-import ElrondLogo from '../../assets/ElrondLogo';
 import Logo from '../../assets/Logo';
 import Maiar from '../../assets/Maiar';
 
@@ -18,12 +16,11 @@ interface ConnectionType {
   title: string;
   name: string;
   background: string;
-  icon: ReactNode;
+  icon: any;
   component: any;
-  hide?: boolean;
 }
 
-const Unlock: React.FC = () => {
+const Unlock: FC = () => {
   const { address } = useGetAccountInfo();
 
   const navigate = useNavigate();
@@ -33,28 +30,28 @@ const Unlock: React.FC = () => {
       title: 'Browser',
       name: 'Maiar DeFi Wallet',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      icon: <Extension />,
+      icon: Extension,
       component: DappUI.ExtensionLoginButton
     },
     {
       title: 'Mobile',
       name: 'Maiar App',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      icon: <Maiar />,
+      icon: Maiar,
       component: DappUI.WalletConnectLoginButton
     },
     {
       title: 'Desktop',
       name: 'Elrond Web Wallet',
       background: '#000000',
-      icon: <ElrondLogo />,
+      icon: Logo,
       component: DappUI.WebWalletLoginButton
     },
     {
       title: 'Hardware',
       name: 'Ledger',
       background: '#000000',
-      icon: <Ledger />,
+      icon: Ledger,
       component: DappUI.LedgerLoginButton
     }
   ];
@@ -104,7 +101,7 @@ const Unlock: React.FC = () => {
                   className={styles.icon}
                   style={{ background: connect.background }}
                 >
-                  {connect.icon}
+                  <connect.icon />
                 </span>
 
                 <span className={styles.name}>{connect.name}</span>

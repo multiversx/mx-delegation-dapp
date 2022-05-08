@@ -1537,18 +1537,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@elrondnetwork/dapp-core@npm:1.0.18":
-  version: 1.0.18
-  resolution: "@elrondnetwork/dapp-core@npm:1.0.18"
+"@elrondnetwork/dapp-core@npm:1.0.43":
+  version: 1.0.43
+  resolution: "@elrondnetwork/dapp-core@npm:1.0.43"
   dependencies:
     "@elrondnetwork/dapp-utils": 0.1.3
     "@elrondnetwork/erdjs": 9.1.0
-    "@fortawesome/fontawesome-svg-core": 1.2.36
-    "@fortawesome/free-solid-svg-icons": 5.15.3
-    "@fortawesome/react-fontawesome": 0.1.14
+    "@fortawesome/fontawesome-svg-core": 6.1.0
+    "@fortawesome/free-solid-svg-icons": 6.1.0
+    "@fortawesome/react-fontawesome": ^0.1.18
     "@reduxjs/toolkit": 1.6.2
     "@testing-library/jest-dom": ^5.16.2
-    axios: 0.21.4
+    axios: 0.24.0
     bignumber.js: 9.x
     bootstrap: 4.6.0
     classnames: 2.3.1
@@ -1585,7 +1585,7 @@ __metadata:
       optional: true
     swr:
       optional: true
-  checksum: 2287202a4aadc71a5ae76f3b2c250b8c404ad8dd225ae51754ed594aa3fcbb8c84434fa770e3bc76f8d599c70986c3681408dcb3e70cf9e0d01bc232b81a29ec
+  checksum: c5700ded0cc9d7e524b5f9c432ad34c7adf7a06c5e0e880fd0c03abc5b94f16e6ac9b6407024a4e18d5604ea992e10b81cf42db77a3fd57c4630a8a2e512fc8d
   languageName: node
   linkType: hard
 
@@ -1700,7 +1700,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-common-types@npm:^0.2.35, @fortawesome/fontawesome-common-types@npm:^0.2.36":
+"@fortawesome/fontawesome-common-types@npm:6.1.0":
+  version: 6.1.0
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.1.0"
+  checksum: 09c6b6ff0b24b1950cf44e821f25ccc9cedcce97e7c969c0fbb4410cccdc0742ea44931d4240648eb2080360bb0fdb470c42d3d429d453d31810fd65f056e03c
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-common-types@npm:^0.2.35":
   version: 0.2.36
   resolution: "@fortawesome/fontawesome-common-types@npm:0.2.36"
   checksum: d604ac51da0b1597127fde70c64157b70ead6af7f2643ab7dfca268ef99d4ed0b4cc823afba206362422a622e389828408bec573df802bf4f02b118d0fa18dc8
@@ -1723,12 +1730,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-svg-core@npm:1.2.36":
-  version: 1.2.36
-  resolution: "@fortawesome/fontawesome-svg-core@npm:1.2.36"
+"@fortawesome/fontawesome-svg-core@npm:6.1.0":
+  version: 6.1.0
+  resolution: "@fortawesome/fontawesome-svg-core@npm:6.1.0"
   dependencies:
-    "@fortawesome/fontawesome-common-types": ^0.2.36
-  checksum: 3011d8c1452b5df52a62eaee8b1ec925b9fdfabcc170fd6da5eaac7cfdef56258b9292ddd06c30f03a6a8ed6faa886565211f2e469fee3c9831c32f93e9383d8
+    "@fortawesome/fontawesome-common-types": 6.1.0
+  checksum: cc901fb1ee6eed391a1771dcb565e9176892ce5b7c19bf172b5761936e70d581ef253caf5b99da0c34c8b7dc9a6e481ee6b4365a3796cf2ebffc82acf0f7e275
   languageName: node
   linkType: hard
 
@@ -1756,6 +1763,15 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-common-types": ^0.2.35
   checksum: 5df2a837a3fbe339e5de26ac91024b5db33243f495916faa4cd7b2c0cf3b9bc1462d7a4695f069d2553dea07c83c8b7aed085f8fce9b83d7b9958dbb2a08dfae
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:6.1.0":
+  version: 6.1.0
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.1.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.1.0
+  checksum: 41f762459d95388c1fdbd205493ff3750df8d3f6f937b1a51aaadaa62abbd563953168c04c9eb8a3628cec96271e2941be9ba5e214cc770e44dd0700f5649299
   languageName: node
   linkType: hard
 
@@ -1789,6 +1805,18 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ~1 || >=1.3.0-beta1
     react: ">=16.x"
   checksum: a95a9ef1783e93312c153b299c084043eed4d0867a5ab90019c817c3b4d845052b6539524ca0daee828bbb8f102637fbf8c36e5759cf3f11cdd99a904623abb2
+  languageName: node
+  linkType: hard
+
+"@fortawesome/react-fontawesome@npm:^0.1.18":
+  version: 0.1.18
+  resolution: "@fortawesome/react-fontawesome@npm:0.1.18"
+  dependencies:
+    prop-types: ^15.8.1
+  peerDependencies:
+    "@fortawesome/fontawesome-svg-core": ~1 || ~6
+    react: ">=16.x"
+  checksum: eba711234541928e1877435905bcd94ab6aea1cf228833a55fc7c6a2fc18dd08d3f7f327ca4af0f3ba365188ad0869d7ecd31be5940d27f4e2bbe7e12cbcf520
   languageName: node
   linkType: hard
 
@@ -3377,7 +3405,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@risasoft/delegation-dashboard@workspace:."
   dependencies:
-    "@elrondnetwork/dapp-core": 1.0.18
+    "@elrondnetwork/dapp-core": 1.0.43
     "@elrondnetwork/dapp-utils": 0.0.10
     "@elrondnetwork/erdjs": 9.0.3
     "@fortawesome/fontawesome-svg-core": ^1.3.0
@@ -4962,21 +4990,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.21.4, axios@npm:^0.21.4":
-  version: 0.21.4
-  resolution: "axios@npm:0.21.4"
-  dependencies:
-    follow-redirects: ^1.14.0
-  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
 "axios@npm:0.24.0":
   version: 0.24.0
   resolution: "axios@npm:0.24.0"
   dependencies:
     follow-redirects: ^1.14.4
   checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
+  languageName: node
+  linkType: hard
+
+"axios@npm:^0.21.4":
+  version: 0.21.4
+  resolution: "axios@npm:0.21.4"
+  dependencies:
+    follow-redirects: ^1.14.0
+  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
   languageName: node
   linkType: hard
 
@@ -5104,8 +5132,8 @@ __metadata:
 
 "backslash@file:node_module_overrides/backslash::locator=%40risasoft%2Fdelegation-dashboard%40workspace%3A.":
   version: 0.2.0
-  resolution: "backslash@file:node_module_overrides/backslash#node_module_overrides/backslash::hash=8cae21&locator=%40risasoft%2Fdelegation-dashboard%40workspace%3A."
-  checksum: a5798d5b2ea07c48d5261175e140e8489ba5a908b9287502c476bad7f7e58d29d334860949848722f9c1a0b2b24dc429f87b101cf7a822bf74b95c278cfec831
+  resolution: "backslash@file:node_module_overrides/backslash#node_module_overrides/backslash::hash=84b21b&locator=%40risasoft%2Fdelegation-dashboard%40workspace%3A."
+  checksum: 456a3e020ede8723d0c503cff384d135a49239bdbe7ab844112f180e01fdb110ec08d6b4f2fc759c51f25605234a7fb3023357471153bffb7f51cdcb23166d0c
   languageName: node
   linkType: hard
 

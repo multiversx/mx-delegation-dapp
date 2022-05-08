@@ -1,13 +1,6 @@
-import * as React from 'react';
-import { useEffect, useState, MouseEvent, Fragment } from 'react';
+import React, { FC, useEffect, useState, MouseEvent, Fragment } from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
-import {
-  ProxyProvider,
-  Query,
-  Address,
-  ContractFunction
-} from '@elrondnetwork/erdjs';
 import {
   faPlus,
   faServer,
@@ -18,11 +11,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
-
 import Action from '/src/components/Action';
 import { network } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
 import modifiable from '/src/helpers/modifiable';
+import Action from 'components/Action';
+import { network } from 'config';
+import { useGlobalContext } from 'context';
+import modifiable from 'helpers/modifiable';
 
 import useTransaction from '/src/helpers/useTransaction';
 
@@ -51,17 +47,14 @@ interface ActionsType {
   callback: (value: string) => ArgumentsType;
 }
 
-const Nodes: React.FC = () => {
+const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
-  const { nodesNumber, nodesData } = useGlobalContext();
+  const { nodesNumber } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
 
-  const dispatch = useDispatch();
-  const isError = nodesData.error || nodesNumber.error;
-  const isLoading =
-    nodesData.status === 'loading' || nodesNumber.status === 'loading';
+  const isLoading = nodesNumber.status === 'loading';
 
   const variants: VariantsType = {
     staked: {
@@ -161,121 +154,44 @@ const Nodes: React.FC = () => {
   };
 
   const getNodes = () => {
-    if (nodesData.data && nodesNumber.data) {
-      if (nodesData.data.length > 0 || nodesNumber.data.length > 0) {
-        const calculateNodes = (nodes: Array<any>) => {
-          const statuses: Array<string> = [];
-
-          return nodes.reduce((items: any, item: any) => {
-            const current = String(item);
-            const status: string = statuses[statuses.length - 1];
-
-            if (variants[current]) {
-              statuses.push(current);
-              return items;
-            } else {
-              return [
-                ...items,
-                {
-                  code: item.toString('hex'),
-                  status
-                }
-              ];
-            }
-          }, []);
-        };
-
-        const calculateKeys = (keys: Array<any>) => {
-          const map = (item: any, index: number) => ({
-            status: String(item),
-            code:
-              index === keys.length - 1 ? '' : keys[index + 1].toString('hex')
-          });
-
-          const filter = (item: any) =>
-            Object.keys(variants).includes(item.status);
-
-          return keys.map(map).filter(filter);
-        };
-
-        const nodes = calculateNodes(nodesData.data);
-        const keys = calculateKeys(nodesNumber.data.reverse());
-
-        setData(
-          nodes.map((node: NodeType) => {
-            const index = keys.findIndex((key: any) => key.code === node.code);
-            const key = index >= 0 ? keys[index].status : node.status;
-
-            return {
-              ...node,
-              status: variants[key]
+    if (nodesNumber.data && nodesNumber.data.length > 0) {
+      const calculateNodes = (nodes: Array<any>) =>
+        nodes.reduce((result: any, value, index, array) => {
+          if (index % 2 === 0) {
+            const [code, status]: Array<any> = array.slice(index, index + 2);
+            const item = {
+              code: Buffer.from(code, 'base64').toString('hex'),
+              status: Buffer.from(status, 'base64').toString()
             };
-          })
-        );
-      }
+
+            return [
+              ...result,
+              {
+                ...item,
+                status: variants[item.status]
+              }
+            ];
+          }
+          return result;
+        }, []);
+
+      setData(calculateNodes(nodesNumber.data));
     }
 
     return () => setData([]);
   };
 
-  const getNodesData = async (): Promise<void> => {
-    dispatch({
-      type: 'getNodesData',
-      nodesData: {
-        status: 'loading',
-        data: null,
-        error: null
-      }
-    });
-
-    try {
-      const provider = new ProxyProvider(network.gatewayAddress);
-      const query = new Query({
-        address: new Address(network.delegationContract),
-        func: new ContractFunction('getAllNodeStates')
-      });
-
-      const response = await provider.queryContract(query);
-
-      dispatch({
-        type: 'getNodesData',
-        nodesData: {
-          status: 'loaded',
-          data: response.outputUntyped(),
-          error: null
-        }
-      });
-    } catch (error) {
-      dispatch({
-        type: 'getNodesData',
-        nodesData: {
-          status: 'error',
-          data: null,
-          error
-        }
-      });
-    }
-  };
-
-  const fetchNodes = () => {
-    if (!nodesData.data) {
-      getNodesData();
-    }
-  };
-
   const refetchNodes = () => {
-    if (success && hasActiveTransactions && nodesData.data) {
+    if (success && hasActiveTransactions && nodesNumber.data) {
       getNodes();
-      getNodesData();
     }
   };
 
-  useEffect(fetchNodes, [nodesData.data]);
-  useEffect(getNodes, [nodesNumber.data, nodesData.data]);
-  useEffect(refetchNodes, [hasActiveTransactions, success, nodesData.data]);
+  useEffect(getNodes, [nodesNumber.data, success]);
+  useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
-    <div className={styles.nodes}>
+    <div className={`${styles.nodes} nodes`}>
       <div className={styles.heading}>
         <span className={styles.title}>My Nodes</span>
 
@@ -294,7 +210,7 @@ const Nodes: React.FC = () => {
       </div>
 
       <div className={styles.body}>
-        {isLoading || isError || data.length === 0 ? (
+        {isLoading || nodesNumber.error || data.length === 0 ? (
           <Fragment>
             <div className={styles.server}>
               <FontAwesomeIcon icon={faServer} size='2x' />
@@ -317,7 +233,7 @@ const Nodes: React.FC = () => {
                 </span>
 
                 <a
-                  href={`${network.explorerAddress}nodes/${node.code}`}
+                  href={`${network.explorerAddress}/nodes/${node.code}`}
                   target='_blank'
                   rel='noreferrer'
                   className={styles.link}
