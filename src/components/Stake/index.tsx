@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from '/src/assets/Logo';
 import { network } from '/src/config';
-import { useGlobalContext } from 'context';
+import { useGlobalContext } from '/src/context';
 import modifiable from '/src/helpers/modifiable';
 
 import Delegate from './components/Delegate';
