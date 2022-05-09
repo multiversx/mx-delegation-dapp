@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 import { logout, useGetAccountInfo, denominate } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import Logo from '/src/assets/Logo';
 import { network } from '/src/config';
 import EGLD from '/src/assets/EGLD';
-import Logo from '/src/assets/Logo';
 
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
@@ -19,11 +18,11 @@ interface ButtonsType {
   copy?: boolean;
 }
 
-const Navbar: FC = () => {
+const Navbar: React.FC = () => {
   const { address, account } = useGetAccountInfo();
   const buttons: Array<ButtonsType> = [
     {
-      icon: <Logo />,
+      icon: <EGLD />,
       label: `${denominate({
         input: account.balance === '...' ? '0' : account.balance || '0'
       })} ${network.egldLabel}`
@@ -44,7 +43,7 @@ const Navbar: FC = () => {
     <nav className={`${styles.nav} delegation-nav`}>
       <Link to='/dashboard' className={styles.heading}>
         <span className={styles.logo}>
-          <EGLD />
+          <Logo />
         </span>
 
         <span className={styles.title}>RisaSoft Staking</span>
