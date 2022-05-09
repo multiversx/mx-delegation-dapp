@@ -8,7 +8,7 @@ import PageNotFound from '../src/pages/PageNotFound';
 import Unlock from '../src/pages/Unlock';
 import { routeNames } from '../src/routes';
 import routes from '../src/routes';
-import '@elrondnetwork/dapp-core/build/index.css';
+import '@elrondnetwork/dapp-core/dist/index.css';
 
 const App = () => (
   <Router>
