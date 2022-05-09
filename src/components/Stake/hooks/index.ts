@@ -88,27 +88,15 @@ const useStakeData = () => {
       const balance = new BigNumber(account.balance);
       const gasPrice = new BigNumber('12000000');
       const gasLimit = new BigNumber('12000000');
-      const adjusted = balance.minus(gasPrice.times(gasLimit));
-      const dust = new BigNumber(minDust);
-
-      const [available, dustful] = [adjusted, adjusted.minus(dust)].map(
-        (value) =>
-          denominate({
-            input: value.toString(10),
-            showLastNonZeroDecimal: true,
-            addCommas: false
-          })
-      );
+      const available = balance.minus(gasPrice.times(gasLimit));
+      const dustful = available.minus(new BigNumber(minDust)).toFixed();
 
       if (contractDetails.data.withDelegationCap === 'true') {
-        const [stake, cap] = [
-          denominate({ input: totalActiveStake.data, withCommas: false }),
-          denominate({ input: contractDetails.data.delegationCap, withCommas: false })
-        ];
-
+        const cap = contractDetails.data.delegationCap;
+        const stake = totalActiveStake.data;
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
         const maxed =
-          parseInt(getPercentage(denominate({ input: parseInt(stake) }), denominate({ input: cap }))) === 100;
+          parseInt(getPercentage(denominate({ input: stake || '0' }), denominate({ input: cap || '0' }))) === 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
@@ -164,8 +152,7 @@ const useStakeData = () => {
         userClaimableRewards: {
           status: 'loaded',
           error: null,
-          data: denominate({
-            input: decodeBigNumber(claimableRewards).toFixed(),
+          data: denominated(decodeBigNumber(claimableRewards).toFixed(), {
             decimals: 4
           })
         }

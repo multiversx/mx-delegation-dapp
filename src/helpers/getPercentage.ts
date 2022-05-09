@@ -1,4 +1,6 @@
 const getPercentage = (amountOutOfTotal: string, total: string) => {
+  if (total === '0') return 0
+
   const percentage =
     (parseInt(amountOutOfTotal.replace(/,/g, '')) /
       parseInt(total.replace(/,/g, ''))) *
