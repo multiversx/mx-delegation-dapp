@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Extension from '../../assets/Extension';
 import Ledger from '../../assets/Ledger';
 import Maiar from '../../assets/Maiar';
+import Logo from '../../assets/Logo';
 import ElrondLogo from '../../assets/ElrondLogo';
 
 import styles from './styles.module.scss';
