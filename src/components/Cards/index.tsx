@@ -192,13 +192,13 @@ const Cards: FC = () => {
 
     const formatted = {
       stake: denominate({ input: totalNetworkStake.data.TotalStaked.toFixed() }),
-      nodes: denominate({ input: totalActiveStake.data })
+      contractStake: denominate({ input: totalActiveStake.data, decimals: 2, showLastNonZeroDecimal: false })
     };
 
     return {
-      value: `${formatted.nodes} ${network.egldLabel}`,
+      value: `${formatted.contractStake} ${network.egldLabel}`,
       percentage: `${getPercentage(
-        formatted.nodes,
+        formatted.contractStake,
         formatted.stake
       )}% of total stake`
     };
