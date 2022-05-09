@@ -153,13 +153,7 @@ const useGlobalData = () => {
           const data = await provider.queryContract(query);
           const [userStake] = data.outputUntyped();
 
-          return denominate({
-            input: decodeBigNumber(userStake).toFixed(),
-            decimals,
-            denomination,
-            addCommas: false,
-            showLastNonZeroDecimal: true
-          });
+          return decodeBigNumber(userStake).toFixed();
         } catch (error) {
           return Promise.reject(error);
         }
