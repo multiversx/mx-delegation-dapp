@@ -108,7 +108,7 @@ const useStakeData = () => {
 
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
         const maxed =
-          parseInt(getPercentage(denominate({ input: stake }), denominate({ input: cap }))) === 100;
+          parseInt(getPercentage(denominate({ input: parseInt(stake) }), denominate({ input: cap }))) === 100;
 
         if (remainder.isGreaterThan(available)) {
           return {

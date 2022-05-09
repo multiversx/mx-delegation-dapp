@@ -48,7 +48,7 @@ const Delegate: FC = () => {
                   event.preventDefault();
                   setFieldValue(
                     'amount',
-                    denominated(limit, { addCommas: false })
+                    denominate({ input: limit, addCommas: false })
                   );
                 };
 
@@ -89,7 +89,7 @@ const Delegate: FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span> {denominate({input: account.balance})}{' '}
+                        <span>Balance:</span> {denominate({ input: account.balance || '0' })}{' '}
                         {network.egldLabel}
                       </span>
 

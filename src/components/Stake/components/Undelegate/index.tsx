@@ -93,7 +93,7 @@ const Undelegate: FC = () => {
                       <span className={styles.description}>
                         <span>Balance:</span>{' '}
                         {denominate({
-                          input: userActiveStake.data || ''
+                          input: userActiveStake.data || '0'
                         })}{' '}
                         {network.egldLabel}
                       </span>
