@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "repository": "@elrondnetwork/dapp-template",
   "dependencies": {
-    "@elrondnetwork/dapp-core": "1.2.1",
+    "@elrondnetwork/dapp-core": "^1.2.3",
     "@elrondnetwork/dapp-utils": "0.0.10",
     "@elrondnetwork/erdjs": "9.0.3",
     "@fortawesome/free-regular-svg-icons": "^6.0.0",
@@ -28,6 +28,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "4.0.3",
     "sass": "^1.52.0",
+    "shx": "0.3.4",
     "typescript": "4.1.2",
     "web-vitals": "1.0.1",
     "yup": "^0.32.11"
@@ -42,17 +43,13 @@
     "build-devnet": "npm run copy-devnet-config & npm run build",
     "build-mainnet": "npm run copy-mainnet-config & npm run build",
     "test": "react-scripts test",
-    "copy-mainnet-config:windows": "copy ./src/config.mainnet.ts ./src/config.ts",
-    "copy-testnet-config:windows": "copy ./src/config.testnet.ts ./src/config.ts",
-    "copy-devnet-config:windows": "copy ./src/config.devnet.ts ./src/config.ts",
-    "copy-mainnet-config": "run-script-os",
-    "copy-devnet-config": "run-script-os",
-    "copy-testnet-config": "run-script-os",
+    "copy-mainnet-config": "shx cp ./src/config.mainnet.ts ./src/config.ts",
+    "copy-testnet-config": "shx cp ./src/config.testnet.ts ./src/config.ts",
+    "copy-devnet-config": "shx cp ./src/config.devnet.ts ./src/config.ts",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,ts,tsx src"
   },
   "eslintConfig": {
-    "run-script-os": "^1.1.5",
     "extends": [
       "react-app",
       "react-app/jest"

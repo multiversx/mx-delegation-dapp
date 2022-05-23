@@ -2,6 +2,13 @@ import React, { FC, useEffect, useState, MouseEvent, Fragment } from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
+  ContractFunction,
+  ProxyProvider,
+  Address,
+  Query,
+  BytesValue
+} from '@elrondnetwork/erdjs';
+import {
   faPlus,
   faServer,
   faTimes,
@@ -13,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 
 import Action from 'components/Action';
-import { network } from 'config';
+import { network, auctionContract, stakingContract } from 'config';
 import { useGlobalContext } from 'context';
 import modifiable from 'helpers/modifiable';
 
@@ -26,6 +33,7 @@ import styles from './styles.module.scss';
 interface NodeType {
   code: string;
   status: any;
+  position?: string;
 }
 
 interface VariantsType {
@@ -151,7 +159,7 @@ const Nodes: FC = () => {
   };
 
   const getNodes = () => {
-    if (nodesNumber.data && nodesNumber.data.length > 0) {
+    const fetchData = async (nodesData: any) => {
       const calculateNodes = (nodes: Array<any>) =>
         nodes.reduce((result: any, value, index, array) => {
           if (index % 2 === 0) {
@@ -172,7 +180,36 @@ const Nodes: FC = () => {
           return result;
         }, []);
 
-      setData(calculateNodes(nodesNumber.data));
+      const fetchQueue = async (key: string) => {
+        const provider = new ProxyProvider(network.apiAddress);
+        const query = new Query({
+          address: new Address(stakingContract),
+          func: new ContractFunction('getQueueIndex'),
+          caller: new Address(auctionContract),
+          args: [BytesValue.fromHex(key)]
+        });
+
+        const payload = await provider.queryContract(query);
+        const [position] = payload.outputUntyped();
+
+        return String(position);
+      };
+
+      const assignQueue = (nodes: Array<NodeType>) =>
+        nodes.map(async (node: NodeType) =>
+          node.status.label === 'Queued'
+            ? {
+                ...node,
+                position: await fetchQueue(node.code)
+              }
+            : node
+        );
+
+      setData(await Promise.all(assignQueue(calculateNodes(nodesData))));
+    };
+
+    if (nodesNumber.data && nodesNumber.data.length > 0) {
+      fetchData(nodesNumber.data);
     }
 
     return () => setData([]);
@@ -259,7 +296,9 @@ const Nodes: FC = () => {
                       />
                     </span>
 
-                    {node.status.label}
+                    {node.position
+                      ? `${node.status.label} (Position ${node.position})`
+                      : node.status.label}
                   </span>
                 )}
 
