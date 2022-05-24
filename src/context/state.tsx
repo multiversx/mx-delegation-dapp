@@ -12,6 +12,11 @@ export interface StateType {
     error: ErrorType;
     data: null | Array<Uint8Array>;
   };
+  nodesStates: {
+    status: StatusType;
+    error: ErrorType;
+    data: null | Array<Uint8Array>;
+  };
   contractDetails: {
     status: StatusType;
     error: ErrorType;
@@ -77,6 +82,11 @@ export interface StateType {
 
 export const initializer: StateType = {
   nodesNumber: {
+    status: 'idle',
+    data: null,
+    error: null
+  },
+  nodesStates: {
     status: 'idle',
     data: null,
     error: null

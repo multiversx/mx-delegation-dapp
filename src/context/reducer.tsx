@@ -15,6 +15,10 @@ export type ActionType =
       nodesNumber: StateType['nodesNumber'];
     }
   | {
+      type: 'getNodesStates';
+      nodesNumber: StateType['nodesStates'];
+    }
+  | {
       type: 'getTotalActiveStake';
       totalActiveStake: StateType['totalActiveStake'];
     }
@@ -65,6 +69,12 @@ const reducer = (state: StateType, action: any) => {
       return {
         ...state,
         nodesNumber: action.nodesNumber
+      };
+    }
+    case 'getNodesStates': {
+      return {
+        ...state,
+        nodesStates: action.nodesStates
       };
     }
     case 'getTotalActiveStake': {

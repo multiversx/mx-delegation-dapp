@@ -1,0 +1,27 @@
+{
+  "staked": {
+    "label": "Staked",
+    "color": "success",
+    "actions": ["unStake"]
+  },
+  "jailed": {
+    "label": "Jail",
+    "color": "danger",
+    "actions": ["unJail"]
+  },
+  "queued": {
+    "label": "Queued",
+    "color": "warning",
+    "actions": ["unStake"]
+  },
+  "unStaked": {
+    "label": "UnStaked",
+    "color": "warning",
+    "actions": ["unBond", "reStake"]
+  },
+  "notStaked": {
+    "label": "Inactive",
+    "color": "warning",
+    "actions": ["stake", "remove"]
+  }
+}

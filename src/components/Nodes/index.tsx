@@ -1,4 +1,11 @@
-import React, { FC, useEffect, useState, MouseEvent, Fragment } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useState,
+  MouseEvent,
+  Fragment,
+  useCallback
+} from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
@@ -27,8 +34,8 @@ import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
 
 import Add from './components/Add';
-
 import styles from './styles.module.scss';
+import variants from './variants.json';
 
 interface NodeType {
   code: string;
@@ -52,164 +59,181 @@ interface ActionsType {
   callback: (value: string) => ArgumentsType;
 }
 
+const actions: Array<ActionsType> = [
+  {
+    key: 'unStake',
+    label: 'Unstake',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'unStakeNodes',
+      args: value
+    })
+  },
+  {
+    key: 'reStake',
+    label: 'ReStake',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'reStakeUnStakedNodes',
+      args: value
+    })
+  },
+  {
+    key: 'unJail',
+    label: 'Unjail',
+    callback: (value: string) => ({
+      value: '2.5',
+      type: 'unJailNodes',
+      args: value
+    })
+  },
+  {
+    key: 'unBond',
+    label: 'Unbond',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'unBondNodes',
+      args: value
+    })
+  },
+  {
+    key: 'stake',
+    label: 'Stake',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'stakeNodes',
+      args: `${value}`
+    })
+  },
+  {
+    key: 'remove',
+    label: 'Remove',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'removeNodes',
+      args: `${value}`
+    })
+  }
+];
+
 const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
-  const { nodesNumber } = useGlobalContext();
+  const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
-
   const isLoading = nodesNumber.status === 'loading';
 
-  const variants: VariantsType = {
-    staked: {
-      label: 'Staked',
-      color: 'success',
-      actions: ['unStake']
-    },
-    jailed: {
-      label: 'Jail',
-      color: 'danger',
-      actions: ['unJail']
-    },
-    queued: {
-      label: 'Queued',
-      color: 'warning',
-      actions: ['unStake']
-    },
-    unStaked: {
-      label: 'UnStaked',
-      color: 'warning',
-      actions: ['unBond', 'reStake']
-    },
-    notStaked: {
-      label: 'Inactive',
-      color: 'warning',
-      actions: ['stake', 'remove']
-    }
-  };
+  const onAct = useCallback(
+    async (parameters: ArgumentsType): Promise<void> => {
+      const { value, type, args } = parameters;
 
-  const actions: Array<ActionsType> = [
-    {
-      key: 'unStake',
-      label: 'Unstake',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'unStakeNodes',
-        args: value
-      })
+      try {
+        await sendTransaction({
+          args,
+          type,
+          value
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    {
-      key: 'reStake',
-      label: 'ReStake',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'reStakeUnStakedNodes',
-        args: value
-      })
-    },
-    {
-      key: 'unJail',
-      label: 'Unjail',
-      callback: (value: string) => ({
-        value: '2.5',
-        type: 'unJailNodes',
-        args: value
-      })
-    },
-    {
-      key: 'unBond',
-      label: 'Unbond',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'unBondNodes',
-        args: value
-      })
-    },
-    {
-      key: 'stake',
-      label: 'Stake',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'stakeNodes',
-        args: `${value}`
-      })
-    },
-    {
-      key: 'remove',
-      label: 'Remove',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'removeNodes',
-        args: `${value}`
-      })
-    }
-  ];
+    []
+  );
 
-  const onAct = async ({ value, type, args }: ArgumentsType): Promise<void> => {
-    try {
-      await sendTransaction({
-        args,
-        type,
-        value
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const fetchQueue = useCallback(async (key: string) => {
+    const provider = new ProxyProvider(network.apiAddress);
+    const query = new Query({
+      address: new Address(stakingContract),
+      func: new ContractFunction('getQueueIndex'),
+      caller: new Address(auctionContract),
+      args: [BytesValue.fromHex(key)]
+    });
+
+    const queue = new Query({
+      address: new Address(stakingContract),
+      func: new ContractFunction('getQueueSize')
+    });
+
+    const payload = await Promise.all(
+      [query, queue].map((parameters) => provider.queryContract(parameters))
+    );
+
+    const [position, size] = payload
+      .map((item) => item.outputUntyped())
+      .map(([item]) => String(item));
+
+    return `${position}/${size}`;
+  }, []);
+
+  const calculateNodes = useCallback(
+    (nodes: Array<any>) =>
+      nodes.reduce((result: any, value, index, array) => {
+        if (index % 2 === 0) {
+          const [code, status]: Array<any> = array.slice(index, index + 2);
+          const item = {
+            code: Buffer.from(code, 'base64').toString('hex'),
+            status: Buffer.from(status, 'base64').toString()
+          };
+
+          return [
+            ...result,
+            {
+              ...item,
+              status: (variants as VariantsType)[item.status]
+            }
+          ];
+        }
+        return result;
+      }, []),
+    []
+  );
+
+  const assignQueue = useCallback(
+    (nodes: Array<NodeType>) =>
+      nodes.map(async (node: NodeType) =>
+        node.status.label === 'Queued'
+          ? {
+              ...node,
+              position: await fetchQueue(node.code)
+            }
+          : node
+      ),
+    []
+  );
 
   const getNodes = () => {
-    const fetchData = async (nodesData: any) => {
-      const calculateNodes = (nodes: Array<any>) =>
-        nodes.reduce((result: any, value, index, array) => {
-          if (index % 2 === 0) {
-            const [code, status]: Array<any> = array.slice(index, index + 2);
-            const item = {
-              code: Buffer.from(code, 'base64').toString('hex'),
-              status: Buffer.from(status, 'base64').toString()
-            };
-
-            return [
-              ...result,
-              {
-                ...item,
-                status: variants[item.status]
-              }
-            ];
-          }
-          return result;
-        }, []);
-
-      const fetchQueue = async (key: string) => {
-        const provider = new ProxyProvider(network.apiAddress);
-        const query = new Query({
-          address: new Address(stakingContract),
-          func: new ContractFunction('getQueueIndex'),
-          caller: new Address(auctionContract),
-          args: [BytesValue.fromHex(key)]
-        });
-
-        const payload = await provider.queryContract(query);
-        const [position] = payload.outputUntyped();
-
-        return String(position);
-      };
-
-      const assignQueue = (nodes: Array<NodeType>) =>
-        nodes.map(async (node: NodeType) =>
-          node.status.label === 'Queued'
-            ? {
-                ...node,
-                position: await fetchQueue(node.code)
-              }
-            : node
+    const fetchData = async (nodes: Array<any>, states: Array<any>) => {
+      const activeNodes = await Promise.all(assignQueue(calculateNodes(nodes)));
+      const inactiveNodes = states.reduce((total, item, index) => {
+        const indexes = states.reduce(
+          (statuses, status, position) =>
+            Object.keys(variants).includes(String(status))
+              ? [...statuses, { position, status: String(status) }]
+              : statuses,
+          []
         );
 
-      setData(await Promise.all(assignQueue(calculateNodes(nodesData))));
+        const inactive = (unit: any) => unit.status === 'notStaked';
+        const position = indexes.findIndex(inactive);
+        const start = indexes.find(inactive);
+        const end = indexes[position + 1];
+
+        const node = {
+          code: item.toString('hex'),
+          status: variants.notStaked
+        };
+
+        return index > start.position && index < end.position
+          ? [...total, node]
+          : total;
+      }, []);
+
+      setData(activeNodes.concat(inactiveNodes));
     };
 
-    if (nodesNumber.data && nodesNumber.data.length > 0) {
-      fetchData(nodesNumber.data);
+    if (nodesNumber.data && nodesNumber.data.length > 0 && nodesStates.data) {
+      fetchData(nodesNumber.data, nodesStates.data);
     }
 
     return () => setData([]);
@@ -221,7 +245,7 @@ const Nodes: FC = () => {
     }
   };
 
-  useEffect(getNodes, [nodesNumber.data, success]);
+  useEffect(getNodes, [nodesNumber.data, nodesStates.data, success]);
   useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (

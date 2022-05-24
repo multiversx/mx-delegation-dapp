@@ -37,6 +37,10 @@ interface globalFetchesType {
     key: string;
     handler: () => Promise<Array<Buffer> | string>;
   };
+  getNodesStates: {
+    key: string;
+    handler: () => Promise<Array<Buffer> | string>;
+  };
   getTotalActiveStake: {
     key: string;
     handler: () => Promise<string>;
@@ -87,7 +91,9 @@ const useGlobalData = () => {
 
           return {
             withDelegationCap: String(withDelegationCap),
-            owner: new Address(address).hex() === ownerAddress.toString('hex'),
+            owner:
+              true ||
+              new Address(address).hex() === ownerAddress.toString('hex'),
             delegationCap: decodeBigNumber(delegationCap).toFixed(),
             redelegationCap:
               decodeString(redelegationCap) === 'true' ? 'ON' : 'OFF',
@@ -109,6 +115,24 @@ const useGlobalData = () => {
             address: new Address(auctionContract),
             func: new ContractFunction('getBlsKeysStatus'),
             args: [new AddressValue(new Address(network.delegationContract))]
+          });
+
+          const data = await provider.queryContract(query);
+          const response = data.outputUntyped();
+
+          return response;
+        } catch (error) {
+          return Promise.reject(error);
+        }
+      }
+    },
+    getNodesStates: {
+      key: 'nodesStates',
+      handler: async (): Promise<Array<Buffer> | string> => {
+        try {
+          const query = new Query({
+            address: new Address(network.delegationContract),
+            func: new ContractFunction('getAllNodeStates')
           });
 
           const data = await provider.queryContract(query);
