@@ -204,32 +204,42 @@ const Nodes: FC = () => {
 
   const getNodes = () => {
     const fetchData = async (nodes: Array<any>, states: Array<any>) => {
-      const activeNodes = await Promise.all(assignQueue(calculateNodes(nodes)));
-      const inactiveNodes = states.reduce((total, item, index) => {
-        const indexes = states.reduce(
-          (statuses, status, position) =>
-            Object.keys(variants).includes(String(status))
-              ? [...statuses, { position, status: String(status) }]
-              : statuses,
-          []
+      try {
+        const activeNodes = await Promise.all(
+          assignQueue(calculateNodes(nodes))
         );
+        const inactiveNodes = states.reduce((total, item, index) => {
+          const indexes = states.reduce(
+            (statuses, status, position) =>
+              Object.keys(variants).includes(String(status))
+                ? [...statuses, { position, status: String(status) }]
+                : statuses,
+            []
+          );
 
-        const inactive = (unit: any) => unit.status === 'notStaked';
-        const position = indexes.findIndex(inactive);
-        const start = indexes.find(inactive);
-        const end = indexes[position + 1];
+          const inactive = (unit: any) => unit.status === 'notStaked';
+          const position = indexes.findIndex(inactive);
+          const start = indexes.find(inactive);
+          const end = indexes[position + 1];
 
-        const node = {
-          code: item.toString('hex'),
-          status: variants.notStaked
-        };
+          const node = {
+            code: item.toString('hex'),
+            status: variants.notStaked
+          };
 
-        return index > start.position && index < end.position
-          ? [...total, node]
-          : total;
-      }, []);
+          if (!start || !end) {
+            return total;
+          }
 
-      setData(activeNodes.concat(inactiveNodes));
+          return index > start.position && index < end.position
+            ? [...total, node]
+            : total;
+        }, []);
+
+        setData(activeNodes.concat(inactiveNodes));
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     if (nodesNumber.data && nodesNumber.data.length > 0 && nodesStates.data) {
