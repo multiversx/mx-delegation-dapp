@@ -67,7 +67,7 @@ For _development_ you will need to have the following:
 
 ### Step 1. Install modules
 
-From a terminal, navigate to the project folder and run `npm install`
+From a terminal, navigate to the project folder and run `npm install --legacy-peer-deps`
 
 ### Step 2. Update Configs
 
