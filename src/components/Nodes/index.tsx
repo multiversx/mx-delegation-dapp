@@ -220,7 +220,7 @@ const Nodes: FC = () => {
           const inactive = (unit: any) => unit.status === 'notStaked';
           const position = indexes.findIndex(inactive);
           const start = indexes.find(inactive);
-          const end = indexes[position + 1];
+          const end = indexes[position + 1] || { position: states.length };
 
           const node = {
             code: item.toString('hex'),
