@@ -1,6 +1,20 @@
-import React, { FC, useEffect, useState, MouseEvent, Fragment } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useState,
+  MouseEvent,
+  Fragment,
+  useCallback
+} from 'react';
 
 import { transactionServices } from '@elrondnetwork/dapp-core';
+import {
+  ContractFunction,
+  ProxyProvider,
+  Address,
+  Query,
+  BytesValue
+} from '@elrondnetwork/erdjs';
 import {
   faPlus,
   faServer,
@@ -11,20 +25,22 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
-import Action from '/src/components/Action';
-import { network } from '/src/config';
-import { useDispatch, useGlobalContext } from '/src/context';
-import modifiable from '/src/helpers/modifiable';
 
-import useTransaction from '/src/helpers/useTransaction';
+import Action from 'components/Action';
+import { network, auctionContract, stakingContract } from 'config';
+import { useGlobalContext } from 'context';
+import modifiable from 'helpers/modifiable';
+
+import useTransaction from 'helpers/useTransaction';
 
 import Add from './components/Add';
-
 import styles from './styles.module.scss';
+import variants from './variants.json';
 
 interface NodeType {
   code: string;
   status: any;
+  position?: string;
 }
 
 interface VariantsType {
@@ -43,135 +59,191 @@ interface ActionsType {
   callback: (value: string) => ArgumentsType;
 }
 
+const actions: Array<ActionsType> = [
+  {
+    key: 'unStake',
+    label: 'Unstake',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'unStakeNodes',
+      args: value
+    })
+  },
+  {
+    key: 'reStake',
+    label: 'ReStake',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'reStakeUnStakedNodes',
+      args: value
+    })
+  },
+  {
+    key: 'unJail',
+    label: 'Unjail',
+    callback: (value: string) => ({
+      value: '2.5',
+      type: 'unJailNodes',
+      args: value
+    })
+  },
+  {
+    key: 'unBond',
+    label: 'Unbond',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'unBondNodes',
+      args: value
+    })
+  },
+  {
+    key: 'stake',
+    label: 'Stake',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'stakeNodes',
+      args: `${value}`
+    })
+  },
+  {
+    key: 'remove',
+    label: 'Remove',
+    callback: (value: string) => ({
+      value: '0',
+      type: 'removeNodes',
+      args: `${value}`
+    })
+  }
+];
+
 const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
-  const { nodesNumber } = useGlobalContext();
+  const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, hasActiveTransactions } =
     transactionServices.useGetActiveTransactionsStatus();
-
   const isLoading = nodesNumber.status === 'loading';
 
-  const variants: VariantsType = {
-    staked: {
-      label: 'Staked',
-      color: 'success',
-      actions: ['unStake']
-    },
-    jailed: {
-      label: 'Jail',
-      color: 'danger',
-      actions: ['unJail']
-    },
-    queued: {
-      label: 'Queued',
-      color: 'warning',
-      actions: ['unStake']
-    },
-    unStaked: {
-      label: 'UnStaked',
-      color: 'warning',
-      actions: ['unBond', 'reStake']
-    },
-    notStaked: {
-      label: 'Inactive',
-      color: 'warning',
-      actions: ['stake', 'remove']
-    }
-  };
+  const onAct = useCallback(
+    async (parameters: ArgumentsType): Promise<void> => {
+      const { value, type, args } = parameters;
 
-  const actions: Array<ActionsType> = [
-    {
-      key: 'unStake',
-      label: 'Unstake',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'unStakeNodes',
-        args: value
-      })
+      try {
+        await sendTransaction({
+          args,
+          type,
+          value
+        });
+      } catch (error) {
+        console.error(error);
+      }
     },
-    {
-      key: 'reStake',
-      label: 'ReStake',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'reStakeUnStakedNodes',
-        args: value
-      })
-    },
-    {
-      key: 'unJail',
-      label: 'Unjail',
-      callback: (value: string) => ({
-        value: '2.5',
-        type: 'unJailNodes',
-        args: value
-      })
-    },
-    {
-      key: 'unBond',
-      label: 'Unbond',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'unBondNodes',
-        args: value
-      })
-    },
-    {
-      key: 'stake',
-      label: 'Stake',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'stakeNodes',
-        args: `${value}`
-      })
-    },
-    {
-      key: 'remove',
-      label: 'Remove',
-      callback: (value: string) => ({
-        value: '0',
-        type: 'removeNodes',
-        args: `${value}`
-      })
-    }
-  ];
+    []
+  );
 
-  const onAct = async ({ value, type, args }: ArgumentsType): Promise<void> => {
-    try {
-      await sendTransaction({
-        args,
-        type,
-        value
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const fetchQueue = useCallback(async (key: string) => {
+    const provider = new ProxyProvider(network.apiAddress);
+    const query = new Query({
+      address: new Address(stakingContract),
+      func: new ContractFunction('getQueueIndex'),
+      caller: new Address(auctionContract),
+      args: [BytesValue.fromHex(key)]
+    });
+
+    const queue = new Query({
+      address: new Address(stakingContract),
+      func: new ContractFunction('getQueueSize')
+    });
+
+    const payload = await Promise.all(
+      [query, queue].map((parameters) => provider.queryContract(parameters))
+    );
+
+    const [position, size] = payload
+      .map((item) => item.outputUntyped())
+      .map(([item]) => String(item));
+
+    return `${position}/${size}`;
+  }, []);
+
+  const calculateNodes = useCallback(
+    (nodes: Array<any>) =>
+      nodes.reduce((result: any, value, index, array) => {
+        if (index % 2 === 0) {
+          const [code, status]: Array<any> = array.slice(index, index + 2);
+          const item = {
+            code: Buffer.from(code, 'base64').toString('hex'),
+            status: Buffer.from(status, 'base64').toString()
+          };
+
+          return [
+            ...result,
+            {
+              ...item,
+              status: (variants as VariantsType)[item.status]
+            }
+          ];
+        }
+        return result;
+      }, []),
+    []
+  );
+
+  const assignQueue = useCallback(
+    (nodes: Array<NodeType>) =>
+      nodes.map(async (node: NodeType) =>
+        node.status.label === 'Queued'
+          ? {
+              ...node,
+              position: await fetchQueue(node.code)
+            }
+          : node
+      ),
+    []
+  );
 
   const getNodes = () => {
-    if (nodesNumber.data && nodesNumber.data.length > 0) {
-      const calculateNodes = (nodes: Array<any>) =>
-        nodes.reduce((result: any, value, index, array) => {
-          if (index % 2 === 0) {
-            const [code, status]: Array<any> = array.slice(index, index + 2);
-            const item = {
-              code: Buffer.from(code, 'base64').toString('hex'),
-              status: Buffer.from(status, 'base64').toString()
-            };
+    const fetchData = async (nodes: Array<any>, states: Array<any>) => {
+      try {
+        const activeNodes = await Promise.all(
+          assignQueue(calculateNodes(nodes))
+        );
+        const inactiveNodes = states.reduce((total, item, index) => {
+          const indexes = states.reduce(
+            (statuses, status, position) =>
+              Object.keys(variants).includes(String(status))
+                ? [...statuses, { position, status: String(status) }]
+                : statuses,
+            []
+          );
 
-            return [
-              ...result,
-              {
-                ...item,
-                status: variants[item.status]
-              }
-            ];
+          const inactive = (unit: any) => unit.status === 'notStaked';
+          const position = indexes.findIndex(inactive);
+          const start = indexes.find(inactive);
+          const end = indexes[position + 1] || { position: states.length };
+
+          const node = {
+            code: item.toString('hex'),
+            status: variants.notStaked
+          };
+
+          if (!start || !end) {
+            return total;
           }
-          return result;
+
+          return index > start.position && index < end.position
+            ? [...total, node]
+            : total;
         }, []);
 
-      setData(calculateNodes(nodesNumber.data));
+        setData(activeNodes.concat(inactiveNodes));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (nodesNumber.data && nodesNumber.data.length > 0 && nodesStates.data) {
+      fetchData(nodesNumber.data, nodesStates.data);
     }
 
     return () => setData([]);
@@ -183,7 +255,7 @@ const Nodes: FC = () => {
     }
   };
 
-  useEffect(getNodes, [nodesNumber.data, success]);
+  useEffect(getNodes, [nodesNumber.data, nodesStates.data, success]);
   useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
@@ -215,9 +287,9 @@ const Nodes: FC = () => {
             <div className={styles.message}>
               {isLoading
                 ? 'Retrieving keys...'
-                : isError
-                  ? 'An error occurred attempting to retrieve keys.'
-                  : 'No keys found for this contract.'}
+                : nodesNumber.error
+                ? 'An error occurred attempting to retrieve keys.'
+                : 'No keys found for this contract.'}
             </div>
           </Fragment>
         ) : (
@@ -258,7 +330,9 @@ const Nodes: FC = () => {
                       />
                     </span>
 
-                    {node.status.label}
+                    {node.position
+                      ? `${node.status.label} (Position ${node.position})`
+                      : node.status.label}
                   </span>
                 )}
 

@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 
 import {
   useGetAccountInfo,
-  getNetworkProxy,
-  transactionServices,
-  denominate
+  transactionServices
 } from '@elrondnetwork/dapp-core';
 import {
   Query,
@@ -16,9 +14,9 @@ import {
   decodeString,
   AddressValue
 } from '@elrondnetwork/erdjs';
-import { network, decimals, auctionContract, denomination } from '../config';
-import { useDispatch } from '../context';
 
+import { network, auctionContract } from 'config';
+import { useDispatch } from 'context';
 
 interface ContractDetailsType {
   automaticActivation: string;
@@ -36,6 +34,10 @@ interface globalFetchesType {
     handler: () => Promise<ContractDetailsType | string>;
   };
   getNodesNumber: {
+    key: string;
+    handler: () => Promise<Array<Buffer> | string>;
+  };
+  getNodesStates: {
     key: string;
     handler: () => Promise<Array<Buffer> | string>;
   };
@@ -111,6 +113,24 @@ const useGlobalData = () => {
             address: new Address(auctionContract),
             func: new ContractFunction('getBlsKeysStatus'),
             args: [new AddressValue(new Address(network.delegationContract))]
+          });
+
+          const data = await provider.queryContract(query);
+          const response = data.outputUntyped();
+
+          return response;
+        } catch (error) {
+          return Promise.reject(error);
+        }
+      }
+    },
+    getNodesStates: {
+      key: 'nodesStates',
+      handler: async (): Promise<Array<Buffer> | string> => {
+        try {
+          const query = new Query({
+            address: new Address(network.delegationContract),
+            func: new ContractFunction('getAllNodeStates')
           });
 
           const data = await provider.queryContract(query);

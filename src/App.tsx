@@ -1,13 +1,13 @@
 import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import Layout from '../src/components/Layout';
-import { network, walletConnectBridge, walletConnectDeepLink } from '../src/config'
-import { ContextProvider } from '../src/context';
-import PageNotFound from '../src/pages/PageNotFound';
-import Unlock from '../src/pages/Unlock';
-import { routeNames } from '../src/routes';
-import routes from '../src/routes';
+import Layout from 'components/Layout';
+import { network, walletConnectBridge, walletConnectDeepLink } from 'config';
+import { ContextProvider } from 'context';
+import PageNotFound from 'pages/PageNotFound';
+import Unlock from 'pages/Unlock';
+import { routeNames } from 'routes';
+import routes from 'routes';
 import '@elrondnetwork/dapp-core/dist/index.css';
 
 const App = () => (
@@ -19,7 +19,6 @@ const App = () => (
         walletConnectBridge,
         walletConnectDeepLink
       }}
-      completedTransactionsDelay={500}
     >
       <ContextProvider>
         <Layout>
