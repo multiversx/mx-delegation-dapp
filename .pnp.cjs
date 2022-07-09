@@ -34,8 +34,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["@elrondnetwork/dapp-core", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:1.3.8"],\
-            ["@elrondnetwork/dapp-utils", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.1.3"],\
-            ["@elrondnetwork/erdjs", "npm:9.2.6"],\
+            ["@elrondnetwork/dapp-utils", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.0.10"],\
+            ["@elrondnetwork/erdjs", "npm:9.0.3"],\
             ["@fortawesome/fontawesome-svg-core", "npm:6.1.1"],\
             ["@fortawesome/free-regular-svg-icons", "npm:6.0.0"],\
             ["@fortawesome/free-solid-svg-icons", "npm:6.1.1"],\
@@ -4506,26 +4506,46 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@elrondnetwork/dapp-utils", [\
-        ["npm:0.1.3", {\
-          "packageLocation": "./.yarn/cache/@elrondnetwork-dapp-utils-npm-0.1.3-51a5d8db59-94bb8dd61f.zip/node_modules/@elrondnetwork/dapp-utils/",\
+        ["npm:0.0.10", {\
+          "packageLocation": "./.yarn/cache/@elrondnetwork-dapp-utils-npm-0.0.10-4def9ceece-6f3531aa4c.zip/node_modules/@elrondnetwork/dapp-utils/",\
           "packageDependencies": [\
-            ["@elrondnetwork/dapp-utils", "npm:0.1.3"]\
+            ["@elrondnetwork/dapp-utils", "npm:0.0.10"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.1.3", {\
-          "packageLocation": "./.yarn/__virtual__/@elrondnetwork-dapp-utils-virtual-843a34a9aa/0/cache/@elrondnetwork-dapp-utils-npm-0.1.3-51a5d8db59-94bb8dd61f.zip/node_modules/@elrondnetwork/dapp-utils/",\
+        ["virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.0.10", {\
+          "packageLocation": "./.yarn/__virtual__/@elrondnetwork-dapp-utils-virtual-32c8bcdaff/0/cache/@elrondnetwork-dapp-utils-npm-0.0.10-4def9ceece-6f3531aa4c.zip/node_modules/@elrondnetwork/dapp-utils/",\
           "packageDependencies": [\
-            ["@elrondnetwork/dapp-utils", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.1.3"],\
-            ["@elrondnetwork/erdjs", "npm:9.2.6"],\
+            ["@elrondnetwork/dapp-utils", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.0.10"],\
+            ["@elrondnetwork/erdjs", "npm:9.0.3"],\
+            ["@fortawesome/fontawesome-svg-core", "npm:1.2.35"],\
+            ["@fortawesome/free-solid-svg-icons", "npm:5.15.3"],\
+            ["@fortawesome/react-fontawesome", "virtual:32c8bcdaff1a887f19e4f883f37afeb9c5a5778a7b808576eef8733604fd60c19b49b0a58d3821299dc8ac9a1da3cc61cf51dc3084f6c2850c48f9ed8683b298#npm:0.1.14"],\
             ["@types/elrondnetwork__erdjs", null],\
+            ["@types/moment", null],\
+            ["@types/qs", "npm:6.9.6"],\
             ["@types/react", "npm:17.0.7"],\
-            ["react", "npm:17.0.2"]\
+            ["@types/react-bootstrap", null],\
+            ["@types/react-router-dom", "npm:5.1.7"],\
+            ["axios", "npm:0.21.1"],\
+            ["moment", "npm:2.29.1"],\
+            ["platform", "npm:1.3.6"],\
+            ["qrcode", "npm:1.4.4"],\
+            ["qs", "npm:6.10.1"],\
+            ["react", "npm:17.0.2"],\
+            ["react-bootstrap", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:1.6.0"],\
+            ["react-router-dom", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:6.2.2"]\
           ],\
           "packagePeers": [\
             "@elrondnetwork/erdjs",\
             "@types/elrondnetwork__erdjs",\
+            "@types/moment",\
+            "@types/react-bootstrap",\
+            "@types/react-router-dom",\
             "@types/react",\
+            "moment",\
+            "react-bootstrap",\
+            "react-router-dom",\
             "react"\
           ],\
           "linkType": "HARD"\
@@ -4547,10 +4567,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:9.2.6", {\
-          "packageLocation": "./.yarn/cache/@elrondnetwork-erdjs-npm-9.2.6-47a4f4c2d4-5da256c061.zip/node_modules/@elrondnetwork/erdjs/",\
+        ["npm:9.0.3", {\
+          "packageLocation": "./.yarn/cache/@elrondnetwork-erdjs-npm-9.0.3-b1cf4aa7ca-d83ca44b94.zip/node_modules/@elrondnetwork/erdjs/",\
           "packageDependencies": [\
-            ["@elrondnetwork/erdjs", "npm:9.2.6"],\
+            ["@elrondnetwork/erdjs", "npm:9.0.3"],\
             ["@babel/runtime", "npm:7.11.2"],\
             ["@elrondnetwork/bls-wasm", "npm:0.3.3"],\
             ["@elrondnetwork/hw-app-elrond", "npm:0.3.2"],\
@@ -4699,6 +4719,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fortawesome/fontawesome-common-types", [\
+        ["npm:0.2.36", {\
+          "packageLocation": "./.yarn/unplugged/@fortawesome-fontawesome-common-types-npm-0.2.36-4ead73741a/node_modules/@fortawesome/fontawesome-common-types/",\
+          "packageDependencies": [\
+            ["@fortawesome/fontawesome-common-types", "npm:0.2.36"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.3.0", {\
           "packageLocation": "./.yarn/unplugged/@fortawesome-fontawesome-common-types-npm-0.3.0-6e529e8bc7/node_modules/@fortawesome/fontawesome-common-types/",\
           "packageDependencies": [\
@@ -4722,6 +4749,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fortawesome/fontawesome-svg-core", [\
+        ["npm:1.2.35", {\
+          "packageLocation": "./.yarn/unplugged/@fortawesome-fontawesome-svg-core-npm-1.2.35-5d06f1c1f2/node_modules/@fortawesome/fontawesome-svg-core/",\
+          "packageDependencies": [\
+            ["@fortawesome/fontawesome-svg-core", "npm:1.2.35"],\
+            ["@fortawesome/fontawesome-common-types", "npm:0.2.36"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:6.1.0", {\
           "packageLocation": "./.yarn/unplugged/@fortawesome-fontawesome-svg-core-npm-6.1.0-e3aac65036/node_modules/@fortawesome/fontawesome-svg-core/",\
           "packageDependencies": [\
@@ -4750,6 +4785,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fortawesome/free-solid-svg-icons", [\
+        ["npm:5.15.3", {\
+          "packageLocation": "./.yarn/unplugged/@fortawesome-free-solid-svg-icons-npm-5.15.3-2a340e3cd8/node_modules/@fortawesome/free-solid-svg-icons/",\
+          "packageDependencies": [\
+            ["@fortawesome/free-solid-svg-icons", "npm:5.15.3"],\
+            ["@fortawesome/fontawesome-common-types", "npm:0.2.36"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:6.1.0", {\
           "packageLocation": "./.yarn/unplugged/@fortawesome-free-solid-svg-icons-npm-6.1.0-e95af8cbd3/node_modules/@fortawesome/free-solid-svg-icons/",\
           "packageDependencies": [\
@@ -4768,6 +4811,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@fortawesome/react-fontawesome", [\
+        ["npm:0.1.14", {\
+          "packageLocation": "./.yarn/cache/@fortawesome-react-fontawesome-npm-0.1.14-a74287f90f-fba8ee619a.zip/node_modules/@fortawesome/react-fontawesome/",\
+          "packageDependencies": [\
+            ["@fortawesome/react-fontawesome", "npm:0.1.14"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["npm:0.1.18", {\
           "packageLocation": "./.yarn/cache/@fortawesome-react-fontawesome-npm-0.1.18-106800ea16-eba7112345.zip/node_modules/@fortawesome/react-fontawesome/",\
           "packageDependencies": [\
@@ -4781,6 +4831,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/react-fontawesome", "npm:0.2.0"]\
           ],\
           "linkType": "SOFT"\
+        }],\
+        ["virtual:32c8bcdaff1a887f19e4f883f37afeb9c5a5778a7b808576eef8733604fd60c19b49b0a58d3821299dc8ac9a1da3cc61cf51dc3084f6c2850c48f9ed8683b298#npm:0.1.14", {\
+          "packageLocation": "./.yarn/__virtual__/@fortawesome-react-fontawesome-virtual-35d810349a/0/cache/@fortawesome-react-fontawesome-npm-0.1.14-a74287f90f-fba8ee619a.zip/node_modules/@fortawesome/react-fontawesome/",\
+          "packageDependencies": [\
+            ["@fortawesome/react-fontawesome", "virtual:32c8bcdaff1a887f19e4f883f37afeb9c5a5778a7b808576eef8733604fd60c19b49b0a58d3821299dc8ac9a1da3cc61cf51dc3084f6c2850c48f9ed8683b298#npm:0.1.14"],\
+            ["@fortawesome/fontawesome-svg-core", "npm:1.2.35"],\
+            ["@types/fortawesome__fontawesome-svg-core", null],\
+            ["@types/react", "npm:17.0.7"],\
+            ["prop-types", "npm:15.8.1"],\
+            ["react", "npm:17.0.2"]\
+          ],\
+          "packagePeers": [\
+            "@fortawesome/fontawesome-svg-core",\
+            "@types/fortawesome__fontawesome-svg-core",\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
         }],\
         ["virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.2.0", {\
           "packageLocation": "./.yarn/__virtual__/@fortawesome-react-fontawesome-virtual-2419cb61ff/0/cache/@fortawesome-react-fontawesome-npm-0.2.0-a36215138f-f652a0c217.zip/node_modules/@fortawesome/react-fontawesome/",\
@@ -7058,8 +7126,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@risasoft/delegation-dashboard", "workspace:."],\
             ["@elrondnetwork/dapp-core", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:1.3.8"],\
-            ["@elrondnetwork/dapp-utils", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.1.3"],\
-            ["@elrondnetwork/erdjs", "npm:9.2.6"],\
+            ["@elrondnetwork/dapp-utils", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.0.10"],\
+            ["@elrondnetwork/erdjs", "npm:9.0.3"],\
             ["@fortawesome/fontawesome-svg-core", "npm:6.1.1"],\
             ["@fortawesome/free-regular-svg-icons", "npm:6.0.0"],\
             ["@fortawesome/free-solid-svg-icons", "npm:6.1.1"],\
@@ -7933,6 +8001,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/qrcode", "npm:1.4.2"],\
             ["@types/node", "npm:17.0.21"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/qs", [\
+        ["npm:6.9.6", {\
+          "packageLocation": "./.yarn/cache/@types-qs-npm-6.9.6-2fc5ce36d4-01871b1cf7.zip/node_modules/@types/qs/",\
+          "packageDependencies": [\
+            ["@types/qs", "npm:6.9.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10813,6 +10890,35 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["buffer", "npm:6.0.3"],\
             ["base64-js", "npm:1.5.1"],\
             ["ieee754", "npm:1.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["buffer-alloc", [\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/cache/buffer-alloc-npm-1.2.0-388beee0c7-560cd27f3c.zip/node_modules/buffer-alloc/",\
+          "packageDependencies": [\
+            ["buffer-alloc", "npm:1.2.0"],\
+            ["buffer-alloc-unsafe", "npm:1.1.0"],\
+            ["buffer-fill", "npm:1.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["buffer-alloc-unsafe", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/buffer-alloc-unsafe-npm-1.1.0-b5d7ccb44c-c5e18bf51f.zip/node_modules/buffer-alloc-unsafe/",\
+          "packageDependencies": [\
+            ["buffer-alloc-unsafe", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["buffer-fill", [\
+        ["npm:1.0.0", {\
+          "packageLocation": "./.yarn/cache/buffer-fill-npm-1.0.0-915809118a-c29b4723dd.zip/node_modules/buffer-fill/",\
+          "packageDependencies": [\
+            ["buffer-fill", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17112,6 +17218,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["isarray", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.0.5", {\
+          "packageLocation": "./.yarn/cache/isarray-npm-2.0.5-4ba522212d-bd5bbe4104.zip/node_modules/isarray/",\
+          "packageDependencies": [\
+            ["isarray", "npm:2.0.5"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["isexe", [\
@@ -20546,6 +20659,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["pngjs", [\
+        ["npm:3.4.0", {\
+          "packageLocation": "./.yarn/cache/pngjs-npm-3.4.0-4e495c1dad-8bd40bd698.zip/node_modules/pngjs/",\
+          "packageDependencies": [\
+            ["pngjs", "npm:3.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:5.0.0", {\
           "packageLocation": "./.yarn/cache/pngjs-npm-5.0.0-e8ba79f838-04e912cc45.zip/node_modules/pngjs/",\
           "packageDependencies": [\
@@ -21953,6 +22073,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["qrcode", [\
+        ["npm:1.4.4", {\
+          "packageLocation": "./.yarn/cache/qrcode-npm-1.4.4-f137b3816b-8c1a7ee309.zip/node_modules/qrcode/",\
+          "packageDependencies": [\
+            ["qrcode", "npm:1.4.4"],\
+            ["buffer", "npm:5.7.1"],\
+            ["buffer-alloc", "npm:1.2.0"],\
+            ["buffer-from", "npm:1.1.2"],\
+            ["dijkstrajs", "npm:1.0.2"],\
+            ["isarray", "npm:2.0.5"],\
+            ["pngjs", "npm:3.4.0"],\
+            ["yargs", "npm:13.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.5.0", {\
           "packageLocation": "./.yarn/cache/qrcode-npm-1.5.0-0f02dca802-a0857713d4.zip/node_modules/qrcode/",\
           "packageDependencies": [\
