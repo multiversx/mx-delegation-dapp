@@ -42,6 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/react-fontawesome", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.2.0"],\
             ["@parcel/config-default", "virtual:91cd9ac49dce09193deb45c247d98bc0b4923f0927b8160ef5838ba5c6a8485d20c87ca641af3cde8ffa150f45f6aa90a2239b5b5087b5565fd5843e21630221#npm:2.6.2"],\
             ["@parcel/core", "npm:2.6.2"],\
+            ["@parcel/packager-raw-url", "npm:2.6.2"],\
             ["@parcel/resolver-default", "npm:2.6.2"],\
             ["@parcel/transformer-babel", "npm:2.6.2"],\
             ["@parcel/transformer-css", "npm:2.6.2"],\
@@ -100,6 +101,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass", "npm:1.53.0"],\
             ["sharp", "npm:0.29.3"],\
             ["shx", "npm:0.3.4"],\
+            ["stream-browserify", "npm:3.0.0"],\
+            ["string_decoder", "npm:1.3.0"],\
             ["typescript", "patch:typescript@npm%3A4.1.2#~builtin<compat/typescript>::version=4.1.2&hash=7ad353"],\
             ["web-vitals", "npm:1.0.1"],\
             ["yup", "npm:0.32.11"]\
@@ -6374,6 +6377,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@parcel/packager-raw-url", [\
+        ["npm:2.6.2", {\
+          "packageLocation": "./.yarn/cache/@parcel-packager-raw-url-npm-2.6.2-4f7c04e1c8-d91fcaf665.zip/node_modules/@parcel/packager-raw-url/",\
+          "packageDependencies": [\
+            ["@parcel/packager-raw-url", "npm:2.6.2"],\
+            ["@parcel/plugin", "npm:2.6.2"],\
+            ["@parcel/utils", "npm:2.6.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@parcel/packager-svg", [\
         ["npm:2.6.2", {\
           "packageLocation": "./.yarn/cache/@parcel-packager-svg-npm-2.6.2-91ca24db32-50468d382f.zip/node_modules/@parcel/packager-svg/",\
@@ -7120,6 +7134,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fortawesome/react-fontawesome", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:0.2.0"],\
             ["@parcel/config-default", "virtual:91cd9ac49dce09193deb45c247d98bc0b4923f0927b8160ef5838ba5c6a8485d20c87ca641af3cde8ffa150f45f6aa90a2239b5b5087b5565fd5843e21630221#npm:2.6.2"],\
             ["@parcel/core", "npm:2.6.2"],\
+            ["@parcel/packager-raw-url", "npm:2.6.2"],\
             ["@parcel/resolver-default", "npm:2.6.2"],\
             ["@parcel/transformer-babel", "npm:2.6.2"],\
             ["@parcel/transformer-css", "npm:2.6.2"],\
@@ -7178,6 +7193,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["sass", "npm:1.53.0"],\
             ["sharp", "npm:0.29.3"],\
             ["shx", "npm:0.3.4"],\
+            ["stream-browserify", "npm:3.0.0"],\
+            ["string_decoder", "npm:1.3.0"],\
             ["typescript", "patch:typescript@npm%3A4.1.2#~builtin<compat/typescript>::version=4.1.2&hash=7ad353"],\
             ["web-vitals", "npm:1.0.1"],\
             ["yup", "npm:0.32.11"]\
@@ -24475,6 +24492,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["stream-browserify", "npm:2.0.2"],\
             ["inherits", "npm:2.0.4"],\
             ["readable-stream", "npm:2.3.7"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/stream-browserify-npm-3.0.0-4c0bd97245-4c47ef64d6.zip/node_modules/stream-browserify/",\
+          "packageDependencies": [\
+            ["stream-browserify", "npm:3.0.0"],\
+            ["inherits", "npm:2.0.4"],\
+            ["readable-stream", "npm:3.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\
