@@ -65,6 +65,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-router-dom", "npm:5.1.7"],\
             ["@typescript-eslint/eslint-plugin", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
             ["@typescript-eslint/parser", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
+            ["@walletconnect/encoding", "npm:1.0.1"],\
             ["@walletconnect/iso-crypto", "npm:1.7.8"],\
             ["axios", "npm:0.21.1"],\
             ["bignumber.js", "npm:9.0.2"],\
@@ -7142,6 +7143,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-router-dom", "npm:5.1.7"],\
             ["@typescript-eslint/eslint-plugin", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
             ["@typescript-eslint/parser", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
+            ["@walletconnect/encoding", "npm:1.0.1"],\
             ["@walletconnect/iso-crypto", "npm:1.7.8"],\
             ["axios", "npm:0.21.1"],\
             ["bignumber.js", "npm:9.0.2"],\

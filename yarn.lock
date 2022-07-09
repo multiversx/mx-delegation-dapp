@@ -4047,6 +4047,7 @@ __metadata:
     "@types/react-router-dom": 5.1.7
     "@typescript-eslint/eslint-plugin": 4.22.1
     "@typescript-eslint/parser": 4.22.1
+    "@walletconnect/encoding": ^1.0.1
     "@walletconnect/iso-crypto": ^1.7.8
     axios: 0.21.1
     bignumber.js: ^9.0.2
