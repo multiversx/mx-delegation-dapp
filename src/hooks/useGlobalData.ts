@@ -15,8 +15,8 @@ import {
   AddressValue
 } from '@elrondnetwork/erdjs';
 
-import { network, auctionContract } from 'config';
-import { useDispatch } from 'context';
+import { network, auctionContract } from '/src/config';
+import { useDispatch } from '/src/context';
 
 interface ContractDetailsType {
   automaticActivation: string;

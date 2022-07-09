@@ -26,12 +26,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 
-import Action from 'components/Action';
-import { network, auctionContract, stakingContract } from 'config';
-import { useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
+import Action from '../Action';
+import { network, auctionContract, stakingContract } from '/src/config';
+import { useGlobalContext } from '/src/context';
+import modifiable from '/src/helpers/modifiable';
 
-import useTransaction from 'helpers/useTransaction';
+import useTransaction from '/src/helpers/useTransaction';
 
 import Add from './components/Add';
 import styles from './styles.module.scss';
@@ -194,9 +194,9 @@ const Nodes: FC = () => {
       nodes.map(async (node: NodeType) =>
         node.status.label === 'Queued'
           ? {
-              ...node,
-              position: await fetchQueue(node.code)
-            }
+            ...node,
+            position: await fetchQueue(node.code)
+          }
           : node
       ),
     []
@@ -288,8 +288,8 @@ const Nodes: FC = () => {
               {isLoading
                 ? 'Retrieving keys...'
                 : nodesNumber.error
-                ? 'An error occurred attempting to retrieve keys.'
-                : 'No keys found for this contract.'}
+                  ? 'An error occurred attempting to retrieve keys.'
+                  : 'No keys found for this contract.'}
             </div>
           </Fragment>
         ) : (
