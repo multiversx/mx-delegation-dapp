@@ -65,8 +65,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-router-dom", "npm:5.1.7"],\
             ["@typescript-eslint/eslint-plugin", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
             ["@typescript-eslint/parser", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
+            ["@walletconnect/iso-crypto", "npm:1.7.8"],\
             ["axios", "npm:0.21.1"],\
+            ["bignumber.js", "npm:9.0.2"],\
             ["buffer", "npm:6.0.3"],\
+            ["crypto-browserify", "npm:3.12.0"],\
             ["eslint-config-prettier", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:8.3.0"],\
             ["eslint-config-react", "npm:1.1.7"],\
             ["eslint-config-react-app", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:6.0.0"],\
@@ -83,8 +86,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["formik", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:2.2.9"],\
             ["moment", "npm:2.29.1"],\
             ["parcel", "npm:2.6.2"],\
+            ["path-browserify", "npm:1.0.1"],\
             ["prettier", "npm:2.3.2"],\
             ["process", "npm:0.11.10"],\
+            ["punycode", "npm:2.1.1"],\
             ["react", "npm:17.0.2"],\
             ["react-bootstrap", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:1.6.0"],\
             ["react-dom", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:16.14.0"],\
@@ -7137,8 +7142,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-router-dom", "npm:5.1.7"],\
             ["@typescript-eslint/eslint-plugin", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
             ["@typescript-eslint/parser", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:4.22.1"],\
+            ["@walletconnect/iso-crypto", "npm:1.7.8"],\
             ["axios", "npm:0.21.1"],\
+            ["bignumber.js", "npm:9.0.2"],\
             ["buffer", "npm:6.0.3"],\
+            ["crypto-browserify", "npm:3.12.0"],\
             ["eslint-config-prettier", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:8.3.0"],\
             ["eslint-config-react", "npm:1.1.7"],\
             ["eslint-config-react-app", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:6.0.0"],\
@@ -7155,8 +7163,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["formik", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:2.2.9"],\
             ["moment", "npm:2.29.1"],\
             ["parcel", "npm:2.6.2"],\
+            ["path-browserify", "npm:1.0.1"],\
             ["prettier", "npm:2.3.2"],\
             ["process", "npm:0.11.10"],\
+            ["punycode", "npm:2.1.1"],\
             ["react", "npm:17.0.2"],\
             ["react-bootstrap", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:1.6.0"],\
             ["react-dom", "virtual:777b825b4161f1a3206526b98f80fe0e631f6823fdf2953e603be071e672ffc251f89ea772c7ff9cb609b7ac0c52b6c92117f71111486a7233d855a5735241f9#npm:16.14.0"],\
@@ -8668,6 +8678,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["detect-browser", "npm:5.2.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.7.8", {\
+          "packageLocation": "./.yarn/cache/@walletconnect-browser-utils-npm-1.7.8-b7419a468f-76d06a45a1.zip/node_modules/@walletconnect/browser-utils/",\
+          "packageDependencies": [\
+            ["@walletconnect/browser-utils", "npm:1.7.8"],\
+            ["@walletconnect/safe-json", "npm:1.0.0"],\
+            ["@walletconnect/types", "npm:1.7.8"],\
+            ["@walletconnect/window-getters", "npm:1.0.0"],\
+            ["@walletconnect/window-metadata", "npm:1.0.0"],\
+            ["detect-browser", "npm:5.2.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@walletconnect/client", [\
@@ -8739,6 +8761,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@walletconnect/utils", "npm:1.7.5"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.7.8", {\
+          "packageLocation": "./.yarn/cache/@walletconnect-iso-crypto-npm-1.7.8-3b86ce86ca-f2ee34d484.zip/node_modules/@walletconnect/iso-crypto/",\
+          "packageDependencies": [\
+            ["@walletconnect/iso-crypto", "npm:1.7.8"],\
+            ["@walletconnect/crypto", "npm:1.0.2"],\
+            ["@walletconnect/types", "npm:1.7.8"],\
+            ["@walletconnect/utils", "npm:1.7.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@walletconnect/jsonrpc-types", [\
@@ -8802,6 +8834,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@walletconnect/types", "npm:1.7.5"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:1.7.8", {\
+          "packageLocation": "./.yarn/cache/@walletconnect-types-npm-1.7.8-599d33f632-9c9d441d50.zip/node_modules/@walletconnect/types/",\
+          "packageDependencies": [\
+            ["@walletconnect/types", "npm:1.7.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@walletconnect/utils", [\
@@ -8813,6 +8852,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@walletconnect/encoding", "npm:1.0.1"],\
             ["@walletconnect/jsonrpc-utils", "npm:1.0.0"],\
             ["@walletconnect/types", "npm:1.7.5"],\
+            ["bn.js", "npm:4.11.8"],\
+            ["js-sha3", "npm:0.8.0"],\
+            ["query-string", "npm:6.13.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.7.8", {\
+          "packageLocation": "./.yarn/cache/@walletconnect-utils-npm-1.7.8-b4b82ea2ed-272f49bcf1.zip/node_modules/@walletconnect/utils/",\
+          "packageDependencies": [\
+            ["@walletconnect/utils", "npm:1.7.8"],\
+            ["@walletconnect/browser-utils", "npm:1.7.8"],\
+            ["@walletconnect/encoding", "npm:1.0.1"],\
+            ["@walletconnect/jsonrpc-utils", "npm:1.0.0"],\
+            ["@walletconnect/types", "npm:1.7.8"],\
             ["bn.js", "npm:4.11.8"],\
             ["js-sha3", "npm:0.8.0"],\
             ["query-string", "npm:6.13.5"]\
@@ -20343,6 +20396,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/path-browserify-npm-0.0.1-bb8b2a97b1-ae8dcd45d0.zip/node_modules/path-browserify/",\
           "packageDependencies": [\
             ["path-browserify", "npm:0.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/path-browserify-npm-1.0.1-f975d99a99-c6d7fa3764.zip/node_modules/path-browserify/",\
+          "packageDependencies": [\
+            ["path-browserify", "npm:1.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\

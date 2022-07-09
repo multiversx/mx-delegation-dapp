@@ -4047,8 +4047,11 @@ __metadata:
     "@types/react-router-dom": 5.1.7
     "@typescript-eslint/eslint-plugin": 4.22.1
     "@typescript-eslint/parser": 4.22.1
+    "@walletconnect/iso-crypto": ^1.7.8
     axios: 0.21.1
+    bignumber.js: ^9.0.2
     buffer: ^6.0.3
+    crypto-browserify: ^3.12.0
     eslint-config-prettier: 8.3.0
     eslint-config-react: 1.1.7
     eslint-config-react-app: 6.0.0
@@ -4065,8 +4068,10 @@ __metadata:
     formik: ^2.2.9
     moment: 2.29.1
     parcel: ^2.6.2
+    path-browserify: ^1.0.1
     prettier: 2.3.2
     process: ^0.11.10
+    punycode: ^2.1.1
     react: 17.0.2
     react-bootstrap: 1.6.0
     react-dom: ^16.14.0
@@ -5252,6 +5257,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@walletconnect/browser-utils@npm:^1.7.8":
+  version: 1.7.8
+  resolution: "@walletconnect/browser-utils@npm:1.7.8"
+  dependencies:
+    "@walletconnect/safe-json": 1.0.0
+    "@walletconnect/types": ^1.7.8
+    "@walletconnect/window-getters": 1.0.0
+    "@walletconnect/window-metadata": 1.0.0
+    detect-browser: 5.2.0
+  checksum: 76d06a45a16c1345b25c7f9c15761e5bad18e3e07401d9b1daa6fb6f1d28501a95efbe9186fb0415fb4cefe92c7c61265bed984cd42c0bbff322c13999d6f536
+  languageName: node
+  linkType: hard
+
 "@walletconnect/client@npm:1.6.5":
   version: 1.6.5
   resolution: "@walletconnect/client@npm:1.6.5"
@@ -5316,6 +5334,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@walletconnect/iso-crypto@npm:^1.7.8":
+  version: 1.7.8
+  resolution: "@walletconnect/iso-crypto@npm:1.7.8"
+  dependencies:
+    "@walletconnect/crypto": ^1.0.2
+    "@walletconnect/types": ^1.7.8
+    "@walletconnect/utils": ^1.7.8
+  checksum: f2ee34d484330aa93e9fc8e4c6b974e8bc27783c9ea7b846036179f903f1ad9d3ffa083486cb1b2263566a98633de0d8757e3ef80df5d11605d8f5c21df6454c
+  languageName: node
+  linkType: hard
+
 "@walletconnect/jsonrpc-types@npm:^1.0.0":
   version: 1.0.0
   resolution: "@walletconnect/jsonrpc-types@npm:1.0.0"
@@ -5371,6 +5400,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@walletconnect/types@npm:^1.7.8":
+  version: 1.7.8
+  resolution: "@walletconnect/types@npm:1.7.8"
+  checksum: 9c9d441d50da71e1e5840b68759e4ee1e8cc63b0a34afbeb67d0482416cee0212ad8f9d838b20115f7060db7b77644a650166bc5f649ae525a3cc0061c043980
+  languageName: node
+  linkType: hard
+
 "@walletconnect/utils@npm:^1.6.5, @walletconnect/utils@npm:^1.7.5":
   version: 1.7.5
   resolution: "@walletconnect/utils@npm:1.7.5"
@@ -5383,6 +5419,21 @@ __metadata:
     js-sha3: 0.8.0
     query-string: 6.13.5
   checksum: 7ff7d098089d11121dd824f613044a47adb41075af1d1c2f3c41d9540fd18ad3d71eafa544a75f0dbb2b4934c1124c0548498654d5ee2192f00b79145d4ea90e
+  languageName: node
+  linkType: hard
+
+"@walletconnect/utils@npm:^1.7.8":
+  version: 1.7.8
+  resolution: "@walletconnect/utils@npm:1.7.8"
+  dependencies:
+    "@walletconnect/browser-utils": ^1.7.8
+    "@walletconnect/encoding": ^1.0.1
+    "@walletconnect/jsonrpc-utils": ^1.0.0
+    "@walletconnect/types": ^1.7.8
+    bn.js: 4.11.8
+    js-sha3: 0.8.0
+    query-string: 6.13.5
+  checksum: 272f49bcf1a725147088e897b1a504fe45bc72d176f5e16166c8858da0288aed4294638d187db37ef8f0e10673c8d8ea7ee0769615c6d24cfe2dba8407402b25
   languageName: node
   linkType: hard
 
@@ -6587,7 +6638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:9.x, bignumber.js@npm:^9.0.0":
+"bignumber.js@npm:9.x, bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.2":
   version: 9.0.2
   resolution: "bignumber.js@npm:9.0.2"
   checksum: 8637b71d0a99104b20413c47578953970006fec6b4df796b9dcfd9835ea9c402ea0e727eba9a5ca9f9a393c1d88b6168c5bbe0887598b708d4f8b4870ad62e1f
@@ -7980,7 +8031,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-browserify@npm:^3.11.0":
+"crypto-browserify@npm:^3.11.0, crypto-browserify@npm:^3.12.0":
   version: 3.12.0
   resolution: "crypto-browserify@npm:3.12.0"
   dependencies:
@@ -15206,6 +15257,13 @@ __metadata:
   version: 0.0.1
   resolution: "path-browserify@npm:0.0.1"
   checksum: ae8dcd45d0d3cfbaf595af4f206bf3ed82d77f72b4877ae7e77328079e1468c84f9386754bb417d994d5a19bf47882fd253565c18441cd5c5c90ae5187599e35
+  languageName: node
+  linkType: hard
+
+"path-browserify@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "path-browserify@npm:1.0.1"
+  checksum: c6d7fa376423fe35b95b2d67990060c3ee304fc815ff0a2dc1c6c3cfaff2bd0d572ee67e18f19d0ea3bbe32e8add2a05021132ac40509416459fffee35200699
   languageName: node
   linkType: hard
 
