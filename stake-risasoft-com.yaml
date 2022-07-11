@@ -1,0 +1,24 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+domains:
+- domain: stake.risasoft.com
+  type: PRIMARY
+name: stake-risasoft-com
+region: nyc
+static_sites:
+- build_command: yarn run build-mainnet
+  environment_slug: node-js
+  github:
+    branch: master
+    repo: risasoft/delegation-dashboard
+  name: delegation-dashboard
+  routes:
+  - path: /
+  - path: /owner
+  - path: /dashboard
+  - path: /ledger
+  - path: /walletconnect
+  - path: /unlock
+  - path: /admin
+  source_dir: /
