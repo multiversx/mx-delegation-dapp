@@ -1,5 +1,8 @@
 import React from 'react';
-import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
+import { DappProvider } from '@elrondnetwork/dapp-core/wrappers';
+import { TransactionsToastList } from '@elrondnetwork/dapp-core/UI/TransactionsToastList';
+import { SignTransactionsModals } from '@elrondnetwork/dapp-core/UI/SignTransactionsModals';
+import { NotificationModal } from '@elrondnetwork/dapp-core/UI/NotificationModal';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Layout from 'components/Layout';
 import { network, walletConnectBridge, walletConnectDeepLink } from 'config';
@@ -8,7 +11,6 @@ import PageNotFound from 'pages/PageNotFound';
 import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
 import routes from 'routes';
-import '@elrondnetwork/dapp-core/dist/index.css';
 
 const App = () => (
   <Router>
@@ -22,9 +24,9 @@ const App = () => (
     >
       <ContextProvider>
         <Layout>
-          <DappUI.TransactionsToastList />
-          <DappUI.SignTransactionsModals />
-          <DappUI.NotificationModal />
+          <TransactionsToastList />
+          <SignTransactionsModals />
+          <NotificationModal />
           <Routes>
             <Route path={routeNames.unlock} element={<Unlock />} />
 

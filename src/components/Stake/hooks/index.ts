@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 
-import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks/transactions';
+
 import {
   ProxyProvider,
   Address,
@@ -32,8 +31,7 @@ const useStakeData = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
     try {
@@ -176,13 +174,13 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (success && hasActiveTransactions && userClaimableRewards.data) {
+    if (success && pending && userClaimableRewards.data) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, hasActiveTransactions]);
+  useEffect(reFetchClaimableRewards, [success, pending]);
 
   return {
     onDelegate,

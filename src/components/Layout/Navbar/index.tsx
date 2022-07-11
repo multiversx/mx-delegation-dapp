@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
-import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { logout } from '@elrondnetwork/dapp-core/utils';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';

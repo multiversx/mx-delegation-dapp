@@ -1,4 +1,4 @@
-import { nominate } from '@elrondnetwork/dapp-core';
+import { nominate } from '@elrondnetwork/dapp-core/utils/operations';
 
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';

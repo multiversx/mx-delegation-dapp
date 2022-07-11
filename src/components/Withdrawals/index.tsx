@@ -1,9 +1,8 @@
 import React, { FC, useEffect } from 'react';
 
-import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks/transactions';
+
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -28,8 +27,7 @@ const Withdrawals: FC = () => {
 
   const { account } = useGetAccountInfo();
   const { undelegatedStakeList } = useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
     dispatch({
@@ -141,13 +139,13 @@ const Withdrawals: FC = () => {
   };
 
   const refetchUndelegatedStakeList = () => {
-    if (hasActiveTransactions && success && undelegatedStakeList.data) {
+    if (pending && success && undelegatedStakeList.data) {
       getUndelegatedStakeList();
     }
   };
 
   useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
-  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, success]);
+  useEffect(refetchUndelegatedStakeList, [pending, success]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;

@@ -8,10 +8,8 @@ $light: #fafafa;
 /* Do not move the imports from here.
 Override Bootstrap variables only above.
 -------------------------------------------------- */
-
 // Bootstrap
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
-
 /* Base
 -------------------------------------------------- */
 html {
@@ -76,7 +74,7 @@ body {
 
 .dapp-name {
   line-height: 1;
-  border-left: 1px solid $gray-400;
+  border-left: 1px solid gray;
   padding-left: 3px;
   margin-left: 4px;
 }
@@ -88,14 +86,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: $white;
+  color: white;
   margin: 0 7px;
 
   button {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    background-color: $white;
+    background-color: white;
 
     &:hover {
       opacity: 0.9;
@@ -111,21 +109,6 @@ body {
   }
 
   &.table {
-    .transaction-hash .trim {
-      @include media-breakpoint-down(xl) {
-        max-width: none;
-      }
-      @include media-breakpoint-down(lg) {
-        max-width: 26rem;
-      }
-      @include media-breakpoint-down(md) {
-        max-width: 12rem;
-      }
-      @include media-breakpoint-down(sm) {
-        max-width: 8rem;
-      }
-    }
-
     td,
     tr {
       padding: 0.65rem;
@@ -225,10 +208,10 @@ footer {
     line-height: 1.155rem;
 
     a {
-      color: $black;
+      color: black;
 
       &:hover {
-        color: $black;
+        color: black;
       }
 
       #heart {
