@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
-import { getNetworkProxy, denominate } from '@elrondnetwork/dapp-core';
+import { denominate } from '@elrondnetwork/dapp-core/utils';
+
 import {
   decodeUnsignedNumber,
   ContractFunction,

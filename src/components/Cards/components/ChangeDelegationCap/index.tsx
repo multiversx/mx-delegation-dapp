@@ -4,8 +4,8 @@ import BigNumber from 'bignumber.js';
 
 import { Formik } from 'formik';
 import { string, object } from 'yup';
-import { denominate } from '@elrondnetwork/dapp-core'
 
+import { denominate } from '@elrondnetwork/dapp-core/utils';
 import { Submit } from '/src/components/Action';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';

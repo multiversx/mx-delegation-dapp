@@ -1,10 +1,8 @@
-import { nominate, denominate } from '@elrondnetwork/dapp-core';
-
+import { nominate } from '@elrondnetwork/dapp-core/utils/operations';
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
 import { network, denomination } from '/src/config';
-
-
+import { denominate } from '@elrondnetwork/dapp-core/utils';
 
 const undelegateValidator = (input: string) =>
   string()
@@ -28,7 +26,7 @@ const undelegateValidator = (input: string) =>
     )
     .test(
       'maximum',
-      `You need to set a value under ${denominate({ input: input || '0'})} ${network.egldLabel
+      `You need to set a value under ${denominate({ input: input || 0 })} ${network.egldLabel
       }.`,
       (value = '0') => {
         const requested = new BigNumber(nominate(value, denomination));
@@ -48,15 +46,15 @@ const delegateValidator = (input: string, limit: string) =>
     )
     .test(
       'uncapable',
-      `Max delegation cap reached. That is the maximum amount you can delegate: ${denominate({
-        input: limit || '0'
-      })} ${network.egldLabel}`,
+      `Max delegation cap reached. That is the maximum amount you can delegate: ${denominate(
+        { input: limit || 0 }
+      )} ${network.egldLabel}`,
       (value = '0') =>
         new BigNumber(nominate(value, denomination)).isLessThanOrEqualTo(limit)
     )
     .test(
       'maximum',
-      `You need to set a value under ${denominate({ input: input || '0' })} ${network.egldLabel
+      `You need to set a value under ${denominate({ input: input || 0 })} ${network.egldLabel
       }.`,
       (value = '0') =>
         new BigNumber(nominate(value, denomination)).isLessThanOrEqualTo(input)
