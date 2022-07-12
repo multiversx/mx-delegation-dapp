@@ -62,8 +62,8 @@
   "scripts": {
     "start": "parcel public/index.html",
     "start-testnet": "yarn run copy-testnet-config & yarn start",
-    "build": "NODE_ENV=development parcel build --no-scope-hoist public/index.html",
-    "build-testnet": "yarn run copy-testnet-config & yarn build",
+    "build": "parcel build --no-scope-hoist public/index.html",
+    "build-testnet": "yarn run copy-mainnet-config & yarn build",
     "build-mainnet": "yarn run copy-mainnet-config & yarn build",
     "test": "node scripts/test.js",
     "copy-testnet-config": "cp ./src/config.testnet.ts ./src/config.ts",
