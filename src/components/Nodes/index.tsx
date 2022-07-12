@@ -7,14 +7,13 @@ import React, {
   useCallback
 } from 'react';
 
-import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks/transactions';
+import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   ProxyProvider,
   Address,
   Query,
-  BytesValue,
-  QueryResponse
+  BytesValue
 } from '@elrondnetwork/erdjs';
 import {
   faPlus,
@@ -121,7 +120,8 @@ const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, pending } = useGetActiveTransactionsStatus();
+  const { success, hasActiveTransactions } =
+    transactionServices.useGetActiveTransactionsStatus();
   const isLoading = nodesNumber.status === 'loading';
 
   const onAct = useCallback(
@@ -155,24 +155,19 @@ const Nodes: FC = () => {
       func: new ContractFunction('getQueueSize')
     });
 
-    const queryContract = async (query: Query) => {
-      const payload = query.toHttpRequest();
-      const e = await provider.doPostGeneric(
+    const queryContract = async (parameters: Query) => {
+      const decode = (item: string) => Buffer.from(item, 'base64');
+      const response = await provider.doPostGeneric(
         'vm-values/query',
-        payload,
-        (response) => response
+        parameters.toHttpRequest(),
+        (payload) => payload
       );
 
-      return e;
+      return response.data.returnData.map(decode);
     };
 
     const payload = await Promise.all([query, queue].map(queryContract));
-
-    const responses = payload.map((e) =>
-      e.data.returnData.map((item: any) => Buffer.from(item || '', 'base64'))
-    );
-
-    const [position, size] = responses.map(([item]) => String(item));
+    const [position, size] = payload.map(([item]) => String(item));
 
     return `${position}/${size}`;
   }, []);
@@ -219,7 +214,6 @@ const Nodes: FC = () => {
         const activeNodes = await Promise.all(
           assignQueue(calculateNodes(nodes))
         );
-
         const inactiveNodes = states.reduce((total, item, index) => {
           const indexes = states.reduce(
             (statuses, status, position) =>
@@ -262,13 +256,13 @@ const Nodes: FC = () => {
   };
 
   const refetchNodes = () => {
-    if (success && pending && nodesNumber.data) {
+    if (success && hasActiveTransactions && nodesNumber.data) {
       getNodes();
     }
   };
 
   useEffect(getNodes, [nodesNumber.data, nodesStates.data, success]);
-  useEffect(refetchNodes, [pending, success]);
+  useEffect(refetchNodes, [hasActiveTransactions, success]);
 
   return (
     <div className={`${styles.nodes} nodes`}>

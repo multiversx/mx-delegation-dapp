@@ -1,8 +1,8 @@
-import { getChainID } from '@elrondnetwork/dapp-core/utils/network';
-
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
-import { sendTransactions } from '@elrondnetwork/dapp-core/services/transactions';
-
+import {
+  getChainID,
+  transactionServices,
+  useGetAccountInfo
+} from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   Transaction,
@@ -68,7 +68,7 @@ const useTransaction = () => {
         nonce: new Nonce(account?.nonce)
       });
 
-      return await sendTransactions({
+      return await transactionServices.sendTransactions({
         transactions: transaction
       });
     }
