@@ -35,9 +35,13 @@ const Stake: FC = () => {
   const { userActiveStake, userClaimableRewards } = useGlobalContext();
   const { onRedelegate, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {
-    isEmpty: userActiveStake.data === '0',
-    isLoading: userActiveStake.status === 'loading',
-    isError: userActiveStake.status === 'error'
+    isEmpty: userActiveStake.data === '0' && userClaimableRewards.data === '0',
+    isLoading:
+      userActiveStake.status === 'loading' ||
+      userClaimableRewards.status === 'loading',
+    isError:
+      userActiveStake.status === 'error' ||
+      userClaimableRewards.status === 'error'
   };
 
   const panels: Array<PanelType> = [
