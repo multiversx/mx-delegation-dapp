@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   useGetAccountInfo,
@@ -27,12 +27,13 @@ interface DelegationPayloadType {
 
 const useStakeData = () => {
   const dispatch = useDispatch();
+  const [check, setCheck] = useState(false);
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, hasActiveTransactions } =
+  const { success, pending } =
     transactionServices.useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
@@ -176,13 +177,22 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (success && hasActiveTransactions && userClaimableRewards.data) {
+    if (success && check) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, hasActiveTransactions]);
+  useEffect(reFetchClaimableRewards, [success, check]);
+  useEffect(() => {
+    if (pending && !check) {
+      setCheck(true);
+
+      return () => {
+        setCheck(false);
+      };
+    }
+  }, [pending]);
 
   return {
     onDelegate,
