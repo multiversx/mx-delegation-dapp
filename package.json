@@ -27,6 +27,7 @@
     "@parcel/transformer-js": "2.6.2",
     "@parcel/transformer-postcss": "2.6.2",
     "@parcel/transformer-posthtml": "^2.6.2",
+    "@parcel/transformer-raw": "^2.6.2",
     "@parcel/transformer-react-refresh-wrap": "2.6.2",
     "@parcel/transformer-sass": "2.6.2",
     "@parcel/transformer-svg": "2.6.2",
@@ -61,8 +62,10 @@
   },
   "scripts": {
     "start": "parcel public/index.html",
+    "poststart": "cp ./public/*.wasm ./dist",
     "start-testnet": "yarn run copy-testnet-config & yarn start",
     "build": "parcel build --no-scope-hoist public/index.html",
+    "postbuild": "cp ./public/*.wasm ./dist",
     "build-testnet": "yarn run copy-mainnet-config & yarn build",
     "build-mainnet": "yarn run copy-mainnet-config & yarn build",
     "test": "node scripts/test.js",

@@ -51,6 +51,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@parcel/transformer-js", "virtual:97834443addb9052c5a017c5b07a08e9544b6f125eb656a16ec6a0926d5299fd3fc3ff755b8c7c31b9bd0a6e914ea0b486b8523325f8eebb519b5df26b7ac4e1#npm:2.6.2"],\
             ["@parcel/transformer-postcss", "npm:2.6.2"],\
             ["@parcel/transformer-posthtml", "npm:2.6.2"],\
+            ["@parcel/transformer-raw", "npm:2.6.2"],\
             ["@parcel/transformer-react-refresh-wrap", "npm:2.6.2"],\
             ["@parcel/transformer-sass", "npm:2.6.2"],\
             ["@parcel/transformer-svg", "npm:2.6.2"],\
@@ -5788,6 +5789,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@parcel/transformer-js", "virtual:97834443addb9052c5a017c5b07a08e9544b6f125eb656a16ec6a0926d5299fd3fc3ff755b8c7c31b9bd0a6e914ea0b486b8523325f8eebb519b5df26b7ac4e1#npm:2.6.2"],\
             ["@parcel/transformer-postcss", "npm:2.6.2"],\
             ["@parcel/transformer-posthtml", "npm:2.6.2"],\
+            ["@parcel/transformer-raw", "npm:2.6.2"],\
             ["@parcel/transformer-react-refresh-wrap", "npm:2.6.2"],\
             ["@parcel/transformer-sass", "npm:2.6.2"],\
             ["@parcel/transformer-svg", "npm:2.6.2"],\

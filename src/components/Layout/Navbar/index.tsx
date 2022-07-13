@@ -23,7 +23,7 @@ const Navbar: FC = () => {
   const buttons: Array<ButtonsType> = [
     {
       icon: <Logo />,
-      label: `${denominate({input: account.balance})} ${network.egldLabel}`
+      label: `${denominate({ input: account.balance || 0 })} ${network.egldLabel}`
     },
     {
       icon: <FontAwesomeIcon icon={faWallet} size='lg' />,

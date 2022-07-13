@@ -3437,7 +3437,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/transformer-raw@npm:2.6.2":
+"@parcel/transformer-raw@npm:2.6.2, @parcel/transformer-raw@npm:^2.6.2":
   version: 2.6.2
   resolution: "@parcel/transformer-raw@npm:2.6.2"
   dependencies:
@@ -3781,6 +3781,7 @@ __metadata:
     "@parcel/transformer-js": 2.6.2
     "@parcel/transformer-postcss": 2.6.2
     "@parcel/transformer-posthtml": ^2.6.2
+    "@parcel/transformer-raw": ^2.6.2
     "@parcel/transformer-react-refresh-wrap": 2.6.2
     "@parcel/transformer-sass": 2.6.2
     "@parcel/transformer-svg": 2.6.2
