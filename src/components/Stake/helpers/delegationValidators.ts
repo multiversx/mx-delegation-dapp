@@ -1,8 +1,9 @@
-import { nominate } from '@elrondnetwork/dapp-core/utils/operations';
+import { nominate } from '@elrondnetwork/dapp-core';
+
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
 import { network, denomination } from '/src/config';
-import { denominate } from '@elrondnetwork/dapp-core/utils';
+import { denominate } from '/src/helpers/denominate';
 
 const undelegateValidator = (input: string) =>
   string()

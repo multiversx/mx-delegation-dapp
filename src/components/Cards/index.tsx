@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
-import { denominate } from '@elrondnetwork/dapp-core/utils';
+import { denominate } from '/src/helpers/denominate';
 
 import {
   decodeUnsignedNumber,

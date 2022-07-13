@@ -66,7 +66,7 @@ body {
 }
 
 .modal-content {
-  background: transparent;
+  background: transparent !important;
 }
 
 /* Navbar
@@ -78,7 +78,7 @@ body {
 
 .dapp-name {
   line-height: 1;
-  border-left: 1px solid gray;
+  border-left: 1px solid $gray-400;
   padding-left: 3px;
   margin-left: 4px;
 }
@@ -90,14 +90,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: $white;
   margin: 0 7px;
 
   button {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    background-color: white;
+    background-color: $white;
 
     &:hover {
       opacity: 0.9;

@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { denominate } from '@elrondnetwork/dapp-core/utils'
+import { denominate } from '/src/helpers/denominate'
 
 import Logo from '/src/assets/Logo';
 import { network } from '/src/config';

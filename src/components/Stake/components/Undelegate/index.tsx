@@ -8,7 +8,7 @@ import useStakeData from '/src/components/Stake/hooks';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';
 
-import { denominate } from '@elrondnetwork/dapp-core/utils'
+import { denominate } from '/src/helpers/denominate'
 
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';

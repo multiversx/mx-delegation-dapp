@@ -2,9 +2,10 @@ import React from 'react';
 import { ReactNode } from 'react';
 
 import {
+  AuthenticatedRoutesWrapper,
   useGetAccountInfo
-} from '@elrondnetwork/dapp-core/hooks';
-import { AuthenticatedRoutesWrapper } from "@elrondnetwork/dapp-core/wrappers";
+} from '@elrondnetwork/dapp-core';
+
 import { useLocation } from 'react-router-dom';
 import routes, { routeNames } from '/src/routes';
 import Navbar from './Navbar';

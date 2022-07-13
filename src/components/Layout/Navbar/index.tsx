@@ -1,7 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 
-import { denominate, logout } from '@elrondnetwork/dapp-core/utils';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { logout, useGetAccountInfo, denominate } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -19,14 +18,12 @@ interface ButtonsType {
   copy?: boolean;
 }
 
-const Navbar: React.FC = () => {
+const Navbar: FC = () => {
   const { address, account } = useGetAccountInfo();
   const buttons: Array<ButtonsType> = [
     {
       icon: <Logo />,
-      label: `${denominate({
-        input: account.balance === '...' ? '0' : account.balance || '0'
-      })} ${network.egldLabel}`
+      label: `${denominate({input: account.balance})} ${network.egldLabel}`
     },
     {
       icon: <FontAwesomeIcon icon={faWallet} size='lg' />,

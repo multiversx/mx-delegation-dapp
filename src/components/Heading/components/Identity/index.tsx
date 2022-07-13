@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
+import { transactionServices } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   ProxyProvider,
@@ -38,7 +39,8 @@ interface PayloadType {
 const Identity: FC = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, pending } = useGetActiveTransactionsStatus();
+  const { success, hasActiveTransactions } =
+    transactionServices.useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
   const fields: Array<FieldType> = [
@@ -141,13 +143,13 @@ const Identity: FC = () => {
   };
 
   const refetchAgencyMetaData = () => {
-    if (pending && success && agencyMetaData.data) {
+    if (hasActiveTransactions && success && agencyMetaData.data) {
       getAgencyMetaData();
     }
   };
 
   useEffect(fetchAgencyMetaData, [agencyMetaData.data]);
-  useEffect(refetchAgencyMetaData, [pending, success]);
+  useEffect(refetchAgencyMetaData, [hasActiveTransactions, success]);
 
   return (
     <Formik

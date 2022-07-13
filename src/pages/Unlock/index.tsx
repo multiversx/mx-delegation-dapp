@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
-import { ExtensionLoginButton, WalletConnectLoginButton, WebWalletLoginButton, LedgerLoginButton } from '@elrondnetwork/dapp-core/UI';
+import { useGetAccountInfo, DappUI } from '@elrondnetwork/dapp-core';
 import { useNavigate } from 'react-router-dom';
 
 import Extension from '../../assets/Extension';
@@ -31,28 +30,28 @@ const Unlock: FC = () => {
       name: 'Maiar DeFi Wallet',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: Extension,
-      component: ExtensionLoginButton
+      component: DappUI.ExtensionLoginButton
     },
     {
       title: 'Mobile',
       name: 'Maiar App',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: Maiar,
-      component: WalletConnectLoginButton
+      component: DappUI.WalletConnectLoginButton
     },
     {
       title: 'Desktop',
       name: 'Elrond Web Wallet',
       background: '#000000',
       icon: ElrondLogo,
-      component: WebWalletLoginButton
+      component: DappUI.WebWalletLoginButton
     },
     {
       title: 'Hardware',
       name: 'Ledger',
       background: '#000000',
       icon: Ledger,
-      component: LedgerLoginButton
+      component: DappUI.LedgerLoginButton
     }
   ];
 
