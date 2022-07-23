@@ -14,7 +14,7 @@
     "start": "parcel public/index.html",
     "start-testnet": "npm run copy-testnet-config && npm start",
     "build": "parcel build --no-scope-hoist public/index.html",
-    "build-testnet": "npm run copy-mainnet-config && npm run build",
+    "build-testnet": "npm run copy-testnet-config && npm run build",
     "build-mainnet": "npm run copy-mainnet-config && npm run build",
     "test": "node scripts/test.js",
     "copy-wasm": "mkdir dist && mkdir ./dist/node_modules && mkdir ./dist/node_modules/@elrondnetwork && mkdir ./dist/node_modules/@elrondnetwork/bls-wasm && cp ./public/bls_c.wasm ./dist/node_modules/@elrondnetwork/bls-wasm/ && cp ./public/bls_c.wasm ./dist && cp ./public/.htaccess ./dist",

@@ -7,7 +7,7 @@ domains:
 name: stake-risasoft-com
 region: nyc
 static_sites:
-- build_command: yarn run build-mainnet
+- build_command: npm run build-mainnet
   environment_slug: node-js
   github:
     branch: master
