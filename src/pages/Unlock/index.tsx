@@ -73,7 +73,7 @@ const Unlock: FC = () => {
         <strong className={styles.heading}>Elrond Delegation Manager</strong>
 
         <div className={styles.description}>
-          {`Delegate Elrond (${network.egldLabel}) and earn up to 25% APY!`}
+          {`Delegate Elrond (${network.egldLabel}) and earn rewards!`}
         </div>
 
         <div className={styles.connects}>
