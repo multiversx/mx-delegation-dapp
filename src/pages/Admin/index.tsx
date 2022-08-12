@@ -14,6 +14,7 @@ import { useGlobalContext } from 'context';
 import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
+import Delegators from '../../components/Delegators';
 
 const Admin: FC = () => {
   const { address } = useGetAccountInfo();
@@ -65,6 +66,8 @@ const Admin: FC = () => {
       <Toggles />
 
       <Nodes />
+
+      <Delegators />
     </div>
   );
 };
