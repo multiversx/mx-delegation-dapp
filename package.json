@@ -19,6 +19,7 @@
     "@types/react-dom": "17.0.0",
     "@types/react-router-dom": "5.1.7",
     "axios": "0.21.1",
+    "yarn": "1.22.19",
     "formik": "^2.2.9",
     "moment": "2.29.1",
     "react": "17.0.2",
