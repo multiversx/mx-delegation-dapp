@@ -2,14 +2,15 @@ import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
 import { denominate } from '/src/helpers/denominate';
 
+import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+
 import {
   decodeUnsignedNumber,
   ContractFunction,
-  ProxyProvider,
   Address,
   Query,
   decodeString,
-  ApiProvider
+  ResultsParser
 } from '@elrondnetwork/erdjs';
 import {
   faUsers,
@@ -75,7 +76,7 @@ const Cards: FC = () => {
 
     try {
       const [status, balance] = await Promise.all([
-        new ProxyProvider(network.gatewayAddress).getNetworkStatus(),
+        new ProxyNetworkProvider(network.gatewayAddress).getNetworkStatus(),
         axios.get(`${network.apiAddress}/accounts/${auctionContract}`)
       ]);
 
@@ -113,20 +114,21 @@ const Cards: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.apiAddress);
+      const provider = new ProxyNetworkProvider(network.apiAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getNumUsers')
       });
 
-      const data = await provider.queryContract(query);
-      const [userNumber] = data.outputUntyped();
+      const queryResponse = await provider.queryContract(query);
+      const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+      //const [userNumber] = data.outputUntyped();
 
       dispatch({
         type: 'getUsersNumber',
         usersNumber: {
           status: 'loaded',
-          data: decodeUnsignedNumber(userNumber).toString(),
+          data: decodeUnsignedNumber(values[0]).toString(),
           error: null
         }
       });

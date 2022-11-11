@@ -1,16 +1,14 @@
 import { useEffect } from 'react';
+import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+import { useGetAccountInfo, useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
 
 import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import {
-  ProxyProvider,
   Address,
   AddressValue,
   Query,
   ContractFunction,
-  decodeBigNumber
+  decodeBigNumber,
+  ResultsParser
 } from '@elrondnetwork/erdjs';
 import BigNumber from 'bignumber.js';
 
@@ -32,8 +30,7 @@ const useStakeData = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
     try {
@@ -137,15 +134,15 @@ const useStakeData = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getClaimableRewards'),
         args: [new AddressValue(new Address(address))]
       });
 
-      const data = await provider.queryContract(query);
-      const [claimableRewards] = data.outputUntyped();
+      let queryResponse = await provider.queryContract(query);
+      let {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
 
       dispatch({
         type: 'getUserClaimableRewards',
@@ -153,7 +150,7 @@ const useStakeData = () => {
           status: 'loaded',
           error: null,
           data: denominate({
-            input: decodeBigNumber(claimableRewards).toFixed(),
+            input: decodeBigNumber(values[0]).toFixed(),
             decimals: 4
           })
         }
@@ -177,13 +174,13 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (success && hasActiveTransactions && userClaimableRewards.data) {
+    if (success && pending && userClaimableRewards.data) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, hasActiveTransactions]);
+  useEffect(reFetchClaimableRewards, [success, pending]);
 
   return {
     onDelegate,

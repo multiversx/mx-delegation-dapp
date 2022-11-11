@@ -1,10 +1,9 @@
 import React from 'react';
 import { ReactNode } from 'react';
 
-import {
-  AuthenticatedRoutesWrapper,
-  useGetAccountInfo
-} from '@elrondnetwork/dapp-core';
+import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import * as DappUI from '@elrondnetwork/dapp-core/UI';
 
 import { useLocation } from 'react-router-dom';
 import routes, { routeNames } from '/src/routes';

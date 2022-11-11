@@ -6,11 +6,9 @@ import React, {
   Fragment,
   useCallback
 } from 'react';
-
-import { transactionServices } from '@elrondnetwork/dapp-core';
+import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
 import {
   ContractFunction,
-  ProxyProvider,
   Address,
   Query,
   BytesValue
@@ -36,6 +34,7 @@ import useTransaction from '/src/helpers/useTransaction';
 import Add from './components/Add';
 import styles from './styles.module.scss';
 import variants from './variants.json';
+import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
 
 interface NodeType {
   code: string;
@@ -120,8 +119,7 @@ const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
   const isLoading = nodesNumber.status === 'loading';
 
   const onAct = useCallback(
@@ -142,7 +140,7 @@ const Nodes: FC = () => {
   );
 
   const fetchQueue = useCallback(async (key: string) => {
-    const provider = new ProxyProvider(network.apiAddress);
+    const provider = new ProxyNetworkProvider(network.apiAddress);
     const query = new Query({
       address: new Address(stakingContract),
       func: new ContractFunction('getQueueIndex'),
@@ -159,8 +157,7 @@ const Nodes: FC = () => {
       const decode = (item: string) => Buffer.from(item, 'base64');
       const response = await provider.doPostGeneric(
         'vm-values/query',
-        parameters.toHttpRequest(),
-        (payload) => payload
+        payload
       );
 
       return response.data.returnData.map(decode);
@@ -256,13 +253,13 @@ const Nodes: FC = () => {
   };
 
   const refetchNodes = () => {
-    if (success && hasActiveTransactions && nodesNumber.data) {
+    if (success && pending && nodesNumber.data) {
       getNodes();
     }
   };
 
   useEffect(getNodes, [nodesNumber.data, nodesStates.data, success]);
-  useEffect(refetchNodes, [hasActiveTransactions, success]);
+  useEffect(refetchNodes, [pending, success]);
 
   return (
     <div className={`${styles.nodes} nodes`}>

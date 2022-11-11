@@ -1,18 +1,15 @@
 import { useEffect } from 'react';
-
-import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
+import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+import { useGetAccountInfo, useGetSuccessfulTransactions } from '@elrondnetwork/dapp-core/hooks';
 import {
   Query,
-  ProxyProvider,
   ContractFunction,
   Address,
   decodeBigNumber,
   decodeUnsignedNumber,
   decodeString,
-  AddressValue
+  AddressValue,
+  ResultsParser
 } from '@elrondnetwork/erdjs';
 
 import { network, auctionContract } from '/src/config';
@@ -57,11 +54,10 @@ interface globalFetchesType {
 
 const useGlobalData = () => {
   const { address } = useGetAccountInfo();
-  const { successfulTransactionsArray } =
-    transactionServices.useGetSuccessfulTransactions();
+  const { successfulTransactionsArray } = useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
-  const provider = new ProxyProvider(network.gatewayAddress);
+  const provider = new ProxyNetworkProvider(network.gatewayAddress);
   const criticalFetches: globalFetchesType = {
     getContractDetails: {
       key: 'contractDetails',
@@ -71,24 +67,17 @@ const useGlobalData = () => {
             address: new Address(network.delegationContract),
             func: new ContractFunction('getContractConfig')
           });
+          
+          const queryResponse = await provider.queryContract(query);
+          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
 
-          const data = await provider.queryContract(query);
-          const response = data.outputUntyped();
-
-          const ownerAddressIndex = 0;
-          const serviceFeeIndex = 1;
-          const delegationCapIndex = 2;
-          const automaticActivationIndex = 4;
-          const withDelegationCapIndex = 5;
-          const redelegationCapIndex = 7;
-
-          const ownerAddress = response[ownerAddressIndex];
-          const serviceFee = response[serviceFeeIndex];
-          const delegationCap = response[delegationCapIndex];
-          const activationStatus = response[automaticActivationIndex];
-          const withDelegationCap = response[withDelegationCapIndex];
-          const redelegationCap = response[redelegationCapIndex];
-
+          const ownerAddress = values[0];
+          const serviceFee = values[1];
+          const delegationCap = values[2];
+          const activationStatus = values[4];
+          const withDelegationCap = values[5];
+          const redelegationCap = values[7];
+debugger
           return {
             withDelegationCap: String(withDelegationCap),
             owner: new Address(address).hex() === ownerAddress.toString('hex'),
@@ -115,10 +104,10 @@ const useGlobalData = () => {
             args: [new AddressValue(new Address(network.delegationContract))]
           });
 
-          const data = await provider.queryContract(query);
-          const response = data.outputUntyped();
+          const queryResponse = await provider.queryContract(query);
+          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
 
-          return response;
+          return values;
         } catch (error) {
           return Promise.reject(error);
         }
@@ -133,10 +122,10 @@ const useGlobalData = () => {
             func: new ContractFunction('getAllNodeStates')
           });
 
-          const data = await provider.queryContract(query);
-          const response = data.outputUntyped();
+          const queryResponse = await provider.queryContract(query);
+          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
 
-          return response;
+          return values;
         } catch (error) {
           return Promise.reject(error);
         }
@@ -151,10 +140,10 @@ const useGlobalData = () => {
             func: new ContractFunction('getTotalActiveStake')
           });
 
-          const data = await provider.queryContract(query);
-          const [totalNodes] = data.outputUntyped();
+          const queryResponse = await provider.queryContract(query);
+          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
 
-          return decodeBigNumber(totalNodes).toFixed();
+          return decodeBigNumber(values[0]).toFixed();
         } catch (error) {
           return Promise.reject(error);
         }
@@ -170,10 +159,10 @@ const useGlobalData = () => {
             args: [new AddressValue(new Address(address))]
           });
 
-          const data = await provider.queryContract(query);
-          const [userStake] = data.outputUntyped();
+          const queryResponse = await provider.queryContract(query);
+          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
 
-          return decodeBigNumber(userStake).toFixed();
+          return decodeBigNumber(values[0]).toFixed();
         } catch (error) {
           return Promise.reject(error);
         }

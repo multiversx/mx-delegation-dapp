@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 
-import { useGetAccountInfo, DappUI } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import * as DappUI from '@elrondnetwork/dapp-core/UI';
 import { useNavigate } from 'react-router-dom';
 
 import Extension from '../../assets/Extension';

@@ -1,13 +1,9 @@
 import React, { FC, useEffect } from 'react';
-
-import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
+import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+import { useGetAccountInfo, useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
 import {
   decodeUnsignedNumber,
   ContractFunction,
-  ProxyProvider,
   AddressValue,
   Address,
   Query,
@@ -27,8 +23,7 @@ const Withdrawals: FC = () => {
 
   const { account } = useGetAccountInfo();
   const { undelegatedStakeList } = useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
     dispatch({
@@ -41,7 +36,7 @@ const Withdrawals: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getUserUnDelegatedList'),
@@ -140,13 +135,13 @@ const Withdrawals: FC = () => {
   };
 
   const refetchUndelegatedStakeList = () => {
-    if (hasActiveTransactions && success && undelegatedStakeList.data) {
+    if (pending && success && undelegatedStakeList.data) {
       getUndelegatedStakeList();
     }
   };
 
   useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
-  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, success]);
+  useEffect(refetchUndelegatedStakeList, [pending, success]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;
