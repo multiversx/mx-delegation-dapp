@@ -27,7 +27,7 @@ const Unlock: FC = () => {
   const connects: Array<ConnectionType> = [
     {
       title: 'Desktop',
-      name: 'Elrond Web Wallet',
+      name: 'MultiversX Web Wallet',
       background: '#000000',
       icon: Logo,
       component: DappUI.WebWalletLoginButton
@@ -70,10 +70,10 @@ const Unlock: FC = () => {
           <Logo />
         </div>
 
-        <strong className={styles.heading}>Elrond Delegation Manager</strong>
+        <strong className={styles.heading}>MultiversX Delegation Manager</strong>
 
         <div className={styles.description}>
-          {`Delegate Elrond (${network.egldLabel}) and earn up to 25% APY!`}
+          {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
         </div>
 
         <div className={styles.connects}>

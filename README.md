@@ -1,11 +1,11 @@
 <div style="text-align:center">
   <img
-  src="https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/blob/master/preview.png "
-  alt="Elrond Network">
+  src="https://github.com/multiversx/mx-delegation-dapp/blob/master/preview.png"
+  alt="MultiversX Network">
 </div>
 <br>
 
-[![](https://img.shields.io/badge/made%20by-Elrond%20Network-blue.svg)](http://elrond.com/)
+[![](https://img.shields.io/badge/made%20by-MultiversX-blue.svg)](http://multiversx.com/)
 <br />
 
 <p align="center">
@@ -18,9 +18,9 @@ The react implementation for Dashboard Delegation
     <br />
     <br />
     ·
-    <a href="https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/issues">Report Bug</a>
+    <a href="https://github.com/multiversx/mx-delegation-dapp/issues">Report Bug</a>
     ·
-    <a href="https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/issues">Request Feature</a>
+    <a href="https://github.com/multiversx/mx-delegation-dapp/issues">Request Feature</a>
   </p>
 </p>
 
@@ -54,7 +54,7 @@ The react implementation for Dashboard Delegation
 
 The dapp is a client side only poject and is built using the Create React App scripts.
 
-Follow the next step to start using this dapp or follow the next tutorial on [Youtube](https://www.youtube.com/watch?v=BkjUmBsmQYM&feature=youtu.be&ab_channel=ElrondNetwork)
+Follow the next step to start using this dapp or follow the next tutorial on [Youtube](https://www.youtube.com/watch?v=BkjUmBsmQYM)
 
 ### Prerequisites
 
@@ -102,7 +102,7 @@ To run the project locally run `npm run start` from the project folder. This wil
 
 ## Roadmap
 
-See the [open issues](https://github.com/ElrondNetwork/delegation-dashboard.elrond.com/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/multiversx/mx-delegation-dapp/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
@@ -118,6 +118,4 @@ One can contribute by creating _pull requests_, or by opening _issues_ for disco
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Developers
 
-The [Elrond Team](https://elrond.com/team/).
