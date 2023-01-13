@@ -41,14 +41,14 @@ const Unlock: FC = () => {
     },
     {
       title: 'Mobile',
-      name: 'Maiar App',
+      name: 'xPortal App',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: Maiar,
       component: DappUI.WalletConnectLoginButton
     },
     {
       title: 'Browser',
-      name: 'Maiar DeFi Wallet',
+      name: 'MultiversX DeFi Wallet',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: Extension,
       component: DappUI.ExtensionLoginButton
@@ -70,7 +70,9 @@ const Unlock: FC = () => {
           <Logo />
         </div>
 
-        <strong className={styles.heading}>MultiversX Delegation Manager</strong>
+        <strong className={styles.heading}>
+          MultiversX Delegation Manager
+        </strong>
 
         <div className={styles.description}>
           {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
