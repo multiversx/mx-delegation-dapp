@@ -41,14 +41,14 @@ const Unlock: FC = () => {
     },
     {
       title: 'Mobile',
-      name: 'Maiar App',
+      name: 'xPortal App',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: Maiar,
       component: DappUI.WalletConnectLoginButton
     },
     {
       title: 'Browser',
-      name: 'Maiar DeFi Wallet',
+      name: 'MultiversX DeFi Wallet',
       background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
       icon: Extension,
       component: DappUI.ExtensionLoginButton
