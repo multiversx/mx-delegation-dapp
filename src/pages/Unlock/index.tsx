@@ -70,7 +70,9 @@ const Unlock: FC = () => {
           <Logo />
         </div>
 
-        <strong className={styles.heading}>MultiversX Delegation Manager</strong>
+        <strong className={styles.heading}>
+          MultiversX Delegation Manager
+        </strong>
 
         <div className={styles.description}>
           {`Delegate MultiversX (${network.egldLabel}) and earn up to 25% APY!`}
