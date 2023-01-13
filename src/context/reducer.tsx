@@ -16,7 +16,7 @@ export type ActionType =
     }
   | {
       type: 'getNodesStates';
-      nodesNumber: StateType['nodesStates'];
+      nodesStates: StateType['nodesStates'];
     }
   | {
       type: 'getTotalActiveStake';
