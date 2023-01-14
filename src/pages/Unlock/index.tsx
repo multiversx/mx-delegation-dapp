@@ -74,15 +74,9 @@ const Unlock: FC = () => {
         <strong className={styles.heading}>RisaSoft Staking</strong>
 
         <div className={styles.description}>
-          🔥 Metabonding Special 🔥<br /><br />
-
-          Staking $EGLD with us counts for Metabonding!🔥<br /><br />
-
-          <br /><br />
 
           <ul style={{ textAlign: 'left' }} >
-            <li style={{ paddingBottom: '1rem' }}>11-13% APR on your $EGLD</li>
-            <li style={{ paddingBottom: '1rem' }}>Metabonding tokens ( $AERO, $EFFORT, $ZPAY, or $ISET)</li>
+            <li style={{ paddingBottom: '1rem' }}>8-13% APR on your $EGLD</li>
             <li style={{ paddingBottom: '1rem' }}>Airdropped $RISA (exclusive to our pool)</li>
           </ul>
           Login below to start staking:
