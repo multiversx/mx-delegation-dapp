@@ -155,11 +155,11 @@ const Cards: FC = () => {
     });
 
     try {
-      const query = new ApiProvider(network.apiAddress, {
+      const query = new ApiNetworkProvider(network.apiAddress, {
         timeout: 4000
       });
 
-      const data = await query.getNetworkStake();
+      const data = await query.getNetworkStakeStatistics();
 
       dispatch({
         type: 'getTotalNetworkStake',
@@ -208,6 +208,7 @@ const Cards: FC = () => {
   }, [totalNetworkStake, totalActiveStake.data]);
 
   const getNodesNumber = useCallback(() => {
+
     if (!totalNetworkStake.data || !nodesNumber.data) {
       const loading =
         totalNetworkStake.status === 'loading' ||

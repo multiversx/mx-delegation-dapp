@@ -77,8 +77,8 @@ const useGlobalData = () => {
           const activationStatus = values[4];
           const withDelegationCap = values[5];
           const redelegationCap = values[7];
-debugger
-          return {
+
+          let res = {
             withDelegationCap: String(withDelegationCap),
             owner: new Address(address).hex() === ownerAddress.toString('hex'),
             delegationCap: decodeBigNumber(delegationCap).toFixed(),
@@ -89,6 +89,8 @@ debugger
             automaticActivation:
               decodeString(activationStatus) === 'true' ? 'ON' : 'OFF'
           };
+
+          return res;
         } catch (error) {
           return Promise.reject(error);
         }
@@ -106,7 +108,6 @@ debugger
 
           const queryResponse = await provider.queryContract(query);
           const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
-
           return values;
         } catch (error) {
           return Promise.reject(error);
