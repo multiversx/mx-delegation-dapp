@@ -75,8 +75,13 @@ const Unlock: FC = () => {
 
         <div className={styles.description}>
 
+          Stake $EGLD and $RISA 🔥<br /><br />
+
+          <br /><br />
+
           <ul style={{ textAlign: 'left' }} >
-            <li style={{ paddingBottom: '1rem' }}>8-13% APR on your $EGLD</li>
+            <li style={{ paddingBottom: '1rem' }}>8-12% APR on your $EGLD</li>
+            <li style={{ paddingBottom: '1rem' }}>Up to 150% APR on your $RISA</li>
             <li style={{ paddingBottom: '1rem' }}>Airdropped $RISA (exclusive to our pool)</li>
           </ul>
           Login below to start staking:
