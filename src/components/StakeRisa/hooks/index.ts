@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
-import { useGetAccountInfo, useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@elrondnetwork/erdjs-network-providers';
+import {
+  useGetAccountInfo,
+  useGetActiveTransactionsStatus
+} from '@elrondnetwork/dapp-core/hooks';
 
 import {
   Address,
@@ -17,10 +23,13 @@ import BigNumber from 'bignumber.js';
 
 import { network, minDust } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
-import { denominate } from '/src/helpers/denominate';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
+import { parseAmount } from '@elrondnetwork/dapp-core/utils/operations/parseAmount';
+
+import abiFile from '/src/assets/abi/risa-staking-contract.json';
+import { formatAmount } from '@elrondnetwork/dapp-core/utils/operations/formatAmount';
 
 interface DelegationPayloadType {
   amount: string;
@@ -31,15 +40,15 @@ const useStakeData = () => {
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
-  const { contractDetails, userClaimableRewards, totalActiveStake } =
-    useGlobalContext();
+
+  const { userClaimableRisaRewards, userActiveRisaStake } = useGlobalContext();
   const { success, pending } = useGetActiveTransactionsStatus();
 
-  const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
+  const onStake = async (data: DelegationPayloadType): Promise<void> => {
     try {
       await sendTransaction({
-        value: data.amount,
-        type: 'delegate',
+        value: parseAmount(data.amount, 18),
+        type: 'stake',
         args: ''
       });
     } catch (error) {
@@ -47,11 +56,11 @@ const useStakeData = () => {
     }
   };
 
-  const onUndelegate = async (data: DelegationPayloadType): Promise<void> => {
+  const onUnstake = async (data: DelegationPayloadType): Promise<void> => {
     try {
       await sendTransaction({
         value: '0',
-        type: 'unDelegate',
+        type: 'unstake',
         args: nominateValToHex(data.amount.toString())
       });
     } catch (error) {
@@ -59,11 +68,11 @@ const useStakeData = () => {
     }
   };
 
-  const onRedelegate = async (): Promise<void> => {
+  const onRestake = async (): Promise<void> => {
     try {
       await sendTransaction({
         value: '0',
-        type: 'reDelegateRewards',
+        type: 'restake',
         args: ''
       });
     } catch (error) {
@@ -75,7 +84,7 @@ const useStakeData = () => {
     try {
       await sendTransaction({
         value: '0',
-        type: 'claimRewards',
+        type: 'claim',
         args: ''
       });
     } catch (error) {
@@ -83,10 +92,10 @@ const useStakeData = () => {
     }
   };
 
-  const getUserClaimableRewards = async (): Promise<void> => {
+  const getRisaRewards = async (): Promise<void> => {
     dispatch({
-      type: 'getUserClaimableRewards',
-      userClaimableRewards: {
+      type: 'getUserClaimableRisaRewards',
+      userClaimableRisaRewards: {
         status: 'loading',
         data: null,
         error: null
@@ -94,37 +103,39 @@ const useStakeData = () => {
     });
 
     try {
-
-
-      let response = await fetch("/risa-staking-contract.json");
-      let abiRegistry = AbiRegistry.create(await response.json());
-      let abi = new SmartContractAbi(abiRegistry, ["OdinRisaStake"]);
-      let contract = new SmartContract({ address: new Address(network.risaStakingContract), abi: abi });
+      let abiRegistry = AbiRegistry.create(abiFile);
+      let abi = new SmartContractAbi(abiRegistry, ['OdinRisaStake']);
+      let contract = new SmartContract({
+        address: new Address(network.risaStakingContract),
+        abi: abi
+      });
       const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.risaStakingContract),
-        func: new ContractFunction('getClaimableRewards'),
+        func: new ContractFunction('getRewardAmount'),
         args: [new AddressValue(new Address(address))]
       });
       let queryResponse = await provider.queryContract(query);
-      let endpointDefinition = contract.getEndpoint("getClaimableRewards");
-      let { firstValue, secondValue, returnCode } = new ResultsParser().parseQueryResponse(queryResponse, endpointDefinition);
-debugger
+      let endpointDefinition = contract.getEndpoint('getRewardAmount');
+      let { firstValue, secondValue, returnCode } =
+        new ResultsParser().parseQueryResponse(
+          queryResponse,
+          endpointDefinition
+        );
       dispatch({
-        type: 'getUserClaimableRewards',
-        userClaimableRewards: {
+        type: 'getUserClaimableRisaRewards',
+        userClaimableRisaRewards: {
           status: 'loaded',
           error: null,
-          data: denominate({
-            input: decodeBigNumber(firstValue).toFixed(),
-            decimals: 4
+          data: formatAmount({
+            input: parseAmount(firstValue?.valueOf().toFixed())
           })
         }
       });
     } catch (error) {
       dispatch({
-        type: 'getUserClaimableRewards',
-        userClaimableRewards: {
+        type: 'getUserClaimableRisaRewards',
+        userClaimableRisaRewards: {
           status: 'error',
           data: null,
           error
@@ -133,25 +144,84 @@ debugger
     }
   };
 
-  const fetchClaimableRewards = () => {
-    if (!userClaimableRewards.data) {
-      getUserClaimableRewards();
+  const getUserActiveRisaStake = async (): Promise<void> => {
+    dispatch({
+      type: 'getUserActiveRisaStake',
+      userActiveRisaStake: {
+        status: 'loading',
+        data: null,
+        error: null
+      }
+    });
+
+    try {
+      let abiRegistry = AbiRegistry.create(abiFile);
+      let abi = new SmartContractAbi(abiRegistry, ['OdinRisaStake']);
+      let contract = new SmartContract({
+        address: new Address(network.risaStakingContract),
+        abi: abi
+      });
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
+      const query = new Query({
+        address: new Address(network.risaStakingContract),
+        func: new ContractFunction('getStakedAmount'),
+        args: [new AddressValue(new Address(address))]
+      });
+      let queryResponse = await provider.queryContract(query);
+      let endpointDefinition = contract.getEndpoint('getStakedAmount');
+      let { firstValue, secondValue, returnCode } =
+        new ResultsParser().parseQueryResponse(
+          queryResponse,
+          endpointDefinition
+        );
+      dispatch({
+        type: 'getUserActiveRisaStake',
+        userActiveRisaStake: {
+          status: 'loaded',
+          error: null,
+          data: formatAmount({
+            input: parseAmount(firstValue?.valueOf().toFixed())
+          })
+        }
+      });
+    } catch (error) {
+      dispatch({
+        type: 'getUserActiveRisaStake',
+        userActiveRisaStake: {
+          status: 'error',
+          data: null,
+          error
+        }
+      });
     }
   };
 
-  const reFetchClaimableRewards = () => {
-    if (success && pending && userClaimableRewards.data) {
-      getUserClaimableRewards();
+  const fetchRisaRewards = () => {
+    if (!userClaimableRisaRewards.data) {
+      getRisaRewards();
+    }
+    if (!userActiveRisaStake.data) {
+      getUserActiveRisaStake();
     }
   };
 
-  useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, pending]);
+  const reFetchRisaRewards = () => {
+    if (success && pending && userClaimableRisaRewards.data) {
+      getRisaRewards();
+    }
+
+    if (success && pending && userActiveRisaStake.data) {
+      getUserActiveRisaStake();
+    }
+  };
+
+  useEffect(fetchRisaRewards, [userClaimableRisaRewards.data]);
+  useEffect(reFetchRisaRewards, [success, pending]);
 
   return {
-    onDelegate,
-    onUndelegate,
-    onRedelegate,
+    onStake,
+    onUnstake,
+    onRestake,
     onClaimRewards
   };
 };

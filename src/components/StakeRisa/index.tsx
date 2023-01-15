@@ -31,12 +31,12 @@ interface PanelType {
 }
 
 const Stake: FC = () => {
-  const { userActiveStake, userClaimableRewards } = useGlobalContext();
-  const { onRedelegate, onClaimRewards } = useStakeData();
+  const { userActiveRisaStake, userClaimableRisaRewards } = useGlobalContext();
+  const { onRestake, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {
-    isEmpty: userActiveStake.data === '0',
-    isLoading: userActiveStake.status === 'loading',
-    isError: userActiveStake.status === 'error'
+    isEmpty: userActiveRisaStake.data === '0',
+    isLoading: userActiveRisaStake.status === 'loading',
+    isError: userActiveRisaStake.status === 'error'
   };
 
   const panels: Array<PanelType> = [
@@ -44,7 +44,7 @@ const Stake: FC = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
-      value: denominate({ input: userActiveStake.data || '0', decimals: 4, addCommas: false }),
+      value: denominate({ input: userActiveRisaStake.data || '0', decimals: 4, addCommas: false }),
       disabled: false,
       actions: [
         {
@@ -61,16 +61,16 @@ const Stake: FC = () => {
       subicon: <FontAwesomeIcon icon={faGift} />,
       color: '#27C180',
       title: 'Claimable Rewards',
-      value: `+ ${userClaimableRewards.data || '0'}`,
-      disabled: !userClaimableRewards.data || userClaimableRewards.data === '0',
+      value: `+ ${userClaimableRisaRewards.data || '0'}`,
+      disabled: !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0',
       actions: [
         {
           transaction: onClaimRewards,
           label: 'Claim Now'
         },
         {
-          transaction: onRedelegate,
-          label: 'Redelegate'
+          transaction: onRestake,
+          label: 'Restake'
         }
       ]
     }

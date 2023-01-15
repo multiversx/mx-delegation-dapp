@@ -40,7 +40,6 @@ const useStakeData = () => {
   const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
-    debugger;
     try {
       await sendTransaction({
         value: parseAmount(data.amount, 18),

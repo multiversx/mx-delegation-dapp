@@ -14,7 +14,7 @@ import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
 
 const Undelegate: FC = () => {
-  const { userActiveStake } = useGlobalContext();
+  const { userActiveRisaStake } = useGlobalContext();
   const { onUndelegate } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);
 
@@ -28,7 +28,7 @@ const Undelegate: FC = () => {
           <div className={styles.undelegate}>
             <Formik
               validationSchema={object().shape({
-                amount: undelegateValidator(userActiveStake.data || '')
+                amount: undelegateValidator(userActiveRisaStake.data || '')
               })}
               onSubmit={onUndelegate}
               initialValues={{
@@ -45,7 +45,7 @@ const Undelegate: FC = () => {
                 setFieldValue
               }) => {
                 const amount = denominate({
-                  input: userActiveStake.data || '',
+                  input: userActiveRisaStake.data || '',
                   addCommas: false,
                   showLastNonZeroDecimal: true
                 });
@@ -93,7 +93,7 @@ const Undelegate: FC = () => {
                       <span className={styles.description}>
                         <span>Balance:</span>{' '}
                         {denominate({
-                          input: userActiveStake.data || '0'
+                          input: userActiveRisaStake.data || '0'
                         })}{' '}
                         RISA
                       </span>
