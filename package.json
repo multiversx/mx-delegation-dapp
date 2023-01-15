@@ -80,9 +80,9 @@
     "resetMocks": true
   },
   "dependencies": {
-    "@elrondnetwork/dapp-core": "2.1.8",
-    "@elrondnetwork/erdjs": "11.1.1",
-    "@elrondnetwork/erdjs-network-providers": "1.1.1",
+    "@elrondnetwork/dapp-core": "2.2.6",
+    "@elrondnetwork/erdjs": "11.1.2",
+    "@elrondnetwork/erdjs-network-providers": "1.2.0",
     "@fortawesome/free-regular-svg-icons": "6.2.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "11.1.0",
