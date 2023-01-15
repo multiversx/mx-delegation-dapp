@@ -38,7 +38,7 @@ const Stake: FC = () => {
     isLoading: userActiveStake.status === 'loading',
     isError: userActiveStake.status === 'error'
   };
-
+debugger
   const panels: Array<PanelType> = [
     {
       subicon: <FontAwesomeIcon icon={faLock} />,

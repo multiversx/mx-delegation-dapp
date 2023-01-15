@@ -21,9 +21,9 @@ const Undelegate: FC = () => {
   return (
     <div className={`${styles.wrapper} undelegate-wrapper`}>
       <Action
-        title='Undelegate Now'
-        description={`Select the amount of ${network.egldLabel} you want to undelegate.`}
-        trigger={<div className={styles.trigger}>Undelegate</div>}
+        title='Unstake Now'
+        description={`Select the amount of ${network.egldLabel} you want to unstake.`}
+        trigger={<div className={styles.trigger}>Unstake</div>}
         render={
           <div className={styles.undelegate}>
             <Formik
