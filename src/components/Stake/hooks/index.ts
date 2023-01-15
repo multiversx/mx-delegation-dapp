@@ -24,7 +24,6 @@ import { denominate } from '/src/helpers/denominate';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
-import { nominate } from '@elrondnetwork/dapp-core/utils/operations/nominate';
 import { parseAmount } from '@elrondnetwork/dapp-core/utils/operations/parseAmount';
 
 interface DelegationPayloadType {
