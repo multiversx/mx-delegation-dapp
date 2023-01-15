@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
-import { useGetAccountInfo, useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@elrondnetwork/erdjs-network-providers';
+import {
+  useGetAccountInfo,
+  useGetActiveTransactionsStatus
+} from '@elrondnetwork/dapp-core/hooks';
 
 import {
   Address,
@@ -18,6 +24,8 @@ import { denominate } from '/src/helpers/denominate';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
+import { nominate } from '@elrondnetwork/dapp-core/utils/operations/nominate';
+import { parseAmount } from '@elrondnetwork/dapp-core/utils/operations/parseAmount';
 
 interface DelegationPayloadType {
   amount: string;
@@ -33,9 +41,10 @@ const useStakeData = () => {
   const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
+    debugger;
     try {
       await sendTransaction({
-        value: data.amount,
+        value: parseAmount(data.amount, 18),
         type: 'delegate',
         args: ''
       });
@@ -93,7 +102,12 @@ const useStakeData = () => {
         const stake = totalActiveStake.data;
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
         const maxed =
-          parseInt(getPercentage(denominate({ input: stake || '0' }), denominate({ input: cap || '0' }))) === 100;
+          parseInt(
+            getPercentage(
+              denominate({ input: stake || '0' }),
+              denominate({ input: cap || '0' })
+            )
+          ) === 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
@@ -142,7 +156,9 @@ const useStakeData = () => {
       });
 
       let queryResponse = await provider.queryContract(query);
-      let {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+      let { values } = new ResultsParser().parseUntypedQueryResponse(
+        queryResponse
+      );
 
       dispatch({
         type: 'getUserClaimableRewards',
