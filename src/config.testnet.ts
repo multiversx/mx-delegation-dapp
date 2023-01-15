@@ -13,6 +13,7 @@ interface NetworkType {
   explorerAddress: string;
   delegationContract: string;
   apiAddress: string;
+  risaStakingContract: string;
 }
 
 export const minDust = '5000000000000000'; // 0.005 EGLD
@@ -55,7 +56,9 @@ export const network: NetworkType = {
   gatewayAddress: 'https://testnet-gateway.elrond.com',
   explorerAddress: 'http://testnet-explorer.elrond.com',
   delegationContract:
-    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqphllllsndz99p'
+    'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqphllllsndz99p',
+  risaStakingContract:
+    'erd1qqqqqqqqqqqqqpgqw8hw40pentyzcdse5jsy8vkrw25lp2tgj9qsjvzaw6'
 };
 
 export const delegationContractData: Array<DelegationContractType> = [

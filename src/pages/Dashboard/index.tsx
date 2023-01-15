@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Cards from '/src/components/Cards';
 import Heading from '/src/components/Heading';
 import Stake from '/src/components/Stake';
+import StakeRisa from '/src/components/StakeRisa';
 import Withdrawals from '/src/components/Withdrawals';
 
 import useGlobalData from '../../hooks/useGlobalData';
@@ -49,6 +50,8 @@ const Dashboard: FC = () => {
       <Cards />
 
       <Stake />
+
+<StakeRisa />
 
       <Withdrawals />
     </div>

@@ -1,0 +1,590 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.58.0-nightly",
+            "commitHash": "91b931926fd49fc97d1e39f2b8206abf1d77ce7d",
+            "commitDate": "2021-10-23",
+            "channel": "Nightly",
+            "short": "rustc 1.58.0-nightly (91b931926 2021-10-23)"
+        },
+        "contractCrate": {
+            "name": "odin-risa-stake",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "elrond-wasm",
+            "version": "0.30.0"
+        }
+    },
+    "name": "OdinRisaStake",
+    "constructor": {
+        "inputs": [
+            {
+                "name": "operator_address",
+                "type": "Address"
+            },
+            {
+                "name": "token_id",
+                "type": "TokenIdentifier"
+            },
+            {
+                "name": "min_stake_limit",
+                "type": "BigUint"
+            },
+            {
+                "name": "lock_period",
+                "type": "u64"
+            },
+            {
+                "name": "claim_lock_period",
+                "type": "u64"
+            },
+            {
+                "name": "base_apr",
+                "type": "u64"
+            }
+        ],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "withdrawFunds",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "opt_token_id",
+                    "type": "optional<TokenIdentifier>",
+                    "multi_arg": true
+                },
+                {
+                    "name": "opt_token_nonce",
+                    "type": "optional<u64>",
+                    "multi_arg": true
+                },
+                {
+                    "name": "opt_token_amount",
+                    "type": "optional<BigUint>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                ""
+            ],
+            "name": "viewStakeSetting",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "StakeSetting"
+                }
+            ]
+        },
+        {
+            "name": "viewStakeAccount",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "StakeAccount"
+                }
+            ]
+        },
+        {
+            "name": "viewStakeAmounts",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<multi<Address,BigUint>>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "stake",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "unstake",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "opt_unstake_amount_percentage",
+                    "type": "optional<u64>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claim",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "restake",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getOperatorAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "setOperatorAddress",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "operator_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getTokenId",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "setTokenId",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getMinStakeLimit",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "setMinStakeLimit",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "min_stake_limit",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getLockPeriod",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "setLockPeriod",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "lock_period",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getClaimLockPeriod",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "setClaimLockPeriod",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "claim_lock_period",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getBaseApr",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "setBaseApr",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "base_apr",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getTierCount",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getTierTimestamp",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "tier",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getTierMultiplier",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "tier",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "addTiers",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "items",
+                    "type": "variadic<multi<u64,u64>>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getPaused",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "pause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "unpause",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getStakerAddresses",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<Address>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getStakedAmount",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getInitialStakedTimestamp",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "setInitialStakedTimestamp",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getLastStakedTimestamp",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getRewardAmount",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getLastClaimTimestamp",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getLastUpdatedTier",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getLastUpdateTimestamp",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "staker_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getTotalStakedAmount",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        }
+    ],
+    "hasCallback": false,
+    "types": {
+        "StakeAccount": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "staked_amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "initial_staked_timestamp",
+                    "type": "u64"
+                },
+                {
+                    "name": "last_staked_timestamp",
+                    "type": "u64"
+                },
+                {
+                    "name": "reward_amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "last_claim_timestamp",
+                    "type": "u64"
+                },
+                {
+                    "name": "last_updated_tier",
+                    "type": "u32"
+                },
+                {
+                    "name": "last_update_timestamp",
+                    "type": "u64"
+                },
+                {
+                    "name": "current_apr",
+                    "type": "u64"
+                },
+                {
+                    "name": "current_multiplier",
+                    "type": "u64"
+                },
+                {
+                    "name": "current_tier",
+                    "type": "u32"
+                }
+            ]
+        },
+        "StakeSetting": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "min_stake_limit",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "lock_period",
+                    "type": "u64"
+                },
+                {
+                    "name": "claim_lock_period",
+                    "type": "u64"
+                },
+                {
+                    "name": "base_apr",
+                    "type": "u64"
+                },
+                {
+                    "name": "breakpoint_durations",
+                    "type": "List<u64>"
+                },
+                {
+                    "name": "breakpoint_multipliers",
+                    "type": "List<u64>"
+                },
+                {
+                    "name": "total_staked_amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "number_of_stakers",
+                    "type": "u32"
+                }
+            ]
+        }
+    }
+}

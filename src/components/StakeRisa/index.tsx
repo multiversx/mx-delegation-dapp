@@ -3,7 +3,7 @@ import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { denominate } from '/src/helpers/denominate'
 
-import XLogo from '/src/assets/XLogo';
+import Logo from '/src/assets/Logo';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';
 import modifiable from '/src/helpers/modifiable';
@@ -87,11 +87,11 @@ const Stake: FC = () => {
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
           <strong className={styles.heading}>
-            Stake EGLD
+            Stake RISA
           </strong>
 
           <div className={styles.logo}>
-            <XLogo />
+            <Logo />
 
             <div style={{ background: '#2044F5' }} className={styles.subicon}>
               <FontAwesomeIcon icon={faLock} />
@@ -103,7 +103,7 @@ const Stake: FC = () => {
               ? 'Retrieving staking data...'
               : isError
                 ? 'There was an error trying to retrieve staking data.'
-                : `Currently you don't have any ${network.egldLabel} staked.`}
+                : `Currently you don't have any RISA staked.`}
           </div>
 
           <Delegate />
@@ -114,7 +114,7 @@ const Stake: FC = () => {
             <div
               className={modifiable('icon', [index > 0 && 'inversed'], styles)}
             >
-              <XLogo />
+              <Logo />
 
               {index > 0 &&
                 Array.from({ length: 4 }).map((item, iteratee) => (
@@ -137,7 +137,7 @@ const Stake: FC = () => {
             <div className={styles.title}>{panel.title}</div>
 
             <strong className={styles.value}>
-              {panel.value} {network.egldLabel}
+              {panel.value} RISA
             </strong>
 
             <div className={styles.actions}>

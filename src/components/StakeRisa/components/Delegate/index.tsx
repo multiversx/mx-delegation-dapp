@@ -6,8 +6,8 @@ import { object } from 'yup';
 import { denominate } from '/src/helpers/denominate';
 
 import Action, { Submit } from '/src/components/Action';
-import { delegateValidator } from '/src/components/Stake//helpers/delegationValidators';
-import useStakeData from '/src/components/Stake/hooks';
+import { delegateValidator } from '/src/components/StakeRisa//helpers/delegationValidators';
+import useStakeData from '/src/components/StakeRisa/hooks';
 import { network } from '/src/config';
 
 import modifiable from '/src/helpers/modifiable';
@@ -16,20 +16,19 @@ import styles from './styles.module.scss';
 
 const Delegate: FC = () => {
   const { account } = useGetAccountInfo();
-  const { onDelegate, getStakingLimits } = useStakeData();
-  const { limit, balance, maxed } = getStakingLimits();
+  const { onDelegate } = useStakeData();
 
   return (
     <div className={`${styles.wrapper} delegate-wrapper`}>
       <Action
-        title='Stake EGLD'
-        description={`Select the amount of ${network.egldLabel} you want to stake.`}
-        trigger={<div className={styles.trigger}>Stake EGLD</div>}
+        title='Stake RISA'
+        description={`Select the amount of RISA you want to stake.`}
+        trigger={<div className={styles.trigger}>Stake RISA</div>}
         render={
           <div className={styles.delegate}>
             <Formik
               validationSchema={object().shape({
-                amount: delegateValidator(balance, limit)
+                amount: delegateValidator(1)
               })}
               onSubmit={onDelegate}
               initialValues={{
@@ -49,14 +48,14 @@ const Delegate: FC = () => {
                   event.preventDefault();
                   setFieldValue(
                     'amount',
-                    denominate({ input: limit, addCommas: false })
+                    denominate({ input: 342, addCommas: false })
                   );
                 };
 
                 return (
                   <form onSubmit={handleSubmit}>
                     <div className={styles.field}>
-                      <label htmlFor='amount'>{network.egldLabel} Amount</label>
+                      <label htmlFor='amount'>RISA Amount</label>
                       <div className={styles.group}>
                         <input
                           type='number'
@@ -73,7 +72,7 @@ const Delegate: FC = () => {
                           value={values.amount}
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          disabled={maxed}
+                          disabled={false}
                         />
 
                         <a
@@ -81,7 +80,7 @@ const Delegate: FC = () => {
                           onClick={onMax}
                           className={modifiable(
                             'max',
-                            [maxed && 'disabled'],
+                            ['disabled'],
                             styles
                           )}
                         >
@@ -90,17 +89,12 @@ const Delegate: FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span> {denominate({ input: account.balance || '0' })}{' '}
-                        {network.egldLabel}
+                        <span>Balance:</span>{' '}
+                        {denominate({ input: account.balance || '0' })}{' '}
+                        RISA
                       </span>
 
-                      {((errors.amount && touched.amount) || maxed) && (
-                        <span className={styles.error}>
-                          {maxed
-                            ? 'Max delegation cap reached, staking unavailable.'
-                            : errors.amount}
-                        </span>
-                      )}
+                      {((errors.amount && touched.amount))}
                     </div>
 
                     <Submit save='Continue' />
