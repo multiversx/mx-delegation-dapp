@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
-import { useGetAccountInfo, useGetSuccessfulTransactions } from '@elrondnetwork/dapp-core/hooks';
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
+import {
+  useGetAccountInfo,
+  useGetSuccessfulTransactions
+} from '@multiversx/sdk-dapp/hooks';
 import {
   Query,
   ContractFunction,
@@ -10,7 +16,7 @@ import {
   decodeString,
   AddressValue,
   ResultsParser
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 
 import { network, auctionContract } from '/src/config';
 import { useDispatch } from '/src/context';
@@ -67,9 +73,11 @@ const useGlobalData = () => {
             address: new Address(network.delegationContract),
             func: new ContractFunction('getContractConfig')
           });
-          
+
           const queryResponse = await provider.queryContract(query);
-          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+          const { values } = new ResultsParser().parseUntypedQueryResponse(
+            queryResponse
+          );
 
           const ownerAddress = values[0];
           const serviceFee = values[1];
@@ -107,7 +115,9 @@ const useGlobalData = () => {
           });
 
           const queryResponse = await provider.queryContract(query);
-          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+          const { values } = new ResultsParser().parseUntypedQueryResponse(
+            queryResponse
+          );
           return values;
         } catch (error) {
           return Promise.reject(error);
@@ -124,7 +134,9 @@ const useGlobalData = () => {
           });
 
           const queryResponse = await provider.queryContract(query);
-          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+          const { values } = new ResultsParser().parseUntypedQueryResponse(
+            queryResponse
+          );
 
           return values;
         } catch (error) {
@@ -142,7 +154,9 @@ const useGlobalData = () => {
           });
 
           const queryResponse = await provider.queryContract(query);
-          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+          const { values } = new ResultsParser().parseUntypedQueryResponse(
+            queryResponse
+          );
 
           return decodeBigNumber(values[0]).toFixed();
         } catch (error) {
@@ -161,7 +175,9 @@ const useGlobalData = () => {
           });
 
           const queryResponse = await provider.queryContract(query);
-          const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+          const { values } = new ResultsParser().parseUntypedQueryResponse(
+            queryResponse
+          );
 
           return decodeBigNumber(values[0]).toFixed();
         } catch (error) {

@@ -1,8 +1,6 @@
 import React, { FC, ReactNode } from 'react';
-import {
-  logout
-} from '@elrondnetwork/dapp-core/utils';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { logout } from '@multiversx/sdk-dapp/utils';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -12,7 +10,7 @@ import EGLD from '/src/assets/EGLD';
 
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
-import { denominate } from '/src/helpers/denominate'
+import { denominate } from '/src/helpers/denominate';
 
 interface ButtonsType {
   icon: ReactNode;
@@ -26,7 +24,9 @@ const Navbar: FC = () => {
   const buttons: Array<ButtonsType> = [
     {
       icon: <Logo />,
-      label: `${denominate({ input: account.balance || 0 })} ${network.egldLabel}`
+      label: `${denominate({ input: account.balance || 0 })} ${
+        network.egldLabel
+      }`
     },
     {
       icon: <FontAwesomeIcon icon={faWallet} size='lg' />,

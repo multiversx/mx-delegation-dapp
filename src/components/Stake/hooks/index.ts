@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import {
   ProxyNetworkProvider,
   ApiNetworkProvider
-} from '@elrondnetwork/erdjs-network-providers';
+} from '@multiversx/sdk-network-providers';
 import {
   useGetAccountInfo,
   useGetActiveTransactionsStatus
-} from '@elrondnetwork/dapp-core/hooks';
+} from '@multiversx/sdk-dapp/hooks';
 
 import {
   Address,
@@ -15,7 +15,7 @@ import {
   ContractFunction,
   decodeBigNumber,
   ResultsParser
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import BigNumber from 'bignumber.js';
 
 import { network, minDust } from '/src/config';
@@ -24,7 +24,7 @@ import { denominate } from '/src/helpers/denominate';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
-import { parseAmount } from '@elrondnetwork/dapp-core/utils/operations/parseAmount';
+import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 
 interface DelegationPayloadType {
   amount: string;

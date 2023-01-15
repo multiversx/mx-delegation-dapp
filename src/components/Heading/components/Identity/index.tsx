@@ -1,12 +1,15 @@
 import React, { FC, useEffect } from 'react';
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
 import {
   ContractFunction,
   Address,
   Query,
   decodeString,
   ResultsParser
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 
 import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
@@ -19,8 +22,7 @@ import modifiable from '/src/helpers/modifiable';
 import useTransaction from '/src/helpers/useTransaction';
 
 import styles from './styles.module.scss';
-import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
-
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks';
 
 interface FieldType {
   [key: string]: any;
@@ -38,8 +40,7 @@ interface PayloadType {
 const Identity: FC = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, pending } =
-    useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
   const fields: Array<FieldType> = [
@@ -107,11 +108,13 @@ const Identity: FC = () => {
         address: new Address(network.delegationContract),
         func: new ContractFunction('getMetaData')
       });
-      
+
       const queryResponse = await provider.queryContract(query);
-      const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
-      const [name, website, keybase] = values
-      
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
+        queryResponse
+      );
+      const [name, website, keybase] = values;
+
       dispatch({
         type: 'getAgencyMetaData',
         agencyMetaData: {

@@ -2,8 +2,8 @@ import {
   calculateFeeLimit,
   formatAmount,
   nominate,
-  getUsdValue,
-} from '@elrondnetwork/dapp-core/utils/operations';
+  getUsdValue
+} from '@multiversx/sdk-dapp/utils/operations';
 
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
@@ -32,7 +32,9 @@ const undelegateValidator = (input: string) =>
     )
     .test(
       'maximum',
-      `You need to set a value under ${denominate({ input: input || 0 })} RISA.`,
+      `You need to set a value under ${denominate({
+        input: input || 0
+      })} RISA.`,
       (value = '0') => {
         const requested = new BigNumber(nominate(value, denomination));
         const total = new BigNumber(input);
@@ -53,7 +55,9 @@ const delegateValidator = (input: string) =>
       'minimum',
       `Minimum stake is ${denominate({ input: input || 0 })} RISA.`,
       (value = '0') =>
-        new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(input)
+        new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(
+          input
+        )
     );
 
 export { delegateValidator, undelegateValidator };

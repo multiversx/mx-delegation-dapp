@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Formik } from 'formik';
 import { object } from 'yup';
 import { denominate } from '/src/helpers/denominate';
@@ -90,7 +90,8 @@ const Delegate: FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span> {denominate({ input: account.balance || '0' })}{' '}
+                        <span>Balance:</span>{' '}
+                        {denominate({ input: account.balance || '0' })}{' '}
                         {network.egldLabel}
                       </span>
 

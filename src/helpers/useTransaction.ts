@@ -1,6 +1,6 @@
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
-import { sendTransactions } from '@elrondnetwork/dapp-core/services';
-import { getChainID, parseAmount } from '@elrondnetwork/dapp-core/utils';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { getChainID, parseAmount } from '@multiversx/sdk-dapp/utils';
 
 import {
   ContractFunction,
@@ -8,7 +8,7 @@ import {
   TransactionPayload,
   Address,
   SmartContract
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import {
   network,
   DelegationContractType,

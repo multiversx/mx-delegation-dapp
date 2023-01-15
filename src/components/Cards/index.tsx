@@ -2,7 +2,10 @@ import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
 import { denominate } from '/src/helpers/denominate';
 
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
 
 import {
   decodeUnsignedNumber,
@@ -11,7 +14,7 @@ import {
   Query,
   decodeString,
   ResultsParser
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import {
   faUsers,
   faServer,
@@ -121,7 +124,9 @@ const Cards: FC = () => {
       });
 
       const queryResponse = await provider.queryContract(query);
-      const {values} = new ResultsParser().parseUntypedQueryResponse(queryResponse);
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
+        queryResponse
+      );
       //const [userNumber] = data.outputUntyped();
 
       dispatch({
@@ -194,8 +199,14 @@ const Cards: FC = () => {
     }
 
     const formatted = {
-      stake: denominate({ input: totalNetworkStake.data.TotalStaked.toFixed() }),
-      contractStake: denominate({ input: totalActiveStake.data, decimals: 2, showLastNonZeroDecimal: false })
+      stake: denominate({
+        input: totalNetworkStake.data.TotalStaked.toFixed()
+      }),
+      contractStake: denominate({
+        input: totalActiveStake.data,
+        decimals: 2,
+        showLastNonZeroDecimal: false
+      })
     };
 
     return {
@@ -208,7 +219,6 @@ const Cards: FC = () => {
   }, [totalNetworkStake, totalActiveStake.data]);
 
   const getNodesNumber = useCallback(() => {
-
     if (!totalNetworkStake.data || !nodesNumber.data) {
       const loading =
         totalNetworkStake.status === 'loading' ||
@@ -338,8 +348,8 @@ const Cards: FC = () => {
         value: contractDetails.data
           ? contractDetails.data.serviceFee
           : contractDetails.error
-            ? 'Service Fee Unknown'
-            : '...%'
+          ? 'Service Fee Unknown'
+          : '...%'
       }
     },
     {

@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { denominate } from '/src/helpers/denominate'
+import { denominate } from '/src/helpers/denominate';
 
 import XLogo from '/src/assets/XLogo';
 import { network } from '/src/config';
@@ -44,7 +44,11 @@ const Stake: FC = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
-      value: denominate({ input: userActiveStake.data || '0', decimals: 4, addCommas: false }),
+      value: denominate({
+        input: userActiveStake.data || '0',
+        decimals: 4,
+        addCommas: false
+      }),
       disabled: false,
       actions: [
         {
@@ -70,7 +74,7 @@ const Stake: FC = () => {
         },
         {
           transaction: onRedelegate,
-          label: 'Redelegate'
+          label: 'Restake'
         }
       ]
     }
@@ -86,9 +90,7 @@ const Stake: FC = () => {
     >
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
-          <strong className={styles.heading}>
-            Stake EGLD
-          </strong>
+          <strong className={styles.heading}>Stake EGLD</strong>
 
           <div className={styles.logo}>
             <XLogo />
@@ -102,8 +104,8 @@ const Stake: FC = () => {
             {isLoading
               ? 'Retrieving staking data...'
               : isError
-                ? 'There was an error trying to retrieve staking data.'
-                : `Currently you don't have any ${network.egldLabel} staked.`}
+              ? 'There was an error trying to retrieve staking data.'
+              : `Currently you don't have any ${network.egldLabel} staked.`}
           </div>
 
           <Delegate />

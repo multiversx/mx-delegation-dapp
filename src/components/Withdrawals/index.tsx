@@ -1,6 +1,12 @@
 import React, { FC, useEffect } from 'react';
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
-import { useGetAccountInfo, useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
+import {
+  useGetAccountInfo,
+  useGetActiveTransactionsStatus
+} from '@multiversx/sdk-dapp/hooks';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -9,7 +15,7 @@ import {
   Query,
   decodeString,
   decodeBigNumber
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import moment from 'moment';
 import { network, decimals, denomination } from '/src/config';
 import { useGlobalContext, useDispatch } from '/src/context';
@@ -70,7 +76,7 @@ const Withdrawals: FC = () => {
                 moment().unix() +
                 ((roundsRemainingInEpoch + roundEpochComplete) *
                   config.RoundDuration) /
-                1000
+                  1000
               );
             };
 

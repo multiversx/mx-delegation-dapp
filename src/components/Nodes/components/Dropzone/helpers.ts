@@ -1,4 +1,4 @@
-import { Address, ValidatorSecretKey } from '@elrondnetwork/erdjs';
+import { Address, ValidatorSecretKey } from '@multiversx/sdk-core';
 
 function hexStringToByte(str: string) {
   if (!str) {

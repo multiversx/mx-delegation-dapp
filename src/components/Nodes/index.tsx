@@ -6,13 +6,16 @@ import React, {
   Fragment,
   useCallback
 } from 'react';
-import { ProxyNetworkProvider, ApiNetworkProvider } from "@elrondnetwork/erdjs-network-providers";
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
 import {
   ContractFunction,
   Address,
   Query,
   BytesValue
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import {
   faPlus,
   faServer,
@@ -34,7 +37,7 @@ import useTransaction from '/src/helpers/useTransaction';
 import Add from './components/Add';
 import styles from './styles.module.scss';
 import variants from './variants.json';
-import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks';
 
 interface NodeType {
   code: string;
@@ -155,10 +158,7 @@ const Nodes: FC = () => {
 
     const queryContract = async (parameters: Query) => {
       const decode = (item: string) => Buffer.from(item, 'base64');
-      const response = await provider.doPostGeneric(
-        'vm-values/query',
-        payload
-      );
+      const response = await provider.doPostGeneric('vm-values/query', payload);
 
       return response.data.returnData.map(decode);
     };
@@ -197,9 +197,9 @@ const Nodes: FC = () => {
       nodes.map(async (node: NodeType) =>
         node.status.label === 'Queued'
           ? {
-            ...node,
-            position: await fetchQueue(node.code)
-          }
+              ...node,
+              position: await fetchQueue(node.code)
+            }
           : node
       ),
     []
@@ -291,8 +291,8 @@ const Nodes: FC = () => {
               {isLoading
                 ? 'Retrieving keys...'
                 : nodesNumber.error
-                  ? 'An error occurred attempting to retrieve keys.'
-                  : 'No keys found for this contract.'}
+                ? 'An error occurred attempting to retrieve keys.'
+                : 'No keys found for this contract.'}
             </div>
           </Fragment>
         ) : (

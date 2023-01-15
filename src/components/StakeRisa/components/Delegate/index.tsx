@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Formik } from 'formik';
 import { object } from 'yup';
 import { denominate } from '/src/helpers/denominate';
@@ -78,11 +78,7 @@ const Delegate: FC = () => {
                         <a
                           href='/#'
                           onClick={onMax}
-                          className={modifiable(
-                            'max',
-                            ['disabled'],
-                            styles
-                          )}
+                          className={modifiable('max', ['disabled'], styles)}
                         >
                           Max
                         </a>
@@ -90,11 +86,10 @@ const Delegate: FC = () => {
 
                       <span className={styles.description}>
                         <span>Balance:</span>{' '}
-                        {denominate({ input: account.balance || '0' })}{' '}
-                        RISA
+                        {denominate({ input: account.balance || '0' })} RISA
                       </span>
 
-                      {((errors.amount && touched.amount))}
+                      {errors.amount && touched.amount}
                     </div>
 
                     <Submit save='Continue' />

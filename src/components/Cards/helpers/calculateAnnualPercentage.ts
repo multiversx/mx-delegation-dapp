@@ -1,4 +1,4 @@
-import { decodeString } from '@elrondnetwork/erdjs';
+import { decodeString } from '@multiversx/sdk-core';
 import {
   denomination,
   decimals,
@@ -68,10 +68,10 @@ const calculateAnnualPercentage = ({
     ((2 * topUpRewardsLimit) / Math.PI) *
     Math.atan(
       networkTopUpStake /
-      (2 *
-        parseInt(
-          denominateValue(networkConfig.TopUpRewardsGradientPoint.toFixed())
-        ))
+        (2 *
+          parseInt(
+            denominateValue(networkConfig.TopUpRewardsGradientPoint.toFixed())
+          ))
     );
 
   const baseReward = rewardsPerEpochWithoutProtocolSustainability - topUpReward;

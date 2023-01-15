@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
-import * as DappUI from '@elrondnetwork/dapp-core/UI';
+import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import * as DappUI from '@multiversx/sdk-dapp/UI';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';

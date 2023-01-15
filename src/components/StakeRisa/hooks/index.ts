@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import {
   ProxyNetworkProvider,
   ApiNetworkProvider
-} from '@elrondnetwork/erdjs-network-providers';
+} from '@multiversx/sdk-network-providers';
 import {
   useGetAccountInfo,
   useGetActiveTransactionsStatus
-} from '@elrondnetwork/dapp-core/hooks';
+} from '@multiversx/sdk-dapp/hooks';
 
 import {
   Address,
@@ -17,8 +17,11 @@ import {
   ResultsParser,
   AbiRegistry,
   SmartContractAbi,
-  SmartContract
-} from '@elrondnetwork/erdjs';
+  SmartContract,
+  BigUIntType,
+  U32Type,
+  U64Type
+} from '@multiversx/sdk-core';
 import BigNumber from 'bignumber.js';
 
 import { network, minDust } from '/src/config';
@@ -26,15 +29,27 @@ import { useDispatch, useGlobalContext } from '/src/context';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
-import { parseAmount } from '@elrondnetwork/dapp-core/utils/operations/parseAmount';
+import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 
-import abiFile from '/src/assets/abi/risa-staking-contract.json';
-import { formatAmount } from '@elrondnetwork/dapp-core/utils/operations/formatAmount';
+import abiFile from '../../../assets/abi/risa-staking-contract.json';
+import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
 
 interface DelegationPayloadType {
   amount: string;
 }
-
+interface StakeAccount {
+  address: Address;
+  staked_amount: BigUIntType;
+  initial_staked_timestamp: U64Type;
+  last_staked_timestamp: U64Type;
+  reward_amount: BigUIntType;
+  last_claim_timestamp: U64Type;
+  last_updated_tier: U32Type;
+  last_update_timestamp: U64Type;
+  current_apr: U64Type;
+  current_multiplier: U64Type;
+  current_tier: U32Type;
+}
 const useStakeData = () => {
   const dispatch = useDispatch();
 
@@ -112,23 +127,25 @@ const useStakeData = () => {
       const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.risaStakingContract),
-        func: new ContractFunction('getRewardAmount'),
+        func: new ContractFunction('viewStakeAccount'),
         args: [new AddressValue(new Address(address))]
       });
       let queryResponse = await provider.queryContract(query);
-      let endpointDefinition = contract.getEndpoint('getRewardAmount');
+      let endpointDefinition = contract.getEndpoint('viewStakeAccount');
       let { firstValue, secondValue, returnCode } =
         new ResultsParser().parseQueryResponse(
           queryResponse,
           endpointDefinition
         );
+      let stakeAccount = <StakeAccount>firstValue?.valueOf();
+
       dispatch({
         type: 'getUserClaimableRisaRewards',
         userClaimableRisaRewards: {
           status: 'loaded',
           error: null,
           data: formatAmount({
-            input: parseAmount(firstValue?.valueOf().toFixed())
+            input: parseAmount(stakeAccount.reward_amount.toFixed())
           })
         }
       });
