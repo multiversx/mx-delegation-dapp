@@ -15,7 +15,7 @@ import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Dashboard: FC = () => {
+const Dashboard = () => {
   const { address } = useGetAccountInfo();
   const [loading, setLoading] = useState<boolean>(true);
 

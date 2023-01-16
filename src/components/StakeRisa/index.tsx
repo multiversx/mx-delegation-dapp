@@ -31,7 +31,7 @@ interface PanelType {
   actions: Array<ActionType>;
 }
 
-const Stake: FC = () => {
+const Stake = () => {
   const { userActiveRisaStake, userClaimableRisaRewards } = useGlobalContext();
   const { stakeAccount, stakeSettings, onRestake, onClaimRewards } =
     useStakeData();

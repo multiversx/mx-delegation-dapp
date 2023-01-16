@@ -13,7 +13,7 @@ import { denominate } from '/src/helpers/denominate';
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
 
-const Undelegate: FC = () => {
+const Undelegate = () => {
   const { userActiveRisaStake } = useGlobalContext();
   const { onUnstake } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);

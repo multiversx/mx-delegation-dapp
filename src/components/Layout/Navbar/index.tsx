@@ -19,7 +19,7 @@ interface ButtonsType {
   copy?: boolean;
 }
 
-const Navbar: FC = () => {
+const Navbar = () => {
   const { address, account } = useGetAccountInfo();
   const buttons: Array<ButtonsType> = [
     {

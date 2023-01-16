@@ -17,7 +17,7 @@ import Identity from './components/Identity';
 
 import styles from './styles.module.scss';
 
-const Heading: FC = () => {
+const Heading = () => {
   const { contractDetails } = useGlobalContext();
 
   const location = useLocation();

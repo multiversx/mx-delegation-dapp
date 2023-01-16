@@ -17,7 +17,7 @@ import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Admin: FC = () => {
+const Admin = () => {
   const { address } = useGetAccountInfo();
   const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);

@@ -25,7 +25,7 @@ import Withdrawal from './components/Withdrawal';
 import styles from './styles.module.scss';
 import { denominate } from '/src/helpers/denominate';
 
-const Withdrawals: FC = () => {
+const Withdrawals = () => {
   const dispatch = useDispatch();
 
   const { account } = useGetAccountInfo();

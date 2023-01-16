@@ -26,7 +26,7 @@ export interface DropzonePayloadType {
   errors?: Array<string>;
 }
 
-const Dropzone: FC = () => {
+const Dropzone = () => {
   const [data, setData] = useState<Array<DropzonePayloadType>>([]);
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();

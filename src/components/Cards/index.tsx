@@ -54,7 +54,7 @@ interface CardType {
   icon: ReactNode;
 }
 
-const Cards: FC = () => {
+const Cards = () => {
   const {
     totalActiveStake,
     totalNetworkStake,

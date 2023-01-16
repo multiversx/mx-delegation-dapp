@@ -14,7 +14,7 @@ import modifiable from '/src/helpers/modifiable';
 
 import styles from './styles.module.scss';
 
-const Delegate: FC = () => {
+const Delegate = () => {
   const { account } = useGetAccountInfo();
   const { onDelegate } = useStakeData();
 

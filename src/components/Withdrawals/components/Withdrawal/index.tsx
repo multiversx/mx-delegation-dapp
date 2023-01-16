@@ -21,7 +21,12 @@ interface FormattersType {
   s: Array<string | number>;
 }
 
-const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
+const Withdrawal = (
+  {
+    value,
+    timeLeft
+  }: UndelegateStakeListType
+) => {
   const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
   const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();

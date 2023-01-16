@@ -20,7 +20,7 @@ interface ConnectionType {
   component: any;
 }
 
-const Unlock: FC = () => {
+const Unlock = () => {
   const { address } = useGetAccountInfo();
 
   const navigate = useNavigate();
