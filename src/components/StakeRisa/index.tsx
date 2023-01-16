@@ -9,6 +9,7 @@ import modifiable from '/src/helpers/modifiable';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
+import Tier from '.components/Tier'
 
 import useStakeData from './hooks';
 
@@ -24,6 +25,7 @@ interface PanelType {
   subicon: ReactNode;
   color: string;
   title: string;
+  details: any;
   value: string;
   disabled: boolean;
   actions: Array<ActionType>;
@@ -31,18 +33,21 @@ interface PanelType {
 
 const Stake: FC = () => {
   const { userActiveRisaStake, userClaimableRisaRewards } = useGlobalContext();
-  const { onRestake, onClaimRewards } = useStakeData();
+  const { stakeAccount, stakeSettings, onRestake, onClaimRewards } =
+    useStakeData();
   const { isLoading, isEmpty, isError } = {
     isEmpty: userActiveRisaStake.data === '0',
     isLoading: userActiveRisaStake.status === 'loading',
     isError: userActiveRisaStake.status === 'error'
   };
-
+  console.log(stakeAccount);
+  console.log(stakeSettings);
   const panels: Array<PanelType> = [
     {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
+      details: <div>Tier: {stakeAccount?.current_tier.toFixed()}</div>,
       value: userActiveRisaStake.data || '0',
       disabled: false,
       actions: [
@@ -60,8 +65,10 @@ const Stake: FC = () => {
       subicon: <FontAwesomeIcon icon={faGift} />,
       color: '#27C180',
       title: 'Claimable Rewards',
+      details: <div>Last Claim: {stakeAccount?.last_claim_timestamp.toFixed()}</div>,
       value: `+ ${userClaimableRisaRewards.data || '0'}`,
-      disabled: !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0',
+      disabled:
+        !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0',
       actions: [
         {
           transaction: onClaimRewards,
@@ -85,9 +92,7 @@ const Stake: FC = () => {
     >
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
-          <strong className={styles.heading}>
-            Stake RISA
-          </strong>
+          <strong className={styles.heading}>Stake RISA</strong>
 
           <div className={styles.logo}>
             <Logo />
@@ -101,8 +106,8 @@ const Stake: FC = () => {
             {isLoading
               ? 'Retrieving staking data...'
               : isError
-                ? 'There was an error trying to retrieve staking data.'
-                : `Currently you don't have any RISA staked.`}
+              ? 'There was an error trying to retrieve staking data.'
+              : `Currently you don't have any RISA staked.`}
           </div>
 
           <Delegate />
@@ -110,9 +115,7 @@ const Stake: FC = () => {
       ) : (
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
-            <div
-              className={modifiable('icon', [], styles)}
-            >
+            <div className={modifiable('icon', [], styles)}>
               <Logo />
 
               {index > 0 &&
@@ -134,10 +137,9 @@ const Stake: FC = () => {
             </div>
 
             <div className={styles.title}>{panel.title}</div>
+            <div className={styles.title}>{panel.details}</div>
 
-            <strong className={styles.value}>
-              {panel.value} RISA
-            </strong>
+            <strong className={styles.value}>{panel.value} RISA</strong>
 
             <div className={styles.actions}>
               {panel.actions.map((action, iteratee) =>
