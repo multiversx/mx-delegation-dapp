@@ -1,11 +1,11 @@
 {
     "buildInfo": {
         "rustc": {
-            "version": "1.58.0-nightly",
-            "commitHash": "91b931926fd49fc97d1e39f2b8206abf1d77ce7d",
-            "commitDate": "2021-10-23",
+            "version": "1.68.0-nightly",
+            "commitHash": "afaf3e07aaa7ca9873bdb439caec53faffa4230c",
+            "commitDate": "2023-01-14",
             "channel": "Nightly",
-            "short": "rustc 1.58.0-nightly (91b931926 2021-10-23)"
+            "short": "rustc 1.68.0-nightly (afaf3e07a 2023-01-14)"
         },
         "contractCrate": {
             "name": "odin-risa-stake",
@@ -13,7 +13,7 @@
         },
         "framework": {
             "name": "elrond-wasm",
-            "version": "0.30.0"
+            "version": "0.38.0"
         }
     },
     "name": "OdinRisaStake",
@@ -25,7 +25,7 @@
             },
             {
                 "name": "token_id",
-                "type": "TokenIdentifier"
+                "type": "EgldOrEsdtTokenIdentifier"
             },
             {
                 "name": "min_stake_limit",
@@ -54,7 +54,7 @@
             "inputs": [
                 {
                     "name": "opt_token_id",
-                    "type": "optional<TokenIdentifier>",
+                    "type": "optional<EgldOrEsdtTokenIdentifier>",
                     "multi_arg": true
                 },
                 {
@@ -143,6 +143,21 @@
             "outputs": []
         },
         {
+            "name": "getClaimableRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
             "name": "getOperatorAddress",
             "mutability": "readonly",
             "inputs": [],
@@ -170,7 +185,7 @@
             "inputs": [],
             "outputs": [
                 {
-                    "type": "TokenIdentifier"
+                    "type": "EgldOrEsdtTokenIdentifier"
                 }
             ]
         },
@@ -181,7 +196,7 @@
             "inputs": [
                 {
                     "name": "token_id",
-                    "type": "TokenIdentifier"
+                    "type": "EgldOrEsdtTokenIdentifier"
                 }
             ],
             "outputs": []
@@ -494,6 +509,88 @@
             ]
         }
     ],
+    "events": [
+        {
+            "identifier": "stake",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address",
+                    "indexed": true
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint",
+                    "indexed": true
+                },
+                {
+                    "name": "timestamp",
+                    "type": "u64",
+                    "indexed": true
+                }
+            ]
+        },
+        {
+            "identifier": "unstake",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address",
+                    "indexed": true
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint",
+                    "indexed": true
+                },
+                {
+                    "name": "timestamp",
+                    "type": "u64",
+                    "indexed": true
+                }
+            ]
+        },
+        {
+            "identifier": "claim",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address",
+                    "indexed": true
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint",
+                    "indexed": true
+                },
+                {
+                    "name": "timestamp",
+                    "type": "u64",
+                    "indexed": true
+                }
+            ]
+        },
+        {
+            "identifier": "restake",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address",
+                    "indexed": true
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint",
+                    "indexed": true
+                },
+                {
+                    "name": "timestamp",
+                    "type": "u64",
+                    "indexed": true
+                }
+            ]
+        }
+    ],
     "hasCallback": false,
     "types": {
         "StakeAccount": {
@@ -506,10 +603,6 @@
                 {
                     "name": "staked_amount",
                     "type": "BigUint"
-                },
-                {
-                    "name": "initial_staked_timestamp",
-                    "type": "u64"
                 },
                 {
                     "name": "last_staked_timestamp",
@@ -542,6 +635,10 @@
                 {
                     "name": "current_tier",
                     "type": "u32"
+                },
+                {
+                    "name": "initial_staked_timestamp",
+                    "type": "u64"
                 }
             ]
         },
@@ -550,7 +647,7 @@
             "fields": [
                 {
                     "name": "token_id",
-                    "type": "TokenIdentifier"
+                    "type": "EgldOrEsdtTokenIdentifier"
                 },
                 {
                     "name": "min_stake_limit",
