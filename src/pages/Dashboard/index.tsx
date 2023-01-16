@@ -45,13 +45,13 @@ const Dashboard: FC = () => {
 
   return (
     <div className={styles.dashboard}>
-      <Heading />
-
-      <Cards />
-
       <Stake />
 
       <StakeRisa />
+
+      <Heading />
+
+      <Cards />
 
       <Withdrawals />
     </div>
