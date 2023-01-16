@@ -15,14 +15,14 @@ import styles from './styles.module.scss';
 
 const Undelegate: FC = () => {
   const { userActiveRisaStake } = useGlobalContext();
-  const { onUndelegate } = useStakeData();
+  const { onUnstake } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);
 
   return (
     <div className={`${styles.wrapper} undelegate-wrapper`}>
       <Action
         title='Unstake RISA'
-        description={`Select the amount of RISA you want to unstake.`}
+        description={`Select the percentage to unstake.`}
         trigger={<div className={styles.trigger}>Unstake</div>}
         render={
           <div className={styles.undelegate}>
@@ -30,7 +30,7 @@ const Undelegate: FC = () => {
               validationSchema={object().shape({
                 amount: undelegateValidator(userActiveRisaStake.data || '')
               })}
-              onSubmit={onUndelegate}
+              onSubmit={onUnstake}
               initialValues={{
                 amount: '0'
               }}
@@ -44,8 +44,6 @@ const Undelegate: FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const amount = userActiveRisaStake.data || ''
-
                 const onChange = (
                   event: ChangeEvent<HTMLInputElement>
                 ): void => {
@@ -56,27 +54,29 @@ const Undelegate: FC = () => {
                 const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
                   setMaxed(true);
-                  setFieldValue('amount', amount);
+                  setFieldValue('amount', 100);
                 };
 
                 return (
                   <form onSubmit={handleSubmit}>
                     <div className={styles.field}>
-                      <label htmlFor='amount'>RISA Amount</label>
+                      <label htmlFor='amount'>Percent</label>
                       <div className={styles.group}>
                         <input
                           type='number'
+                          step='1'
+                          pattern='\d+'
                           name='amount'
-                          step='any'
                           required={true}
                           autoComplete='off'
                           min={0}
+                          max={100}
                           className={modifiable(
                             'input',
                             [errors.amount && touched.amount && 'invalid'],
                             styles
                           )}
-                          value={maxed ? amount : values.amount}
+                          value={maxed ? 100 : values.amount}
                           onBlur={handleBlur}
                           onChange={onChange}
                         />
@@ -87,9 +87,13 @@ const Undelegate: FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span>{' '}
-                        {userActiveRisaStake.data || '0'}{' '}
-                        RISA
+                        <span className={styles.description}>
+                          <span>Balance:</span>{' '}
+                          {userActiveRisaStake.data || '0'} RISA
+                        </span>
+                        <br />
+                        <span>Unstake:</span>{' '}
+                        {values.amount ? `${values.amount} %` : ''}
                       </span>
 
                       {errors.amount && touched.amount && (

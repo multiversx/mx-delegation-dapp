@@ -28,13 +28,16 @@ import { network, minDust } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
-import useTransaction from '/src/helpers/useTransaction';
 import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 
 import abiFile from '../../../assets/abi/risa-staking-contract.json';
 import { formatAmount } from '@multiversx/sdk-dapp/utils/operations/formatAmount';
+import useRisaContract from '/src/helpers/useRisaContract';
 
 interface DelegationPayloadType {
+  amount: string;
+}
+interface UnstakePayloadType {
   amount: string;
 }
 interface StakeAccount {
@@ -54,29 +57,27 @@ const useStakeData = () => {
   const dispatch = useDispatch();
 
   const { account, address } = useGetAccountInfo();
-  const { sendTransaction } = useTransaction();
+  const { unstake, restake, claim } = useRisaContract();
 
   const { userClaimableRisaRewards, userActiveRisaStake } = useGlobalContext();
   const { success, pending } = useGetActiveTransactionsStatus();
 
   const onStake = async (data: DelegationPayloadType): Promise<void> => {
     try {
-      await sendTransaction({
-        value: parseAmount(data.amount, 18),
-        type: 'stake',
-        args: ''
-      });
+      // await sendGenericTransaction({
+      //   value: parseAmount(data.amount, 18),
+      //   type: 'stake',
+      //   args: ''
+      // });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const onUnstake = async (data: DelegationPayloadType): Promise<void> => {
+  const onUnstake = async (payload: UnstakePayloadType): Promise<void> => {
     try {
-      await sendTransaction({
-        value: '0',
-        type: 'unstake',
-        args: nominateValToHex(data.amount.toString())
+      await unstake({
+        amount: payload.amount + '00' // 50% = 5000
       });
     } catch (error) {
       console.error(error);
@@ -85,11 +86,7 @@ const useStakeData = () => {
 
   const onRestake = async (): Promise<void> => {
     try {
-      await sendTransaction({
-        value: '0',
-        type: 'restake',
-        args: ''
-      });
+      await restake();
     } catch (error) {
       console.error(error);
     }
@@ -97,11 +94,7 @@ const useStakeData = () => {
 
   const onClaimRewards = async (): Promise<void> => {
     try {
-      await sendTransaction({
-        value: '0',
-        type: 'claim',
-        args: ''
-      });
+      await claim();
     } catch (error) {
       console.error(error);
     }

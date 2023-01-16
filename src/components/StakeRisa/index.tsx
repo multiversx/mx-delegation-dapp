@@ -111,7 +111,7 @@ const Stake: FC = () => {
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
             <div
-              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
+              className={modifiable('icon', [], styles)}
             >
               <Logo />
 

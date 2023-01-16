@@ -14,36 +14,11 @@ const undelegateValidator = (input: string) =>
   string()
     .required('Required')
     .test('minimum', 'Value must be greater than zero.', (value = '0') =>
-      new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(1)
+      parseInt(value) >= 1
     )
-    .test(
-      'remaining',
-      `Either undelegate the total amount or leave at least 1 RISA staked.`,
-      (value = '0') => {
-        const requested = new BigNumber(nominate(value, denomination));
-        const minimum = new BigNumber(nominate('1', denomination));
-        const total = new BigNumber(input);
-
-        const oneLeft = total.minus(requested).isGreaterThanOrEqualTo(minimum);
-        const clearance = total.isEqualTo(value) || total.isEqualTo(requested);
-
-        return oneLeft || clearance;
-      }
+    .test('maximum', 'Value must be less than or equal to 100.', (value = '101') =>
+      parseInt(value) <= 100
     )
-    .test(
-      'maximum',
-      `You need to set a value under ${denominate({
-        input: input || 0
-      })} RISA.`,
-      (value = '0') => {
-        const requested = new BigNumber(nominate(value, denomination));
-        const total = new BigNumber(input);
-        const maxed = total.isEqualTo(value);
-        const below = requested.isLessThanOrEqualTo(input);
-
-        return maxed || below;
-      }
-    );
 
 const delegateValidator = (input: string) =>
   string()
