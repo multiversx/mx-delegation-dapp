@@ -14,6 +14,7 @@ import Tier from './components/Tier'
 import useStakeData from './hooks';
 
 import styles from './styles.module.scss';
+import StakeDetails from './components/StakeDetails';
 
 interface ActionType {
   label: string;
@@ -47,7 +48,7 @@ const Stake = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
-      details: <div>Tier: <Tier tier={stakeAccount?.current_tier.toNumber()}></Tier></div>,
+      details: <StakeDetails />,
       value: userActiveRisaStake.data || '0',
       disabled: false,
       actions: [
