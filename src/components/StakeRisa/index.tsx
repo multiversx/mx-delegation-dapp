@@ -9,7 +9,7 @@ import modifiable from '/src/helpers/modifiable';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
-import Tier from '.components/Tier'
+import Tier from './components/Tier'
 
 import useStakeData from './hooks';
 
@@ -47,7 +47,7 @@ const Stake = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
-      details: <div>Tier: {stakeAccount?.current_tier.toFixed()}</div>,
+      details: <div>Tier: <Tier tier={stakeAccount?.current_tier.toNumber()}></Tier></div>,
       value: userActiveRisaStake.data || '0',
       disabled: false,
       actions: [
