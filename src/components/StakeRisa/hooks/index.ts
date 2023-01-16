@@ -222,11 +222,11 @@ const useStakeData = () => {
   };
 
   const reFetchRisaRewards = () => {
-    if (success && pending && userClaimableRisaRewards.data) {
+    if (success && !pending && userClaimableRisaRewards.data) {
       getRisaRewards();
     }
 
-    if (success && pending && userActiveRisaStake.data) {
+    if (success && !pending && userActiveRisaStake.data) {
       getUserActiveRisaStake();
     }
   };
