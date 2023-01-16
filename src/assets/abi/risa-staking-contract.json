@@ -110,6 +110,21 @@
             ]
         },
         {
+            "name": "getClaimableRewards",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
             "name": "stake",
             "mutability": "mutable",
             "payableInTokens": [
@@ -141,21 +156,6 @@
             "mutability": "mutable",
             "inputs": [],
             "outputs": []
-        },
-        {
-            "name": "getClaimableRewards",
-            "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "user_address",
-                    "type": "Address"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "BigUint"
-                }
-            ]
         },
         {
             "name": "getOperatorAddress",

@@ -127,17 +127,17 @@ const useStakeData = () => {
       const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.risaStakingContract),
-        func: new ContractFunction('viewStakeAccount'),
+        func: new ContractFunction('getClaimableRewards'),
         args: [new AddressValue(new Address(address))]
       });
       let queryResponse = await provider.queryContract(query);
-      let endpointDefinition = contract.getEndpoint('viewStakeAccount');
+      console.log(queryResponse);
+      let endpointDefinition = contract.getEndpoint('getClaimableRewards');
       let { firstValue, secondValue, returnCode } =
         new ResultsParser().parseQueryResponse(
           queryResponse,
           endpointDefinition
         );
-      let stakeAccount = <StakeAccount>firstValue?.valueOf();
 
       dispatch({
         type: 'getUserClaimableRisaRewards',
@@ -145,7 +145,10 @@ const useStakeData = () => {
           status: 'loaded',
           error: null,
           data: formatAmount({
-            input: parseAmount(stakeAccount.reward_amount.toFixed())
+            input: firstValue?.valueOf().toFixed(),
+            digits: 0,
+            showLastNonZeroDecimal: false,
+            addCommas: true
           })
         }
       });
@@ -197,7 +200,10 @@ const useStakeData = () => {
           status: 'loaded',
           error: null,
           data: formatAmount({
-            input: parseAmount(firstValue?.valueOf().toFixed())
+            input: firstValue?.valueOf().toFixed(),
+            digits: 0,
+            showLastNonZeroDecimal: false,
+            addCommas: true
           })
         }
       });

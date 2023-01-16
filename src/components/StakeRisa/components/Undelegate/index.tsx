@@ -44,11 +44,7 @@ const Undelegate: FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const amount = denominate({
-                  input: userActiveRisaStake.data || '',
-                  addCommas: false,
-                  showLastNonZeroDecimal: true
-                });
+                const amount = userActiveRisaStake.data || ''
 
                 const onChange = (
                   event: ChangeEvent<HTMLInputElement>
@@ -92,9 +88,7 @@ const Undelegate: FC = () => {
 
                       <span className={styles.description}>
                         <span>Balance:</span>{' '}
-                        {denominate({
-                          input: userActiveRisaStake.data || '0'
-                        })}{' '}
+                        {userActiveRisaStake.data || '0'}{' '}
                         RISA
                       </span>
 
