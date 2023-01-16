@@ -153,8 +153,8 @@ const useStakeData = () => {
         args: [new AddressValue(new Address(address))]
       });
 
-      let queryResponse = await provider.queryContract(query);
-      let { values } = new ResultsParser().parseUntypedQueryResponse(
+      const queryResponse = await provider.queryContract(query);
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
         queryResponse
       );
 
