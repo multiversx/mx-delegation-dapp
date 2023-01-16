@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ProxyNetworkProvider,
   ApiNetworkProvider
@@ -55,6 +55,7 @@ interface StakeAccount {
 }
 const useStakeData = () => {
   const dispatch = useDispatch();
+  const [check, setCheck] = useState(false);
 
   const { account, address } = useGetAccountInfo();
   const { unstake, restake, claim } = useRisaContract();
@@ -222,17 +223,26 @@ const useStakeData = () => {
   };
 
   const reFetchRisaRewards = () => {
-    if (success && !pending && userClaimableRisaRewards.data) {
+    if (success && check) {
       getRisaRewards();
     }
 
-    if (success && !pending && userActiveRisaStake.data) {
+    if (success && check) {
       getUserActiveRisaStake();
     }
   };
 
   useEffect(fetchRisaRewards, [userClaimableRisaRewards.data]);
-  useEffect(reFetchRisaRewards, [success, pending]);
+  useEffect(reFetchRisaRewards, [success, check]);
+  useEffect(() => {
+    if (pending && !check) {
+      setCheck(true);
+
+      return () => {
+        setCheck(false);
+      };
+    }
+  }, [pending]);
 
   return {
     onStake,
