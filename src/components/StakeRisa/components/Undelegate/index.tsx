@@ -3,34 +3,34 @@ import React, { FC, ChangeEvent, MouseEvent, useState } from 'react';
 import { Formik } from 'formik';
 import { object } from 'yup';
 import Action, { Submit } from '/src/components/Action';
-import { undelegateValidator } from '/src/components/Stake//helpers/delegationValidators';
-import useStakeData from '/src/components/Stake/hooks';
+import { undelegateValidator } from '/src/components/StakeRisa//helpers/delegationValidators';
+import useStakeData from '/src/components/StakeRisa/hooks';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';
 
-import { denominate } from '/src/helpers/denominate'
+import { denominate } from '/src/helpers/denominate';
 
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
 
 const Undelegate: FC = () => {
-  const { userActiveStake } = useGlobalContext();
-  const { onUndelegate } = useStakeData();
+  const { userActiveRisaStake } = useGlobalContext();
+  const { onUnstake } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);
 
   return (
     <div className={`${styles.wrapper} undelegate-wrapper`}>
       <Action
-        title='Unstake Now'
-        description={`Select the amount of ${network.egldLabel} you want to unstake.`}
+        title='Unstake RISA'
+        description={`Select the percentage to unstake.`}
         trigger={<div className={styles.trigger}>Unstake</div>}
         render={
           <div className={styles.undelegate}>
             <Formik
               validationSchema={object().shape({
-                amount: undelegateValidator(userActiveStake.data || '')
+                amount: undelegateValidator(userActiveRisaStake.data || '')
               })}
-              onSubmit={onUndelegate}
+              onSubmit={onUnstake}
               initialValues={{
                 amount: '0'
               }}
@@ -44,12 +44,6 @@ const Undelegate: FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const amount = denominate({
-                  input: userActiveStake.data || '',
-                  addCommas: false,
-                  showLastNonZeroDecimal: true
-                })
-
                 const onChange = (
                   event: ChangeEvent<HTMLInputElement>
                 ): void => {
@@ -60,27 +54,29 @@ const Undelegate: FC = () => {
                 const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
                   setMaxed(true);
-                  setFieldValue('amount', amount);
+                  setFieldValue('amount', 100);
                 };
 
                 return (
                   <form onSubmit={handleSubmit}>
                     <div className={styles.field}>
-                      <label htmlFor='amount'>{network.egldLabel} Amount</label>
+                      <label htmlFor='amount'>Percent</label>
                       <div className={styles.group}>
                         <input
                           type='number'
+                          step='1'
+                          pattern='\d+'
                           name='amount'
-                          step='any'
                           required={true}
                           autoComplete='off'
                           min={0}
+                          max={100}
                           className={modifiable(
                             'input',
                             [errors.amount && touched.amount && 'invalid'],
                             styles
                           )}
-                          value={maxed ? amount : values.amount}
+                          value={maxed ? 100 : values.amount}
                           onBlur={handleBlur}
                           onChange={onChange}
                         />
@@ -91,11 +87,13 @@ const Undelegate: FC = () => {
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span>{' '}
-                        {denominate({
-                          input: userActiveStake.data || '0'
-                        })}{' '}
-                        {network.egldLabel}
+                        <span className={styles.description}>
+                          <span>Balance:</span>{' '}
+                          {userActiveRisaStake.data || '0'} RISA
+                        </span>
+                        <br />
+                        <span>Unstake:</span>{' '}
+                        {values.amount ? `${values.amount} %` : ''}
                       </span>
 
                       {errors.amount && touched.amount && (

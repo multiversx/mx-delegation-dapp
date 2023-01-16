@@ -1,4 +1,4 @@
-import { Address, ValidatorSecretKey } from '@elrondnetwork/erdjs';
+import { Address, ValidatorSecretKey } from '@multiversx/sdk-core';
 
 function hexStringToByte(str: string) {
   if (!str) {
@@ -23,7 +23,6 @@ export default function decodeFile(file: string, delegationContract?: string) {
   const myKey = ValidatorSecretKey.fromPem(file);
   const dsc = new Address(delegationContract);
   const signature = myKey.sign(Buffer.from(dsc.pubkey())).toString('hex');
-  debugger
 
   const regex = /-----/gi;
   let result;

@@ -1,19 +1,21 @@
 import React, { FC, useEffect } from 'react';
-
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
 import {
   useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
+  useGetActiveTransactionsStatus
+} from '@multiversx/sdk-dapp/hooks';
 import {
   decodeUnsignedNumber,
   ContractFunction,
-  ProxyProvider,
   AddressValue,
   Address,
   Query,
   decodeString,
   decodeBigNumber
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import moment from 'moment';
 import { network, decimals, denomination } from '/src/config';
 import { useGlobalContext, useDispatch } from '/src/context';
@@ -21,14 +23,14 @@ import { UndelegateStakeListType } from '/src/context/state';
 
 import Withdrawal from './components/Withdrawal';
 import styles from './styles.module.scss';
+import { denominate } from '/src/helpers/denominate';
 
 const Withdrawals: FC = () => {
   const dispatch = useDispatch();
 
   const { account } = useGetAccountInfo();
   const { undelegatedStakeList } = useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
     dispatch({
@@ -41,7 +43,7 @@ const Withdrawals: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getUserUnDelegatedList'),
@@ -74,7 +76,7 @@ const Withdrawals: FC = () => {
                 moment().unix() +
                 ((roundsRemainingInEpoch + roundEpochComplete) *
                   config.RoundDuration) /
-                1000
+                  1000
               );
             };
 
@@ -140,13 +142,13 @@ const Withdrawals: FC = () => {
   };
 
   const refetchUndelegatedStakeList = () => {
-    if (hasActiveTransactions && success && undelegatedStakeList.data) {
+    if (pending && success && undelegatedStakeList.data) {
       getUndelegatedStakeList();
     }
   };
 
   useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
-  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, success]);
+  useEffect(refetchUndelegatedStakeList, [pending, success]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;

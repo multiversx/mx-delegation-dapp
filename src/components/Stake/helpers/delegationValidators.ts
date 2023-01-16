@@ -1,4 +1,9 @@
-import { nominate } from '@elrondnetwork/dapp-core';
+import {
+  calculateFeeLimit,
+  formatAmount,
+  nominate,
+  getUsdValue
+} from '@multiversx/sdk-dapp/utils/operations';
 
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
@@ -27,7 +32,8 @@ const undelegateValidator = (input: string) =>
     )
     .test(
       'maximum',
-      `You need to set a value under ${denominate({ input: input || 0 })} ${network.egldLabel
+      `You need to set a value under ${denominate({ input: input || 0 })} ${
+        network.egldLabel
       }.`,
       (value = '0') => {
         const requested = new BigNumber(nominate(value, denomination));
@@ -55,7 +61,8 @@ const delegateValidator = (input: string, limit: string) =>
     )
     .test(
       'maximum',
-      `You need to set a value under ${denominate({ input: input || 0 })} ${network.egldLabel
+      `You need to set a value under ${denominate({ input: input || 0 })} ${
+        network.egldLabel
       }.`,
       (value = '0') =>
         new BigNumber(nominate(value, denomination)).isLessThanOrEqualTo(input)

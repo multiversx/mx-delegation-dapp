@@ -26,9 +26,17 @@ export type ActionType =
       type: 'getUserActiveStake';
       userActiveStake: StateType['userActiveStake'];
     }
+    | {
+        type: 'getUserActiveRisaStake';
+        userActiveRisaStake: StateType['userActiveRisaStake'];
+      }
   | {
       type: 'getUndelegatedStakeList';
       undelegatedStakeList: StateType['undelegatedStakeList'];
+    }
+  | {
+      type: 'getUserClaimableRisaRewards';
+      userClaimableRisaRewards: StateType['userClaimableRisaRewards'];
     }
   | {
       type: 'getUserClaimableRewards';
@@ -89,10 +97,22 @@ const reducer = (state: StateType, action: any) => {
         userActiveStake: action.userActiveStake
       };
     }
+    case 'getUserActiveRisaStake': {
+      return {
+        ...state,
+        userActiveRisaStake: action.userActiveRisaStake
+      };
+    }
     case 'getUndelegatedStakeList': {
       return {
         ...state,
         undelegatedStakeList: action.undelegatedStakeList
+      };
+    }
+    case 'getUserClaimableRisaRewards': {
+      return {
+        ...state,
+        userClaimableRisaRewards: action.userClaimableRisaRewards
       };
     }
     case 'getUserClaimableRewards': {

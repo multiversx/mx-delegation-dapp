@@ -26,22 +26,6 @@ const Heading: FC = () => {
 
   return (
     <div className={`${styles.heading} heading`}>
-      <div className={styles.meta}>
-        <div className={styles.label}>Contract Address</div>
-
-        <div className='d-flex align-items-center'>
-          <span className={styles.contract}>{network.delegationContract}</span>
-          <a
-            href={`${network.explorerAddress}/accounts/${network.delegationContract}`}
-            className={styles.icon}
-            rel='noreferrer'
-            target='_blank'
-          >
-            <FontAwesomeIcon icon={faExternalLinkAlt} />
-          </a>
-        </div>
-      </div>
-
       {contractDetails.data && contractDetails.data.owner && (
         <div className='d-flex align-items-center'>
           <button

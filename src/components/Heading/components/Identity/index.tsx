@@ -1,13 +1,15 @@
 import React, { FC, useEffect } from 'react';
-
-import { transactionServices } from '@elrondnetwork/dapp-core';
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
 import {
   ContractFunction,
-  ProxyProvider,
   Address,
   Query,
-  decodeString
-} from '@elrondnetwork/erdjs';
+  decodeString,
+  ResultsParser
+} from '@multiversx/sdk-core';
 
 import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
@@ -20,8 +22,7 @@ import modifiable from '/src/helpers/modifiable';
 import useTransaction from '/src/helpers/useTransaction';
 
 import styles from './styles.module.scss';
-import { useGetActiveTransactionsStatus } from '@elrondnetwork/dapp-core/hooks';
-
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks';
 
 interface FieldType {
   [key: string]: any;
@@ -39,8 +40,7 @@ interface PayloadType {
 const Identity: FC = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const dispatch = useDispatch();
   const fields: Array<FieldType> = [
@@ -103,14 +103,17 @@ const Identity: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getMetaData')
       });
 
-      const data = await provider.queryContract(query);
-      const [name, website, keybase] = data.outputUntyped().map(decodeString);
+      const queryResponse = await provider.queryContract(query);
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
+        queryResponse
+      );
+      const [name, website, keybase] = values;
 
       dispatch({
         type: 'getAgencyMetaData',
@@ -143,13 +146,13 @@ const Identity: FC = () => {
   };
 
   const refetchAgencyMetaData = () => {
-    if (hasActiveTransactions && success && agencyMetaData.data) {
+    if (pending && success && agencyMetaData.data) {
       getAgencyMetaData();
     }
   };
 
   useEffect(fetchAgencyMetaData, [agencyMetaData.data]);
-  useEffect(refetchAgencyMetaData, [hasActiveTransactions, success]);
+  useEffect(refetchAgencyMetaData, [pending, success]);
 
   return (
     <Formik

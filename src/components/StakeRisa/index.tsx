@@ -1,9 +1,8 @@
 import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { denominate } from '/src/helpers/denominate';
 
-import XLogo from '/src/assets/XLogo';
+import Logo from '/src/assets/Logo';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';
 import modifiable from '/src/helpers/modifiable';
@@ -31,12 +30,12 @@ interface PanelType {
 }
 
 const Stake: FC = () => {
-  const { userActiveStake, userClaimableRewards } = useGlobalContext();
-  const { onRedelegate, onClaimRewards } = useStakeData();
+  const { userActiveRisaStake, userClaimableRisaRewards } = useGlobalContext();
+  const { onRestake, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {
-    isEmpty: userActiveStake.data === '0',
-    isLoading: userActiveStake.status === 'loading',
-    isError: userActiveStake.status === 'error'
+    isEmpty: userActiveRisaStake.data === '0',
+    isLoading: userActiveRisaStake.status === 'loading',
+    isError: userActiveRisaStake.status === 'error'
   };
 
   const panels: Array<PanelType> = [
@@ -44,11 +43,7 @@ const Stake: FC = () => {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
       title: 'Active Stake',
-      value: denominate({
-        input: userActiveStake.data || '0',
-        decimals: 4,
-        addCommas: false
-      }),
+      value: userActiveRisaStake.data || '0',
       disabled: false,
       actions: [
         {
@@ -65,15 +60,15 @@ const Stake: FC = () => {
       subicon: <FontAwesomeIcon icon={faGift} />,
       color: '#27C180',
       title: 'Claimable Rewards',
-      value: `+ ${userClaimableRewards.data || '0'}`,
-      disabled: !userClaimableRewards.data || userClaimableRewards.data === '0',
+      value: `+ ${userClaimableRisaRewards.data || '0'}`,
+      disabled: !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0',
       actions: [
         {
           transaction: onClaimRewards,
           label: 'Claim Now'
         },
         {
-          transaction: onRedelegate,
+          transaction: onRestake,
           label: 'Restake'
         }
       ]
@@ -90,10 +85,12 @@ const Stake: FC = () => {
     >
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
-          <strong className={styles.heading}>Stake EGLD</strong>
+          <strong className={styles.heading}>
+            Stake RISA
+          </strong>
 
           <div className={styles.logo}>
-            <XLogo />
+            <Logo />
 
             <div style={{ background: '#2044F5' }} className={styles.subicon}>
               <FontAwesomeIcon icon={faLock} />
@@ -104,8 +101,8 @@ const Stake: FC = () => {
             {isLoading
               ? 'Retrieving staking data...'
               : isError
-              ? 'There was an error trying to retrieve staking data.'
-              : `Currently you don't have any ${network.egldLabel} staked.`}
+                ? 'There was an error trying to retrieve staking data.'
+                : `Currently you don't have any RISA staked.`}
           </div>
 
           <Delegate />
@@ -114,9 +111,9 @@ const Stake: FC = () => {
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
             <div
-              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
+              className={modifiable('icon', [], styles)}
             >
-              <XLogo />
+              <Logo />
 
               {index > 0 &&
                 Array.from({ length: 4 }).map((item, iteratee) => (
@@ -139,7 +136,7 @@ const Stake: FC = () => {
             <div className={styles.title}>{panel.title}</div>
 
             <strong className={styles.value}>
-              {panel.value} {network.egldLabel}
+              {panel.value} RISA
             </strong>
 
             <div className={styles.actions}>

@@ -3,14 +3,18 @@ import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 import { denominate } from '/src/helpers/denominate';
 
 import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
+
+import {
   decodeUnsignedNumber,
   ContractFunction,
-  ProxyProvider,
   Address,
   Query,
   decodeString,
-  ApiProvider
-} from '@elrondnetwork/erdjs';
+  ResultsParser
+} from '@multiversx/sdk-core';
 import {
   faUsers,
   faServer,
@@ -75,7 +79,7 @@ const Cards: FC = () => {
 
     try {
       const [status, balance] = await Promise.all([
-        new ProxyProvider(network.gatewayAddress).getNetworkStatus(),
+        new ProxyNetworkProvider(network.gatewayAddress).getNetworkStatus(),
         axios.get(`${network.apiAddress}/accounts/${auctionContract}`)
       ]);
 
@@ -113,20 +117,23 @@ const Cards: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.apiAddress);
+      const provider = new ProxyNetworkProvider(network.apiAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getNumUsers')
       });
 
-      const data = await provider.queryContract(query);
-      const [userNumber] = data.outputUntyped();
+      const queryResponse = await provider.queryContract(query);
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
+        queryResponse
+      );
+      //const [userNumber] = data.outputUntyped();
 
       dispatch({
         type: 'getUsersNumber',
         usersNumber: {
           status: 'loaded',
-          data: decodeUnsignedNumber(userNumber).toString(),
+          data: decodeUnsignedNumber(values[0]).toString(),
           error: null
         }
       });
@@ -153,11 +160,11 @@ const Cards: FC = () => {
     });
 
     try {
-      const query = new ApiProvider(network.apiAddress, {
+      const query = new ApiNetworkProvider(network.apiAddress, {
         timeout: 4000
       });
 
-      const data = await query.getNetworkStake();
+      const data = await query.getNetworkStakeStatistics();
 
       dispatch({
         type: 'getTotalNetworkStake',
@@ -192,8 +199,14 @@ const Cards: FC = () => {
     }
 
     const formatted = {
-      stake: denominate({ input: totalNetworkStake.data.TotalStaked.toFixed() }),
-      contractStake: denominate({ input: totalActiveStake.data, decimals: 2, showLastNonZeroDecimal: false })
+      stake: denominate({
+        input: totalNetworkStake.data.TotalStaked.toFixed()
+      }),
+      contractStake: denominate({
+        input: totalActiveStake.data,
+        decimals: 2,
+        showLastNonZeroDecimal: false
+      })
     };
 
     return {
@@ -335,8 +348,8 @@ const Cards: FC = () => {
         value: contractDetails.data
           ? contractDetails.data.serviceFee
           : contractDetails.error
-            ? 'Service Fee Unknown'
-            : '...%'
+          ? 'Service Fee Unknown'
+          : '...%'
       }
     },
     {

@@ -44,7 +44,17 @@ export interface StateType {
     error: ErrorType;
     data: null | string;
   };
+  userActiveRisaStake: {
+    status: StatusType;
+    error: ErrorType;
+    data: null | string;
+  };
   userClaimableRewards: {
+    status: StatusType;
+    error: ErrorType;
+    data: null | string;
+  };
+  userClaimableRisaRewards: {
     status: StatusType;
     error: ErrorType;
     data: null | string;
@@ -111,7 +121,17 @@ export const initializer: StateType = {
     data: null,
     error: null
   },
+  userActiveRisaStake: {
+    status: 'idle',
+    data: null,
+    error: null
+  },
   userClaimableRewards: {
+    status: 'idle',
+    data: null,
+    error: null
+  },
+  userClaimableRisaRewards: {
     status: 'idle',
     data: null,
     error: null

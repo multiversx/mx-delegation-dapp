@@ -1,17 +1,21 @@
 import { useEffect } from 'react';
-
+import {
+  ProxyNetworkProvider,
+  ApiNetworkProvider
+} from '@multiversx/sdk-network-providers';
 import {
   useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
+  useGetActiveTransactionsStatus
+} from '@multiversx/sdk-dapp/hooks';
+
 import {
-  ProxyProvider,
   Address,
   AddressValue,
   Query,
   ContractFunction,
-  decodeBigNumber
-} from '@elrondnetwork/erdjs';
+  decodeBigNumber,
+  ResultsParser
+} from '@multiversx/sdk-core';
 import BigNumber from 'bignumber.js';
 
 import { network, minDust } from '/src/config';
@@ -20,6 +24,7 @@ import { denominate } from '/src/helpers/denominate';
 import getPercentage from '/src/helpers/getPercentage';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
+import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 
 interface DelegationPayloadType {
   amount: string;
@@ -32,13 +37,12 @@ const useStakeData = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
     try {
       await sendTransaction({
-        value: data.amount,
+        value: parseAmount(data.amount, 18),
         type: 'delegate',
         args: ''
       });
@@ -96,7 +100,12 @@ const useStakeData = () => {
         const stake = totalActiveStake.data;
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
         const maxed =
-          parseInt(getPercentage(denominate({ input: stake || '0' }), denominate({ input: cap || '0' }))) === 100;
+          parseInt(
+            getPercentage(
+              denominate({ input: stake || '0' }),
+              denominate({ input: cap || '0' })
+            )
+          ) === 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
@@ -137,15 +146,17 @@ const useStakeData = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getClaimableRewards'),
         args: [new AddressValue(new Address(address))]
       });
 
-      const data = await provider.queryContract(query);
-      const [claimableRewards] = data.outputUntyped();
+      const queryResponse = await provider.queryContract(query);
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
+        queryResponse
+      );
 
       dispatch({
         type: 'getUserClaimableRewards',
@@ -153,7 +164,7 @@ const useStakeData = () => {
           status: 'loaded',
           error: null,
           data: denominate({
-            input: decodeBigNumber(claimableRewards).toFixed(),
+            input: decodeBigNumber(values[0]).toFixed(),
             decimals: 4
           })
         }
@@ -177,13 +188,13 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (success && hasActiveTransactions && userClaimableRewards.data) {
+    if (success && pending && userClaimableRewards.data) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, hasActiveTransactions]);
+  useEffect(reFetchClaimableRewards, [success, pending]);
 
   return {
     onDelegate,

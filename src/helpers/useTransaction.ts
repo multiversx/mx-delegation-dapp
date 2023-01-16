@@ -1,19 +1,14 @@
-import {
-  getChainID,
-  transactionServices,
-  useGetAccountInfo
-} from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { getChainID, parseAmount } from '@multiversx/sdk-dapp/utils';
+
 import {
   ContractFunction,
   Transaction,
   TransactionPayload,
-  Balance,
-  GasLimit,
-  ChainID,
   Address,
-  Nonce,
   SmartContract
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import {
   network,
   DelegationContractType,
@@ -61,14 +56,15 @@ const useTransaction = () => {
 
       const transaction = new Transaction({
         data,
-        chainID: new ChainID(chainID.valueOf()),
+        chainID: chainID.valueOf(),
         receiver: contract.getAddress(),
-        value: Balance.egld(value),
-        gasLimit: new GasLimit(getGasLimit()),
-        nonce: new Nonce(account?.nonce)
+        value: value,
+        gasLimit: getGasLimit(),
+        nonce: account?.nonce,
+        sender: new Address(account?.address)
       });
 
-      return await transactionServices.sendTransactions({
+      return await sendTransactions({
         transactions: transaction
       });
     }
