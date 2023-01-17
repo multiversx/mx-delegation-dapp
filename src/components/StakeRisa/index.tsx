@@ -164,6 +164,7 @@ const Stake = () => {
                       [panel.disabled && 'disabled'],
                       styles
                     )}
+                    disabled={panel.disabled}
                     onClick={action.transaction}
                   >
                     {action.label}

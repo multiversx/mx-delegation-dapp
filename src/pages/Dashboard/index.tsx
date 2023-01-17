@@ -46,13 +46,9 @@ const Dashboard = () => {
   return (
     <div className={styles.dashboard}>
       <Stake />
-
       <StakeRisa />
-
       <Heading />
-
       <Cards />
-
       <Withdrawals />
     </div>
   );

@@ -127,7 +127,6 @@ const Cards = () => {
       const { values } = new ResultsParser().parseUntypedQueryResponse(
         queryResponse
       );
-      //const [userNumber] = data.outputUntyped();
 
       dispatch({
         type: 'getUsersNumber',

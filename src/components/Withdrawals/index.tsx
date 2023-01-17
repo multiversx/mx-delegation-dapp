@@ -14,7 +14,8 @@ import {
   Address,
   Query,
   decodeString,
-  decodeBigNumber
+  decodeBigNumber,
+  ResultsParser
 } from '@multiversx/sdk-core';
 import moment from 'moment';
 import { network, decimals, denomination } from '/src/config';
@@ -50,14 +51,16 @@ const Withdrawals = () => {
         args: [new AddressValue(new Address(account.address))]
       });
 
-      const [data, config, status] = await Promise.all([
+      const [undelegatedQueryResponse, config, status] = await Promise.all([
         provider.queryContract(query),
         provider.getNetworkConfig(),
         provider.getNetworkStatus()
       ]);
 
-      const payload = data
-        .outputUntyped()
+      const { values } = new ResultsParser().parseUntypedQueryResponse(
+        undelegatedQueryResponse
+      );
+      const payload = values
         .reduce((total: any, item, index, array) => {
           if (index % 2 !== 0) {
             return total;
