@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ProxyNetworkProvider,
-  ApiNetworkProvider
-} from '@multiversx/sdk-network-providers';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import { getChainID } from '@multiversx/sdk-dapp/utils';
 import {
   useGetAccountInfo,
   useGetActiveTransactionsStatus
 } from '@multiversx/sdk-dapp/hooks';
-
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import {
   Address,
   AddressValue,
   Query,
   ContractFunction,
-  decodeBigNumber,
   ResultsParser,
   AbiRegistry,
   SmartContractAbi,
   SmartContract,
-  BigUIntType,
-  U32Type,
-  U64Type
+  TokenPayment
 } from '@multiversx/sdk-core';
-import BigNumber from 'bignumber.js';
-
-import { network, minDust } from '/src/config';
+import { network } from '/src/config';
 import { useDispatch, useGlobalContext } from '/src/context';
 
 import abiFile from '../../../assets/abi/risa-staking-contract.json';
@@ -35,7 +28,7 @@ import {
   StakeAccountType
 } from '/src/hooks/useRisaContract';
 
-interface DelegationPayloadType {
+interface StakePayloadType {
   amount: string;
 }
 interface UnstakePayloadType {
@@ -44,8 +37,14 @@ interface UnstakePayloadType {
 const useStakeData = () => {
   const dispatch = useDispatch();
   const [shouldReload, setShouldReload] = useState(false);
-  const [stakeSettings, setStakeSettings]: [StakeSettingsType, React.Dispatch<any>] = useState<StakeSettingsType>();
-  const [stakeAccount, setStakeAccount]: [StakeAccountType, React.Dispatch<any>] = useState<StakeAccountType>();
+  const [stakeSettings, setStakeSettings]: [
+    StakeSettingsType,
+    React.Dispatch<any>
+  ] = useState<StakeSettingsType>();
+  const [stakeAccount, setStakeAccount]: [
+    StakeAccountType,
+    React.Dispatch<any>
+  ] = useState<StakeAccountType>();
 
   const { account, address } = useGetAccountInfo();
   const { unstake, restake, claim, getStakeSettings, getStakeAccount } =
@@ -54,15 +53,33 @@ const useStakeData = () => {
   const { userClaimableRisaRewards, userActiveRisaStake } = useGlobalContext();
   const { success, pending } = useGetActiveTransactionsStatus();
 
-  const onStake = async (data: DelegationPayloadType): Promise<void> => {
+  const chainID = getChainID();
+  const abiRegistry = AbiRegistry.create(abiFile);
+  const abi = new SmartContractAbi(abiRegistry, ['OdinRisaStake']);
+  const contract = new SmartContract({
+    address: new Address(network.risaStakingContract),
+    abi: abi
+  });
+
+  const onStake = async (payload: StakePayloadType): Promise<void> => {
     try {
-      // TODO: implement
-      // await sendGenericTransaction({
-      //   value: parseAmount(data.amount, 18),
-      //   type: 'stake',
-      //   args: ''
-      // });
-      alert('implement')
+      const tokenPayment = TokenPayment.fungibleFromAmount(
+        network.risaTokenId,
+        payload.amount,
+        18
+      );
+
+      const tx = contract.methods
+        .stake()
+        .withSingleESDTTransfer(tokenPayment)
+        .withNonce(account?.nonce)
+        .withGasLimit(10000000)
+        .withChainID(chainID)
+        .buildTransaction();
+
+      return await sendTransactions({
+        transactions: tx
+      });
     } catch (error) {
       console.error(error);
     }
@@ -218,7 +235,7 @@ const useStakeData = () => {
     if (success && shouldReload) {
       getRisaRewards();
       getUserActiveRisaStake();
-      fetchContractData()
+      fetchContractData();
     }
   };
 
