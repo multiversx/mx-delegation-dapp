@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { Modal } from 'react-bootstrap';
 import modifiable from '/src/helpers/modifiable';
 import { useAction, withAction } from './context';
