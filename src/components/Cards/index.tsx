@@ -54,7 +54,7 @@ interface CardType {
   icon: ReactNode;
 }
 
-const Cards: FC = () => {
+const Cards = () => {
   const {
     totalActiveStake,
     totalNetworkStake,
@@ -127,7 +127,6 @@ const Cards: FC = () => {
       const { values } = new ResultsParser().parseUntypedQueryResponse(
         queryResponse
       );
-      //const [userNumber] = data.outputUntyped();
 
       dispatch({
         type: 'getUsersNumber',

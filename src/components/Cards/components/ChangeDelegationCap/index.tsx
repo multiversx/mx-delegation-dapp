@@ -19,7 +19,7 @@ interface ActionDataType {
   amount: string;
 }
 
-const ChangeDelegationCap: FC = () => {
+const ChangeDelegationCap = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, totalActiveStake } = useGlobalContext();
 

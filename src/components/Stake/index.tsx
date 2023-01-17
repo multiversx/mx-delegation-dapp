@@ -30,7 +30,7 @@ interface PanelType {
   actions: Array<ActionType>;
 }
 
-const Stake: FC = () => {
+const Stake = () => {
   const { userActiveStake, userClaimableRewards } = useGlobalContext();
   const { onRedelegate, onClaimRewards } = useStakeData();
   const { isLoading, isEmpty, isError } = {

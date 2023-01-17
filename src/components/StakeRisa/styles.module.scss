@@ -144,6 +144,7 @@
     font-size: 18px;
     margin-bottom: 10px;
     line-height: 1;
+    font-weight: bold;
   }
 
   .value {
@@ -187,6 +188,8 @@
         pointer-events: none;
         color: rgba(white, 0.5);
         background-color: #303234 !important;
+        cursor: not-allowed;
+        pointer-events: all !important;
       }
 
       &:not(:last-child) {

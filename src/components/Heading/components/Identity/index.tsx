@@ -37,7 +37,7 @@ interface PayloadType {
   name?: string;
 }
 
-const Identity: FC = () => {
+const Identity = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success, pending } = useGetActiveTransactionsStatus();

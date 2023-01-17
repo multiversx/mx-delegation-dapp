@@ -20,19 +20,4 @@ const undelegateValidator = (input: string) =>
       parseInt(value) <= 100
     )
 
-const delegateValidator = (input: string) =>
-  string()
-    .required('Required')
-    .test('minimum', 'Value must be greater than zero.', (value = '0') =>
-      new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(1)
-    )
-    .test(
-      'minimum',
-      `Minimum stake is ${denominate({ input: input || 0 })} RISA.`,
-      (value = '0') =>
-        new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(
-          input
-        )
-    );
-
-export { delegateValidator, undelegateValidator };
+export { undelegateValidator };

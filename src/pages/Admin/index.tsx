@@ -1,8 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
-
-import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
+import { useEffect, useState } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import * as DappUI from '@multiversx/sdk-dapp/UI';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +14,7 @@ import useGlobalData from '../../hooks/useGlobalData';
 
 import styles from './styles.module.scss';
 
-const Admin: FC = () => {
+const Admin = () => {
   const { address } = useGetAccountInfo();
   const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);

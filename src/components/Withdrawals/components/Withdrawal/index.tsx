@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 import moment from 'moment';
-import ElrondLogo from '/src/assets/ElrondLogo';
+import XLogo from '/src/assets/XLogo';
 import { network } from '/src/config';
 import { UndelegateStakeListType } from '/src/context/state';
 import modifiable from '/src/helpers/modifiable';
@@ -21,7 +21,12 @@ interface FormattersType {
   s: Array<string | number>;
 }
 
-const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
+const Withdrawal = (
+  {
+    value,
+    timeLeft
+  }: UndelegateStakeListType
+) => {
   const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
   const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();
@@ -111,7 +116,7 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
     <div className={`${styles.withdrawal} withdrawal`}>
       <div className={styles.left}>
         <span className={styles.icon}>
-          <ElrondLogo />
+          <XLogo />
         </span>
 
         <div className={styles.data}>

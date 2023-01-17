@@ -13,7 +13,7 @@ import useTransaction from '/src/helpers/useTransaction';
 
 import styles from './styles.module.scss';
 
-const Add: FC = () => {
+const Add = () => {
   const { sendTransaction } = useTransaction();
 
   const validationSchema = object().shape({

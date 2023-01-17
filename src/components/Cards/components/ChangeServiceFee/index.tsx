@@ -14,7 +14,7 @@ interface ActionDataType {
   amount: string;
 }
 
-const ChangeServiceFee: FC = () => {
+const ChangeServiceFee = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails } = useGlobalContext();
 

@@ -13,7 +13,7 @@ import { denominate } from '/src/helpers/denominate';
 import modifiable from '/src/helpers/modifiable';
 import styles from './styles.module.scss';
 
-const Undelegate: FC = () => {
+const Undelegate = (props: { disabled: boolean }) => {
   const { userActiveRisaStake } = useGlobalContext();
   const { onUnstake } = useStakeData();
   const [maxed, setMaxed] = useState<boolean>(false);
@@ -23,7 +23,8 @@ const Undelegate: FC = () => {
       <Action
         title='Unstake RISA'
         description={`Select the percentage to unstake.`}
-        trigger={<div className={styles.trigger}>Unstake</div>}
+        trigger={<div className={`${styles.trigger} ${props.disabled && styles.disabled}`}>Unstake</div>}
+        disabled={props.disabled}
         render={
           <div className={styles.undelegate}>
             <Formik

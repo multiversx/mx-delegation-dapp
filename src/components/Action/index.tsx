@@ -1,17 +1,15 @@
-import * as React from 'react';
-
 import { Modal } from 'react-bootstrap';
 import modifiable from '/src/helpers/modifiable';
 import { useAction, withAction } from './context';
 
 import styles from './styles.module.scss';
 
-const Action = ({ render, title, description, trigger }: any) => {
+const Action = ({ render, title, description, trigger, disabled }: any) => {
   const { showModal, setShowModal } = useAction();
 
   return (
     <div className={`${styles.action} action`}>
-      <button className={styles.trigger} onClick={() => setShowModal(true)}>
+      <button className={`${styles.trigger}  ${disabled && styles.disabled}`} disabled={disabled} onClick={() => setShowModal(true)}>
         {trigger}
       </button>
 
@@ -34,7 +32,7 @@ const Action = ({ render, title, description, trigger }: any) => {
   );
 };
 
-export const Submit = ({ close, submit }: any) => {
+export const Submit = ({ close, submit, disabled }: any) => {
   const { setShowModal } = useAction();
 
   return (
@@ -47,7 +45,7 @@ export const Submit = ({ close, submit }: any) => {
         {close || 'Close'}
       </button>
 
-      <button type='submit' className={modifiable('button', ['blue'], styles)}>
+      <button type='submit' className={modifiable('button', ['blue', disabled && 'disabled'], styles)} disabled={disabled}>
         {submit || 'Submit'}
       </button>
     </div>

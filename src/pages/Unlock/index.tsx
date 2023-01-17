@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 
 import Extension from '../../assets/Extension';
 import Ledger from '../../assets/Ledger';
-import Maiar from '../../assets/Maiar';
+import XPortal from '../../assets/XPortal';
 import Logo from '../../assets/Logo';
-import ElrondLogo from '../../assets/ElrondLogo';
+import XLogo from '../../assets/XLogo';
 
 import styles from './styles.module.scss';
 
@@ -20,35 +20,35 @@ interface ConnectionType {
   component: any;
 }
 
-const Unlock: FC = () => {
+const Unlock = () => {
   const { address } = useGetAccountInfo();
 
   const navigate = useNavigate();
   const connects: Array<ConnectionType> = [
     {
       title: 'Browser',
-      name: 'Maiar DeFi Wallet',
-      background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      icon: Extension,
+      name: 'MultiversX DeFi Wallet',
+      background: '#000000',
+      icon: XLogo,
       component: DappUI.ExtensionLoginButton
     },
     {
       title: 'Mobile',
-      name: 'Maiar App',
-      background: 'linear-gradient(225deg, #2C58DA 0%, #1A2ABA 100%)',
-      icon: Maiar,
+      name: 'xPortal Mobile Wallet',
+      background: '#000000',
+      icon: XPortal,
       component: DappUI.WalletConnectLoginButton
     },
     {
       title: 'Desktop',
-      name: 'Elrond Web Wallet',
+      name: 'MultiversX Web Wallet',
       background: '#000000',
-      icon: ElrondLogo,
+      icon: XLogo,
       component: DappUI.WebWalletLoginButton
     },
     {
       title: 'Hardware',
-      name: 'Ledger',
+      name: 'Ledger Hardware Wallet',
       background: '#000000',
       icon: Ledger,
       component: DappUI.LedgerLoginButton
@@ -96,9 +96,9 @@ const Unlock: FC = () => {
             d='M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z'
           ></path>
         </svg>
-        Watch out for phishing sites. Verify URL is:&nbsp;
+        Double check URL:&nbsp;
         <strong>
-          <span className='text-success ml-1'>https:// </span>stake.risasoft.com
+          <span className='text-success ml-1'>https:// </span>risastaking.com
         </strong>
       </small>
       <div className={styles.unlock}>

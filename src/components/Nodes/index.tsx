@@ -118,7 +118,7 @@ const actions: Array<ActionsType> = [
   }
 ];
 
-const Nodes: FC = () => {
+const Nodes = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();

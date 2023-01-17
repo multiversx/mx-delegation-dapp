@@ -14,7 +14,7 @@ interface ToggleType {
   color: string;
 }
 
-const Toggles: FC = () => {
+const Toggles = () => {
   const toggles: Array<ToggleType> = [
     {
       label: 'Automatic Activation',
