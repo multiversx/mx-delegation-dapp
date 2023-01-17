@@ -107,7 +107,7 @@ const Unlock = () => {
             <Logo />
           </div>
 
-          <strong className={styles.heading}>RisaSoft Staking</strong>
+          <strong className={styles.heading}>Risa Staking</strong>
 
           <div className={styles.description}>
             Stake $EGLD and $RISA 🔥
