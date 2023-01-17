@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 
-import { BLS } from '@elrondnetwork/bls-wasm';
+import { BLS } from '@multiversx/sdk-bls-wasm';
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

@@ -1,4 +1,5 @@
 import React, { FC, ReactNode, MouseEvent } from 'react';
+import dayjs from 'dayjs';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -9,17 +10,19 @@ import modifiable from '/src/helpers/modifiable';
 
 import Delegate from './components/Delegate';
 import Undelegate from './components/Undelegate';
-import Tier from './components/Tier'
+import Tier from './components/Tier';
 
 import useStakeData from './hooks';
 
 import styles from './styles.module.scss';
 import StakeDetails from './components/StakeDetails';
+import ClaimDetails from './components/ClaimDetails';
 
 interface ActionType {
   label: string;
   render?: ReactNode;
   transaction?: (value: MouseEvent) => Promise<void>;
+  disabled?: boolean;
 }
 
 interface PanelType {
@@ -41,8 +44,13 @@ const Stake = () => {
     isLoading: userActiveRisaStake.status === 'loading',
     isError: userActiveRisaStake.status === 'error'
   };
-  console.log(stakeAccount);
-  console.log(stakeSettings);
+  const stakeDataLoaded = !!stakeAccount && !!stakeSettings;
+  const unstakeDisabled = stakeDataLoaded
+    ? dayjs().isBefore(dayjs.unix(stakeAccount.last_staked_timestamp.toNumber() + stakeSettings.lock_period.toNumber()))
+    : false;
+  const claimDisabled = stakeDataLoaded
+    ? dayjs().isBefore(dayjs.unix(stakeAccount.last_claim_timestamp.toNumber() + stakeSettings.claim_lock_period.toNumber()))
+    : false;
   const panels: Array<PanelType> = [
     {
       subicon: <FontAwesomeIcon icon={faLock} />,
@@ -53,7 +61,7 @@ const Stake = () => {
       disabled: false,
       actions: [
         {
-          render: <Undelegate />,
+          render: <Undelegate disabled={unstakeDisabled} />,
           label: 'Unstake'
         },
         {
@@ -65,11 +73,11 @@ const Stake = () => {
     {
       subicon: <FontAwesomeIcon icon={faGift} />,
       color: '#27C180',
-      title: 'Claimable Rewards',
-      details: <div>Last Claim: {stakeAccount?.last_claim_timestamp.toFixed()}</div>,
+      title: 'Rewards',
+      details: <ClaimDetails />,
       value: `+ ${userClaimableRisaRewards.data || '0'}`,
       disabled:
-        !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0',
+        !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0' || claimDisabled,
       actions: [
         {
           transaction: onClaimRewards,

@@ -6,6 +6,12 @@
     border: none;
     padding: 0;
   }
+  .disabled {
+    background-color: #303234 !important;
+    cursor: not-allowed;
+    pointer-events: all !important;
+    border-radius: 7px;
+  }
 }
 
 .modal {

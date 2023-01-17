@@ -20,6 +20,9 @@
     }
   }
 
+  .disabled {
+      color: #ffffff80;
+  }
   @media (max-width: 575px) {
     button {
       width: 100%;

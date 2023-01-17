@@ -6,12 +6,12 @@ import { useAction, withAction } from './context';
 
 import styles from './styles.module.scss';
 
-const Action = ({ render, title, description, trigger }: any) => {
+const Action = ({ render, title, description, trigger, disabled }: any) => {
   const { showModal, setShowModal } = useAction();
 
   return (
     <div className={`${styles.action} action`}>
-      <button className={styles.trigger} onClick={() => setShowModal(true)}>
+      <button className={`${styles.trigger}  ${disabled && styles.disabled}`} disabled={disabled} onClick={() => setShowModal(true)}>
         {trigger}
       </button>
 
