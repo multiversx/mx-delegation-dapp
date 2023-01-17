@@ -11,7 +11,7 @@ import { UndelegateStakeListType } from '/src/context/state';
 import modifiable from '/src/helpers/modifiable';
 import useTransaction from '/src/helpers/useTransaction';
 
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 
 interface FormattersType {
   [key: string]: any;

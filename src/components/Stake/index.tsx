@@ -13,7 +13,7 @@ import Undelegate from './components/Undelegate';
 
 import useStakeData from './hooks';
 
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 
 interface ActionType {
   label: string;

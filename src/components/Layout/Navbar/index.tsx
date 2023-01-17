@@ -9,7 +9,7 @@ import { network } from '/src/config';
 import EGLD from '/src/assets/EGLD';
 
 import modifiable from '/src/helpers/modifiable';
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 import { denominate } from '/src/helpers/denominate';
 
 interface ButtonsType {

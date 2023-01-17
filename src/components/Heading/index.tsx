@@ -15,7 +15,7 @@ import { useGlobalContext } from '/src/context';
 
 import Identity from './components/Identity';
 
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 
 const Heading = () => {
   const { contractDetails } = useGlobalContext();

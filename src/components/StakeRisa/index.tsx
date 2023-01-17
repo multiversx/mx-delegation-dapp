@@ -14,7 +14,7 @@ import Tier from './components/Tier';
 
 import useStakeData from './hooks';
 
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 import StakeDetails from './components/StakeDetails';
 import ClaimDetails from './components/ClaimDetails';
 

@@ -11,7 +11,7 @@ import { useGlobalContext } from '/src/context';
 import { denominate } from '/src/helpers/denominate';
 
 import modifiable from '/src/helpers/modifiable';
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 
 const Undelegate = (props: { disabled: boolean }) => {
   const { userActiveRisaStake } = useGlobalContext();

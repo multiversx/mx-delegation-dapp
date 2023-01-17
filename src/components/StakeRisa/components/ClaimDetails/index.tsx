@@ -3,7 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 import useStakeData from '/src/components/StakeRisa/hooks';
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 
 const ClaimDetails = () => {
   const { stakeAccount, stakeSettings } = useStakeData();

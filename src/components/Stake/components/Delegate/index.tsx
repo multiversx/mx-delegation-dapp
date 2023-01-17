@@ -12,7 +12,7 @@ import { network } from '/src/config';
 
 import modifiable from '/src/helpers/modifiable';
 
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 
 const Delegate = () => {
   const { account } = useGetAccountInfo();

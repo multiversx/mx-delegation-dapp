@@ -23,7 +23,7 @@ import { useGlobalContext, useDispatch } from '/src/context';
 import { UndelegateStakeListType } from '/src/context/state';
 
 import Withdrawal from './components/Withdrawal';
-import styles from './styles.module.scss';
+import * as styles './styles.module.scss';
 import { denominate } from '/src/helpers/denominate';
 
 const Withdrawals = () => {
