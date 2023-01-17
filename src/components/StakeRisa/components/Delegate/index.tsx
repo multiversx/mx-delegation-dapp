@@ -1,8 +1,9 @@
-import React, { FC, MouseEvent } from 'react';
-
+import React, { useEffect, MouseEvent, useState } from 'react';
+import BigNumber from 'bignumber.js';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Formik } from 'formik';
-import { object } from 'yup';
+import { object, string } from 'yup';
+import { nominate } from '@multiversx/sdk-dapp/utils/operations';
 import { denominate } from '/src/helpers/denominate';
 
 import Action, { Submit } from '/src/components/Action';
@@ -16,7 +17,26 @@ import styles from './styles.module.scss';
 
 const Delegate = () => {
   const { account } = useGetAccountInfo();
-  const { onDelegate } = useStakeData();
+  const [balance, setBalance] = useState<string>('0');
+  const { onStake, stakeSettings } = useStakeData();
+  const isMaxDisabled =
+    balance === '0' ||
+    new BigNumber(balance)?.lt(stakeSettings?.min_stake_limit);
+  const minimumStakeFormatted = denominate({
+    input: stakeSettings?.min_stake_limit.toFixed()
+  });
+
+  const loadBalance = () => {
+    async function fetchData() {
+      const res = await fetch(
+        `${network.apiAddress}/accounts/${account.address}/tokens?identifier=${network.risaTokenId}`
+      ).then((res) => res.json());
+      setBalance(res?.[0].balance);
+    }
+    fetchData();
+  };
+
+  useEffect(loadBalance, []);
 
   return (
     <div className={`${styles.wrapper} delegate-wrapper`}>
@@ -28,11 +48,36 @@ const Delegate = () => {
           <div className={styles.delegate}>
             <Formik
               validationSchema={object().shape({
-                amount: delegateValidator(1)
+                amount: string()
+                  .required('Amount is required.')
+                  .test(
+                    'minimum',
+                    'Value must be greater than zero.',
+                    (value = '0') =>
+                      new BigNumber(nominate(value, 18)).isGreaterThanOrEqualTo(
+                        1
+                      )
+                  )
+                  .test(
+                    'minimum',
+                    `Minimum stake is ${minimumStakeFormatted} RISA.`,
+                    (value = '0') =>
+                      new BigNumber(nominate(value, 18)).isGreaterThanOrEqualTo(
+                        stakeSettings?.min_stake_limit
+                      )
+                  )
+                  .test(
+                    'maximum',
+                    `Maximum stake is ${denominate({
+                      input: balance, decimals: 0
+                    })} RISA.`,
+                    (value) => new BigNumber(nominate(value || '0', 18)).lte(balance)
+                       
+                  )
               })}
-              onSubmit={onDelegate}
+              onSubmit={onStake}
               initialValues={{
-                amount: '1'
+                amount: ''
               }}
             >
               {({
@@ -48,7 +93,11 @@ const Delegate = () => {
                   event.preventDefault();
                   setFieldValue(
                     'amount',
-                    denominate({ input: 342, addCommas: false })
+                    denominate({
+                      input: balance,
+                      decimals: 0,
+                      addCommas: false
+                    })
                   );
                 };
 
@@ -60,7 +109,6 @@ const Delegate = () => {
                         <input
                           type='number'
                           name='amount'
-                          step='any'
                           required={true}
                           autoComplete='off'
                           min={1}
@@ -78,21 +126,31 @@ const Delegate = () => {
                         <a
                           href='/#'
                           onClick={onMax}
-                          className={modifiable('max', ['disabled'], styles)}
+                          className={modifiable(
+                            'max',
+                            [isMaxDisabled && 'disabled'],
+                            styles
+                          )}
                         >
                           Max
                         </a>
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span>{' '}
-                        {denominate({ input: account.balance || '0' })} RISA
+                        <span>Minimum Stake:</span> {minimumStakeFormatted} RISA
                       </span>
 
-                      {errors.amount && touched.amount}
+                      <span className={styles.description}>
+                        <span>Balance:</span>{' '}
+                        {denominate({ input: balance || '0' })} RISA
+                      </span>
+
+                      {errors.amount && touched.amount && (
+                        <span className={styles.error}>{errors.amount}</span>
+                      )}
                     </div>
 
-                    <Submit save='Continue' />
+                    <Submit disabled={errors.amount && touched.amount} save='Continue' />
                   </form>
                 );
               }}

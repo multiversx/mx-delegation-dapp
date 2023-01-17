@@ -32,7 +32,7 @@ const Action = ({ render, title, description, trigger, disabled }: any) => {
   );
 };
 
-export const Submit = ({ close, submit }: any) => {
+export const Submit = ({ close, submit, disabled }: any) => {
   const { setShowModal } = useAction();
 
   return (
@@ -45,7 +45,7 @@ export const Submit = ({ close, submit }: any) => {
         {close || 'Close'}
       </button>
 
-      <button type='submit' className={modifiable('button', ['blue'], styles)}>
+      <button type='submit' className={modifiable('button', ['blue', disabled && 'disabled'], styles)} disabled={disabled}>
         {submit || 'Submit'}
       </button>
     </div>
