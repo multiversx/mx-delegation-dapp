@@ -12,7 +12,7 @@ import Toggles from '/src/components/Toggles';
 import { useGlobalContext } from '../../context';
 import useGlobalData from '../../hooks/useGlobalData';
 
-import * as styles './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 const Admin = () => {
   const { address } = useGetAccountInfo();

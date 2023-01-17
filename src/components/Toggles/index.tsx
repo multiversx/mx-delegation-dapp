@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Switch from './components/Switch';
 
-import * as styles './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 interface ToggleType {
   label: string;

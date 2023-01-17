@@ -11,7 +11,7 @@ import Dropzone, {
 } from '/src/components/Nodes/components/Dropzone';
 import useTransaction from '/src/helpers/useTransaction';
 
-import * as styles './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 const Add = () => {
   const { sendTransaction } = useTransaction();

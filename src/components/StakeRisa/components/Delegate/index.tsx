@@ -13,7 +13,7 @@ import { network } from '/src/config';
 
 import modifiable from '/src/helpers/modifiable';
 
-import * as styles './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 const Delegate = () => {
   const { account } = useGetAccountInfo();
@@ -69,10 +69,11 @@ const Delegate = () => {
                   .test(
                     'maximum',
                     `Maximum stake is ${denominate({
-                      input: balance, decimals: 0
+                      input: balance,
+                      decimals: 0
                     })} RISA.`,
-                    (value) => new BigNumber(nominate(value || '0', 18)).lte(balance)
-                       
+                    (value) =>
+                      new BigNumber(nominate(value || '0', 18)).lte(balance)
                   )
               })}
               onSubmit={onStake}
@@ -150,7 +151,10 @@ const Delegate = () => {
                       )}
                     </div>
 
-                    <Submit disabled={errors.amount && touched.amount} save='Continue' />
+                    <Submit
+                      disabled={errors.amount && touched.amount}
+                      save='Continue'
+                    />
                   </form>
                 );
               }}

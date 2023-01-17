@@ -10,7 +10,7 @@ import XPortal from '../../assets/XPortal';
 import Logo from '../../assets/Logo';
 import XLogo from '../../assets/XLogo';
 
-import * as styles './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 interface ConnectionType {
   title: string;
