@@ -16,6 +16,12 @@ const ClaimDetails = () => {
   return (
     <div className={styles.line}>
       <div>
+        <br />
+      </div>
+      <div>
+        <br />
+      </div>
+      <div>
         {nextClaimTimestamp &&
           `Next claim ${dayjs.unix(nextClaimTimestamp).fromNow()}`}
       </div>
