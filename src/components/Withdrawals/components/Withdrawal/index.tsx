@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 import moment from 'moment';
-import ElrondLogo from '/src/assets/ElrondLogo';
+import XLogo from '/src/assets/XLogo';
 import { network } from '/src/config';
 import { UndelegateStakeListType } from '/src/context/state';
 import modifiable from '/src/helpers/modifiable';
@@ -116,7 +116,7 @@ const Withdrawal = (
     <div className={`${styles.withdrawal} withdrawal`}>
       <div className={styles.left}>
         <span className={styles.icon}>
-          <ElrondLogo />
+          <XLogo />
         </span>
 
         <div className={styles.data}>
