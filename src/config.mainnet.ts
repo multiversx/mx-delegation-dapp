@@ -18,7 +18,7 @@ interface NetworkType {
 }
 
 export const minDust = '5000000000000000'; // 0.005 EGLD
-export const dAppName = 'RisaSoft Staking';
+export const dAppName = 'Risa Staking';
 export const decimals = 2;
 export const denomination = 18;
 export const genesisTokenSupply = 20000000;

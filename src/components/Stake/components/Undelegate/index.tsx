@@ -8,10 +8,10 @@ import useStakeData from '/src/components/Stake/hooks';
 import { network } from '/src/config';
 import { useGlobalContext } from '/src/context';
 
-import { denominate } from '/src/helpers/denominate'
+import { denominate } from '/src/helpers/denominate';
 
 import modifiable from '/src/helpers/modifiable';
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 const Undelegate = () => {
   const { userActiveStake } = useGlobalContext();
@@ -48,7 +48,7 @@ const Undelegate = () => {
                   input: userActiveStake.data || '',
                   addCommas: false,
                   showLastNonZeroDecimal: true
-                })
+                });
 
                 const onChange = (
                   event: ChangeEvent<HTMLInputElement>

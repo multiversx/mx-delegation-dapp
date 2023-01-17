@@ -11,7 +11,7 @@ import { useGlobalContext } from '/src/context';
 import { denominate } from '/src/helpers/denominate';
 
 import modifiable from '/src/helpers/modifiable';
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 const Undelegate = (props: { disabled: boolean }) => {
   const { userActiveRisaStake } = useGlobalContext();
@@ -23,7 +23,13 @@ const Undelegate = (props: { disabled: boolean }) => {
       <Action
         title='Unstake RISA'
         description={`Select the percentage to unstake.`}
-        trigger={<div className={`${styles.trigger} ${props.disabled && styles.disabled}`}>Unstake</div>}
+        trigger={
+          <div
+            className={`${styles.trigger} ${props.disabled && styles.disabled}`}
+          >
+            Unstake
+          </div>
+        }
         disabled={props.disabled}
         render={
           <div className={styles.undelegate}>

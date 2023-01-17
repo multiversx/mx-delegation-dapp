@@ -11,7 +11,7 @@ import { UndelegateStakeListType } from '/src/context/state';
 import modifiable from '/src/helpers/modifiable';
 import useTransaction from '/src/helpers/useTransaction';
 
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 interface FormattersType {
   [key: string]: any;
@@ -21,12 +21,7 @@ interface FormattersType {
   s: Array<string | number>;
 }
 
-const Withdrawal = (
-  {
-    value,
-    timeLeft
-  }: UndelegateStakeListType
-) => {
+const Withdrawal = ({ value, timeLeft }: UndelegateStakeListType) => {
   const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
   const [fiat, setFiat] = useState<string>('');
   const { sendTransaction } = useTransaction();

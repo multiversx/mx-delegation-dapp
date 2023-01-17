@@ -10,7 +10,7 @@ import XPortal from '../../assets/XPortal';
 import Logo from '../../assets/Logo';
 import XLogo from '../../assets/XLogo';
 
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 interface ConnectionType {
   title: string;
@@ -107,7 +107,7 @@ const Unlock = () => {
             <Logo />
           </div>
 
-          <strong className={styles.heading}>RisaSoft Staking</strong>
+          <strong className={styles.heading}>Risa Staking</strong>
 
           <div className={styles.description}>
             Stake $EGLD and $RISA 🔥

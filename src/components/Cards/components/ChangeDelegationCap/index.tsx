@@ -13,7 +13,7 @@ import modifiable from '/src/helpers/modifiable';
 import { nominateValToHex } from '/src/helpers/nominate';
 import useTransaction from '/src/helpers/useTransaction';
 
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 interface ActionDataType {
   amount: string;
@@ -26,14 +26,12 @@ const ChangeDelegationCap = () => {
   const minimum = denominate({
     input: totalActiveStake.data || 0,
     addCommas: false
-  })
-
+  });
 
   const total = denominate({
     input: contractDetails.data ? contractDetails.data.delegationCap : '0',
     addCommas: false
-  })
-
+  });
 
   const validationSchema = object().shape({
     amount: string()

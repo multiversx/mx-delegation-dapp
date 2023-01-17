@@ -9,7 +9,7 @@ import { network } from '/src/config';
 import EGLD from '/src/assets/EGLD';
 
 import modifiable from '/src/helpers/modifiable';
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 import { denominate } from '/src/helpers/denominate';
 
 interface ButtonsType {
@@ -47,7 +47,7 @@ const Navbar = () => {
           <Logo />
         </span>
 
-        <span className={styles.title}>RisaSoft Staking</span>
+        <span className={styles.title}>Risa Staking</span>
       </Link>
 
       <div className={styles.buttons}>

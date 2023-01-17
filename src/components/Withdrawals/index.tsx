@@ -23,7 +23,7 @@ import { useGlobalContext, useDispatch } from '/src/context';
 import { UndelegateStakeListType } from '/src/context/state';
 
 import Withdrawal from './components/Withdrawal';
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 import { denominate } from '/src/helpers/denominate';
 
 const Withdrawals = () => {
@@ -60,60 +60,59 @@ const Withdrawals = () => {
       const { values } = new ResultsParser().parseUntypedQueryResponse(
         undelegatedQueryResponse
       );
-      const payload = values
-        .reduce((total: any, item, index, array) => {
-          if (index % 2 !== 0) {
-            return total;
-          } else {
-            const next = array[index + 1];
-            const getTime = (): number => {
-              const epochsChangesRemaining = decodeUnsignedNumber(next);
-              const roundsRemainingInEpoch =
-                config.RoundsPerEpoch - status.RoundsPassedInCurrentEpoch;
-              const roundEpochComplete =
-                epochsChangesRemaining > 1
-                  ? (epochsChangesRemaining - 1) * config.RoundsPerEpoch
-                  : 0;
+      const payload = values.reduce((total: any, item, index, array) => {
+        if (index % 2 !== 0) {
+          return total;
+        } else {
+          const next = array[index + 1];
+          const getTime = (): number => {
+            const epochsChangesRemaining = decodeUnsignedNumber(next);
+            const roundsRemainingInEpoch =
+              config.RoundsPerEpoch - status.RoundsPassedInCurrentEpoch;
+            const roundEpochComplete =
+              epochsChangesRemaining > 1
+                ? (epochsChangesRemaining - 1) * config.RoundsPerEpoch
+                : 0;
 
-              return (
-                moment().unix() +
-                ((roundsRemainingInEpoch + roundEpochComplete) *
-                  config.RoundDuration) /
-                  1000
-              );
-            };
-
-            const current = {
-              timeLeft: decodeString(next) === '' ? 0 : getTime(),
-              value: denominate({
-                input: decodeBigNumber(item).toFixed(),
-                decimals,
-                denomination
-              })
-            };
-
-            const exists = total.find(
-              (withdrawal: UndelegateStakeListType) =>
-                withdrawal.timeLeft === withdrawal.timeLeft
+            return (
+              moment().unix() +
+              ((roundsRemainingInEpoch + roundEpochComplete) *
+                config.RoundDuration) /
+                1000
             );
+          };
 
-            const value = exists
-              ? (parseInt(exists.value) + parseInt(current.value)).toFixed()
-              : 0;
+          const current = {
+            timeLeft: decodeString(next) === '' ? 0 : getTime(),
+            value: denominate({
+              input: decodeBigNumber(item).toFixed(),
+              decimals,
+              denomination
+            })
+          };
 
-            if (exists && current.timeLeft === exists.timeLeft) {
-              return [
-                ...(total.length > 1 ? total : []),
-                {
-                  ...exists,
-                  value
-                }
-              ];
-            } else {
-              return [...total, current];
-            }
+          const exists = total.find(
+            (withdrawal: UndelegateStakeListType) =>
+              withdrawal.timeLeft === withdrawal.timeLeft
+          );
+
+          const value = exists
+            ? (parseInt(exists.value) + parseInt(current.value)).toFixed()
+            : 0;
+
+          if (exists && current.timeLeft === exists.timeLeft) {
+            return [
+              ...(total.length > 1 ? total : []),
+              {
+                ...exists,
+                value
+              }
+            ];
+          } else {
+            return [...total, current];
           }
-        }, []);
+        }
+      }, []);
 
       dispatch({
         type: 'getUndelegatedStakeList',

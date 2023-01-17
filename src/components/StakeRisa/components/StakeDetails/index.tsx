@@ -4,7 +4,7 @@ dayjs.extend(relativeTime);
 
 import useStakeData from '/src/components/StakeRisa/hooks';
 import Tier from '../Tier';
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 
 const StakeDetails = () => {
   const { stakeAccount, stakeSettings } = useStakeData();

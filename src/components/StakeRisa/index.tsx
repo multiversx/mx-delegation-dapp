@@ -14,7 +14,7 @@ import Tier from './components/Tier';
 
 import useStakeData from './hooks';
 
-import styles from './styles.module.scss';
+import * as styles from './styles.module.scss';
 import StakeDetails from './components/StakeDetails';
 import ClaimDetails from './components/ClaimDetails';
 
@@ -46,10 +46,20 @@ const Stake = () => {
   };
   const stakeDataLoaded = !!stakeAccount && !!stakeSettings;
   const unstakeDisabled = stakeDataLoaded
-    ? dayjs().isBefore(dayjs.unix(stakeAccount.last_staked_timestamp.toNumber() + stakeSettings.lock_period.toNumber()))
+    ? dayjs().isBefore(
+        dayjs.unix(
+          stakeAccount.last_staked_timestamp.toNumber() +
+            stakeSettings.lock_period.toNumber()
+        )
+      )
     : false;
   const claimDisabled = stakeDataLoaded
-    ? dayjs().isBefore(dayjs.unix(stakeAccount.last_claim_timestamp.toNumber() + stakeSettings.claim_lock_period.toNumber()))
+    ? dayjs().isBefore(
+        dayjs.unix(
+          stakeAccount.last_claim_timestamp.toNumber() +
+            stakeSettings.claim_lock_period.toNumber()
+        )
+      )
     : false;
   const panels: Array<PanelType> = [
     {
@@ -77,7 +87,9 @@ const Stake = () => {
       details: <ClaimDetails />,
       value: `+ ${userClaimableRisaRewards.data || '0'}`,
       disabled:
-        !userClaimableRisaRewards.data || userClaimableRisaRewards.data === '0' || claimDisabled,
+        !userClaimableRisaRewards.data ||
+        userClaimableRisaRewards.data === '0' ||
+        claimDisabled,
       actions: [
         {
           transaction: onClaimRewards,
