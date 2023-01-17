@@ -98,7 +98,7 @@ const Unlock = () => {
         </svg>
         Double check URL:&nbsp;
         <strong>
-          <span className='text-success ml-1'>https:// </span>stake.risasoft.com
+          <span className='text-success ml-1'>https:// </span>risastaking.com
         </strong>
       </small>
       <div className={styles.unlock}>

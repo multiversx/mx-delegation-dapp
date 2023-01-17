@@ -2,7 +2,7 @@ alerts:
 - rule: DEPLOYMENT_FAILED
 - rule: DOMAIN_FAILED
 domains:
-- domain: stake.risasoft.com
+- domain: risastaking.com
   type: PRIMARY
 name: stake-risasoft-com
 region: nyc
