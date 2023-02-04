@@ -67,7 +67,7 @@ const Stake = () => {
     {
       subicon: <FontAwesomeIcon icon={faGift} />,
       color: '#27C180',
-      title: 'Claimable Rewards',
+      title: 'Rewards',
       value: `+ ${userClaimableRewards.data || '0'}`,
       disabled: nothingToClaim,
       actions: [
