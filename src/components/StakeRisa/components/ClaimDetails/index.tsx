@@ -7,11 +7,14 @@ import * as styles from './styles.module.scss';
 
 const ClaimDetails = () => {
   const { stakeAccount, stakeSettings } = useStakeData();
-  const nextClaimTimestamp =
-    stakeAccount && stakeSettings
-      ? stakeAccount?.last_claim_timestamp.toNumber() +
-        stakeSettings?.claim_lock_period.toNumber()
-      : null;
+  const claimAt =
+      stakeAccount &&
+      stakeSettings &&
+      dayjs.unix(
+        stakeAccount?.last_claim_timestamp.toNumber() +
+          stakeSettings?.claim_lock_period.toNumber()
+      ),
+    claimIsAfterNow = claimAt?.isAfter(dayjs());
 
   return (
     <div className={styles.line}>
@@ -22,8 +25,8 @@ const ClaimDetails = () => {
         <br />
       </div>
       <div>
-        {nextClaimTimestamp &&
-          `Next claim ${dayjs.unix(nextClaimTimestamp).fromNow()}`}
+        {claimIsAfterNow &&
+          `Next claim ${claimAt.fromNow()}`}
       </div>
     </div>
   );

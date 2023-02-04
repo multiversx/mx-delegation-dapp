@@ -33,10 +33,13 @@ interface PanelType {
 const Stake = () => {
   const { userActiveStake, userClaimableRewards } = useGlobalContext();
   const { onRedelegate, onClaimRewards } = useStakeData();
-  const { isLoading, isEmpty, isError } = {
+  const { isLoading, isEmpty, isError, nothingToClaim } = {
     isEmpty: userActiveStake.data === '0',
     isLoading: userActiveStake.status === 'loading',
-    isError: userActiveStake.status === 'error'
+    isError: userActiveStake.status === 'error',
+    nothingToClaim: userClaimableRewards
+      ? userClaimableRewards.data === '0'
+      : true
   };
 
   const panels: Array<PanelType> = [
@@ -66,7 +69,7 @@ const Stake = () => {
       color: '#27C180',
       title: 'Claimable Rewards',
       value: `+ ${userClaimableRewards.data || '0'}`,
-      disabled: !userClaimableRewards.data || userClaimableRewards.data === '0',
+      disabled: nothingToClaim,
       actions: [
         {
           transaction: onClaimRewards,
@@ -102,7 +105,7 @@ const Stake = () => {
 
           <div className={styles.message}>
             {isLoading
-              ? 'Retrieving staking data...'
+              ? 'Loading...'
               : isError
               ? 'There was an error trying to retrieve staking data.'
               : `Currently you don't have any ${network.egldLabel} staked.`}
@@ -114,11 +117,16 @@ const Stake = () => {
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
             <div
-              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
+              className={modifiable(
+                'icon',
+                [index > 0 && panel.disabled && 'inversed'],
+                styles
+              )}
             >
               <XLogo />
 
               {index > 0 &&
+                !panel.disabled &&
                 Array.from({ length: 4 }).map((item, iteratee) => (
                   <strong
                     key={`plus-${iteratee}`}
@@ -128,12 +136,14 @@ const Stake = () => {
                   </strong>
                 ))}
 
-              <div
-                style={{ background: panel.color }}
-                className={styles.subicon}
-              >
-                {panel.subicon}
-              </div>
+              {!panel.disabled && (
+                <div
+                  style={{ background: panel.color }}
+                  className={styles.subicon}
+                >
+                  {panel.subicon}
+                </div>
+              )}
             </div>
 
             <div className={styles.title}>{panel.title}</div>

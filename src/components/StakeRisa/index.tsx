@@ -36,13 +36,19 @@ interface PanelType {
 }
 
 const Stake = () => {
-  const { userActiveRisaStake, userClaimableRisaRewards } = useGlobalContext();
+  const {
+    userActiveRisaStake,
+    userClaimableRisaRewards: userClaimableRewards
+  } = useGlobalContext();
   const { stakeAccount, stakeSettings, onRestake, onClaimRewards } =
     useStakeData();
-  const { isLoading, isEmpty, isError } = {
+  const { isLoading, isEmpty, isError, nothingToClaim } = {
     isEmpty: userActiveRisaStake.data === '0',
     isLoading: userActiveRisaStake.status === 'loading',
-    isError: userActiveRisaStake.status === 'error'
+    isError: userActiveRisaStake.status === 'error',
+    nothingToClaim: userClaimableRewards
+      ? userClaimableRewards.data === '0'
+      : true
   };
   const stakeDataLoaded = !!stakeAccount && !!stakeSettings;
   const unstakeDisabled = stakeDataLoaded
@@ -85,11 +91,8 @@ const Stake = () => {
       color: '#27C180',
       title: 'Rewards',
       details: <ClaimDetails />,
-      value: `+ ${userClaimableRisaRewards.data || '0'}`,
-      disabled:
-        !userClaimableRisaRewards.data ||
-        userClaimableRisaRewards.data === '0' ||
-        claimDisabled,
+      value: `+ ${userClaimableRewards.data || '0'}`,
+      disabled: nothingToClaim || claimDisabled,
       actions: [
         {
           transaction: onClaimRewards,
@@ -125,7 +128,7 @@ const Stake = () => {
 
           <div className={styles.message}>
             {isLoading
-              ? 'Retrieving staking data...'
+              ? 'Loading...'
               : isError
               ? 'There was an error trying to retrieve staking data.'
               : `Currently you don't have any RISA staked.`}
@@ -140,6 +143,7 @@ const Stake = () => {
               <Logo />
 
               {index > 0 &&
+                !panel.disabled &&
                 Array.from({ length: 4 }).map((item, iteratee) => (
                   <strong
                     key={`plus-${iteratee}`}
@@ -149,12 +153,14 @@ const Stake = () => {
                   </strong>
                 ))}
 
-              <div
-                style={{ background: panel.color }}
-                className={styles.subicon}
-              >
-                {panel.subicon}
-              </div>
+              {!panel.disabled && (
+                <div
+                  style={{ background: panel.color }}
+                  className={styles.subicon}
+                >
+                  {panel.subicon}
+                </div>
+              )}
             </div>
 
             <div className={styles.title}>{panel.title}</div>

@@ -8,11 +8,14 @@ import * as styles from './styles.module.scss';
 
 const StakeDetails = () => {
   const { stakeAccount, stakeSettings } = useStakeData();
-  const unstakeTimestamp =
-    stakeAccount && stakeSettings
-      ? stakeAccount?.last_staked_timestamp.toNumber() +
-        stakeSettings?.lock_period.toNumber()
-      : null;
+  const unstakeAt =
+      stakeAccount &&
+      stakeSettings &&
+      dayjs.unix(
+        stakeAccount?.last_staked_timestamp.toNumber() +
+          stakeSettings?.lock_period.toNumber()
+      ),
+    unstakeIsAfterNow = unstakeAt?.isAfter(dayjs());
 
   return (
     <div className={styles.line}>
@@ -28,8 +31,7 @@ const StakeDetails = () => {
           `APR: ${stakeAccount.current_apr.div(100).toNumber()} %`}
       </div>
       <div>
-        {unstakeTimestamp &&
-          `Unstake available ${dayjs.unix(unstakeTimestamp).fromNow()}`}
+        {unstakeIsAfterNow && `Unstake available ${unstakeAt.fromNow()}`}
       </div>
     </div>
   );
