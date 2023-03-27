@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {

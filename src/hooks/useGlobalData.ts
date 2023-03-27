@@ -1,19 +1,18 @@
 import { useEffect } from 'react';
 
 import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import {
   Query,
-  ProxyProvider,
   ContractFunction,
   Address,
   decodeBigNumber,
   decodeUnsignedNumber,
   decodeString,
   AddressValue
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
+
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import { network, auctionContract } from 'config';
 import { useDispatch } from 'context';
@@ -57,11 +56,10 @@ interface globalFetchesType {
 
 const useGlobalData = () => {
   const { address } = useGetAccountInfo();
-  const { successfulTransactionsArray } =
-    transactionServices.useGetSuccessfulTransactions();
+  const { successfulTransactionsArray } = useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
-  const provider = new ProxyProvider(network.gatewayAddress);
+  const provider = new ProxyNetworkProvider(network.gatewayAddress);
   const criticalFetches: globalFetchesType = {
     getContractDetails: {
       key: 'contractDetails',

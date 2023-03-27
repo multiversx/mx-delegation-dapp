@@ -7,14 +7,6 @@ import React, {
   useCallback
 } from 'react';
 
-import { transactionServices } from '@elrondnetwork/dapp-core';
-import {
-  ContractFunction,
-  ProxyProvider,
-  Address,
-  Query,
-  BytesValue
-} from '@elrondnetwork/erdjs';
 import {
   faPlus,
   faServer,
@@ -24,6 +16,14 @@ import {
   faAngleDown
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  ContractFunction,
+  Address,
+  Query,
+  BytesValue
+} from '@multiversx/sdk-core';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import { Dropdown } from 'react-bootstrap';
 
 import Action from 'components/Action';
@@ -120,8 +120,7 @@ const Nodes: FC = () => {
   const [data, setData] = useState<Array<NodeType>>([]);
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success } = useGetActiveTransactionsStatus();
   const isLoading = nodesNumber.status === 'loading';
 
   const onAct = useCallback(
@@ -142,7 +141,7 @@ const Nodes: FC = () => {
   );
 
   const fetchQueue = useCallback(async (key: string) => {
-    const provider = new ProxyProvider(network.apiAddress);
+    const provider = new ProxyNetworkProvider(network.apiAddress);
     const query = new Query({
       address: new Address(stakingContract),
       func: new ContractFunction('getQueueIndex'),
@@ -256,13 +255,13 @@ const Nodes: FC = () => {
   };
 
   const refetchNodes = () => {
-    if (success && hasActiveTransactions && nodesNumber.data) {
+    if (success && nodesNumber.data) {
       getNodes();
     }
   };
 
   useEffect(getNodes, [nodesNumber.data, nodesStates.data, success]);
-  useEffect(refetchNodes, [hasActiveTransactions, success]);
+  useEffect(refetchNodes, [success]);
 
   return (
     <div className={`${styles.nodes} nodes`}>

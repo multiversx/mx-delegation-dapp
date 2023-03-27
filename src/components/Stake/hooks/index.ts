@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import {
-  ProxyProvider,
   Address,
   AddressValue,
   Query,
   ContractFunction,
   decodeBigNumber
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import BigNumber from 'bignumber.js';
 
 import { network, minDust } from 'config';
@@ -33,8 +31,7 @@ const useStakeData = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, pending } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
     try {
@@ -138,7 +135,7 @@ const useStakeData = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getClaimableRewards'),

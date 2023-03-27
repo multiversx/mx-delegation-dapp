@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { Formik } from 'formik';
 import { object } from 'yup';
 

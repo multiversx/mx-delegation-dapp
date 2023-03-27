@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
 
 import Cards from 'components/Cards';
@@ -11,8 +11,8 @@ import Nodes from 'components/Nodes';
 import Toggles from 'components/Toggles';
 
 import { useGlobalContext } from 'context';
-import useGlobalData from '../../hooks/useGlobalData';
 
+import useGlobalData from '../../hooks/useGlobalData';
 import styles from './styles.module.scss';
 
 const Admin: FC = () => {

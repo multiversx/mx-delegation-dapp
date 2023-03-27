@@ -1,10 +1,8 @@
 import React from 'react';
 import { ReactNode } from 'react';
 
-import {
-  AuthenticatedRoutesWrapper,
-  useGetAccountInfo
-} from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
 
 import { useLocation } from 'react-router-dom';
 import routes, { routeNames } from 'routes';

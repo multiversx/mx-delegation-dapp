@@ -1,19 +1,19 @@
 import React, { FC, useEffect } from 'react';
 
 import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import {
   decodeUnsignedNumber,
   ContractFunction,
-  ProxyProvider,
   AddressValue,
   Address,
   Query,
   decodeString,
   decodeBigNumber
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
+
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+
 import moment from 'moment';
 import { network, decimals, denomination } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
@@ -28,8 +28,7 @@ const Withdrawals: FC = () => {
 
   const { account } = useGetAccountInfo();
   const { undelegatedStakeList } = useGlobalContext();
-  const { success, hasActiveTransactions } =
-    transactionServices.useGetActiveTransactionsStatus();
+  const { success } = useGetActiveTransactionsStatus();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
     dispatch({
@@ -42,7 +41,7 @@ const Withdrawals: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getUserUnDelegatedList'),
@@ -141,13 +140,13 @@ const Withdrawals: FC = () => {
   };
 
   const refetchUndelegatedStakeList = () => {
-    if (hasActiveTransactions && success && undelegatedStakeList.data) {
+    if (success && undelegatedStakeList.data) {
       getUndelegatedStakeList();
     }
   };
 
   useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
-  useEffect(refetchUndelegatedStakeList, [hasActiveTransactions, success]);
+  useEffect(refetchUndelegatedStakeList, [success]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;

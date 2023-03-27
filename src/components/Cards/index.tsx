@@ -1,15 +1,6 @@
 import React, { FC, useCallback, useEffect, ReactNode } from 'react';
 
 import {
-  decodeUnsignedNumber,
-  ContractFunction,
-  ProxyProvider,
-  Address,
-  Query,
-  decodeString,
-  ApiProvider
-} from '@elrondnetwork/erdjs';
-import {
   faUsers,
   faServer,
   faLeaf,
@@ -18,6 +9,17 @@ import {
   faCog
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  decodeUnsignedNumber,
+  ContractFunction,
+  Address,
+  Query,
+  decodeString
+} from '@multiversx/sdk-core';
+import {
+  ApiNetworkProvider,
+  ProxyNetworkProvider
+} from '@multiversx/sdk-network-providers';
 
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -74,7 +76,7 @@ const Cards: FC = () => {
 
     try {
       const [status, balance] = await Promise.all([
-        new ProxyProvider(network.gatewayAddress).getNetworkStatus(),
+        new ProxyNetworkProvider(network.gatewayAddress).getNetworkStatus(),
         axios.get(`${network.apiAddress}/accounts/${auctionContract}`)
       ]);
 
@@ -112,7 +114,7 @@ const Cards: FC = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.apiAddress);
+      const provider = new ProxyNetworkProvider(network.apiAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getNumUsers')
@@ -152,7 +154,7 @@ const Cards: FC = () => {
     });
 
     try {
-      const query = new ApiProvider(network.apiAddress, {
+      const query = new ApiNetworkProvider(network.apiAddress, {
         timeout: 4000
       });
 

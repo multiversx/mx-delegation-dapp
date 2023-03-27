@@ -1,8 +1,9 @@
 import React, { FC, ReactNode } from 'react';
 
-import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { faWallet, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { logout } from '@multiversx/sdk-dapp/utils/logout';
 import { Link } from 'react-router-dom';
 import EGLD from 'assets/EGLD';
 import Logo from 'assets/Logo';
