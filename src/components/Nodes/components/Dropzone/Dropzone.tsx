@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { BLS } from '@multiversx/sdk-core';
+import { BLS } from '@multiversx/sdk-wallet';
 import classNames from 'classnames';
 import { useFormikContext, FormikProps } from 'formik';
 import moment from 'moment';
@@ -21,12 +21,12 @@ export interface DropzonePayloadType {
   name: string;
   signature: string;
   pubKey: string;
-  value: Array<Uint8Array>;
-  errors?: Array<string>;
+  value: Uint8Array[];
+  errors?: string[];
 }
 
 export const Dropzone = () => {
-  const [data, setData] = useState<Array<DropzonePayloadType>>([]);
+  const [data, setData] = useState<DropzonePayloadType[]>([]);
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 
@@ -94,7 +94,7 @@ export const Dropzone = () => {
   const onRemove = (key: string) => {
     const filter = (item: DropzonePayloadType) => item.key !== key;
 
-    setData((current: Array<DropzonePayloadType>) => current.filter(filter));
+    setData((current: DropzonePayloadType[]) => current.filter(filter));
     setFieldValue('files', values.files.filter(filter));
   };
 

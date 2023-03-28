@@ -15,6 +15,7 @@ import {
   BytesValue
 } from '@multiversx/sdk-core';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
@@ -22,7 +23,6 @@ import { Dropdown } from 'react-bootstrap';
 import { Action } from 'components/Action';
 import { network, auctionContract, stakingContract } from 'config';
 import { useGlobalContext } from 'context';
-
 import useTransaction from 'helpers/useTransaction';
 
 import { Add } from './components/Add';
@@ -113,7 +113,9 @@ const actions: Array<ActionsType> = [
 export const Nodes = () => {
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success, pending } = useGetActiveTransactionsStatus();
+  const { pending } = useGetActiveTransactionsStatus();
+  const { hasSuccessfulTransactions, successfulTransactionsArray } =
+    useGetSuccessfulTransactions();
 
   const [data, setData] = useState<NodeType[]>([]);
   const isLoading = nodesNumber.status === 'loading';
@@ -246,13 +248,20 @@ export const Nodes = () => {
   };
 
   const refetchNodes = () => {
-    if (success && nodesNumber.data) {
+    if (
+      hasSuccessfulTransactions &&
+      nodesNumber.data &&
+      successfulTransactionsArray.length > 0
+    ) {
       getNodes();
     }
   };
 
-  useEffect(getNodes, [nodesNumber.data, nodesStates.data, success]);
-  useEffect(refetchNodes, [success]);
+  useEffect(getNodes, [nodesNumber.data, nodesStates.data]);
+  useEffect(refetchNodes, [
+    hasSuccessfulTransactions,
+    successfulTransactionsArray.length
+  ]);
 
   return (
     <div className={`${styles.nodes} nodes`}>

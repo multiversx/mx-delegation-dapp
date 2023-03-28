@@ -1,4 +1,5 @@
-import { Address, ValidatorSecretKey } from '@multiversx/sdk-core';
+import { Address } from '@multiversx/sdk-core';
+import { ValidatorSecretKey } from '@multiversx/sdk-wallet';
 
 function hexStringToByte(str: string) {
   if (!str) {

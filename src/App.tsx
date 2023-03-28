@@ -12,7 +12,7 @@ import { PageNotFound } from 'pages/PageNotFound';
 import { Unlock } from 'pages/Unlock';
 import routes, { routeNames } from 'routes';
 
-const App = () => (
+export const App = () => (
   <BrowserRouter>
     <DappProvider
       environment={network.id}
@@ -46,5 +46,3 @@ const App = () => (
     </DappProvider>
   </BrowserRouter>
 );
-
-export default App;

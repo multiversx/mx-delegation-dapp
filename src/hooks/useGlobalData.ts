@@ -56,7 +56,8 @@ interface globalFetchesType {
 
 const useGlobalData = () => {
   const { address } = useGetAccountInfo();
-  const { successfulTransactionsArray } = useGetSuccessfulTransactions();
+  const { hasSuccessfulTransactions, successfulTransactionsArray } =
+    useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
   const provider = new ProxyNetworkProvider(network.gatewayAddress);
@@ -173,6 +174,10 @@ const useGlobalData = () => {
           const data = await provider.queryContract(query);
           const [userStake] = data.getReturnDataParts();
 
+          if (!userStake) {
+            return '0';
+          }
+
           return decodeBigNumber(userStake).toFixed();
         } catch (error) {
           return Promise.reject(error);
@@ -225,7 +230,12 @@ const useGlobalData = () => {
     fetchData();
   };
 
-  useEffect(fetchCriticalData, [successfulTransactionsArray.length]);
+  useEffect(fetchCriticalData, []);
+  useEffect(() => {
+    if (hasSuccessfulTransactions && successfulTransactionsArray.length > 0) {
+      fetchCriticalData();
+    }
+  }, [hasSuccessfulTransactions, successfulTransactionsArray.length]);
 };
 
 export default useGlobalData;

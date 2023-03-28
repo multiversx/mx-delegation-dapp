@@ -10,7 +10,7 @@ import {
 } from '@multiversx/sdk-core';
 
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import moment from 'moment';
@@ -27,7 +27,8 @@ export const Withdrawals = () => {
 
   const { account } = useGetAccountInfo();
   const { undelegatedStakeList } = useGlobalContext();
-  const { success } = useGetActiveTransactionsStatus();
+  const { hasSuccessfulTransactions, successfulTransactionsArray } =
+    useGetSuccessfulTransactions();
 
   const getUndelegatedStakeList = async (): Promise<void> => {
     dispatch({
@@ -59,7 +60,7 @@ export const Withdrawals = () => {
           if (index % 2 !== 0) {
             return total;
           } else {
-            const next = array[index + 1];
+            const next: Buffer = array[index + 1];
             const getTime = (): number => {
               const epochsChangesRemaining = decodeUnsignedNumber(next);
               const roundsRemainingInEpoch =
@@ -139,13 +140,20 @@ export const Withdrawals = () => {
   };
 
   const refetchUndelegatedStakeList = () => {
-    if (success && undelegatedStakeList.data) {
+    if (
+      hasSuccessfulTransactions &&
+      undelegatedStakeList.data &&
+      successfulTransactionsArray.length > 0
+    ) {
       getUndelegatedStakeList();
     }
   };
 
   useEffect(fetchUndelegatedStakeList, [undelegatedStakeList.data]);
-  useEffect(refetchUndelegatedStakeList, [success]);
+  useEffect(refetchUndelegatedStakeList, [
+    hasSuccessfulTransactions,
+    successfulTransactionsArray.length
+  ]);
 
   if (!undelegatedStakeList.data || undelegatedStakeList.data.length === 0) {
     return null;

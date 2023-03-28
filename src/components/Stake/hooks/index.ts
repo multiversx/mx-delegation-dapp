@@ -9,6 +9,7 @@ import {
 } from '@multiversx/sdk-core';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import BigNumber from 'bignumber.js';
 
@@ -29,7 +30,9 @@ const useStakeData = () => {
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
-  const { success, pending } = useGetActiveTransactionsStatus();
+  const { pending } = useGetActiveTransactionsStatus();
+  const { hasSuccessfulTransactions, successfulTransactionsArray } =
+    useGetSuccessfulTransactions();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
 
@@ -150,9 +153,11 @@ const useStakeData = () => {
         userClaimableRewards: {
           status: 'loaded',
           error: null,
-          data: denominated(decodeBigNumber(claimableRewards).toFixed(), {
-            decimals: 4
-          })
+          data: claimableRewards
+            ? denominated(decodeBigNumber(claimableRewards).toFixed(), {
+                decimals: 4
+              })
+            : '0'
         }
       });
     } catch (error) {
@@ -174,13 +179,17 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (success && check) {
+    if (hasSuccessfulTransactions && successfulTransactionsArray.length > 0) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, check]);
+  useEffect(reFetchClaimableRewards, [
+    hasSuccessfulTransactions,
+    successfulTransactionsArray.length
+  ]);
+
   useEffect(() => {
     if (pending && !check) {
       setCheck(true);

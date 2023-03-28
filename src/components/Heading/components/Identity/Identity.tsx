@@ -7,6 +7,7 @@ import {
   decodeString
 } from '@multiversx/sdk-core';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
 import classNames from 'classnames';
@@ -37,7 +38,8 @@ interface PayloadType {
 export const Identity = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success } = useGetActiveTransactionsStatus();
+  const { hasSuccessfulTransactions, successfulTransactionsArray } =
+    useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
   const fields: Array<FieldType> = [
@@ -142,13 +144,20 @@ export const Identity = () => {
   };
 
   const refetchAgencyMetaData = () => {
-    if (success && agencyMetaData.data) {
+    if (
+      hasSuccessfulTransactions &&
+      agencyMetaData.data &&
+      successfulTransactionsArray.length > 0
+    ) {
       getAgencyMetaData();
     }
   };
 
   useEffect(fetchAgencyMetaData, [agencyMetaData.data]);
-  useEffect(refetchAgencyMetaData, [success]);
+  useEffect(refetchAgencyMetaData, [
+    hasSuccessfulTransactions,
+    successfulTransactionsArray.length
+  ]);
 
   return (
     <Formik
