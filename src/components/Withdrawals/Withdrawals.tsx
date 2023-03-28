@@ -1,5 +1,4 @@
-import React, { FC, useEffect } from 'react';
-
+import React, { useEffect } from 'react';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -23,7 +22,7 @@ import denominate from 'helpers/denominate';
 import Withdrawal from './components/Withdrawal';
 import styles from './styles.module.scss';
 
-const Withdrawals: FC = () => {
+export const Withdrawals = () => {
   const dispatch = useDispatch();
 
   const { account } = useGetAccountInfo();
@@ -168,5 +167,3 @@ const Withdrawals: FC = () => {
     </div>
   );
 };
-
-export default Withdrawals;

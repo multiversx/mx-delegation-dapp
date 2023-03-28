@@ -69,7 +69,7 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
 
     const fetchData = async () => {
       try {
-        const pairs = await axios.get('https://api.elrond.com/mex-pairs', {
+        const pairs = await axios.get('https://api.multiversx.com/mex-pairs', {
           cancelToken: source.token
         });
 

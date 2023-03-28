@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
+export const Home = () => {
   const { address } = useGetAccountInfo();
   const navigate = useNavigate();
   const handleRedirect = () => {
@@ -13,5 +13,3 @@ const Home = () => {
 
   return null;
 };
-
-export default Home;

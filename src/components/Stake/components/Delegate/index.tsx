@@ -4,7 +4,7 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAcco
 import { Formik } from 'formik';
 import { object } from 'yup';
 
-import Action, { Submit } from 'components/Action';
+import { Action, Submit } from 'components/Action';
 import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData from 'components/Stake/hooks';
 import { network } from 'config';

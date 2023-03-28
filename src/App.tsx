@@ -7,7 +7,7 @@ import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Layout from 'components/Layout';
 import { network } from 'config';
 import { ContextProvider } from 'context';
-import PageNotFound from 'pages/PageNotFound';
+import { PageNotFound } from 'pages/PageNotFound';
 import { Unlock } from 'pages/Unlock';
 import routes, { routeNames } from 'routes';
 

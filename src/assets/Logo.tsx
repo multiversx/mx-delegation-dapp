@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const MultiversX = () => (
+export const Logo = () => (
   <svg
     width='20'
     height='16'

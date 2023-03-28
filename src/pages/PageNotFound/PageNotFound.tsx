@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
-const PageNotFound = () => {
+export const PageNotFound = () => {
   const { pathname } = useLocation();
+
   return (
     <div className='d-flex flex-fill align-items-center container'>
       <div className='row w-100'>
@@ -26,5 +27,3 @@ const PageNotFound = () => {
     </div>
   );
 };
-
-export default PageNotFound;

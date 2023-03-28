@@ -1,5 +1,4 @@
-import React, { FC, useCallback, useEffect, ReactNode } from 'react';
-
+import React, { useCallback, useEffect, ReactNode } from 'react';
 import {
   faUsers,
   faServer,
@@ -25,7 +24,7 @@ import { useLocation } from 'react-router-dom';
 
 import { MultiversX } from 'assets/MultiversX';
 
-import Action from 'components/Action';
+import { Action } from 'components/Action';
 import { network, auctionContract } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { denominated } from 'helpers/denominate';
@@ -51,7 +50,7 @@ interface CardType {
   icon: ReactNode;
 }
 
-const Cards = () => {
+export const Cards = () => {
   const {
     totalActiveStake,
     totalNetworkStake,
@@ -414,5 +413,3 @@ const Cards = () => {
     </div>
   );
 };
-
-export default Cards;

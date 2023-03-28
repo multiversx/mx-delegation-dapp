@@ -1,28 +1,41 @@
-import React, { FC, useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useNavigate } from 'react-router-dom';
 
-import Cards from 'components/Cards';
-import Heading from 'components/Heading';
-import Stake from 'components/Stake';
-import Withdrawals from 'components/Withdrawals';
+import { Cards } from 'components/Cards';
+import { Heading } from 'components/Heading';
+import { Nodes } from 'components/Nodes';
+import { Toggles } from 'components/Toggles';
+
+import { useGlobalContext } from 'context';
 
 import useGlobalData from '../../hooks/useGlobalData';
-
 import styles from './styles.module.scss';
 
-const Dashboard: FC = () => {
+export const Admin = () => {
   const { address } = useGetAccountInfo();
+  const { contractDetails } = useGlobalContext();
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();
-  const handleRedirect = () =>
-    Boolean(address) ? setLoading(false) : navigate('/unlock');
+  const handleRedirect = () => {
+    if (!Boolean(address)) {
+      navigate('/unlock');
+      return;
+    }
 
-  useEffect(handleRedirect, [address]);
+    if (contractDetails.status === 'loaded') {
+      if (contractDetails.data && contractDetails.data.owner) {
+        setLoading(false);
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  };
+
+  useEffect(handleRedirect, [address, contractDetails.data]);
   useGlobalData();
 
   if (loading) {
@@ -43,16 +56,11 @@ const Dashboard: FC = () => {
   }
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.admin}>
       <Heading />
-
       <Cards />
-
-      <Stake />
-
-      <Withdrawals />
+      <Toggles />
+      <Nodes />
     </div>
   );
 };
-
-export default Dashboard;

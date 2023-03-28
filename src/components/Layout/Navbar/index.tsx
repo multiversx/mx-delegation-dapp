@@ -6,7 +6,6 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAcco
 import { logout } from '@multiversx/sdk-dapp/utils/logout';
 import { Link } from 'react-router-dom';
 
-import EGLD from 'assets/EGLD';
 import { MultiversX } from 'assets/MultiversX';
 
 import { network } from 'config';
@@ -45,7 +44,7 @@ const Navbar: FC = () => {
     <nav className={`${styles.nav} delegation-nav`}>
       <Link to='/dashboard' className={styles.heading}>
         <span className={styles.logo}>
-          <EGLD />
+          <MultiversX />
         </span>
 
         <span className={styles.title}>Delegation Manager</span>

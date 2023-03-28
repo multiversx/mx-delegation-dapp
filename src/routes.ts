@@ -2,9 +2,9 @@ import { ComponentType } from 'react';
 import { dAppName } from 'config';
 import withPageTitle from './components/PageTitle';
 
-import Admin from './pages/Admin';
-import Dashboard from './pages/Dashboard';
-import Home from './pages/Home';
+import { Admin } from './pages/Admin';
+import { Dashboard } from './pages/Dashboard';
+import { Home } from './pages/Home';
 
 export interface RouteType {
   path: string;

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { ExtensionLoginButton } from '@multiversx/sdk-dapp/UI/extension/ExtensionLoginButton';
 import { LedgerLoginButton } from '@multiversx/sdk-dapp/UI/ledger/LedgerLoginButton';
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Extension } from 'assets/Extension';
 import { Ledger } from 'assets/Ledger';
 import { MultiversX } from 'assets/MultiversX';
+import { Wallet } from 'assets/Wallet';
 import { xPortal } from 'assets/xPortal';
 
 import { network } from 'config';
@@ -27,7 +27,7 @@ export const Unlock = () => {
       title: 'Desktop',
       name: 'MultiversX Web Wallet',
       background: '#000000',
-      icon: MultiversX,
+      icon: Wallet,
       component: WebWalletLoginButton
     },
     {
@@ -83,6 +83,7 @@ export const Unlock = () => {
               key={connect.name}
               callbackRoute='/dashboard'
               logoutRoute='/unlock'
+              {...connect}
             >
               <span className={styles.connect}>
                 <span className={styles.title}>{connect.title}</span>

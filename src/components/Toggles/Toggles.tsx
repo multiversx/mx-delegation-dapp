@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-
+import React from 'react';
 import { faRecycle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +13,7 @@ interface ToggleType {
   color: string;
 }
 
-const Toggles: FC = () => {
+export const Toggles = () => {
   const toggles: Array<ToggleType> = [
     {
       label: 'Automatic Activation',
@@ -53,5 +52,3 @@ const Toggles: FC = () => {
     </div>
   );
 };
-
-export default Toggles;

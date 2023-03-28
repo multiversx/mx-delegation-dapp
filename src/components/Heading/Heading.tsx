@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-
+import React from 'react';
 import {
   faExternalLinkAlt,
   faCog,
@@ -9,7 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import Action from 'components/Action';
+import { Action } from 'components/Action';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 
@@ -17,7 +16,7 @@ import Identity from './components/Identity';
 
 import styles from './styles.module.scss';
 
-const Heading: FC = () => {
+export const Heading = () => {
   const { contractDetails } = useGlobalContext();
 
   const location = useLocation();
@@ -76,5 +75,3 @@ const Heading: FC = () => {
     </div>
   );
 };
-
-export default Heading;

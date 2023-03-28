@@ -1,12 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-  useState,
-  MouseEvent,
-  Fragment,
-  useCallback
-} from 'react';
-
+import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import {
   faPlus,
   faServer,
@@ -26,7 +18,7 @@ import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/trans
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import { Dropdown } from 'react-bootstrap';
 
-import Action from 'components/Action';
+import { Action } from 'components/Action';
 import { network, auctionContract, stakingContract } from 'config';
 import { useGlobalContext } from 'context';
 import modifiable from 'helpers/modifiable';
@@ -116,11 +108,12 @@ const actions: Array<ActionsType> = [
   }
 ];
 
-const Nodes: FC = () => {
-  const [data, setData] = useState<Array<NodeType>>([]);
+export const Nodes = () => {
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success } = useGetActiveTransactionsStatus();
+
+  const [data, setData] = useState<NodeType[]>([]);
   const isLoading = nodesNumber.status === 'loading';
 
   const onAct = useCallback(
@@ -156,13 +149,9 @@ const Nodes: FC = () => {
 
     const queryContract = async (parameters: Query) => {
       const decode = (item: string) => Buffer.from(item, 'base64');
-      const response = await provider.doPostGeneric(
-        'vm-values/query',
-        parameters.toHttpRequest(),
-        (payload) => payload
-      );
+      const response = await provider.queryContract(parameters);
 
-      return response.data.returnData.map(decode);
+      return response.returnData.map(decode);
     };
 
     const payload = await Promise.all([query, queue].map(queryContract));
@@ -176,7 +165,7 @@ const Nodes: FC = () => {
       nodes.reduce((result: any, value, index, array) => {
         if (index % 2 === 0) {
           const [code, status]: Array<any> = array.slice(index, index + 2);
-          const item = {
+          const item: any = {
             code: Buffer.from(code, 'base64').toString('hex'),
             status: Buffer.from(status, 'base64').toString()
           };
@@ -227,7 +216,7 @@ const Nodes: FC = () => {
           const start = indexes.find(inactive);
           const end = indexes[position + 1] || { position: states.length };
 
-          const node = {
+          const node: any = {
             code: item.toString('hex'),
             status: variants.notStaked
           };
@@ -364,8 +353,7 @@ const Nodes: FC = () => {
                             [disabled && 'disabled'],
                             styles
                           )}
-                          onClick={(event: MouseEvent) => {
-                            event.preventDefault();
+                          onClick={() => {
                             onAct(action.callback(node.code));
                           }}
                         >
@@ -383,5 +371,3 @@ const Nodes: FC = () => {
     </div>
   );
 };
-
-export default Nodes;
