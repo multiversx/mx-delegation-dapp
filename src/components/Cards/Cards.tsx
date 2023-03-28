@@ -15,23 +15,24 @@ import {
   Query,
   decodeString
 } from '@multiversx/sdk-core';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import {
   ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers';
 import axios from 'axios';
+import classNames from 'classnames';
 import { useLocation } from 'react-router-dom';
 
 import { MultiversX } from 'assets/MultiversX';
-
 import { Action } from 'components/Action';
 import { network, auctionContract } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { denominated } from 'helpers/denominate';
 import getPercentage from 'helpers/getPercentage';
-import modifiable from 'helpers/modifiable';
-import ChangeDelegationCap from './components/ChangeDelegationCap';
-import ChangeServiceFee from './components/ChangeServiceFee';
+
+import { ChangeDelegationCap } from './components/ChangeDelegationCap';
+import { ChangeServiceFee } from './components/ChangeServiceFee';
 
 import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
 
@@ -60,6 +61,8 @@ export const Cards = () => {
     contractDetails,
     networkConfig
   } = useGlobalContext();
+  const { pending } = useGetActiveTransactionsStatus();
+
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -384,16 +387,22 @@ export const Cards = () => {
             <div className={styles.heading}>
               <span>{card.label}</span>
               <div
-                style={{ fill: interactive ? beta : 'white' }}
-                className={modifiable('icon', [interactive && 'fill'], styles)}
+                style={{ fill: interactive && !pending ? beta : 'white' }}
+                className={classNames(styles.icon, {
+                  [styles.fill]: interactive && !pending
+                })}
               >
-                {interactive ? (
+                {interactive && !pending ? (
                   <Action
                     render={card.modal}
                     title={card.title}
                     description={card.description}
                     trigger={
-                      <span className={styles.trigger}>
+                      <span
+                        className={classNames(styles.trigger, {
+                          [styles.disabled]: true
+                        })}
+                      >
                         <FontAwesomeIcon icon={faCog} size='lg' />
                       </span>
                     }

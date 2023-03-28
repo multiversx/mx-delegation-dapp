@@ -1,18 +1,23 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { Modal } from 'react-bootstrap';
 
-import modifiable from 'helpers/modifiable';
-
 import { useAction, withAction } from './context';
+
 import styles from './styles.module.scss';
 
 export const Action = withAction(
-  ({ render, title, description, trigger }: any) => {
+  ({ render, title, description, trigger, disabled }: any) => {
     const { showModal, setShowModal } = useAction();
 
     return (
-      <div className={`${styles.action} action`}>
-        <button className={styles.trigger} onClick={() => setShowModal(true)}>
+      <div className={classNames(styles.action, 'action')}>
+        <button
+          onClick={() => setShowModal(true)}
+          className={classNames(styles.trigger, {
+            [styles.disabled]: disabled
+          })}
+        >
           {trigger}
         </button>
 
@@ -25,9 +30,7 @@ export const Action = withAction(
         >
           <div className={styles.modal}>
             {title && <div className={styles.title}>{title}</div>}
-
             {description && <p className={styles.description}>{description}</p>}
-
             {render && <div className={styles.render}>{render}</div>}
           </div>
         </Modal>
@@ -49,7 +52,7 @@ export const Submit = ({ close, submit }: any) => {
         {close || 'Close'}
       </button>
 
-      <button type='submit' className={modifiable('button', ['blue'], styles)}>
+      <button type='submit' className={styles.button}>
         {submit || 'Submit'}
       </button>
     </div>

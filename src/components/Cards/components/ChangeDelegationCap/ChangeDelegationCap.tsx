@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import BigNumber from 'bignumber.js';
 
@@ -19,7 +19,7 @@ interface ActionDataType {
   amount: string;
 }
 
-const ChangeDelegationCap: FC = () => {
+export const ChangeDelegationCap = () => {
   const { sendTransaction } = useTransaction();
   const { contractDetails, totalActiveStake } = useGlobalContext();
 
@@ -109,5 +109,3 @@ const ChangeDelegationCap: FC = () => {
     </div>
   );
 };
-
-export default ChangeDelegationCap;

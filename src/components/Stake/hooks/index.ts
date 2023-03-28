@@ -40,6 +40,8 @@ const useStakeData = () => {
         type: 'delegate',
         args: ''
       });
+
+      console.log(358);
     } catch (error) {
       console.error(error);
     }

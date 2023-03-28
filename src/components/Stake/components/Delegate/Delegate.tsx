@@ -1,38 +1,42 @@
-import React, { FC, ChangeEvent, MouseEvent, useState } from 'react';
+import React, { MouseEvent } from 'react';
 
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import { Formik } from 'formik';
 import { object } from 'yup';
+
 import { Action, Submit } from 'components/Action';
-import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
+import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData from 'components/Stake/hooks';
 import { network } from 'config';
-import { useGlobalContext } from 'context';
 
 import { denominated } from 'helpers/denominate';
-
 import modifiable from 'helpers/modifiable';
+
 import styles from './styles.module.scss';
 
-const Undelegate: FC = () => {
-  const { userActiveStake } = useGlobalContext();
-  const { onUndelegate } = useStakeData();
-  const [maxed, setMaxed] = useState<boolean>(false);
+export const Delegate = () => {
+  const { account } = useGetAccountInfo();
+  const { onDelegate, getStakingLimits } = useStakeData();
+  const { pending } = useGetActiveTransactionsStatus();
+  const { limit, balance, maxed } = getStakingLimits();
 
   return (
-    <div className={`${styles.wrapper} undelegate-wrapper`}>
+    <div className={`${styles.wrapper} delegate-wrapper`}>
       <Action
-        title='Undelegate Now'
-        description={`Select the amount of ${network.egldLabel} you want to undelegate.`}
-        trigger={<div className={styles.trigger}>Undelegate</div>}
+        title='Delegate Now'
+        description={`Select the amount of ${network.egldLabel} you want to delegate.`}
+        disabled={pending}
+        trigger={<div className={styles.trigger}>Delegate</div>}
         render={
-          <div className={styles.undelegate}>
+          <div className={styles.delegate}>
             <Formik
               validationSchema={object().shape({
-                amount: undelegateValidator(userActiveStake.data || '')
+                amount: delegateValidator(balance, limit)
               })}
-              onSubmit={onUndelegate}
+              onSubmit={onDelegate}
               initialValues={{
-                amount: '0'
+                amount: '1'
               }}
             >
               {({
@@ -44,22 +48,12 @@ const Undelegate: FC = () => {
                 handleSubmit,
                 setFieldValue
               }) => {
-                const amount = denominated(userActiveStake.data || '', {
-                  addCommas: false,
-                  showLastNonZeroDecimal: true
-                });
-
-                const onChange = (
-                  event: ChangeEvent<HTMLInputElement>
-                ): void => {
-                  handleChange(event);
-                  setMaxed(false);
-                };
-
                 const onMax = (event: MouseEvent): void => {
                   event.preventDefault();
-                  setMaxed(true);
-                  setFieldValue('amount', amount);
+                  setFieldValue(
+                    'amount',
+                    denominated(limit, { addCommas: false })
+                  );
                 };
 
                 return (
@@ -73,30 +67,42 @@ const Undelegate: FC = () => {
                           step='any'
                           required={true}
                           autoComplete='off'
-                          min={0}
+                          min={1}
                           className={modifiable(
                             'input',
                             [errors.amount && touched.amount && 'invalid'],
                             styles
                           )}
-                          value={maxed ? amount : values.amount}
+                          value={values.amount}
                           onBlur={handleBlur}
-                          onChange={onChange}
+                          onChange={handleChange}
+                          disabled={maxed}
                         />
 
-                        <a href='/#' onClick={onMax} className={styles.max}>
+                        <a
+                          href='/#'
+                          onClick={onMax}
+                          className={modifiable(
+                            'max',
+                            [maxed && 'disabled'],
+                            styles
+                          )}
+                        >
                           Max
                         </a>
                       </div>
 
                       <span className={styles.description}>
-                        <span>Balance:</span>{' '}
-                        {denominated(userActiveStake.data || '')}{' '}
+                        <span>Balance:</span> {denominated(account.balance)}{' '}
                         {network.egldLabel}
                       </span>
 
-                      {errors.amount && touched.amount && (
-                        <span className={styles.error}>{errors.amount}</span>
+                      {((errors.amount && touched.amount) || maxed) && (
+                        <span className={styles.error}>
+                          {maxed
+                            ? 'Max delegation cap reached, staking unavailable.'
+                            : errors.amount}
+                        </span>
                       )}
                     </div>
 
@@ -111,5 +117,3 @@ const Undelegate: FC = () => {
     </div>
   );
 };
-
-export default Undelegate;

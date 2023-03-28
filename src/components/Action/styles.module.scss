@@ -43,16 +43,12 @@
 
       .button {
         width: 100%;
-        background: #303234;
         border-radius: 7px;
         color: white;
+        background: #2044f5;
+        margin-left: 10px;
         padding: 10px;
         border: none;
-
-        &--blue {
-          background: #2044f5;
-          margin-left: 10px;
-        }
       }
     }
   }

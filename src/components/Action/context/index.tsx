@@ -1,11 +1,4 @@
-import * as React from 'react';
-import {
-  ReactNode,
-  createContext,
-  useState,
-  useContext,
-  ComponentType
-} from 'react';
+import React, { ReactNode, createContext, useState, useContext } from 'react';
 
 export interface StateType {
   showModal: boolean;
@@ -39,12 +32,11 @@ const useAction = () => {
   }
 };
 
-const withAction =
-  (Component: ComponentType<ContextType & StateType>) => (props: any) =>
-    (
-      <ContextProvider>
-        <Component {...props} />
-      </ContextProvider>
-    );
+const withAction = (Component: any) => (props: any) =>
+  (
+    <ContextProvider>
+      <Component {...props} />
+    </ContextProvider>
+  );
 
 export { withAction, useAction };

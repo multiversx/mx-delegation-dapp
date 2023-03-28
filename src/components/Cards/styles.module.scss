@@ -46,9 +46,15 @@
 
     .trigger {
       padding: 10px;
+
+      &.disabled {
+        pointer-events: none;
+        background-color: transparent;
+        padding: 0;
+      }
     }
 
-    &--fill {
+    &.fill {
       background-color: white;
       padding: 0;
 

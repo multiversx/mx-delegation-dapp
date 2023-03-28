@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import {
   ContractFunction,
@@ -34,7 +34,7 @@ interface PayloadType {
   name?: string;
 }
 
-const Identity: FC = () => {
+export const Identity = () => {
   const { agencyMetaData } = useGlobalContext();
   const { sendTransaction } = useTransaction();
   const { success } = useGetActiveTransactionsStatus();
@@ -199,5 +199,3 @@ const Identity: FC = () => {
     </Formik>
   );
 };
-
-export default Identity;

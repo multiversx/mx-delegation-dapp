@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,7 +26,7 @@ export interface DropzonePayloadType {
   errors?: Array<string>;
 }
 
-const Dropzone: FC = () => {
+export const Dropzone = () => {
   const [data, setData] = useState<Array<DropzonePayloadType>>([]);
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
@@ -165,5 +165,3 @@ const Dropzone: FC = () => {
     </div>
   );
 };
-
-export default Dropzone;

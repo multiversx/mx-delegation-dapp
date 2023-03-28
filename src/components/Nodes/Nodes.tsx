@@ -16,6 +16,7 @@ import {
 } from '@multiversx/sdk-core';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
+import classNames from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 
 import { Action } from 'components/Action';
@@ -25,8 +26,10 @@ import modifiable from 'helpers/modifiable';
 
 import useTransaction from 'helpers/useTransaction';
 
-import Add from './components/Add';
+import { Add } from './components/Add';
+
 import styles from './styles.module.scss';
+
 import variants from './variants.json';
 
 interface NodeType {
@@ -111,7 +114,7 @@ const actions: Array<ActionsType> = [
 export const Nodes = () => {
   const { nodesNumber, nodesStates } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { success } = useGetActiveTransactionsStatus();
+  const { success, pending } = useGetActiveTransactionsStatus();
 
   const [data, setData] = useState<NodeType[]>([]);
   const isLoading = nodesNumber.status === 'loading';
@@ -259,6 +262,7 @@ export const Nodes = () => {
 
         <Action
           title='Add Nodes'
+          disabled={pending}
           trigger={
             <div className={styles.button}>
               <div className={styles.icon}>
@@ -331,7 +335,11 @@ export const Nodes = () => {
                 )}
 
                 <Dropdown>
-                  <Dropdown.Toggle className={styles.toggle}>
+                  <Dropdown.Toggle
+                    className={classNames(styles.toggle, {
+                      [styles.disabled]: pending
+                    })}
+                  >
                     <span>Action</span>
 
                     <div className={styles.angle}>
@@ -348,11 +356,9 @@ export const Nodes = () => {
                       return (
                         <Dropdown.Item
                           key={action.key}
-                          className={modifiable(
-                            'action',
-                            [disabled && 'disabled'],
-                            styles
-                          )}
+                          className={classNames(styles.action, {
+                            [styles.disabled]: disabled
+                          })}
                           onClick={() => {
                             onAct(action.callback(node.code));
                           }}

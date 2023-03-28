@@ -6,13 +6,13 @@ import {
   faEdit
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { Action } from 'components/Action';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 
-import Identity from './components/Identity';
+import { Identity } from './components/Identity';
 
 import styles from './styles.module.scss';
 
@@ -58,6 +58,7 @@ export const Heading = () => {
           {isAdmin && (
             <Action
               title='Agency Details'
+              disabled={true}
               description='Update or set your agency details in order to validate your identity.'
               trigger={
                 <div className={styles.button}>

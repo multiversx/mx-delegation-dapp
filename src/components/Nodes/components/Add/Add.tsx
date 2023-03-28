@@ -1,11 +1,12 @@
-import React, { FC } from 'react';
+import React from 'react';
 
 import { Formik } from 'formik';
 import { object, array, mixed } from 'yup';
 
 import { Submit } from 'components/Action';
 
-import Dropzone, {
+import {
+  Dropzone,
   DropzonePayloadType,
   DropzoneFormType
 } from 'components/Nodes/components/Dropzone';
@@ -13,7 +14,7 @@ import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
 
-const Add: FC = () => {
+export const Add = () => {
   const { sendTransaction } = useTransaction();
 
   const validationSchema = object().shape({
@@ -70,5 +71,3 @@ const Add: FC = () => {
     </Formik>
   );
 };
-
-export default Add;

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import classNames from 'classnames';
 
 import { useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
@@ -12,9 +12,10 @@ interface ToggleType {
   name: string;
 }
 
-const Switch = ({ transaction, name }: ToggleType) => {
+export const Switch = ({ transaction, name }: ToggleType) => {
   const { contractDetails } = useGlobalContext();
   const { sendTransaction } = useTransaction();
+  const { pending } = useGetActiveTransactionsStatus();
 
   const [disabled, setDisabled] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(
@@ -50,11 +51,11 @@ const Switch = ({ transaction, name }: ToggleType) => {
 
   return (
     <label
-      className={`${modifiable(
-        'switch',
-        [disabled && 'disabled'],
-        styles
-      )} switch`}
+      className={classNames(
+        styles.switch,
+        { [styles.disabled]: disabled || pending },
+        'switch'
+      )}
     >
       <input
         onChange={() => onChange(transaction)}
@@ -64,17 +65,24 @@ const Switch = ({ transaction, name }: ToggleType) => {
         defaultChecked={checked}
       />
 
-      <span className={modifiable('slider', [checked && 'right'], styles)}>
-        <span className={modifiable('label', [!checked && 'active'], styles)}>
+      <span
+        className={classNames(styles.slider, {
+          [styles.right]: checked,
+          [styles.disabled]: pending
+        })}
+      >
+        <span
+          className={classNames(styles.label, { [styles.active]: checked })}
+        >
           OFF
         </span>
 
-        <span className={modifiable('label', [checked && 'active'], styles)}>
+        <span
+          className={classNames(styles.label, { [styles.active]: checked })}
+        >
           ON
         </span>
       </span>
     </label>
   );
 };
-
-export default Switch;

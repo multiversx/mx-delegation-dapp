@@ -87,10 +87,6 @@
           background: #303234;
         }
 
-        &:not(:last-child) {
-          // margin-right: 15px;
-        }
-
         .title {
           color: rgba(#808ea3, 0.9);
           margin-bottom: 15px;
@@ -164,4 +160,67 @@
     font-size: 20px;
     text-align: center;
   }
+}
+
+[class*='dapp-core-component__dappModalStyles__dappModalContent'] {
+  background-color: black;
+  border-radius: 24px;
+  border: 1px solid rgba(white, 0.125) !important;
+}
+
+[class*='modal-close-button'] {
+  background: none !important;
+  border: none;
+  color: #a3a3a3;
+
+  &:hover {
+    color: #a3a3a3;
+  }
+}
+
+.title {
+  color: #d4d4d4;
+}
+
+.subtitle {
+  color: #a3a3a3;
+}
+
+.phishing {
+  color: #a3a3a3;
+
+  svg,
+  strong {
+    color: #1b46c2 !important;
+  }
+}
+
+.button {
+  background-color: #1b46c2 !important;
+  border-color: #1b46c2 !important;
+  color: #000 !important;
+
+  svg path {
+    fill: #000 !important;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #1b46c2 !important;
+    border-color: #1b46c2 !important;
+    color: #000 !important;
+
+    svg path {
+      fill: #000 !important;
+    }
+  }
+}
+
+.lead {
+  color: #a3a3a3;
+}
+
+.pairing {
+  background-color: #d4d4d4 !important;
 }

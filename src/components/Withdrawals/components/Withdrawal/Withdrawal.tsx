@@ -1,14 +1,15 @@
-import React, { useState, FC, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import axios from 'axios';
-
+import classNames from 'classnames';
 import moment from 'moment';
+
 import { MultiversX } from 'assets/MultiversX';
 import { network } from 'config';
 import { UndelegateStakeListType } from 'context/state';
-import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
@@ -21,10 +22,13 @@ interface FormattersType {
   s: Array<string | number>;
 }
 
-const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
-  const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
-  const [fiat, setFiat] = useState<string>('');
+export const Withdrawal = (props: UndelegateStakeListType) => {
+  const { value, timeLeft } = props;
+  const { pending } = useGetActiveTransactionsStatus();
   const { sendTransaction } = useTransaction();
+
+  const [counter, setCounter] = useState<number>(timeLeft - moment().unix());
+  const [fiat, setFiat] = useState('');
 
   const getTimeLeft = (): string => {
     const duration = moment.duration(counter, 'seconds');
@@ -132,18 +136,16 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
 
         <button
           onClick={onWithdraw}
-          className={modifiable(
-            'withdraw',
-            [counter > 0 && 'disabled'],
-            styles
-          )}
+          className={classNames(styles.withdraw, {
+            [styles.disabled]: counter > 0 || pending
+          })}
         >
           <FontAwesomeIcon icon={faMinus} /> <span>Withdraw</span>
         </button>
       </div>
 
       {counter > 0 && (
-        <div className={modifiable('time', ['mobile'], styles)}>
+        <div className={classNames(styles.time, styles.mobile)}>
           <span className={styles.date}>{getTimeLeft()}</span>
           <span className={styles.label}>Wait Time Left</span>
         </div>
@@ -151,5 +153,3 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
     </div>
   );
 };
-
-export default Withdrawal;

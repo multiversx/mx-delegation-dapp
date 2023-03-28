@@ -2,7 +2,7 @@ import React from 'react';
 import { faRecycle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Switch from './components/Switch';
+import { Switch } from './components/Switch';
 
 import styles from './styles.module.scss';
 
@@ -14,7 +14,7 @@ interface ToggleType {
 }
 
 export const Toggles = () => {
-  const toggles: Array<ToggleType> = [
+  const toggles: ToggleType[] = [
     {
       label: 'Automatic Activation',
       name: 'automaticActivation',

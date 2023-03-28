@@ -58,6 +58,16 @@
       margin-left: 10px;
     }
 
+    &.disabled {
+      pointer-events: none;
+      color: rgba(white, 0.5);
+      background-color: #303234 !important;
+
+      svg path {
+        fill: rgba(white, 0.5);
+      }
+    }
+
     @media (min-width: 992px) {
       width: auto;
     }

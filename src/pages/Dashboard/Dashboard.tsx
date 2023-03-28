@@ -15,7 +15,7 @@ import styles from './styles.module.scss';
 
 export const Dashboard = () => {
   const { address } = useGetAccountInfo();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
   const handleRedirect = () =>
