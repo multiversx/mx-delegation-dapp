@@ -121,7 +121,7 @@ const Cards: FC = () => {
       });
 
       const data = await provider.queryContract(query);
-      const [userNumber] = data.outputUntyped();
+      const [userNumber] = data.getReturnDataParts();
 
       dispatch({
         type: 'getUsersNumber',
@@ -158,7 +158,7 @@ const Cards: FC = () => {
         timeout: 4000
       });
 
-      const data = await query.getNetworkStake();
+      const data = await query.getNetworkStakeStatistics();
 
       dispatch({
         type: 'getTotalNetworkStake',

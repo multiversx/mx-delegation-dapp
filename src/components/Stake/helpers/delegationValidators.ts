@@ -31,7 +31,7 @@ const undelegateValidator = (input: string) =>
         network.egldLabel
       }.`,
       (value = '0') => {
-        const requested = new BigNumber(nominate(value, denomination));
+        const requested = new BigNumber(parseAmount(value, denomination));
         const total = new BigNumber(input);
         const maxed = total.isEqualTo(value);
         const below = requested.isLessThanOrEqualTo(input);

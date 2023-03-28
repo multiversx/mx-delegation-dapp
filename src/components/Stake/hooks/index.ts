@@ -143,7 +143,7 @@ const useStakeData = () => {
       });
 
       const data = await provider.queryContract(query);
-      const [claimableRewards] = data.outputUntyped();
+      const [claimableRewards] = data.getReturnDataParts();
 
       dispatch({
         type: 'getUserClaimableRewards',

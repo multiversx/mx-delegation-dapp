@@ -107,7 +107,9 @@ const Identity: FC = () => {
       });
 
       const data = await provider.queryContract(query);
-      const [name, website, keybase] = data.outputUntyped().map(decodeString);
+      const [name, website, keybase] = data
+        .getReturnDataParts()
+        .map(decodeString);
 
       dispatch({
         type: 'getAgencyMetaData',

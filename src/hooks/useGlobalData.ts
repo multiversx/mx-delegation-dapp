@@ -71,7 +71,7 @@ const useGlobalData = () => {
           });
 
           const data = await provider.queryContract(query);
-          const response = data.outputUntyped();
+          const response = data.getReturnDataParts();
 
           const ownerAddressIndex = 0;
           const serviceFeeIndex = 1;
@@ -114,7 +114,7 @@ const useGlobalData = () => {
           });
 
           const data = await provider.queryContract(query);
-          const response = data.outputUntyped();
+          const response = data.getReturnDataParts();
 
           return response;
         } catch (error) {
@@ -132,7 +132,7 @@ const useGlobalData = () => {
           });
 
           const data = await provider.queryContract(query);
-          const response = data.outputUntyped();
+          const response = data.getReturnDataParts();
 
           return response;
         } catch (error) {
@@ -150,7 +150,7 @@ const useGlobalData = () => {
           });
 
           const data = await provider.queryContract(query);
-          const [totalNodes] = data.outputUntyped();
+          const [totalNodes] = data.getReturnDataParts();
 
           return decodeBigNumber(totalNodes).toFixed();
         } catch (error) {
@@ -169,7 +169,7 @@ const useGlobalData = () => {
           });
 
           const data = await provider.queryContract(query);
-          const [userStake] = data.outputUntyped();
+          const [userStake] = data.getReturnDataParts();
 
           return decodeBigNumber(userStake).toFixed();
         } catch (error) {

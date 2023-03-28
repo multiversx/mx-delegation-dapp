@@ -55,7 +55,7 @@ const Withdrawals: FC = () => {
       ]);
 
       const payload = data
-        .outputUntyped()
+        .getReturnDataParts()
         .reduce((total: any, item, index, array) => {
           if (index % 2 !== 0) {
             return total;

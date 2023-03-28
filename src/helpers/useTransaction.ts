@@ -1,9 +1,4 @@
-import {
-  ContractFunction,
-  TransactionPayload,
-  Address,
-  SmartContract
-} from '@multiversx/sdk-core';
+import { Address, SmartContract, TokenPayment } from '@multiversx/sdk-core';
 import { sendTransactions } from '@multiversx/sdk-dapp/services/transactions/sendTransactions';
 import {
   network,
@@ -43,14 +38,10 @@ const useTransaction = () => {
           : delegable.gasLimit;
       };
 
-      const data = TransactionPayload.contractCall()
-        .setFunction(new ContractFunction(getFunctionName()))
-        .build();
-
       const transaction = {
-        data,
-        value,
-        receiver: contract.getAddress(),
+        value: TokenPayment.egldFromAmount(value),
+        data: getFunctionName(),
+        receiver: contract.getAddress().bech32(),
         gasLimit: getGasLimit()
       };
 
