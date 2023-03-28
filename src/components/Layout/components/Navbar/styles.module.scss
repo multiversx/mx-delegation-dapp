@@ -76,7 +76,7 @@
     }
   }
 
-  .button--clickable {
+  &.clickable {
     cursor: pointer;
 
     &:last-child {

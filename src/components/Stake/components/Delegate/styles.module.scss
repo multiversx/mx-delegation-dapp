@@ -74,7 +74,7 @@
         text-decoration: none;
         padding: 10px;
 
-        &--disabled {
+        &.disabled {
           pointer-events: none;
           opacity: 0.5;
         }

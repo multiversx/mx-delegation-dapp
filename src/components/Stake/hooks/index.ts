@@ -29,9 +29,9 @@ const useStakeData = () => {
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
+  const { success, pending } = useGetActiveTransactionsStatus();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, pending } = useGetActiveTransactionsStatus();
 
   const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
     try {
@@ -40,8 +40,6 @@ const useStakeData = () => {
         type: 'delegate',
         args: ''
       });
-
-      console.log(358);
     } catch (error) {
       console.error(error);
     }

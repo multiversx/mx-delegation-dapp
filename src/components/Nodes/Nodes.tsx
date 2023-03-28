@@ -22,7 +22,6 @@ import { Dropdown } from 'react-bootstrap';
 import { Action } from 'components/Action';
 import { network, auctionContract, stakingContract } from 'config';
 import { useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
 
 import useTransaction from 'helpers/useTransaction';
 
@@ -264,7 +263,11 @@ export const Nodes = () => {
           title='Add Nodes'
           disabled={pending}
           trigger={
-            <div className={styles.button}>
+            <div
+              className={classNames(styles.button, {
+                [styles.disabled]: pending
+              })}
+            >
               <div className={styles.icon}>
                 <FontAwesomeIcon icon={faPlus} />
               </div>
@@ -313,10 +316,9 @@ export const Nodes = () => {
               <div className={styles.right}>
                 {node.status && (
                   <span
-                    className={modifiable(
-                      'status',
-                      [node.status.color],
-                      styles
+                    className={classNames(
+                      styles.status,
+                      styles[node.status.color]
                     )}
                   >
                     <span className={styles.icon}>

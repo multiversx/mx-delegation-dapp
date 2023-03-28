@@ -2,12 +2,12 @@ import React, { ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import classNames from 'classnames';
 
 import { MultiversX } from 'assets/MultiversX';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
-import modifiable from 'helpers/modifiable';
 
 import { Delegate } from './components/Delegate';
 import { Undelegate } from './components/Undelegate';
@@ -84,11 +84,11 @@ export const Stake = () => {
 
   return (
     <div
-      className={`${modifiable(
-        'stake',
-        [(isLoading || isError || isEmpty) && 'empty'],
-        styles
-      )} stake`}
+      className={classNames(
+        styles.stake,
+        { [styles.empty]: isLoading || isError || isEmpty },
+        'stake'
+      )}
     >
       {isLoading || isError || isEmpty ? (
         <div className={styles.wrapper}>
@@ -117,16 +117,17 @@ export const Stake = () => {
       ) : (
         panels.map((panel, index) => (
           <div key={panel.title} className={styles.panel}>
-            <div
-              className={modifiable('icon', [index > 0 && 'inversed'], styles)}
-            >
+            <div className={styles.icon}>
               <MultiversX />
 
               {index > 0 &&
                 Array.from({ length: 4 }).map((item, iteratee) => (
                   <strong
                     key={`plus-${iteratee}`}
-                    className={modifiable('plus', [iteratee + 1], styles)}
+                    className={classNames(
+                      styles.plus,
+                      styles[`plus-${iteratee + 1}`]
+                    )}
                   >
                     +
                   </strong>
@@ -155,12 +156,10 @@ export const Stake = () => {
                     key={action.label}
                     type='button'
                     style={{ background: iteratee ? panel.color : '#303234' }}
-                    className={modifiable(
-                      'action',
-                      [(panel.disabled || pending) && 'disabled'],
-                      styles
-                    )}
                     onClick={action.transaction}
+                    className={classNames(styles.action, {
+                      [styles.disabled]: panel.disabled || pending
+                    })}
                   >
                     {action.label}
                   </button>

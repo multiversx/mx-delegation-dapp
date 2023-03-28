@@ -198,7 +198,7 @@
             }
           }
 
-          &--danger {
+          &.danger {
             color: #f53855;
             border-color: #f53855;
 
@@ -207,7 +207,7 @@
             }
           }
 
-          &--warning {
+          &.warning {
             color: orange;
             border-color: orange;
 
@@ -216,7 +216,7 @@
             }
           }
 
-          &--success {
+          &.success {
             color: #23d389;
             border-color: #23d389;
 

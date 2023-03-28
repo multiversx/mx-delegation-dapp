@@ -6,6 +6,8 @@ import {
   faEdit
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import classNames from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Action } from 'components/Action';
@@ -18,6 +20,7 @@ import styles from './styles.module.scss';
 
 export const Heading = () => {
   const { contractDetails } = useGlobalContext();
+  const { pending } = useGetActiveTransactionsStatus();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,10 +61,14 @@ export const Heading = () => {
           {isAdmin && (
             <Action
               title='Agency Details'
-              disabled={true}
+              disabled={pending}
               description='Update or set your agency details in order to validate your identity.'
               trigger={
-                <div className={styles.button}>
+                <div
+                  className={classNames(styles.button, {
+                    [styles.disabled]: pending
+                  })}
+                >
                   <span className={styles.icon}>
                     <FontAwesomeIcon icon={faEdit} />
                   </span>

@@ -9,6 +9,7 @@ import {
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 
+import classNames from 'classnames';
 import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
 
@@ -16,7 +17,6 @@ import { Submit } from 'components/Action';
 import { network } from 'config';
 
 import { useDispatch, useGlobalContext } from 'context';
-import modifiable from 'helpers/modifiable';
 import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
@@ -174,16 +174,14 @@ export const Identity = () => {
               <div className='input-group'>
                 <input
                   type='text'
-                  className={modifiable(
-                    'input',
-                    [errors[field.name] && touched[field.name] && 'invalid'],
-                    styles
-                  )}
                   name={field.name}
                   value={values[field.name]}
                   autoComplete='off'
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  className={classNames(styles.input, {
+                    [styles.invalid]: errors[field.name] && touched[field.name]
+                  })}
                 />
 
                 {errors[field.name] && touched[field.name] && (

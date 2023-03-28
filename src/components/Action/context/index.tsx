@@ -11,7 +11,7 @@ interface ContextType {
 
 const Context = createContext<StateType | undefined>(undefined);
 const ContextProvider = ({ children }: ContextType) => {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <Context.Provider value={{ showModal, setShowModal }}>

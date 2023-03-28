@@ -1,14 +1,13 @@
-import React from 'react';
-import { ReactNode } from 'react';
-
+import React, { ReactNode } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { AuthenticatedRoutesWrapper } from '@multiversx/sdk-dapp/wrappers';
 
 import { useLocation } from 'react-router-dom';
 import routes, { routeNames } from 'routes';
-import Navbar from './Navbar';
 
-const Layout = ({ children }: { children: ReactNode }) => {
+import { Navbar } from './components/Navbar';
+
+export const Layout = ({ children }: { children: ReactNode }) => {
   const { search } = useLocation();
   const { address } = useGetAccountInfo();
 
@@ -27,5 +26,3 @@ const Layout = ({ children }: { children: ReactNode }) => {
     </div>
   );
 };
-
-export default Layout;

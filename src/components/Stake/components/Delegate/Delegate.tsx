@@ -2,6 +2,7 @@ import React, { MouseEvent } from 'react';
 
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import classNames from 'classnames';
 import { Formik } from 'formik';
 import { object } from 'yup';
 
@@ -11,7 +12,6 @@ import useStakeData from 'components/Stake/hooks';
 import { network } from 'config';
 
 import { denominated } from 'helpers/denominate';
-import modifiable from 'helpers/modifiable';
 
 import styles from './styles.module.scss';
 
@@ -27,7 +27,15 @@ export const Delegate = () => {
         title='Delegate Now'
         description={`Select the amount of ${network.egldLabel} you want to delegate.`}
         disabled={pending}
-        trigger={<div className={styles.trigger}>Delegate</div>}
+        trigger={
+          <div
+            className={classNames(styles.trigger, {
+              [styles.disabled]: pending
+            })}
+          >
+            Delegate
+          </div>
+        }
         render={
           <div className={styles.delegate}>
             <Formik
@@ -68,25 +76,21 @@ export const Delegate = () => {
                           required={true}
                           autoComplete='off'
                           min={1}
-                          className={modifiable(
-                            'input',
-                            [errors.amount && touched.amount && 'invalid'],
-                            styles
-                          )}
                           value={values.amount}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           disabled={maxed}
+                          className={classNames(styles.input, {
+                            [styles.invalid]: errors.amount && touched.amount
+                          })}
                         />
 
                         <a
                           href='/#'
                           onClick={onMax}
-                          className={modifiable(
-                            'max',
-                            [maxed && 'disabled'],
-                            styles
-                          )}
+                          className={classNames(styles.max, {
+                            [styles.disabled]: maxed
+                          })}
                         >
                           Max
                         </a>

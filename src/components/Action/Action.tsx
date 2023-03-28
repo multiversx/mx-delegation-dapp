@@ -52,7 +52,7 @@ export const Submit = ({ close, submit }: any) => {
         {close || 'Close'}
       </button>
 
-      <button type='submit' className={styles.button}>
+      <button type='submit' className={classNames(styles.button, styles.blue)}>
         {submit || 'Submit'}
       </button>
     </div>

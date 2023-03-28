@@ -3,8 +3,9 @@ import { NotificationModal } from '@multiversx/sdk-dapp/UI/NotificationModal';
 import { SignTransactionsModals } from '@multiversx/sdk-dapp/UI/SignTransactionsModals';
 import { TransactionsToastList } from '@multiversx/sdk-dapp/UI/TransactionsToastList';
 import { DappProvider } from '@multiversx/sdk-dapp/wrappers/DappProvider';
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import Layout from 'components/Layout';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+
+import { Layout } from 'components/Layout';
 import { network } from 'config';
 import { ContextProvider } from 'context';
 import { PageNotFound } from 'pages/PageNotFound';
@@ -12,7 +13,7 @@ import { Unlock } from 'pages/Unlock';
 import routes, { routeNames } from 'routes';
 
 const App = () => (
-  <Router>
+  <BrowserRouter>
     <DappProvider
       environment={network.id}
       customNetworkConfig={{
@@ -26,6 +27,7 @@ const App = () => (
           <TransactionsToastList />
           <SignTransactionsModals />
           <NotificationModal />
+
           <Routes>
             <Route path={routeNames.unlock} element={<Unlock />} />
 
@@ -36,12 +38,13 @@ const App = () => (
                 element={<route.component />}
               />
             ))}
+
             <Route element={PageNotFound} />
           </Routes>
         </Layout>
       </ContextProvider>
     </DappProvider>
-  </Router>
+  </BrowserRouter>
 );
 
 export default App;

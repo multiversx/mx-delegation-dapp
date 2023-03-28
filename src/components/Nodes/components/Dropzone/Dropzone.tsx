@@ -3,13 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BLS } from '@multiversx/sdk-core';
-
+import classNames from 'classnames';
 import { useFormikContext, FormikProps } from 'formik';
 import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
 import { network } from 'config';
-import modifiable from 'helpers/modifiable';
 import decodeFile from './helpers';
 
 import styles from './styles.module.scss';
@@ -81,11 +80,11 @@ export const Dropzone = () => {
   const properties = {
     input: dropzone.getInputProps(),
     root: dropzone.getRootProps({
-      className: `${modifiable(
-        'dropzone',
-        [values.files.length > 0 && 'filled'],
-        styles
-      )} dropzone`,
+      className: classNames(
+        styles.dropzone,
+        { [styles.fileld]: values.files.length > 0 },
+        'dropzone'
+      ),
       style: {
         cursor: 'pointer'
       }
@@ -134,11 +133,9 @@ export const Dropzone = () => {
         values.files.map((file: DropzonePayloadType) => (
           <div
             key={file.key}
-            className={modifiable(
-              'file',
-              [file.errors && file.errors.length > 0 && 'error'],
-              styles
-            )}
+            className={classNames(styles.file, {
+              [styles.error]: file.errors && file.errors.length > 0
+            })}
           >
             <div className={styles.meta}>
               <FontAwesomeIcon icon={faKey} />

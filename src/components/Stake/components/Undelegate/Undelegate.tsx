@@ -27,7 +27,15 @@ export const Undelegate = () => {
         title='Undelegate Now'
         description={`Select the amount of ${network.egldLabel} you want to undelegate.`}
         disabled={pending}
-        trigger={<div className={styles.trigger}>Undelegate</div>}
+        trigger={
+          <div
+            className={classNames(styles.trigger, {
+              [styles.disabled]: pending
+            })}
+          >
+            Undelegate
+          </div>
+        }
         render={
           <div className={styles.undelegate}>
             <Formik

@@ -1,7 +1,6 @@
 import React from 'react';
-
 import BigNumber from 'bignumber.js';
-
+import classNames from 'classnames';
 import { Formik } from 'formik';
 import { string, object } from 'yup';
 
@@ -9,7 +8,6 @@ import { Submit } from 'components/Action';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
-import modifiable from 'helpers/modifiable';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
 
@@ -86,14 +84,12 @@ export const ChangeDelegationCap = () => {
                   required={true}
                   autoComplete='off'
                   min={0}
-                  className={modifiable(
-                    'input',
-                    [errors.amount && touched.amount && 'invalid'],
-                    styles
-                  )}
                   value={values.amount}
                   onBlur={handleBlur}
                   onChange={handleChange}
+                  className={classNames(styles.input, {
+                    [styles.invalid]: errors.amount && touched.amount
+                  })}
                 />
               </div>
 
