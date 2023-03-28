@@ -5,21 +5,20 @@ import { TransactionsToastList } from '@multiversx/sdk-dapp/UI/TransactionsToast
 import { DappProvider } from '@multiversx/sdk-dapp/wrappers/DappProvider';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Layout from 'components/Layout';
-import { network, walletConnectBridge, walletConnectDeepLink } from 'config';
+import { network } from 'config';
 import { ContextProvider } from 'context';
 import PageNotFound from 'pages/PageNotFound';
-import Unlock from 'pages/Unlock';
-import { routeNames } from 'routes';
-import routes from 'routes';
+import { Unlock } from 'pages/Unlock';
+import routes, { routeNames } from 'routes';
 
 const App = () => (
   <Router>
     <DappProvider
       environment={network.id}
       customNetworkConfig={{
-        ...network,
-        walletConnectBridge,
-        walletConnectDeepLink
+        name: 'customConfig',
+        apiTimeout: 6000,
+        walletConnectV2ProjectId: '9b1a9564f91cb659ffe21b73d5c4e2d8'
       }}
     >
       <ContextProvider>

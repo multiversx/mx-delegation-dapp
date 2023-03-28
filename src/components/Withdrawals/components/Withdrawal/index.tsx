@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 import moment from 'moment';
-import Logo from 'assets/Logo';
+import { MultiversX } from 'assets/MultiversX';
 import { network } from 'config';
 import { UndelegateStakeListType } from 'context/state';
 import modifiable from 'helpers/modifiable';
@@ -111,7 +111,7 @@ const Withdrawal: FC<UndelegateStakeListType> = ({ value, timeLeft }) => {
     <div className={`${styles.withdrawal} withdrawal`}>
       <div className={styles.left}>
         <span className={styles.icon}>
-          <Logo />
+          <MultiversX />
         </span>
 
         <div className={styles.data}>

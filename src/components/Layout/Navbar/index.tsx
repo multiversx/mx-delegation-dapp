@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { logout } from '@multiversx/sdk-dapp/utils/logout';
 import { Link } from 'react-router-dom';
+
 import EGLD from 'assets/EGLD';
-import Logo from 'assets/Logo';
+import { MultiversX } from 'assets/MultiversX';
 
 import { network } from 'config';
 import { denominated } from 'helpers/denominate';
@@ -25,7 +26,7 @@ const Navbar: FC = () => {
   const { address, account } = useGetAccountInfo();
   const buttons: Array<ButtonsType> = [
     {
-      icon: <Logo />,
+      icon: <MultiversX />,
       label: `${denominated(account.balance)} ${network.egldLabel}`
     },
     {

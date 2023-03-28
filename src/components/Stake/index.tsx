@@ -3,7 +3,7 @@ import React, { FC, ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Logo from 'assets/Logo';
+import { MultiversX } from 'assets/MultiversX';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 import { denominated } from 'helpers/denominate';
@@ -96,7 +96,7 @@ const Stake: FC = () => {
           </strong>
 
           <div className={styles.logo}>
-            <Logo />
+            <MultiversX />
 
             <div style={{ background: '#2044F5' }} className={styles.subicon}>
               <FontAwesomeIcon icon={faLock} />
@@ -119,7 +119,7 @@ const Stake: FC = () => {
             <div
               className={modifiable('icon', [index > 0 && 'inversed'], styles)}
             >
-              <Logo />
+              <MultiversX />
 
               {index > 0 &&
                 Array.from({ length: 4 }).map((item, iteratee) => (

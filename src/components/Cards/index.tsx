@@ -20,10 +20,10 @@ import {
   ApiNetworkProvider,
   ProxyNetworkProvider
 } from '@multiversx/sdk-network-providers';
-
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import Logo from 'assets/Logo';
+
+import { MultiversX } from 'assets/MultiversX';
 
 import Action from 'components/Action';
 import { network, auctionContract } from 'config';
@@ -40,7 +40,7 @@ import styles from './styles.module.scss';
 
 interface CardType {
   label: string;
-  colors: Array<string>;
+  colors: string[];
   data: {
     value?: string | null;
     percentage?: string | undefined;
@@ -51,7 +51,7 @@ interface CardType {
   icon: ReactNode;
 }
 
-const Cards: FC = () => {
+const Cards = () => {
   const {
     totalActiveStake,
     totalNetworkStake,
@@ -296,7 +296,7 @@ const Cards: FC = () => {
       label: 'Contract Stake',
       data: getContractStakeData(),
       colors: ['#2044F5', '#1B37C0'],
-      icon: <Logo />
+      icon: <MultiversX />
     },
     {
       label: 'Number of Users',
