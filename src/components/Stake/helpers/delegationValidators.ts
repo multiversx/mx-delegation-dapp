@@ -46,16 +46,7 @@ const delegateValidator = (input: string, limit: string) =>
     .test('minimum', 'Value must be greater than zero.', (value = '0') =>
       new BigNumber(parseAmount(value, denomination)).isGreaterThanOrEqualTo(1)
     )
-    .test(
-      'uncapable',
-      `Max delegation cap reached. That is the maximum amount you can delegate: ${denominated(
-        limit
-      )} ${network.egldLabel}`,
-      (value = '0') =>
-        new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
-          limit
-        )
-    )
+
     .test(
       'maximum',
       `You need to set a value under ${denominated(input)} ${
@@ -64,6 +55,16 @@ const delegateValidator = (input: string, limit: string) =>
       (value = '0') =>
         new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
           input
+        )
+    )
+    .test(
+      'uncapable',
+      `Max delegation cap reached. That is the maximum amount you can delegate: ${denominated(
+        limit
+      )} ${network.egldLabel}`,
+      (value = '0') =>
+        new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
+          limit
         )
     );
 
