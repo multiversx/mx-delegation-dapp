@@ -20,7 +20,7 @@ import getPercentage from 'helpers/getPercentage';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
 
-export type ActionCallbackType = () => void;
+type ActionCallbackType = () => void;
 interface DelegationPayloadType {
   amount: string;
 }

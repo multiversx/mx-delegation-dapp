@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-
 import {
   ContractFunction,
   Address,
   Query,
   decodeString
 } from '@multiversx/sdk-core';
-import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 

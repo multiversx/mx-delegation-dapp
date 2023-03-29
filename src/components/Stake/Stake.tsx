@@ -71,11 +71,11 @@ export const Stake = () => {
       disabled: !userClaimableRewards.data || userClaimableRewards.data === '0',
       actions: [
         {
-          transaction: onClaimRewards,
+          transaction: onClaimRewards(() => false),
           label: 'Claim Now'
         },
         {
-          transaction: onRedelegate,
+          transaction: onRedelegate(() => false),
           label: 'Redelegate'
         }
       ]
