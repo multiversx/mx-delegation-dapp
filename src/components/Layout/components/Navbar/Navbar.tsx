@@ -46,7 +46,7 @@ export const Navbar = () => {
           <MultiversX />
         </span>
 
-        <span className={styles.title}>Delegation Manager</span>
+        <span className={styles.title}>Delegation Dashboard</span>
       </Link>
 
       <div className={styles.buttons}>

@@ -73,7 +73,7 @@ export const Withdrawal = (props: UndelegateStakeListType) => {
 
     const fetchData = async () => {
       try {
-        const pairs = await axios.get('https://api.multiversx.com/mex-pairs', {
+        const pairs = await axios.get(`${network.apiAddress}/mex-pairs`, {
           cancelToken: source.token
         });
 

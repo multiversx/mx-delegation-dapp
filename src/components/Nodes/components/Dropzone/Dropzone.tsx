@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BLS } from '@multiversx/sdk-wallet';
+import axios from 'axios';
 import classNames from 'classnames';
 import { useFormikContext, FormikProps } from 'formik';
 import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
 import { network } from 'config';
+import { useGlobalContext } from 'context';
 
 import decodeFile from './helpers';
 
@@ -29,6 +31,7 @@ export interface DropzonePayloadType {
 export const Dropzone = () => {
   const [data, setData] = useState<DropzonePayloadType[]>([]);
 
+  const { nodesStates } = useGlobalContext();
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 
@@ -101,26 +104,47 @@ export const Dropzone = () => {
   };
 
   const setValue = () => {
-    const value = data.map((file: DropzonePayloadType, fileIndex: number) => {
-      const errors: Array<string> = [];
-      const duplicate = (item: DropzonePayloadType, itemIndex: number) =>
-        file.pubKey === item.pubKey && fileIndex > itemIndex;
+    const fetchNodes = async () => {
+      const value = await Promise.all(
+        data.map(async (file: DropzonePayloadType, fileIndex: number) => {
+          const errors: string[] = [];
+          const duplicate = (item: DropzonePayloadType, itemIndex: number) =>
+            file.pubKey === item.pubKey && fileIndex > itemIndex;
 
-      if (!file.pubKey || file.pubKey.length !== 192) {
-        errors.push('length');
-      }
+          if (!file.pubKey || file.pubKey.length !== 192) {
+            errors.push('length');
+          }
 
-      if (data.find(duplicate)) {
-        errors.push('unique');
-      }
+          if (data.find(duplicate)) {
+            errors.push('unique');
+          }
 
-      return {
-        ...file,
-        errors
-      };
-    });
+          try {
+            const existing = await axios.get(
+              `${network.apiAddress}/nodes/${file.pubKey}`
+            );
 
-    setFieldValue('files', value);
+            if (existing) {
+              errors.push('existing');
+            }
+          } catch (error) {
+            return {
+              ...file,
+              errors
+            };
+          }
+
+          return {
+            ...file,
+            errors
+          };
+        })
+      );
+
+      setFieldValue('files', value);
+    };
+
+    fetchNodes();
 
     return () => setFieldValue('files', []);
   };

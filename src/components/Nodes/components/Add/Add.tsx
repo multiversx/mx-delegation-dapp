@@ -29,6 +29,12 @@ export const Add = () => {
             file.errors && !file.errors.includes('length')
         )
       )
+      .test('keyIsUnused', 'Key exists already.', (value: any) =>
+        value.every(
+          (file: DropzonePayloadType) =>
+            file.errors && !file.errors.includes('existing')
+        )
+      )
       .test('keyIsUnique', 'Duplicate key detected!', (value: any) =>
         value.every(
           (file: DropzonePayloadType) =>
