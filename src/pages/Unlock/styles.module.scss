@@ -35,6 +35,11 @@
       height: 100px;
       position: relative;
       margin: -50px 0 30px;
+
+      svg {
+        width: 32px;
+        height: auto;
+      }
     }
 
     .heading {
@@ -162,6 +167,24 @@
   }
 }
 
+[class*='dapp-extension-modal'] {
+  color: #fff;
+
+  button {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: 32px auto 0;
+    padding: 15px 30px;
+    width: 150px;
+    border-radius: 7px;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
 [class*='dapp-core-component__dappModalStyles__dappModalContent'] {
   background-color: black;
   border-radius: 24px;
@@ -182,8 +205,31 @@
   color: #d4d4d4;
 }
 
-.subtitle {
+.subtitle,
+.description {
+  color: #a3a3a3 !important;
+}
+
+.head {
+  background-color: #a3a3a3 !important;
+}
+
+.navigation,
+.footer {
+  color: #a3a3a3 !important;
+}
+
+.selected {
   color: #a3a3a3;
+
+  input:before {
+    border: 2px solid #adb5bd !important;
+    background-color: #adb5bd;
+  }
+}
+
+.icon svg path {
+  fill: #a3a3a3;
 }
 
 .phishing {

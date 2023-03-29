@@ -9,6 +9,7 @@ import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
 import { network } from 'config';
+
 import decodeFile from './helpers';
 
 import styles from './styles.module.scss';
@@ -27,6 +28,7 @@ export interface DropzonePayloadType {
 
 export const Dropzone = () => {
   const [data, setData] = useState<DropzonePayloadType[]>([]);
+
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 

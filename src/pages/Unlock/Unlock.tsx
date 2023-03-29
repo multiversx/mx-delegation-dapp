@@ -35,50 +35,32 @@ export const Unlock = () => {
       name: 'Ledger',
       background: '#000000',
       icon: Ledger,
-      component: LedgerLoginButton
-      // innerLedgerComponentsClasses: {
-      //   ledgerScamPhishingAlertClassName: 'ledger-modal-phishing',
-      //   ledgerProgressBarClassNames: {
-      //     ledgerProgressBarTrackClassName: 'ledger-modal-progress-track',
-      //     ledgerProgressBarThumbClassName: 'ledger-modal-progress-thumb'
-      //   },
-      //   ledgerConnectClassNames: {
-      //     ledgerModalTitleClassName: 'ledger-modal-title',
-      //     ledgerModalSubtitleClassName: 'ledger-modal-subtitle',
-      //     ledgerModalIconClassName: 'ledger-modal-icon',
-      //     ledgerModalButtonClassName: 'ledger-modal-button',
-      //     ledgerModalContentClassName: 'ledger-modal-content',
-      //     ledgerModalFooterClassName: 'ledger-modal-footer',
-      //     ledgerModalFooterLinkClassName: 'ledger-modal-footer-link',
-      //     ledgerModalErrorClassName: 'ledger-modal-error'
-      //   },
-      //   confirmAddressClassNames: {
-      //     ledgerModalTitleClassName: 'ledger-modal-title',
-      //     ledgerModalConfirmDescriptionClassName:
-      //       'ledger-modal-confirm-description',
-      //     ledgerModalConfirmDataClassName: 'ledger-modal-confirm-data',
-      //     ledgerModalConfirmFooterClassName: 'ledger-modal-confirm-footer',
-      //     ledgerModalConfirmContentClassName: 'ledger-modal-confirm-content'
-      //   },
-      //   addressTableClassNames: {
-      //     ledgerModalTitleClassName: 'ledger-modal-title',
-      //     ledgerModalTableHeadClassName: 'ledger-modal-table-head',
-      //     ledgerModalTableItemClassName: 'ledger-modal-table-item',
-      //     ledgerModalButtonClassName: 'btn btn-primary w-auto m-0',
-      //     ledgerModalTableNavigationButtonClassName:
-      //       'ledger-modal-navigation-button',
-      //     ledgerModalTableNavigationButtonDisabledClassName:
-      //       'ledger-modal-navigation-button-disabled',
-      //     ledgerModalTableSelectedItemClassName:
-      //       'ledger-modal-table-selected-item'
-      //   },
-      //   ledgerLoadingClassNames: {
-      //     ledgerModalTitleClassName: 'ledger-modal-title',
-      //     ledgerModalSubtitleClassName: 'ledger-modal-subtitle',
-      //     ledgerLoadingWrapper: 'ledger-modal-loading-wrapper',
-      //     ledgerLoadingSpinner: 'ledger-modal-loading-spinner'
-      //   }
-      // }
+      component: LedgerLoginButton,
+      innerLedgerComponentsClasses: {
+        ledgerScamPhishingAlertClassName: styles.phishing,
+        ledgerProgressBarClassNames: {},
+        ledgerConnectClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle,
+          ledgerModalIconClassName: styles.icon
+        },
+        confirmAddressClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalConfirmDescriptionClassName: styles.description,
+          ledgerModalConfirmFooterClassName: styles.footer
+        },
+        addressTableClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle,
+          ledgerModalTableHeadClassName: styles.head,
+          ledgerModalTableNavigationButtonClassName: styles.navigation,
+          ledgerModalTableSelectedItemClassName: styles.selected
+        },
+        ledgerLoadingClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle
+        }
+      }
     },
     {
       title: 'Mobile',

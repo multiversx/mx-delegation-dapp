@@ -1,12 +1,13 @@
 import React from 'react';
 import { faRecycle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 
 import { Switch } from './components/Switch';
 
 import styles from './styles.module.scss';
 
-interface ToggleType {
+export interface ToggleType {
   label: string;
   name: string;
   transaction: string;
@@ -30,7 +31,7 @@ export const Toggles = () => {
   ];
 
   return (
-    <div className={`${styles.toggles} toggles`}>
+    <div className={classNames(styles.toggles, 'toggles')}>
       {toggles.map((toggle) => (
         <div key={toggle.name} className={styles.toggle}>
           <div className={styles.left}>

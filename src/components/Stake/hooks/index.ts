@@ -47,7 +47,7 @@ const useStakeData = () => {
           args: ''
         });
 
-        callback();
+        setTimeout(callback, 250);
       } catch (error) {
         console.error(error);
       }
@@ -63,7 +63,7 @@ const useStakeData = () => {
           args: nominateValToHex(data.amount.toString())
         });
 
-        callback();
+        setTimeout(callback, 250);
       } catch (error) {
         console.error(error);
       }
@@ -78,7 +78,7 @@ const useStakeData = () => {
           args: ''
         });
 
-        callback();
+        setTimeout(callback, 250);
       } catch (error) {
         console.error(error);
       }
@@ -93,7 +93,7 @@ const useStakeData = () => {
           args: ''
         });
 
-        callback();
+        setTimeout(callback, 250);
       } catch (error) {
         console.error(error);
       }

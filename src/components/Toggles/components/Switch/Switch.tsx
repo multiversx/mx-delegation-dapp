@@ -7,15 +7,16 @@ import useTransaction from 'helpers/useTransaction';
 
 import styles from './styles.module.scss';
 
-interface ToggleType {
+export interface SwitchPropsType {
   transaction: string;
   name: string;
 }
 
-export const Switch = ({ transaction, name }: ToggleType) => {
+export const Switch = (props: SwitchPropsType) => {
+  const { transaction, name } = props;
   const { contractDetails } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { pending } = useGetActiveTransactionsStatus();
+  const { pending, fail } = useGetActiveTransactionsStatus();
 
   const [disabled, setDisabled] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(
@@ -47,6 +48,13 @@ export const Switch = ({ transaction, name }: ToggleType) => {
     }
   };
 
+  const resetSwitch = () => {
+    if (fail) {
+      setChecked(!checked);
+    }
+  };
+
+  useEffect(resetSwitch, [fail]);
   useEffect(trackContractDetails, [contractDetails.data]);
 
   return (

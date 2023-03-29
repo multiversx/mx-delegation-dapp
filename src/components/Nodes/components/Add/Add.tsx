@@ -5,6 +5,7 @@ import { object, array, mixed } from 'yup';
 
 import { Submit } from 'components/Action';
 
+import { useAction } from 'components/Action/context';
 import {
   Dropzone,
   DropzonePayloadType,
@@ -16,6 +17,7 @@ import styles from './styles.module.scss';
 
 export const Add = () => {
   const { sendTransaction } = useTransaction();
+  const { setShowModal } = useAction();
 
   const validationSchema = object().shape({
     files: array()
@@ -43,11 +45,15 @@ export const Add = () => {
         ''
       );
 
-      await sendTransaction({
-        args: value,
-        type: 'addNodes',
-        value: '0'
-      });
+      if (Boolean(value)) {
+        await sendTransaction({
+          args: value,
+          type: 'addNodes',
+          value: '0'
+        });
+
+        setTimeout(() => setShowModal(false), 250);
+      }
     } catch (error) {
       console.error(error);
     }

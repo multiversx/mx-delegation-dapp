@@ -11,8 +11,8 @@
     border-radius: 16px;
 
     svg {
-      height: 24px;
-      width: auto;
+      height: auto;
+      width: 32px;
     }
   }
 
@@ -74,13 +74,13 @@
         }
       }
     }
-  }
 
-  &.clickable {
-    cursor: pointer;
+    &.clickable {
+      cursor: pointer;
 
-    &:last-child {
-      color: #808ea3;
+      &:last-child {
+        color: #808ea3;
+      }
     }
   }
 
