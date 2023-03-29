@@ -73,15 +73,11 @@ export const Withdrawal = (props: UndelegateStakeListType) => {
 
     const fetchData = async () => {
       try {
-        const pairs = await axios.get(`${network.apiAddress}/mex-pairs`, {
+        const { data } = await axios.get(`${network.apiAddress}/economics`, {
           cancelToken: source.token
         });
 
-        const token = pairs.data.find(
-          (item: any) => item.baseId === 'WEGLD-bd4d79'
-        );
-
-        const amount = parseFloat(value.replace(',', '')) * token.basePrice;
+        const amount = parseFloat(value.replace(',', '')) * data.price;
 
         setFiat(Number(amount.toFixed(2)).toLocaleString());
       } catch (error) {
