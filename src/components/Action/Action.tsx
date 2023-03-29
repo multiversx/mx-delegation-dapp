@@ -31,7 +31,11 @@ export const Action = withAction(
           <div className={styles.modal}>
             {title && <div className={styles.title}>{title}</div>}
             {description && <p className={styles.description}>{description}</p>}
-            {render && <div className={styles.render}>{render}</div>}
+            {render && (
+              <div className={styles.render}>
+                {render(() => setShowModal(false))}
+              </div>
+            )}
           </div>
         </Modal>
       </div>

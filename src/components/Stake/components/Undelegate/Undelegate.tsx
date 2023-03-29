@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { object } from 'yup';
 import { Action, Submit } from 'components/Action';
 import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
-import useStakeData from 'components/Stake/hooks';
+import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
 
@@ -36,13 +36,13 @@ export const Undelegate = () => {
             Undelegate
           </div>
         }
-        render={
+        render={(callback: ActionCallbackType) => (
           <div className={styles.undelegate}>
             <Formik
               validationSchema={object().shape({
                 amount: undelegateValidator(userActiveStake.data || '')
               })}
-              onSubmit={onUndelegate}
+              onSubmit={onUndelegate(callback)}
               initialValues={{
                 amount: '0'
               }}
@@ -116,7 +116,7 @@ export const Undelegate = () => {
               }}
             </Formik>
           </div>
-        }
+        )}
       />
     </div>
   );

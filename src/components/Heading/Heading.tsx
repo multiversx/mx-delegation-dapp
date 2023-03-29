@@ -75,7 +75,7 @@ export const Heading = () => {
                   Identity
                 </div>
               }
-              render={<Identity />}
+              render={() => <Identity />}
             />
           )}
         </div>

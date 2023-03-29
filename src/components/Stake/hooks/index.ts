@@ -20,6 +20,7 @@ import getPercentage from 'helpers/getPercentage';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
 
+export type ActionCallbackType = () => void;
 interface DelegationPayloadType {
   amount: string;
 }
@@ -36,53 +37,67 @@ const useStakeData = () => {
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
 
-  const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: data.amount,
-        type: 'delegate',
-        args: ''
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const onDelegate =
+    (callback: ActionCallbackType) =>
+    async (data: DelegationPayloadType): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: data.amount,
+          type: 'delegate',
+          args: ''
+        });
 
-  const onUndelegate = async (data: DelegationPayloadType): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: '0',
-        type: 'unDelegate',
-        args: nominateValToHex(data.amount.toString())
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        callback();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const onRedelegate = async (): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: '0',
-        type: 'reDelegateRewards',
-        args: ''
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const onUndelegate =
+    (callback: ActionCallbackType) =>
+    async (data: DelegationPayloadType): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: '0',
+          type: 'unDelegate',
+          args: nominateValToHex(data.amount.toString())
+        });
 
-  const onClaimRewards = async (): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: '0',
-        type: 'claimRewards',
-        args: ''
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        callback();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+  const onRedelegate =
+    (callback: ActionCallbackType) => async (): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: '0',
+          type: 'reDelegateRewards',
+          args: ''
+        });
+
+        callback();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+  const onClaimRewards =
+    (callback: ActionCallbackType) => async (): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: '0',
+          type: 'claimRewards',
+          args: ''
+        });
+
+        callback();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   const getStakingLimits = () => {
     if (contractDetails.data && totalActiveStake.data) {

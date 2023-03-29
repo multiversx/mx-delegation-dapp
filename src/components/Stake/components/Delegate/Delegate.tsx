@@ -8,7 +8,7 @@ import { object } from 'yup';
 
 import { Action, Submit } from 'components/Action';
 import { delegateValidator } from 'components/Stake//helpers/delegationValidators';
-import useStakeData from 'components/Stake/hooks';
+import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
 import { network } from 'config';
 
 import { denominated } from 'helpers/denominate';
@@ -36,13 +36,13 @@ export const Delegate = () => {
             Delegate
           </div>
         }
-        render={
+        render={(onClose: ActionCallbackType) => (
           <div className={styles.delegate}>
             <Formik
               validationSchema={object().shape({
                 amount: delegateValidator(balance, limit)
               })}
-              onSubmit={onDelegate}
+              onSubmit={onDelegate(onClose)}
               initialValues={{
                 amount: '1'
               }}
@@ -116,7 +116,7 @@ export const Delegate = () => {
               }}
             </Formik>
           </div>
-        }
+        )}
       />
     </div>
   );

@@ -283,7 +283,7 @@ export const Nodes = () => {
               <span>Add Nodes</span>
             </div>
           }
-          render={<Add />}
+          render={() => <Add />}
         />
       </div>
 

@@ -394,7 +394,7 @@ export const Cards = () => {
               >
                 {interactive && !pending ? (
                   <Action
-                    render={card.modal}
+                    render={() => card.modal}
                     title={card.title}
                     description={card.description}
                     trigger={
