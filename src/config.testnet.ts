@@ -55,7 +55,7 @@ export const network: NetworkType = {
     'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqx8llllsxavffq'
 };
 
-export const delegationContractData: Array<DelegationContractType> = [
+export const delegationContractData: DelegationContractType[] = [
   {
     name: 'createNewDelegationContract',
     gasLimit: 6000000,

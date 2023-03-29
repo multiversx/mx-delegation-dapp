@@ -22,7 +22,7 @@ interface ButtonsType {
 
 export const Navbar = () => {
   const { address, account } = useGetAccountInfo();
-  const buttons: Array<ButtonsType> = [
+  const buttons: ButtonsType[] = [
     {
       icon: <MultiversX />,
       label: `${denominated(account.balance)} ${network.egldLabel}`

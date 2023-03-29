@@ -23,7 +23,7 @@ export const routeNames = {
   admin: '/admin'
 };
 
-const routes: Array<RouteType> = [
+const routes: RouteType[] = [
   {
     path: routeNames.home,
     title: 'Home',

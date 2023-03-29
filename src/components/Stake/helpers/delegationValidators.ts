@@ -46,7 +46,6 @@ const delegateValidator = (input: string, limit: string) =>
     .test('minimum', 'Value must be greater than zero.', (value = '0') =>
       new BigNumber(parseAmount(value, denomination)).isGreaterThanOrEqualTo(1)
     )
-
     .test(
       'maximum',
       `You need to set a value under ${denominated(input)} ${

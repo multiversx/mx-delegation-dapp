@@ -16,10 +16,10 @@ import styles from './styles.module.scss';
 
 interface FormattersType {
   [key: string]: any;
-  d: Array<string | number>;
-  h: Array<string | number>;
-  m: Array<string | number>;
-  s: Array<string | number>;
+  d: (string | number)[];
+  h: (string | number)[];
+  m: (string | number)[];
+  s: (string | number)[];
 }
 
 export const Withdrawal = (props: UndelegateStakeListType) => {

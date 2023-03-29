@@ -34,11 +34,11 @@ interface globalFetchesType {
   };
   getNodesNumber: {
     key: string;
-    handler: () => Promise<Array<Buffer> | string>;
+    handler: () => Promise<Buffer[] | string>;
   };
   getNodesStates: {
     key: string;
-    handler: () => Promise<Array<Buffer> | string>;
+    handler: () => Promise<Buffer[] | string>;
   };
   getTotalActiveStake: {
     key: string;
@@ -106,7 +106,7 @@ const useGlobalData = () => {
     },
     getNodesNumber: {
       key: 'nodesNumber',
-      handler: async (): Promise<Array<Buffer> | string> => {
+      handler: async (): Promise<Buffer[] | string> => {
         try {
           const query = new Query({
             address: new Address(auctionContract),
@@ -125,7 +125,7 @@ const useGlobalData = () => {
     },
     getNodesStates: {
       key: 'nodesStates',
-      handler: async (): Promise<Array<Buffer> | string> => {
+      handler: async (): Promise<Buffer[] | string> => {
         try {
           const query = new Query({
             address: new Address(network.delegationContract),

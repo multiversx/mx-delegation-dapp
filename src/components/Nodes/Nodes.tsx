@@ -53,7 +53,7 @@ interface ActionsType {
   callback: (value: string) => ArgumentsType;
 }
 
-const actions: Array<ActionsType> = [
+const actions: ActionsType[] = [
   {
     key: 'unStake',
     label: 'Unstake',
@@ -165,10 +165,10 @@ export const Nodes = () => {
   }, []);
 
   const calculateNodes = useCallback(
-    (nodes: Array<any>) =>
+    (nodes: any[]) =>
       nodes.reduce((result: any, value, index, array) => {
         if (index % 2 === 0) {
-          const [code, status]: Array<any> = array.slice(index, index + 2);
+          const [code, status]: any[] = array.slice(index, index + 2);
           const item: any = {
             code: Buffer.from(code, 'base64').toString('hex'),
             status: Buffer.from(status, 'base64').toString()
@@ -188,7 +188,7 @@ export const Nodes = () => {
   );
 
   const assignQueue = useCallback(
-    (nodes: Array<NodeType>) =>
+    (nodes: NodeType[]) =>
       nodes.map(async (node: NodeType) =>
         node.status.label === 'Queued'
           ? {
@@ -201,7 +201,7 @@ export const Nodes = () => {
   );
 
   const getNodes = () => {
-    const fetchData = async (nodes: Array<any>, states: Array<any>) => {
+    const fetchData = async (nodes: any[], states: any[]) => {
       try {
         const activeNodes = await Promise.all(
           assignQueue(calculateNodes(nodes))

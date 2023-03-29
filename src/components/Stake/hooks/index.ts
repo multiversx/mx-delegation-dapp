@@ -112,7 +112,7 @@ const useStakeData = () => {
         const stake = totalActiveStake.data;
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
         const maxed =
-          parseInt(getPercentage(denominated(stake), denominated(cap))) === 100;
+          parseInt(getPercentage(denominated(stake), denominated(cap))) >= 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
@@ -123,7 +123,7 @@ const useStakeData = () => {
         } else {
           return {
             balance: available.toFixed(),
-            limit: remainder.toFixed(),
+            limit: remainder.gt(0) ? remainder.toFixed() : '0',
             maxed
           };
         }

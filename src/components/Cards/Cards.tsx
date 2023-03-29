@@ -293,7 +293,7 @@ export const Cards = () => {
     return 'Unknown APR';
   };
 
-  const cards: Array<CardType> = [
+  const cards: CardType[] = [
     {
       label: 'Contract Stake',
       data: getContractStakeData(),

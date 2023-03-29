@@ -40,7 +40,7 @@ export const Identity = () => {
     useGetSuccessfulTransactions();
 
   const dispatch = useDispatch();
-  const fields: Array<FieldType> = [
+  const fields: FieldType[] = [
     {
       name: 'name',
       label: 'Name'

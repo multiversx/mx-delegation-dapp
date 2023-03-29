@@ -28,7 +28,7 @@ interface PanelType {
   title: string;
   value: string;
   disabled: boolean;
-  actions: Array<ActionType>;
+  actions: ActionType[];
 }
 
 export const Stake = () => {
@@ -45,7 +45,7 @@ export const Stake = () => {
       userClaimableRewards.status === 'error'
   };
 
-  const panels: Array<PanelType> = [
+  const panels: PanelType[] = [
     {
       subicon: <FontAwesomeIcon icon={faLock} />,
       color: '#2044F5',
