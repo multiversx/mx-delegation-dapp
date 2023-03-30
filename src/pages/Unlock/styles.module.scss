@@ -185,7 +185,8 @@
   }
 }
 
-[class*='dapp-ledger-modal'] * {
+[class*='dapp-ledger-modal'] *,
+[class*='dapp-wallet-connect-modal'] * {
   color: #a3a3a3;
 }
 

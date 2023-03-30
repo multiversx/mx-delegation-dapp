@@ -43,16 +43,21 @@ export const Action = withAction(
   }
 );
 
-export const Submit = ({ close, submit }: any) => {
+export const Submit = ({ close, submit, onClose }: any) => {
   const { setShowModal } = useAction();
+
+  const onCloseClick = (event: any) => {
+    if (onClose) {
+      onClose();
+    }
+
+    event.preventDefault();
+    setShowModal(false);
+  };
 
   return (
     <div className={styles.buttons}>
-      <button
-        type='button'
-        className={styles.button}
-        onClick={() => setShowModal(false)}
-      >
+      <button type='button' className={styles.button} onClick={onCloseClick}>
         {close || 'Close'}
       </button>
 

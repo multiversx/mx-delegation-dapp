@@ -110,7 +110,13 @@ export const Undelegate = () => {
                       )}
                     </div>
 
-                    <Submit save='Continue' />
+                    <Submit
+                      save='Continue'
+                      onClose={() => {
+                        setMaxed(false);
+                        setFieldValue('amount', '0');
+                      }}
+                    />
                   </form>
                 );
               }}

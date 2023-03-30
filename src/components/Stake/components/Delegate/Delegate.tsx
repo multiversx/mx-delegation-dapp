@@ -110,7 +110,12 @@ export const Delegate = () => {
                       )}
                     </div>
 
-                    <Submit save='Continue' />
+                    <Submit
+                      save='Continue'
+                      onClose={() => {
+                        setFieldValue('amount', '1');
+                      }}
+                    />
                   </form>
                 );
               }}
