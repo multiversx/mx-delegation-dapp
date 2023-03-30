@@ -28,7 +28,7 @@
     color: white;
     outline: none;
 
-    &--invalid {
+    &.invalid {
       border-color: #f53855 !important;
     }
   }

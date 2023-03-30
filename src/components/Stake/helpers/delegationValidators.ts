@@ -1,4 +1,4 @@
-import { nominate } from '@elrondnetwork/dapp-core';
+import { parseAmount } from '@multiversx/sdk-dapp/utils/operations/parseAmount';
 
 import BigNumber from 'bignumber.js';
 import { string } from 'yup';
@@ -9,14 +9,14 @@ const undelegateValidator = (input: string) =>
   string()
     .required('Required')
     .test('minimum', 'Value must be greater than zero.', (value = '0') =>
-      new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(1)
+      new BigNumber(parseAmount(value, denomination)).isGreaterThanOrEqualTo(1)
     )
     .test(
       'remaining',
       `Either undelegate the total amount or leave at least 1 ${network.egldLabel} staked.`,
       (value = '0') => {
-        const requested = new BigNumber(nominate(value, denomination));
-        const minimum = new BigNumber(nominate('1', denomination));
+        const requested = new BigNumber(parseAmount(value, denomination));
+        const minimum = new BigNumber(parseAmount('1', denomination));
         const total = new BigNumber(input);
 
         const oneLeft = total.minus(requested).isGreaterThanOrEqualTo(minimum);
@@ -31,7 +31,7 @@ const undelegateValidator = (input: string) =>
         network.egldLabel
       }.`,
       (value = '0') => {
-        const requested = new BigNumber(nominate(value, denomination));
+        const requested = new BigNumber(parseAmount(value, denomination));
         const total = new BigNumber(input);
         const maxed = total.isEqualTo(value);
         const below = requested.isLessThanOrEqualTo(input);
@@ -44,15 +44,7 @@ const delegateValidator = (input: string, limit: string) =>
   string()
     .required('Required')
     .test('minimum', 'Value must be greater than zero.', (value = '0') =>
-      new BigNumber(nominate(value, denomination)).isGreaterThanOrEqualTo(1)
-    )
-    .test(
-      'uncapable',
-      `Max delegation cap reached. That is the maximum amount you can delegate: ${denominated(
-        limit
-      )} ${network.egldLabel}`,
-      (value = '0') =>
-        new BigNumber(nominate(value, denomination)).isLessThanOrEqualTo(limit)
+      new BigNumber(parseAmount(value, denomination)).isGreaterThanOrEqualTo(1)
     )
     .test(
       'maximum',
@@ -60,7 +52,19 @@ const delegateValidator = (input: string, limit: string) =>
         network.egldLabel
       }.`,
       (value = '0') =>
-        new BigNumber(nominate(value, denomination)).isLessThanOrEqualTo(input)
+        new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
+          input
+        )
+    )
+    .test(
+      'uncapable',
+      `Max delegation cap reached. That is the maximum amount you can delegate: ${denominated(
+        limit
+      )} ${network.egldLabel}`,
+      (value = '0') =>
+        new BigNumber(parseAmount(value, denomination)).isLessThanOrEqualTo(
+          limit
+        )
     );
 
 export { delegateValidator, undelegateValidator };

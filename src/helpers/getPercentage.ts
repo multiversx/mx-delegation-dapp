@@ -6,6 +6,11 @@ const getPercentage = (amountOutOfTotal: string, total: string) => {
   if (percentage < 1) {
     return '<1';
   }
+
+  if (percentage > 100) {
+    return '100.00';
+  }
+
   return percentage ? percentage.toFixed(2) : '...';
 };
 

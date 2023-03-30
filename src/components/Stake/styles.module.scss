@@ -7,7 +7,7 @@
     justify-content: space-between;
   }
 
-  &--empty {
+  &.empty {
     margin-top: 60px;
     padding-bottom: 90px;
   }
@@ -58,7 +58,7 @@
 
   .icon,
   .logo {
-    background: #303234;
+    background: black;
     border: 1px solid #49494d;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
     border-radius: 50%;
@@ -69,12 +69,9 @@
     height: 100px;
     position: relative;
 
-    &--inversed {
-      background-color: white;
-
-      svg path {
-        fill: #303234;
-      }
+    & > svg {
+      width: 32px;
+      height: auto;
     }
   }
 
@@ -87,7 +84,7 @@
       position: absolute;
       font-size: 18px;
 
-      &--1 {
+      &.plus-1 {
         right: calc(100% + 2px);
         top: 5px;
         height: 11px;
@@ -95,7 +92,7 @@
         align-items: center;
       }
 
-      &--2 {
+      &.plus-2 {
         font-size: 32px;
         top: 0;
         left: calc(100% + 15px);
@@ -104,7 +101,7 @@
         align-items: center;
       }
 
-      &--3 {
+      &.plus-3 {
         left: calc(100% + 2px);
         display: flex;
         align-items: center;
@@ -112,7 +109,7 @@
         bottom: 0;
       }
 
-      &--4 {
+      &.plus-4 {
         font-size: 24px;
         top: calc(100% - 8px);
         right: calc(100% + 20px);
@@ -183,7 +180,7 @@
         width: 150px;
       }
 
-      &--disabled {
+      &.disabled {
         pointer-events: none;
         color: rgba(white, 0.5);
         background-color: #303234 !important;

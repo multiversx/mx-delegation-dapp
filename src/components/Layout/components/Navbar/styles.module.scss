@@ -1,0 +1,103 @@
+.nav {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .logo {
+    margin-right: 15px;
+    padding: 12px;
+    background-color: black;
+    border-radius: 16px;
+
+    svg {
+      height: auto;
+      width: 32px;
+    }
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: 300;
+    text-decoration: none;
+    color: white;
+    display: none;
+
+    @media (min-width: 1200px) {
+      display: block;
+    }
+  }
+
+  .heading {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+  }
+
+  .button {
+    background-color: rgba(white, 0.1);
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    font-size: 10px;
+    color: white;
+    align-items: center;
+    max-height: 45px;
+
+    &:first-child {
+      .icon {
+        display: none;
+      }
+    }
+
+    @media (min-width: 992px) {
+      span {
+        font-size: 14px;
+      }
+    }
+
+    &:not(:first-child) {
+      margin-left: 15px;
+
+      @media (max-width: 767px) {
+        span {
+          display: none;
+        }
+      }
+    }
+
+    &.clickable {
+      cursor: pointer;
+
+      &:last-child {
+        color: #808ea3;
+      }
+    }
+  }
+
+  .icon {
+    display: flex;
+
+    @media (min-width: 768px) {
+      margin-right: 10px;
+    }
+
+    svg {
+      width: 15px;
+      height: 15px;
+
+      path {
+        fill: #808ea3;
+      }
+    }
+  }
+}

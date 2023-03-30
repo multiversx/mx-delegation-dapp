@@ -5,7 +5,7 @@
   position: relative;
   cursor: pointer;
 
-  &--disabled {
+  &.disabled {
     pointer-events: none;
   }
 
@@ -41,9 +41,13 @@
       transition: all 200ms ease;
     }
 
-    &--right:before {
+    &.right:before {
       left: 50%;
       background: #2044f5;
+    }
+
+    &.disabled:before {
+      opacity: 0.5;
     }
 
     .label {
@@ -58,7 +62,7 @@
       text-align: center;
       transition: color 200ms ease;
 
-      &--active {
+      &.active {
         color: white;
       }
     }

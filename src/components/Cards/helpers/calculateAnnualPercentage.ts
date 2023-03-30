@@ -1,4 +1,4 @@
-import { decodeString } from '@elrondnetwork/erdjs';
+import { decodeString } from '@multiversx/sdk-core';
 import {
   denomination,
   decimals,

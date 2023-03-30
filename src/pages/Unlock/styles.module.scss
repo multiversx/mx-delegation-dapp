@@ -35,6 +35,11 @@
       height: 100px;
       position: relative;
       margin: -50px 0 30px;
+
+      svg {
+        width: 32px;
+        height: auto;
+      }
     }
 
     .heading {
@@ -62,6 +67,8 @@
         background: none;
         padding: 0 !important;
         margin: 0 !important;
+        display: flex;
+        align-items: stretch;
 
         &:active:focus {
           background: none;
@@ -83,10 +90,6 @@
 
         &:hover {
           background: #303234;
-        }
-
-        &:not(:last-child) {
-          // margin-right: 15px;
         }
 
         .title {
@@ -162,4 +165,113 @@
     font-size: 20px;
     text-align: center;
   }
+}
+
+[class*='dapp-extension-modal'] {
+  color: #fff;
+
+  button {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: 32px auto 0;
+    padding: 15px 30px;
+    width: 150px;
+    border-radius: 7px;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
+[class*='dapp-ledger-modal'] *,
+[class*='dapp-wallet-connect-modal'] * {
+  color: #a3a3a3;
+}
+
+[class*='dapp-core-component__dappModalStyles__dappModalContent'] {
+  background-color: black;
+  border-radius: 24px;
+  border: 1px solid rgba(white, 0.125) !important;
+}
+
+[class*='modal-close-button'] {
+  background: none !important;
+  border: none;
+  color: #a3a3a3;
+
+  &:hover {
+    color: #a3a3a3;
+  }
+}
+
+.title {
+  color: #d4d4d4;
+}
+
+.subtitle,
+.description {
+  color: #a3a3a3 !important;
+}
+
+.head {
+  background-color: #a3a3a3 !important;
+}
+
+.navigation,
+.footer {
+  color: #a3a3a3 !important;
+}
+
+.selected {
+  color: #a3a3a3;
+
+  input:before {
+    border: 2px solid #adb5bd !important;
+    background-color: #adb5bd;
+  }
+}
+
+.icon svg path {
+  fill: #a3a3a3;
+}
+
+.phishing {
+  color: #a3a3a3;
+
+  svg,
+  strong {
+    color: #1b46c2 !important;
+  }
+}
+
+.button {
+  background-color: #1b46c2 !important;
+  border-color: #1b46c2 !important;
+  color: #000 !important;
+
+  svg path {
+    fill: #000 !important;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #1b46c2 !important;
+    border-color: #1b46c2 !important;
+    color: #000 !important;
+
+    svg path {
+      fill: #000 !important;
+    }
+  }
+}
+
+.lead {
+  color: #a3a3a3;
+}
+
+.pairing {
+  background-color: #d4d4d4 !important;
 }

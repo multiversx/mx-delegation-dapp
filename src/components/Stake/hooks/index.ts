@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import {
-  useGetAccountInfo,
-  transactionServices
-} from '@elrondnetwork/dapp-core';
-import {
-  ProxyProvider,
   Address,
   AddressValue,
   Query,
   ContractFunction,
   decodeBigNumber
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
+import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
+import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import BigNumber from 'bignumber.js';
 
 import { network, minDust } from 'config';
@@ -21,7 +20,8 @@ import getPercentage from 'helpers/getPercentage';
 import { nominateValToHex } from 'helpers/nominate';
 import useTransaction from 'helpers/useTransaction';
 
-interface DelegationPayloadType {
+export type ActionCallbackType = () => void;
+export interface DelegationPayloadType {
   amount: string;
 }
 
@@ -31,58 +31,73 @@ const useStakeData = () => {
 
   const { account, address } = useGetAccountInfo();
   const { sendTransaction } = useTransaction();
+  const { pending } = useGetActiveTransactionsStatus();
+  const { hasSuccessfulTransactions, successfulTransactionsArray } =
+    useGetSuccessfulTransactions();
   const { contractDetails, userClaimableRewards, totalActiveStake } =
     useGlobalContext();
-  const { success, pending } =
-    transactionServices.useGetActiveTransactionsStatus();
 
-  const onDelegate = async (data: DelegationPayloadType): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: data.amount,
-        type: 'delegate',
-        args: ''
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const onDelegate =
+    (callback: ActionCallbackType) =>
+    async (data: DelegationPayloadType): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: data.amount,
+          type: 'delegate',
+          args: ''
+        });
 
-  const onUndelegate = async (data: DelegationPayloadType): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: '0',
-        type: 'unDelegate',
-        args: nominateValToHex(data.amount.toString())
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        setTimeout(callback, 250);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const onRedelegate = async (): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: '0',
-        type: 'reDelegateRewards',
-        args: ''
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const onUndelegate =
+    (callback: ActionCallbackType) =>
+    async (data: DelegationPayloadType): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: '0',
+          type: 'unDelegate',
+          args: nominateValToHex(data.amount.toString())
+        });
 
-  const onClaimRewards = async (): Promise<void> => {
-    try {
-      await sendTransaction({
-        value: '0',
-        type: 'claimRewards',
-        args: ''
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        setTimeout(callback, 250);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+  const onRedelegate =
+    (callback: ActionCallbackType) => async (): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: '0',
+          type: 'reDelegateRewards',
+          args: ''
+        });
+
+        setTimeout(callback, 250);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+  const onClaimRewards =
+    (callback: ActionCallbackType) => async (): Promise<void> => {
+      try {
+        await sendTransaction({
+          value: '0',
+          type: 'claimRewards',
+          args: ''
+        });
+
+        setTimeout(callback, 250);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   const getStakingLimits = () => {
     if (contractDetails.data && totalActiveStake.data) {
@@ -97,7 +112,7 @@ const useStakeData = () => {
         const stake = totalActiveStake.data;
         const remainder = new BigNumber(cap).minus(new BigNumber(stake));
         const maxed =
-          parseInt(getPercentage(denominated(stake), denominated(cap))) === 100;
+          parseInt(getPercentage(denominated(stake), denominated(cap))) >= 100;
 
         if (remainder.isGreaterThan(available)) {
           return {
@@ -108,7 +123,7 @@ const useStakeData = () => {
         } else {
           return {
             balance: available.toFixed(),
-            limit: remainder.toFixed(),
+            limit: remainder.gt(0) ? remainder.toFixed() : '0',
             maxed
           };
         }
@@ -138,7 +153,7 @@ const useStakeData = () => {
     });
 
     try {
-      const provider = new ProxyProvider(network.gatewayAddress);
+      const provider = new ProxyNetworkProvider(network.gatewayAddress);
       const query = new Query({
         address: new Address(network.delegationContract),
         func: new ContractFunction('getClaimableRewards'),
@@ -146,16 +161,18 @@ const useStakeData = () => {
       });
 
       const data = await provider.queryContract(query);
-      const [claimableRewards] = data.outputUntyped();
+      const [claimableRewards] = data.getReturnDataParts();
 
       dispatch({
         type: 'getUserClaimableRewards',
         userClaimableRewards: {
           status: 'loaded',
           error: null,
-          data: denominated(decodeBigNumber(claimableRewards).toFixed(), {
-            decimals: 4
-          })
+          data: claimableRewards
+            ? denominated(decodeBigNumber(claimableRewards).toFixed(), {
+                decimals: 4
+              })
+            : '0'
         }
       });
     } catch (error) {
@@ -177,13 +194,17 @@ const useStakeData = () => {
   };
 
   const reFetchClaimableRewards = () => {
-    if (success && check) {
+    if (hasSuccessfulTransactions && successfulTransactionsArray.length > 0) {
       getUserClaimableRewards();
     }
   };
 
   useEffect(fetchClaimableRewards, [userClaimableRewards.data]);
-  useEffect(reFetchClaimableRewards, [success, check]);
+  useEffect(reFetchClaimableRewards, [
+    hasSuccessfulTransactions,
+    successfulTransactionsArray.length
+  ]);
+
   useEffect(() => {
     if (pending && !check) {
       setCheck(true);

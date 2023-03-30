@@ -46,9 +46,19 @@
 
     .trigger {
       padding: 10px;
+
+      &.disabled {
+        pointer-events: none;
+        background-color: transparent;
+        padding: 0;
+      }
     }
 
-    &--fill {
+    svg path {
+      fill: white;
+    }
+
+    &.fill {
       background-color: white;
       padding: 0;
 
