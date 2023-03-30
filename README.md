@@ -1,6 +1,6 @@
 <div style="text-align:center">
   <img
-  src="https://github.com/multiversx/mx-delegation-dapp/blob/master/preview.png"
+  src="https://github.com/multiversx/mx-delegation-dapp/blob/main/preview.png"
   alt="MultiversX Network">
 </div>
 <br>
@@ -117,5 +117,3 @@ One can contribute by creating _pull requests_, or by opening _issues_ for disco
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-
