@@ -16,16 +16,15 @@ export const Switch = (props: SwitchPropsType) => {
   const { transaction, name } = props;
   const { contractDetails } = useGlobalContext();
   const { sendTransaction } = useTransaction();
-  const { pending, fail } = useGetActiveTransactionsStatus();
+  const { pending } = useGetActiveTransactionsStatus();
 
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const [checked, setChecked] = useState<boolean>(
+  const [disabled, setDisabled] = useState(false);
+  const [checked, setChecked] = useState(
     contractDetails.data ? contractDetails.data[name] === 'ON' : false
   );
 
   const onChange = (type: string): void => {
     setDisabled(true);
-    setChecked(!checked);
 
     try {
       setTimeout(async (): Promise<void> => {
@@ -48,13 +47,6 @@ export const Switch = (props: SwitchPropsType) => {
     }
   };
 
-  const resetSwitch = () => {
-    if (fail) {
-      setChecked(!checked);
-    }
-  };
-
-  useEffect(resetSwitch, [fail]);
   useEffect(trackContractDetails, [contractDetails.data]);
 
   return (
@@ -79,17 +71,14 @@ export const Switch = (props: SwitchPropsType) => {
           [styles.disabled]: pending
         })}
       >
-        <span
-          className={classNames(styles.label, { [styles.active]: checked })}
-        >
-          OFF
-        </span>
-
-        <span
-          className={classNames(styles.label, { [styles.active]: checked })}
-        >
-          ON
-        </span>
+        {['OFF', 'ON'].map((toggle) => (
+          <span
+            key={toggle}
+            className={classNames(styles.label, { [styles.active]: checked })}
+          >
+            {toggle}
+          </span>
+        ))}
       </span>
     </label>
   );

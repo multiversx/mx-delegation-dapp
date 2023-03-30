@@ -185,6 +185,10 @@
   }
 }
 
+[class*='dapp-ledger-modal'] * {
+  color: #a3a3a3;
+}
+
 [class*='dapp-core-component__dappModalStyles__dappModalContent'] {
   background-color: black;
   border-radius: 24px;
