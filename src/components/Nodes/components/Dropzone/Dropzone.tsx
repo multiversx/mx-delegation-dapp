@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Address,
+  BytesValue,
+  ContractFunction,
+  Query
+} from '@multiversx/sdk-core/out';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { BLS } from '@multiversx/sdk-wallet';
-import axios from 'axios';
 import classNames from 'classnames';
 import { useFormikContext, FormikProps } from 'formik';
 import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
-import { network } from 'config';
+import { network, stakingContract } from 'config';
 
 import decodeFile from './helpers';
 
@@ -29,6 +35,7 @@ export interface DropzonePayloadType {
 
 export const Dropzone = () => {
   const [data, setData] = useState<DropzonePayloadType[]>([]);
+
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 
@@ -100,6 +107,18 @@ export const Dropzone = () => {
     setFieldValue('files', values.files.filter(filter));
   };
 
+  const nodeExistingOnNetwork = (BlsKey: string) => {
+    const provider = new ProxyNetworkProvider(network.gatewayAddress);
+    const query = new Query({
+      address: Address.fromBech32(stakingContract),
+      func: new ContractFunction('getBLSKeyStatus'),
+      caller: Address.fromBech32(network.delegationContract),
+      args: [BytesValue.fromHex(BlsKey)]
+    });
+
+    return provider.queryContract(query);
+  };
+
   const setValue = () => {
     const fetchNodes = async () => {
       const value = await Promise.all(
@@ -117,24 +136,17 @@ export const Dropzone = () => {
           }
 
           try {
-            const existing = await axios.get(
-              `${network.apiAddress}/nodes/${file.pubKey}`
-            );
+            const existing = await nodeExistingOnNetwork(file.pubKey);
+            const [status] = existing.returnData;
 
-            if (existing) {
+            if (Buffer.from(status, 'base64').toString('ascii') === 'staked') {
               errors.push('existing');
             }
           } catch (error) {
-            return {
-              ...file,
-              errors
-            };
+            return { ...file, errors };
           }
 
-          return {
-            ...file,
-            errors
-          };
+          return { ...file, errors };
         })
       );
 
