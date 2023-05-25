@@ -17,6 +17,7 @@ import { useDropzone } from 'react-dropzone';
 
 import { network, stakingContract } from 'config';
 
+import { useGlobalContext } from 'context';
 import decodeFile from './helpers';
 
 import styles from './styles.module.scss';
@@ -36,6 +37,7 @@ export interface DropzonePayloadType {
 export const Dropzone = () => {
   const [data, setData] = useState<DropzonePayloadType[]>([]);
 
+  const { nodesStates } = useGlobalContext();
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 
@@ -127,19 +129,27 @@ export const Dropzone = () => {
           const duplicate = (item: DropzonePayloadType, itemIndex: number) =>
             file.pubKey === item.pubKey && fileIndex > itemIndex;
 
+          const registeredKeysArray = nodesStates.data?.map((node: any) =>
+            node.toString('hex')
+          );
+
+          if (registeredKeysArray?.includes(file.pubKey)) {
+            errors.push('registered');
+          }
+
           if (!file.pubKey || file.pubKey.length !== 192) {
             errors.push('length');
           }
 
           if (data.find(duplicate)) {
-            errors.push('unique');
+            errors.push('duplicate');
           }
 
           try {
             const existing = await nodeExistingOnNetwork(file.pubKey);
             const [status] = existing.returnData;
 
-            if (Buffer.from(status, 'base64').toString('ascii') === 'staked') {
+            if (status) {
               errors.push('existing');
             }
           } catch (error) {
