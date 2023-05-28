@@ -116,21 +116,6 @@ export const Dropzone = () => {
             errors.push('unique');
           }
 
-          try {
-            const existing = await axios.get(
-              `${network.apiAddress}/nodes/${file.pubKey}`
-            );
-
-            if (existing) {
-              errors.push('existing');
-            }
-          } catch (error) {
-            return {
-              ...file,
-              errors
-            };
-          }
-
           return {
             ...file,
             errors
