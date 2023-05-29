@@ -2,15 +2,22 @@ import React, { useState, useEffect } from 'react';
 
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Address,
+  BytesValue,
+  ContractFunction,
+  Query
+} from '@multiversx/sdk-core/out';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { BLS } from '@multiversx/sdk-wallet';
-import axios from 'axios';
 import classNames from 'classnames';
 import { useFormikContext, FormikProps } from 'formik';
 import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
-import { network } from 'config';
+import { network, stakingContract } from 'config';
 
+import { useGlobalContext } from 'context';
 import decodeFile from './helpers';
 
 import styles from './styles.module.scss';
@@ -29,6 +36,8 @@ export interface DropzonePayloadType {
 
 export const Dropzone = () => {
   const [data, setData] = useState<DropzonePayloadType[]>([]);
+
+  const { nodesStates } = useGlobalContext();
   const { setFieldValue, values }: FormikProps<DropzoneFormType> =
     useFormikContext();
 
@@ -100,6 +109,18 @@ export const Dropzone = () => {
     setFieldValue('files', values.files.filter(filter));
   };
 
+  const nodeExistingOnNetwork = (BlsKey: string) => {
+    const provider = new ProxyNetworkProvider(network.gatewayAddress);
+    const query = new Query({
+      address: Address.fromBech32(stakingContract),
+      func: new ContractFunction('getBLSKeyStatus'),
+      caller: Address.fromBech32(network.delegationContract),
+      args: [BytesValue.fromHex(BlsKey)]
+    });
+
+    return provider.queryContract(query);
+  };
+
   const setValue = () => {
     const fetchNodes = async () => {
       const value = await Promise.all(
@@ -108,33 +129,34 @@ export const Dropzone = () => {
           const duplicate = (item: DropzonePayloadType, itemIndex: number) =>
             file.pubKey === item.pubKey && fileIndex > itemIndex;
 
+          const registeredKeysArray = nodesStates.data?.map((node: any) =>
+            node.toString('hex')
+          );
+
+          if (registeredKeysArray?.includes(file.pubKey)) {
+            errors.push('registered');
+          }
+
           if (!file.pubKey || file.pubKey.length !== 192) {
             errors.push('length');
           }
 
           if (data.find(duplicate)) {
-            errors.push('unique');
+            errors.push('duplicate');
           }
 
           try {
-            const existing = await axios.get(
-              `${network.apiAddress}/nodes/${file.pubKey}`
-            );
+            const existing = await nodeExistingOnNetwork(file.pubKey);
+            const [status] = existing.returnData;
 
-            if (existing) {
+            if (status) {
               errors.push('existing');
             }
           } catch (error) {
-            return {
-              ...file,
-              errors
-            };
+            return { ...file, errors };
           }
 
-          return {
-            ...file,
-            errors
-          };
+          return { ...file, errors };
         })
       );
 
