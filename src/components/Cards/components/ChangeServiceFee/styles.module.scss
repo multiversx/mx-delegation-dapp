@@ -1,6 +1,32 @@
 .serviceFee {
   display: block;
 
+  .field {
+    .group {
+      position: relative;
+
+      .input {
+        -moz-appearance: textfield;
+        width: 96px;
+        padding: 15px;
+        font-size: 12px;
+        line-height: 1;
+        color: white;
+        background: #202020;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        text-align: center;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          appearance: none;
+        }
+      }
+    }
+  }
+
   .range {
     position: relative;
     display: flex;
@@ -35,6 +61,19 @@
       border-radius: 50%;
       background-color: white;
       z-index: 5;
+
+      &:hover {
+        cursor: move; /* fallback if grab cursor is unsupported */
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+      }
+
+      &:active {
+        cursor: grabbing;
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+      }
 
       strong {
         font-size: 21px;
@@ -71,6 +110,10 @@
 
       &.completed {
         background-color: #9ba5b4;
+      }
+
+      &.matching span {
+        font-weight: bold;
       }
 
       span {
