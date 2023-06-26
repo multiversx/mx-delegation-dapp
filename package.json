@@ -36,6 +36,10 @@
     "web-vitals": "1.0.1",
     "yup": "^0.32.11"
   },
+  "resolutions": {
+    "@ledgerhq/hw-transport-webhid": "6.27.1",
+    "@ledgerhq/hw-transport-webusb": "6.27.1"
+  },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
     "start-testnet": "npm run copy-testnet-config & npm run start",
