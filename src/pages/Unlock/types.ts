@@ -20,4 +20,5 @@ export interface ConnectionType {
   isWalletConnectV2?: boolean;
   innerWalletConnectComponentsClasses?: InnerWalletConnectComponentsClassesType;
   innerLedgerComponentsClasses?: InnerLedgerComponentsClassesType;
+  nativeAuth: boolean;
 }
