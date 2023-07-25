@@ -166,7 +166,7 @@ export const Identity = () => {
         agencyMetaData.data || { name: '', website: '', keybase: '' }
       }
     >
-      {({
+      {/* {({
         errors,
         values,
         touched,
@@ -192,15 +192,16 @@ export const Identity = () => {
                 />
 
                 {errors[field.name] && touched[field.name] && (
-                  <span className={styles.error}>{errors[field.name]}</span>
+                  <span className={styles.error}>
+                    {String(errors[field.name])}
+                  </span>
                 )}
               </div>
             </div>
           ))}
-
           <Submit close='Cancel' submit='Save' />
         </form>
-      )}
+      )} */}
     </Formik>
   );
 };

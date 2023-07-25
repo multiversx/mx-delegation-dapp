@@ -39,7 +39,7 @@ export const App = () => (
               />
             ))}
 
-            <Route element={PageNotFound} />
+            <Route element={PageNotFound as any} />
           </Routes>
         </Layout>
       </ContextProvider>

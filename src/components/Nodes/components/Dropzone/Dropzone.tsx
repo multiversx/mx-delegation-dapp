@@ -168,7 +168,7 @@ export const Dropzone = () => {
     return () => setFieldValue('files', []);
   };
 
-  useEffect(setValue, [data]);
+  useEffect(setValue as any, [data]);
 
   return (
     <div {...properties.root}>
