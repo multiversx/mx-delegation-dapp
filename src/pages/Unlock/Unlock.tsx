@@ -11,7 +11,6 @@ import { Ledger } from 'assets/Ledger';
 import { MultiversX } from 'assets/MultiversX';
 import { Wallet } from 'assets/Wallet';
 import { xPortal } from 'assets/xPortal';
-
 import { network } from 'config';
 
 import styles from './styles.module.scss';
@@ -125,7 +124,6 @@ export const Unlock = () => {
               logoutRoute='/unlock'
               {...connect}
             >
-              <>{console.log({ connect })}</>
               <span className={styles.connect}>
                 <span className={styles.title}>{connect.title}</span>
 

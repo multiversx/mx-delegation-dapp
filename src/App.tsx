@@ -19,8 +19,7 @@ export const App = () => (
       customNetworkConfig={{
         name: 'customConfig',
         apiTimeout: 6000,
-        walletConnectV2ProjectId: '9b1a9564f91cb659ffe21b73d5c4e2d8',
-        walletAddress: 'https://localhost:3002'
+        walletConnectV2ProjectId: '9b1a9564f91cb659ffe21b73d5c4e2d8'
       }}
     >
       <ContextProvider>
