@@ -1,7 +1,7 @@
 {
   "name": "@multiversx/template-template-dapp",
   "description": "Delegation Dashboard",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
   "repository": "@multiversx/mx-delegation-dapp",
