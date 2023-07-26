@@ -22,47 +22,47 @@ export const Unlock = () => {
 
   const navigate = useNavigate();
   const connects: ConnectionType[] = [
-    // {
-    //   title: 'Desktop',
-    //   name: 'MultiversX Web Wallet',
-    //   background: '#000000',
-    //   icon: Wallet,
-    //   component: WebWalletLoginButton,
-    //   nativeAuth: true
-    // },
-    // {
-    //   title: 'Hardware',
-    //   name: 'Ledger',
-    //   nativeAuth: true,
-    //   background: '#000000',
-    //   icon: Ledger,
-    //   component: LedgerLoginButton,
-    //   innerLedgerComponentsClasses: {
-    //     ledgerScamPhishingAlertClassName: styles.phishing,
-    //     ledgerProgressBarClassNames: {},
-    //     ledgerConnectClassNames: {
-    //       ledgerModalTitleClassName: styles.title,
-    //       ledgerModalSubtitleClassName: styles.subtitle,
-    //       ledgerModalIconClassName: styles.icon
-    //     },
-    //     confirmAddressClassNames: {
-    //       ledgerModalTitleClassName: styles.title,
-    //       ledgerModalConfirmDescriptionClassName: styles.description,
-    //       ledgerModalConfirmFooterClassName: styles.footer
-    //     },
-    //     addressTableClassNames: {
-    //       ledgerModalTitleClassName: styles.title,
-    //       ledgerModalSubtitleClassName: styles.subtitle,
-    //       ledgerModalTableHeadClassName: styles.head,
-    //       ledgerModalTableNavigationButtonClassName: styles.navigation,
-    //       ledgerModalTableSelectedItemClassName: styles.selected
-    //     },
-    //     ledgerLoadingClassNames: {
-    //       ledgerModalTitleClassName: styles.title,
-    //       ledgerModalSubtitleClassName: styles.subtitle
-    //     }
-    //   }
-    // },
+    {
+      title: 'Desktop',
+      name: 'MultiversX Web Wallet',
+      background: '#000000',
+      icon: Wallet,
+      component: WebWalletLoginButton,
+      nativeAuth: true
+    },
+    {
+      title: 'Hardware',
+      name: 'Ledger',
+      nativeAuth: true,
+      background: '#000000',
+      icon: Ledger,
+      component: LedgerLoginButton,
+      innerLedgerComponentsClasses: {
+        ledgerScamPhishingAlertClassName: styles.phishing,
+        ledgerProgressBarClassNames: {},
+        ledgerConnectClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle,
+          ledgerModalIconClassName: styles.icon
+        },
+        confirmAddressClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalConfirmDescriptionClassName: styles.description,
+          ledgerModalConfirmFooterClassName: styles.footer
+        },
+        addressTableClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle,
+          ledgerModalTableHeadClassName: styles.head,
+          ledgerModalTableNavigationButtonClassName: styles.navigation,
+          ledgerModalTableSelectedItemClassName: styles.selected
+        },
+        ledgerLoadingClassNames: {
+          ledgerModalTitleClassName: styles.title,
+          ledgerModalSubtitleClassName: styles.subtitle
+        }
+      }
+    },
     {
       title: 'Mobile',
       name: 'xPortal Mobile Wallet',
@@ -117,62 +117,9 @@ export const Unlock = () => {
         </div>
 
         <div className={styles.connects}>
-          <WebWalletLoginButton callbackRoute='/dashboard' nativeAuth={true}>
-            <span className={styles.connect}>
-              <span className={styles.title}>Desktop</span>
-
-              <span className={styles.icon} style={{ background: '#000000' }}>
-                <Wallet />
-              </span>
-
-              <span className={styles.name}>MultiversX Web Wallet</span>
-            </span>
-          </WebWalletLoginButton>
-
-          <LedgerLoginButton
-            callbackRoute='/dashboard'
-            nativeAuth={true}
-            innerLedgerComponentsClasses={{
-              ledgerScamPhishingAlertClassName: styles.phishing,
-              ledgerProgressBarClassNames: {},
-              ledgerConnectClassNames: {
-                ledgerModalTitleClassName: styles.title,
-                ledgerModalSubtitleClassName: styles.subtitle,
-                ledgerModalIconClassName: styles.icon
-              },
-              confirmAddressClassNames: {
-                ledgerModalTitleClassName: styles.title,
-                ledgerModalConfirmDescriptionClassName: styles.description,
-                ledgerModalConfirmFooterClassName: styles.footer
-              },
-              addressTableClassNames: {
-                ledgerModalTitleClassName: styles.title,
-                ledgerModalSubtitleClassName: styles.subtitle,
-                ledgerModalTableHeadClassName: styles.head,
-                ledgerModalTableNavigationButtonClassName: styles.navigation,
-                ledgerModalTableSelectedItemClassName: styles.selected
-              },
-              ledgerLoadingClassNames: {
-                ledgerModalTitleClassName: styles.title,
-                ledgerModalSubtitleClassName: styles.subtitle
-              }
-            }}
-          >
-            <span className={styles.connect}>
-              <span className={styles.title}>Hardware</span>
-
-              <span className={styles.icon} style={{ background: '#000000' }}>
-                <Ledger />
-              </span>
-
-              <span className={styles.name}>Ledger</span>
-            </span>
-          </LedgerLoginButton>
-
           {connects.map((connect) => (
             <connect.component
               key={connect.name}
-              callbackRoute='/dashboard'
               logoutRoute='/unlock'
               {...connect}
             >
