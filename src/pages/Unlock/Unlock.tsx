@@ -120,6 +120,7 @@ export const Unlock = () => {
           {connects.map((connect) => (
             <connect.component
               key={connect.name}
+              callbackRoute='/unlock'
               logoutRoute='/unlock'
               {...connect}
             >
