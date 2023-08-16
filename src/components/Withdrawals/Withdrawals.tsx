@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   decodeUnsignedNumber,
   ContractFunction,
@@ -8,18 +8,18 @@ import {
   decodeString,
   decodeBigNumber
 } from '@multiversx/sdk-core';
-
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
 import moment from 'moment';
+
 import { network, decimals, denomination } from 'config';
 import { useGlobalContext, useDispatch } from 'context';
 import { UndelegateStakeListType } from 'context/state';
 import denominate from 'helpers/denominate';
 
 import { Withdrawal } from './components/Withdrawal';
+
 import styles from './styles.module.scss';
 
 export const Withdrawals = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useCallback } from 'react';
+import { useEffect, useState, Fragment, useCallback } from 'react';
 import {
   faPlus,
   faServer,
@@ -28,7 +28,6 @@ import useTransaction from 'helpers/useTransaction';
 import { Add } from './components/Add';
 
 import styles from './styles.module.scss';
-
 import variants from './variants.json';
 
 interface NodeType {
@@ -166,7 +165,7 @@ export const Nodes = () => {
 
   const calculateNodes = useCallback(
     (nodes: any[]) =>
-      nodes.reduce((result: any, value, index, array) => {
+      nodes.reduce((result: any, _, index, array) => {
         if (index % 2 === 0) {
           const [code, status]: any[] = array.slice(index, index + 2);
           const item: any = {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { ExtensionLoginButton } from '@multiversx/sdk-dapp/UI/extension/ExtensionLoginButton';
 import { LedgerLoginButton } from '@multiversx/sdk-dapp/UI/ledger/LedgerLoginButton';
@@ -94,7 +94,7 @@ export const Unlock = () => {
   ];
 
   const redirectConditionally = () => {
-    if (Boolean(address)) {
+    if (address) {
       navigate('/dashboard');
     }
   };

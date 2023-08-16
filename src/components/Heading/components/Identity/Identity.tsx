@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   ContractFunction,
   Address,
@@ -7,14 +7,12 @@ import {
 } from '@multiversx/sdk-core';
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
 import classNames from 'classnames';
-import { Formik, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { object, string } from 'yup';
 
 import { Submit } from 'components/Action';
 import { network } from 'config';
-
 import { useDispatch, useGlobalContext } from 'context';
 import useTransaction from 'helpers/useTransaction';
 
@@ -41,18 +39,9 @@ export const Identity = () => {
 
   const dispatch = useDispatch();
   const fields: FieldType[] = [
-    {
-      name: 'name',
-      label: 'Name'
-    },
-    {
-      name: 'website',
-      label: 'Website'
-    },
-    {
-      name: 'keybase',
-      label: 'Keybase'
-    }
+    { name: 'name', label: 'Name' },
+    { name: 'website', label: 'Website' },
+    { name: 'keybase', label: 'Keybase' }
   ];
 
   const validationSchema = object().shape({
@@ -173,7 +162,7 @@ export const Identity = () => {
         handleChange,
         handleBlur,
         handleSubmit
-      }: FormikProps<PayloadType>) => (
+      }) => (
         <form onSubmit={handleSubmit} className={`${styles.identity} identity`}>
           {fields.map((field: FieldType) => (
             <div key={field.name} className={styles.field}>
@@ -182,18 +171,23 @@ export const Identity = () => {
                 <input
                   type='text'
                   name={field.name}
-                  value={values[field.name]}
+                  value={(values as any)[field.name]}
                   autoComplete='off'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={classNames(styles.input, {
-                    [styles.invalid]: errors[field.name] && touched[field.name]
+                    [styles.invalid]:
+                      (errors as any)[field.name] &&
+                      (touched as any)[field.name]
                   })}
                 />
 
-                {errors[field.name] && touched[field.name] && (
-                  <span className={styles.error}>{errors[field.name]}</span>
-                )}
+                {(errors as any)[field.name] &&
+                  (touched as any)[field.name] && (
+                    <span className={styles.error}>
+                      {(errors as any)[field.name]}
+                    </span>
+                  )}
               </div>
             </div>
           ))}

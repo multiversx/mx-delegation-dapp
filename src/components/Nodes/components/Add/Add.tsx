@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Formik } from 'formik';
 import { object, array, mixed } from 'yup';
 
@@ -57,7 +55,7 @@ export const Add = () => {
         ''
       );
 
-      if (Boolean(value)) {
+      if (value) {
         await sendTransaction({
           args: value,
           type: 'addNodes',

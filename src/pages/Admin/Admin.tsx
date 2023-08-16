@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
@@ -11,8 +11,8 @@ import { Toggles } from 'components/Toggles';
 
 import { useGlobalContext } from 'context';
 
-import useGlobalData from '../../hooks/useGlobalData';
 import styles from './styles.module.scss';
+import useGlobalData from '../../hooks/useGlobalData';
 
 export const Admin = () => {
   const { address } = useGetAccountInfo();
@@ -21,7 +21,7 @@ export const Admin = () => {
 
   const navigate = useNavigate();
   const handleRedirect = () => {
-    if (!Boolean(address)) {
+    if (!address) {
       navigate('/unlock');
       return;
     }

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
 import { faKey, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -16,11 +15,11 @@ import moment from 'moment';
 import { useDropzone } from 'react-dropzone';
 
 import { network, stakingContract } from 'config';
-
 import { useGlobalContext } from 'context';
-import decodeFile from './helpers';
 
+import decodeFile from './helpers';
 import styles from './styles.module.scss';
+
 export interface DropzoneFormType {
   files: any[];
 }
@@ -168,7 +167,9 @@ export const Dropzone = () => {
     return () => setFieldValue('files', []);
   };
 
-  useEffect(setValue, [data]);
+  useEffect(() => {
+    setValue();
+  }, [data]);
 
   return (
     <div {...properties.root}>
