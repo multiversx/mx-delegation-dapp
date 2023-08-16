@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build && yarn version:make",
+    "build": "yarn run copy-mainnet-config && tsc && vite build && yarn version:make",
     "start-testnet": "yarn run copy-testnet-config && yarn start",
     "start-devnet": "yarn run copy-devnet-config && yarn start",
     "start-mainnet": "yarn run copy-mainnet-config && yarn start",

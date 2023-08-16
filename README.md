@@ -67,7 +67,7 @@ For _development_ you will need to have the following:
 
 ### Step 1. Install modules
 
-From a terminal, navigate to the project folder and run `npm install --legacy-peer-deps`
+From a terminal, navigate to the project folder and run `yarn install`
 
 ### Step 2. Update Configs
 
@@ -88,15 +88,15 @@ Based on the environment used the configs will need to be updated:
 A build of the app is necessary to deploy for testing purposes or for production use.
 The dapp is configured with build scripts targeting either the public devnet, the public testnet or the public mainnet.
 
-For testing on the devnet run => `npm run build-devnet`
+For testing on the devnet run => `yarn run build-devnet`
 
-For testing on the testnet run => `npm run build-testnet`
+For testing on the testnet run => `yarn run build-testnet`
 
-For production use on the mainnet run => `npm run build-mainnet`
+For production use on the mainnet run => `yarn run build-mainnet`
 
 ### Step 5. Run the dashboard
 
-To run the project locally run `npm run start` from the project folder. This will start the React app in development mode, using the configs found in the config.ts file.
+To run the project locally run `yarn start` from the project folder. This will start the React app in development mode, using the configs found in the config.ts file.
 
 <!-- ROADMAP -->
 
