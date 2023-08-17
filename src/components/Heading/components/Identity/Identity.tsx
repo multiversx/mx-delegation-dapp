@@ -8,7 +8,7 @@ import {
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
 import classNames from 'classnames';
-import { Formik } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
 
 import { Submit } from 'components/Action';
@@ -146,14 +146,14 @@ export const Identity = () => {
     successfulTransactionsArray.length
   ]);
 
+  const initialValues: PayloadType = { name: '', website: '', keybase: '' };
+
   return (
     <Formik
       validationSchema={validationSchema}
       onSubmit={onSubmit}
       enableReinitialize={true}
-      initialValues={
-        agencyMetaData.data || { name: '', website: '', keybase: '' }
-      }
+      initialValues={agencyMetaData.data || initialValues}
     >
       {({
         errors,
@@ -162,39 +162,32 @@ export const Identity = () => {
         handleChange,
         handleBlur,
         handleSubmit
-      }) => (
+      }: FormikProps<PayloadType>) => (
         <form onSubmit={handleSubmit} className={`${styles.identity} identity`}>
-          {fields.map((field: FieldType) => {
-            const currentValues = values as PayloadType;
-            const currentErrors = errors as PayloadType;
-            const currentTouched = touched as PayloadType;
+          {fields.map((field: FieldType) => (
+            <div key={field.name} className={styles.field}>
+              <label htmlFor={field.name}>{field.label}</label>
+              <div className='input-group'>
+                <input
+                  type='text'
+                  name={field.name}
+                  value={values[field.name]}
+                  autoComplete='off'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={classNames(styles.input, {
+                    [styles.invalid]: errors[field.name] && touched[field.name]
+                  })}
+                />
 
-            return (
-              <div key={field.name} className={styles.field}>
-                <label htmlFor={field.name}>{field.label}</label>
-                <div className='input-group'>
-                  <input
-                    type='text'
-                    name={field.name}
-                    value={currentValues[field.name]}
-                    autoComplete='off'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={classNames(styles.input, {
-                      [styles.invalid]:
-                        currentErrors[field.name] && currentTouched[field.name]
-                    })}
-                  />
-
-                  {currentErrors[field.name] && currentTouched[field.name] && (
-                    <span className={styles.error}>
-                      {currentErrors[field.name]}
-                    </span>
-                  )}
-                </div>
+                {errors[field.name] && touched[field.name] && (
+                  <span className={styles.error}>
+                    <>{errors[field.name]}</>
+                  </span>
+                )}
               </div>
-            );
-          })}
+            </div>
+          ))}
 
           <Submit close='Cancel' submit='Save' />
         </form>
