@@ -164,33 +164,37 @@ export const Identity = () => {
         handleSubmit
       }) => (
         <form onSubmit={handleSubmit} className={`${styles.identity} identity`}>
-          {fields.map((field: FieldType) => (
-            <div key={field.name} className={styles.field}>
-              <label htmlFor={field.name}>{field.label}</label>
-              <div className='input-group'>
-                <input
-                  type='text'
-                  name={field.name}
-                  value={(values as any)[field.name]}
-                  autoComplete='off'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={classNames(styles.input, {
-                    [styles.invalid]:
-                      (errors as any)[field.name] &&
-                      (touched as any)[field.name]
-                  })}
-                />
+          {fields.map((field: FieldType) => {
+            const currentValues = values as PayloadType;
+            const currentErrors = errors as PayloadType;
+            const currentTouched = touched as PayloadType;
 
-                {(errors as any)[field.name] &&
-                  (touched as any)[field.name] && (
+            return (
+              <div key={field.name} className={styles.field}>
+                <label htmlFor={field.name}>{field.label}</label>
+                <div className='input-group'>
+                  <input
+                    type='text'
+                    name={field.name}
+                    value={currentValues[field.name]}
+                    autoComplete='off'
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={classNames(styles.input, {
+                      [styles.invalid]:
+                        currentErrors[field.name] && currentTouched[field.name]
+                    })}
+                  />
+
+                  {currentErrors[field.name] && currentTouched[field.name] && (
                     <span className={styles.error}>
-                      {(errors as any)[field.name]}
+                      {currentErrors[field.name]}
                     </span>
                   )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           <Submit close='Cancel' submit='Save' />
         </form>
