@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Ledger = () => (
   <svg
     height='30'

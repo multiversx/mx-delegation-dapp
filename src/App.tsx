@@ -1,4 +1,3 @@
-import React from 'react';
 import { NotificationModal } from '@multiversx/sdk-dapp/UI/NotificationModal';
 import { SignTransactionsModals } from '@multiversx/sdk-dapp/UI/SignTransactionsModals';
 import { TransactionsToastList } from '@multiversx/sdk-dapp/UI/TransactionsToastList';
@@ -10,7 +9,7 @@ import { network } from 'config';
 import { ContextProvider } from 'context';
 import { PageNotFound } from 'pages/PageNotFound';
 import { Unlock } from 'pages/Unlock';
-import routes, { routeNames } from 'routes';
+import routes, { RouteType, routeNames } from 'routes';
 
 export const App = () => (
   <BrowserRouter>
@@ -31,7 +30,7 @@ export const App = () => (
           <Routes>
             <Route path={routeNames.unlock} element={<Unlock />} />
 
-            {routes.map((route: any, index: number) => (
+            {routes.map((route: Omit<RouteType, 'title'>, index: number) => (
               <Route
                 path={route.path}
                 key={'route-key-' + index}
@@ -39,7 +38,7 @@ export const App = () => (
               />
             ))}
 
-            <Route element={PageNotFound} />
+            <Route element={<PageNotFound />} />
           </Routes>
         </Layout>
       </ContextProvider>

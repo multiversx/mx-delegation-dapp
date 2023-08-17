@@ -1,15 +1,14 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react';
-
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import classNames from 'classnames';
 import { Formik } from 'formik';
 import { object } from 'yup';
+
 import { Action, Submit } from 'components/Action';
 import { undelegateValidator } from 'components/Stake//helpers/delegationValidators';
 import useStakeData, { ActionCallbackType } from 'components/Stake/hooks';
 import { network } from 'config';
 import { useGlobalContext } from 'context';
-
 import { denominated } from 'helpers/denominate';
 
 import styles from './styles.module.scss';

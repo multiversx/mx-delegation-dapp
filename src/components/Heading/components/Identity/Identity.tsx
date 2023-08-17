@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   ContractFunction,
   Address,
@@ -7,14 +7,12 @@ import {
 } from '@multiversx/sdk-core';
 import { useGetSuccessfulTransactions } from '@multiversx/sdk-dapp/hooks/transactions/useGetSuccessfulTransactions';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers';
-
 import classNames from 'classnames';
 import { Formik, FormikProps } from 'formik';
 import { object, string } from 'yup';
 
 import { Submit } from 'components/Action';
 import { network } from 'config';
-
 import { useDispatch, useGlobalContext } from 'context';
 import useTransaction from 'helpers/useTransaction';
 
@@ -41,18 +39,9 @@ export const Identity = () => {
 
   const dispatch = useDispatch();
   const fields: FieldType[] = [
-    {
-      name: 'name',
-      label: 'Name'
-    },
-    {
-      name: 'website',
-      label: 'Website'
-    },
-    {
-      name: 'keybase',
-      label: 'Keybase'
-    }
+    { name: 'name', label: 'Name' },
+    { name: 'website', label: 'Website' },
+    { name: 'keybase', label: 'Keybase' }
   ];
 
   const validationSchema = object().shape({
@@ -157,14 +146,14 @@ export const Identity = () => {
     successfulTransactionsArray.length
   ]);
 
+  const initialValues: PayloadType = { name: '', website: '', keybase: '' };
+
   return (
     <Formik
       validationSchema={validationSchema}
       onSubmit={onSubmit}
       enableReinitialize={true}
-      initialValues={
-        agencyMetaData.data || { name: '', website: '', keybase: '' }
-      }
+      initialValues={agencyMetaData.data || initialValues}
     >
       {({
         errors,
@@ -192,7 +181,9 @@ export const Identity = () => {
                 />
 
                 {errors[field.name] && touched[field.name] && (
-                  <span className={styles.error}>{errors[field.name]}</span>
+                  <span className={styles.error}>
+                    <>{errors[field.name]}</>
+                  </span>
                 )}
               </div>
             </div>

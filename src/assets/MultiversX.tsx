@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const MultiversX = () => (
   <svg
     width='20'
