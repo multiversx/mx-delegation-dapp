@@ -60,7 +60,7 @@ Follow the next step to start using this dapp or follow the next tutorial on [Yo
 
 For _development_ you will need to have the following:
 
-- node version 14.17.6
+- node version 16.20.2
 - npm
 
 ### Instalation and running
