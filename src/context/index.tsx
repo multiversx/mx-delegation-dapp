@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReactNode, createContext, useReducer, useContext } from 'react';
 
 import { DispatchType, reducer } from './reducer';

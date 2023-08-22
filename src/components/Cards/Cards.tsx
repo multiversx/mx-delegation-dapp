@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, ReactNode } from 'react';
+import { useCallback, useEffect, ReactNode } from 'react';
 import {
   faUsers,
   faServer,
@@ -33,7 +33,6 @@ import getPercentage from 'helpers/getPercentage';
 
 import { ChangeDelegationCap } from './components/ChangeDelegationCap';
 import { ChangeServiceFee } from './components/ChangeServiceFee';
-
 import calculateAnnualPercentage from './helpers/calculateAnnualPercentage';
 
 import styles from './styles.module.scss';

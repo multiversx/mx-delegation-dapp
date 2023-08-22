@@ -1,4 +1,4 @@
-import React, { ReactNode, MouseEvent } from 'react';
+import { ReactNode, MouseEvent } from 'react';
 import { faLock, faGift } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
@@ -121,7 +121,7 @@ export const Stake = () => {
               <MultiversX />
 
               {index > 0 &&
-                Array.from({ length: 4 }).map((item, iteratee) => (
+                Array.from({ length: 4 }).map((_, iteratee) => (
                   <strong
                     key={`plus-${iteratee}`}
                     className={classNames(

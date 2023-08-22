@@ -1,42 +1,24 @@
 {
-  "env": {
-    "es2021": true,
-    "node": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2021,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    },
-  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "eslint-config-prettier"
+  ],
   "settings": {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+    "react": {
+      "version": "detect"
     },
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "moduleDirectory": ["node_modules", "src/"]
-      },
-      "typescript": {
-        "alwaysTryTypes": true
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    },
-    "react": {
-      "pragma": "React",
-      "version": "detect"
     }
   },
-  "extends": [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended"
-  ],
-  "plugins": ["react", "prettier", "import"],
   "rules": {
     "import/order": [
       "warn",
@@ -57,12 +39,10 @@
         }
       }
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "lf"
-      }
-    ],
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "object-curly-spacing": [2, "always"],
+    "no-prototype-builtins": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -87,6 +67,7 @@
     "react/destructuring-assignment": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["warn"],
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-unused-vars": "off"
   }
 }

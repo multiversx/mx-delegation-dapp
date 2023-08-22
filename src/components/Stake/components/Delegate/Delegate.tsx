@@ -1,5 +1,4 @@
-import React, { MouseEvent } from 'react';
-
+import { MouseEvent } from 'react';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks/account/useGetAccountInfo';
 import { useGetActiveTransactionsStatus } from '@multiversx/sdk-dapp/hooks/transactions/useGetActiveTransactionsStatus';
 import classNames from 'classnames';

@@ -6,7 +6,7 @@ export const Home = () => {
   const { address } = useGetAccountInfo();
   const navigate = useNavigate();
   const handleRedirect = () => {
-    navigate(Boolean(address) ? '/dashboard' : '/unlock');
+    navigate(address ? '/dashboard' : '/unlock');
   };
 
   useEffect(handleRedirect, [address]);

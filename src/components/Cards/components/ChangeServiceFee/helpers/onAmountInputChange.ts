@@ -2,8 +2,8 @@ import { ChangeEvent } from 'react';
 import BigNumber from 'bignumber.js';
 import { FormikProps } from 'formik';
 
-import { ActionDataType } from '../ChangeServiceFee';
 import { filterTextToFloat } from './filterTextToFloat';
+import { ActionDataType } from '../ChangeServiceFee';
 
 export const onAmountInputChange =
   (setFieldValue: FormikProps<ActionDataType>['setFieldValue']) =>
