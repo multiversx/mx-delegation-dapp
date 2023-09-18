@@ -1,7 +1,7 @@
 {
   "name": "@multiversx/mx-delegation-dapp",
   "description": "Delegation Dashboard",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "author": "MultiversX",
   "license": "GPL-3.0-or-later",
   "repository": "@multiversx/mx-delegation-dapp",
@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "yarn run copy-mainnet-config && tsc && vite build && yarn version:make",
+    "build": "tsc && vite build && yarn version:make",
     "start-testnet": "yarn run copy-testnet-config && yarn start",
     "start-devnet": "yarn run copy-devnet-config && yarn start",
     "start-mainnet": "yarn run copy-mainnet-config && yarn start",
